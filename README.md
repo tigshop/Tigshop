@@ -80,9 +80,11 @@ Tigshop团队有着11年商城软件研发领域的技术积累，我们会秉�
 PHP安装教程：https://www.tigshop.com/course/tigshop-php/index
 JAVA安装教程：https://www.tigshop.com/course/tigshop-java/index
 
+---
+
 ### **演示体验**
 
-#### **单商户版演示**
+#### **单商户免费版演示**
 
 | 演示平台  | 演示站点                        | 演示账号 | 演示密码 |
 | --------- | ------------------------------- | -------- | -------- |
@@ -90,6 +92,43 @@ JAVA安装教程：https://www.tigshop.com/course/tigshop-java/index
 | PC 端前台 | https://demo.tigshop.cn/        | 123123   | 123123   |
 | H5 端前台 | https://demo.tigshop.cn/mobile/ | 123123   | 123123   |
 
+---
+### **对其它版本感兴趣？**
+#### **B2C Pro/B2B2C多商户/S2B2C供应商Java/PHP版演示**
+详情查看：<a href="https://www.tigshop.com/b2b2c" target="_blank">`Tigshop B2C单商户Pro版介绍`</a> | <a href="https://www.tigshop.com/b2b2c" target="_blank">`Tigshop B2B2C多商户版介绍`</a> | <a href="https://www.tigshop.com/s2b2c" target="_blank">`Tigshop S2B2C供应商版介绍`</a>
+
+
+| 演示平台 | 演示站点 | 演示账号 | 演示密码 |
+| --- | --- | --- | --- |
+|  管理后台  | <a href="https://java-s2b2c.tigshop.cn/admin/" target="_blank">`https://java-s2b2c.tigshop.cn/admin/`</a> | demo | demo123 |
+|  供应商后台 | <a href="https://java-s2b2c.tigshop.cn/admin/" target="_blank">`https://java-s2b2c.tigshop.cn/admin/`</a> | demo | demo123 |
+|  店铺后台  | <a href="https://java-s2b2c.tigshop.cn/admin/" target="_blank">`https://java-s2b2c.tigshop.cn/admin/`</a> | demo | demo123 |
+|  PC端前台  | <a href="https://java-s2b2c.tigshop.cn/" target="_blank">`https://java-s2b2c.tigshop.cn/`</a> | 123123 | 123123 |
+|  H5端前台  | <a href="https://java-s2b2c.tigshop.cn/mobile/" target="_blank">`https://java-s2b2c.tigshop.cn/mobile/`</a> | 123123 | 123123 |
+
+
+#### **O2O多门店线上线下连锁商圈Java版演示**
+详情查看：<a href="https://www.tigshop.com/o2o" target="_blank">`Tigshop O2O多门店线介绍`</a>
+
+
+| 演示平台 | 演示站点 | 演示账号 | 演示密码 |
+| --- | --- | --- | --- |
+|  管理后台  | <a href="https://java-o2o.tigshop.cn/admin/" target="_blank">`https://java-o2o.tigshop.cn/admin/`</a> | demo | demo123 |
+|  门店后台  | <a href="https://java-o2o.tigshop.cn/admin/" target="_blank">`https://java-o2o.tigshop.cn/admin/`</a> | demo | demo123 |
+|  H5端前台  | <a href="https://java-o2o.tigshop.cn/mobile/" target="_blank">`https://java-o2o.tigshop.cn/mobile/`</a> | 123123 | 123123 |
+
+#### **跨境多语言多货币Java/PHP版演示**
+
+详情查看：<a href="https://www.tigshop.com/b2b2c-overseas" target="_blank">`Tigshop 跨境多语言多货币介绍`</a>
+
+| 演示平台 | 演示站点 | 演示账号 | 演示密码 |
+| --- | --- | --- | --- |
+|  管理后台  | <a href="https://java-overseas.tigshop.cn/admin/" target="_blank">`https://java-overseas.tigshop.cn/admin/`</a> | demo | demo123 |
+|  店铺后台  | <a href="https://java-overseas.tigshop.cn/admin/" target="_blank">`https://java-overseas.tigshop.cn/admin/`</a> | demo | demo123 |
+|  PC端前台  | <a href="https://java-overseas.tigshop.cn/" target="_blank">`https://java-overseas.tigshop.cn/`</a> | 123123 | 123123 |
+|  H5端前台  | <a href="https://java-overseas.tigshop.cn/mobile/" target="_blank">`https://java-overseas.tigshop.cn/mobile/`</a> | 123123 | 123123 |
+
+---
 
 ### 技术选型
 

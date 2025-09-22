@@ -20,28 +20,8 @@
                         </template>
                         <template v-else>
                             <view class="acea-row row-middle info">
-                                <template v-if="isB2B()">
-                                    <view v-if="member.isCompanyAuth" class="auth" @click="goPages('/pages/user/userCertification/index')">
-                                        <image :src="staticResource('product/authenticated.svg')" />
-                                    </view>
-                                    <view v-else class="auth" @click="goPages('/pages/user/userCertification/index')">
-                                        <view class="unverified" :style="`background-image: ${unverifiedBg};`" />
-                                    </view>
-                                </template>
                                 <view class="name line1">{{ member.nickname || member.username }}</view>
-                                <template v-if="member?.showSign">
-                                    <view class="acea-row qiandao" @click="goPages('/pages/user/sign/index')">
-                                        <view class="iconfont icon-qiandao" />
-                                        <view class>{{ $t("签到有礼") }}</view>
-                                    </view>
-                                </template>
                                 <view class="iconfont icon-shezhi" @click="goPages('/pages/user/profile/index')" />
-                            </view>
-                            <view class="logo acea-row row-middle" @click="isPro() && goRankPages('/pages/user/levelCenter/index')">
-                                <template v-if="isPro()">
-                                    <image class="vip_logo" :src="member?.rankLogo" mode="scaleToFill" />
-                                </template>
-                                {{ $t(member.rankName) }}
                             </view>
                         </template>
                     </view>
@@ -53,13 +33,7 @@
                             <text class="txt">{{ orderNum.productCollect >= 0 ? orderNum.productCollect : "--" }}</text>
                         </view>
                     </view>
-                    <view v-if="isMerchant()" class="item" @click="goPages('/pages/user/collectionShop/index')">
-                        <view class="tit">
-                            {{ $t("店铺关注") }}
-                            <text class="txt">{{ orderNum.shopCollect >= 0 ? orderNum.shopCollect : "--" }}</text>
-                        </view>
-                    </view>
-                    <view v-if="layoutRef && layoutRef.isZh" class="item" @click="goPages('/pages/user/comment/list')">
+                    <view class="item" @click="goPages('/pages/user/comment/list')">
                         <view class="tit">
                             {{ $t("待评价") }}
                             <text class="txt">{{ orderNum.awaitComment >= 0 ? orderNum.awaitComment : "--" }}</text>
@@ -184,7 +158,7 @@ import type { UserItem } from "@/types/user/user";
 import type { OrderNumItem } from "@/types/user/order";
 import { getOrderNum } from "@/api/user/order";
 import { getMemberDecorate } from "@/api/home/home";
-import { isMerchant, staticResource, isPro, isB2B } from "@/utils";
+import { staticResource } from "@/utils";
 import { handleLogin } from "@/utils/request";
 import { useScrollTop } from "@/hooks";
 import { imageFormat } from "@/utils/format";
@@ -231,14 +205,6 @@ const goPages = (url: string) => {
     uni.navigateTo({
         url
     });
-};
-
-const goRankPages = (url: string) => {
-    if (isPro()) {
-        uni.navigateTo({
-            url
-        });
-    }
 };
 
 const resetUser = () => {

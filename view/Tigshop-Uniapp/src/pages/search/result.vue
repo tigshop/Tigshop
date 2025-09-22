@@ -1,5 +1,5 @@
 <template>
-    <tig-layout :title="navbarTitle" :shop-id="filterParams.shopId" :shop-category-id="filterParams.shopCategoryId">
+    <tig-layout :title="navbarTitle">
         <view class="pageMain productSort">
             <view class="header acea-row row-center-wrapper">
                 <view class="acea-row row-between-wrapper input" @click.stop="toSearch">
@@ -61,10 +61,6 @@
                 </view>
             </view>
 
-            <template v-if="isMerchant() && filterParams.keyword">
-                <shopInfo :keyword="filterParams.keyword" :shop-id="filterParams.shopId" />
-            </template>
-
             <!-- 加载商品模块 -->
             <template v-if="!isLoading && total > 0">
                 <view class="goods-container">
@@ -87,34 +83,19 @@
                                     <uni-icons v-else type="down" size="16" color="#bfbfbf" />
                                 </view>
                             </view>
-                            <template v-if="filterParams.shopId">
-                                <view class="tabs flex-wrap">
-                                    <view
-                                        v-for="(item, index) in getShopCategoryList"
-                                        :key="index"
-                                        class="item"
-                                        :class="{ active: filterParams.shopCategoryId == item.categoryId }"
-                                        @click="filterParams.shopCategoryId = item.categoryId"
-                                    >
-                                        <uni-icons v-if="filterParams.shopCategoryId == item.categoryId" type="checkmarkempty" size="12" />
-                                        {{ item.categoryName }}
-                                    </view>
+
+                            <view class="tabs flex-wrap">
+                                <view
+                                    v-for="(item, index) in getCategoryList"
+                                    :key="index"
+                                    class="item"
+                                    :class="{ active: filterParams.cat == item.categoryId }"
+                                    @click="filterParams.cat = item.categoryId"
+                                >
+                                    <uni-icons v-if="filterParams.cat == item.categoryId" type="checkmarkempty" size="12" />
+                                    {{ item.categoryName }}
                                 </view>
-                            </template>
-                            <template v-else>
-                                <view class="tabs flex-wrap">
-                                    <view
-                                        v-for="(item, index) in getCategoryList"
-                                        :key="index"
-                                        class="item"
-                                        :class="{ active: filterParams.cat == item.categoryId }"
-                                        @click="filterParams.cat = item.categoryId"
-                                    >
-                                        <uni-icons v-if="filterParams.cat == item.categoryId" type="checkmarkempty" size="12" />
-                                        {{ item.categoryName }}
-                                    </view>
-                                </view>
-                            </template>
+                            </view>
                         </view>
                         <template v-if="brandList.length > 0">
                             <view class="tab_box">
@@ -168,8 +149,6 @@ import type { Brand, filterSeleted, ProductFilterParams } from "@/types/search/s
 import { getCategoryTree, getCategoryProductFilter, getCategoryProduct, getShopCategoryTree } from "@/api/search/search";
 import { useList } from "@/hooks";
 import { useI18n } from "vue-i18n";
-import shopInfo from "./src/shopInfo.vue";
-import { isMerchant } from "@/utils";
 import { useSafeAreaInsets } from "@/hooks";
 
 const { t } = useI18n();
@@ -208,9 +187,7 @@ const categoryTree = ref<filterSeleted[]>([]);
 const getCategoryList = computed(() => {
     return categoryList.value.length > 3 && !categoryShow.value ? categoryList.value.slice(0, 3) : categoryList.value;
 });
-const getShopCategoryList = computed(() => {
-    return shopCategoryList.value.length > 3 && !categoryShow.value ? shopCategoryList.value.slice(0, 3) : shopCategoryList.value;
-});
+
 const treeList = computed(() => {
     if (filterParams.cat) {
         return categoryTree.value;
@@ -352,7 +329,7 @@ const closeDrawer = () => {
 
 const toSearch = () => {
     uni.redirectTo({
-        url: "/pages/search/index?shopId=" + filterParams.shopId
+        url: "/pages/search/index"
     });
 };
 const couponInfo = ref<any>({});
@@ -371,10 +348,6 @@ onLoad((option: any) => {
         }
         if (option.brandId) {
             brandIds.value.push(option.brandId);
-        }
-        if (option.shopId) {
-            filterParams.shopId = option.shopId;
-            navbarTitle.value = "店铺商品搜索";
         }
         if (option.shopCategoryId) {
             filterParams.shopCategoryId = option.shopCategoryId;

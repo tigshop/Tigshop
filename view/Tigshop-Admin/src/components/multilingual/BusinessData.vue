@@ -10,21 +10,6 @@
             :suffix-icon="suffixIcon"
             @blur="emit('blur')"
         >
-            <template #append v-if="isOverseas()">
-                <DialogForm
-                    isDrawer
-                    @okCallback="_getCreateTranslation"
-                    :title="'内容翻译'"
-                    width="800px"
-                    path="setting/multilingual/translationContent/BusinessDialog"
-                    :params="{ act: isTranslation ? 'add' : 'detail', id: dataId, dataType: dataType, translationName: modelValue }"
-                >
-                    <el-button>
-                        <SvgIcon v-if="!isTranslation" name="multilingual-multilingual" width="18" height="18" />
-                        <SvgIcon v-else name="multilingual-multilingual-a" width="18" height="18" />
-                    </el-button>
-                </DialogForm>
-            </template>
         </TigInput>
     </div>
     <div class="flex flex-align-center" style="width: 100%" v-if="type == 'select'">
@@ -45,76 +30,10 @@
             @keyup.enter="onEnter"
         >
         </el-select>
-        <DialogForm
-            v-if="isOverseas()"
-            isDrawer
-            @okCallback="_getCreateTranslation"
-            :title="'内容翻译'"
-            width="800px"
-            path="setting/multilingual/translationContent/BusinessDialog"
-            :params="{ act: isTranslation ? 'add' : 'detail', id: dataId, dataType: dataType, translationName: modelValue }"
-        >
-            <el-button style="margin-left: 10px">
-                <SvgIcon v-if="!isTranslation" name="multilingual-multilingual" width="18" height="18" />
-                <SvgIcon v-else name="multilingual-multilingual-a" width="18" height="18" />
-            </el-button>
-        </DialogForm>
     </div>
     <div class="multilingual-box" v-if="type == 'text'">
         <div class="multilingual-text">
             {{ modelValue }}
-        </div>
-        <div v-if="isOverseas()" class="multilingual-icon" style="margin-left: 10px">
-            <DialogForm
-                v-if="isOverseas()"
-                isDrawer
-                @okCallback="_getCreateTranslation"
-                :title="'内容翻译'"
-                width="800px"
-                path="setting/multilingual/translationContent/BusinessDialog"
-                :params="{ act: isTranslation ? 'add' : 'detail', id: dataId, dataType: dataType, translationName: modelValue }"
-            >
-                <SvgIcon v-if="!isTranslation" name="multilingual-multilingual" width="18" height="18" />
-                <SvgIcon v-else name="multilingual-multilingual-a" width="18" height="18" />
-            </DialogForm>
-        </div>
-    </div>
-    <div class="multilingual-editor-box" v-if="type == 'editor'">
-        <div v-if="isOverseas()" class="multilingual-editor-icon">
-            <DialogForm
-                v-if="isOverseas()"
-                isDrawer
-                @okCallback="_getCreateTranslation"
-                :title="'内容翻译'"
-                width="800px"
-                path="setting/multilingual/translationContent/BusinessEditorDialog"
-                :params="{ act: isTranslation ? 'add' : 'detail', id: dataId, dataType: dataType, translationName: modelValue }"
-            >
-                <el-button>
-                    <SvgIcon v-if="!isTranslation" name="multilingual-multilingual" width="18" height="18" />
-                    <SvgIcon v-else name="multilingual-multilingual-a" width="18" height="18" />
-                    <span style="margin-left: 5px;">富文本翻译</span>
-                </el-button>
-            </DialogForm>
-        </div>
-    </div>
-    <div class="multilingual-textarea-box ml10" v-if="type == 'textarea'">
-        <div v-if="isOverseas()" class="multilingual-textarea-icon">
-            <DialogForm
-                v-if="isOverseas()"
-                isDrawer
-                @okCallback="_getCreateTranslation"
-                :title="'内容翻译'"
-                width="800px"
-                path="setting/multilingual/translationContent/BusinessDialog"
-                :params="{ act: isTranslation ? 'add' : 'detail', id: dataId, dataType: dataType, translationName: modelValue }"
-            >
-                <el-button>
-                    <SvgIcon v-if="!isTranslation" name="multilingual-multilingual" width="18" height="18" />
-                    <SvgIcon v-else name="multilingual-multilingual-a" width="18" height="18" />
-                    <span style="margin-left: 5px;">多语言</span>
-                </el-button>
-            </DialogForm>
         </div>
     </div>
 </template>
@@ -122,8 +41,6 @@
 import { DialogForm } from "@/components/dialog";
 import { ref, defineModel, onMounted, watch, PropType, VNode } from "vue";
 import { message } from "ant-design-vue";
-import { getCreateTranslation, updateCreateTranslation } from "@/api/multilingual/currencyManagement";
-import { isOverseas } from "@/utils/version";
 
 const props = defineProps({
     disabled: {
@@ -167,23 +84,6 @@ const emit = defineEmits(["update:modelValue", "blur"]);
 const modelValue = defineModel<string>("modelValue", { type: String, default: "" });
 const translationName = ref<string>("");
 const isTranslation = ref(false);
-const _getCreateTranslation = async () => {
-    try {
-        const result = await getCreateTranslation({
-            dataType: props.dataType,
-            dataId: props.dataId,
-            translationName: modelValue.value
-        });
-        if (result.items.length <= 0) {
-            isTranslation.value = true;
-        } else {
-            translationName.value = result.translationName;
-            isTranslation.value = false;
-        }
-    } catch (error: any) {
-        message.error(error.message);
-    }
-};
 // 监听modelValue变化
 watch(modelValue, (newVal: string) => {
     if (newVal != translationName.value) {
@@ -221,11 +121,6 @@ const onEnter = () => {
         }
     }
 };
-onMounted(() => {
-    if ((props.dataId > 0 || props.dataType > 7) && (modelValue.value !== '' && modelValue.value !== "<p><br></p>")) {
-        _getCreateTranslation();
-    }
-});
 </script>
 
 <style lang="less" scoped>
@@ -248,10 +143,10 @@ onMounted(() => {
         z-index: 100;
     }
 }
-.multilingual-editor-box{
+.multilingual-editor-box {
     position: relative;
     width: 100%;
-    .multilingual-editor-icon{
+    .multilingual-editor-icon {
         position: absolute;
         z-index: 10;
         right: 10px;

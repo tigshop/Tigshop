@@ -96,9 +96,9 @@ export const useThemeStore = defineStore("theme", {
             const configString = localStorage.getItem("config");
             const config = configString ? JSON.parse(configString).config : {};
             this.themeInfo = {
-                layout: config.layout || "default",
-                navTheme: config.navTheme || "light",
-                primaryColor: config.primaryColor || "blue"
+                layout: "default",
+                navTheme: "light",
+                primaryColor: "blue"
             };
             this.changeThemeColor(this.themeInfo.primaryColor);
         },

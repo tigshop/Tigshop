@@ -52,9 +52,6 @@
             "path": "pages/webviewPage/index"
         },
         {
-            "path": "pages/exchange/list"
-        },
-        {
             "path": "pages/reset/index"
         }
     ],
@@ -78,20 +75,6 @@
             "pages": [
                 {
                     "path": "index"
-                }
-            ]
-        },
-        {
-            "root": "pages/shop",
-            "pages": [
-                {
-                    "path": "index"
-                },
-                {
-                    "path": "category"
-                },
-                {
-                    "path": "list"
                 }
             ]
         },
@@ -191,208 +174,6 @@
                 },
                 {
                     "path": "payStatus",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "openPay",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                }
-            ]
-        },
-        {
-            "root": "pages/im",
-            "pages": [
-                {
-                    "path": "index",
-                    "meta": {
-                        "sync": true,
-                        "title": "聊天",
-                        "group": "聊天"
-                    }
-                },
-                {
-                    "path": "list",
-                    "meta": {
-                        "sync": true,
-                        "title": "消息列表",
-                        "group": "消息列表"
-                    }
-                }
-            ]
-        },
-        {
-            "root": "pages/salesman",
-            "pages": [
-                {
-                    "path": "index",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "personalInfo",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "upQrcode",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "performanceStat",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "level",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "assetsCenter",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "orderPromote",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "list",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "detail",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "inOutRecordList",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "withdraw",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "relationList",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "withdrawHelp",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "businessCard",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "businessCardExternal",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "salesmanCard",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "portalPoster",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "notifyCenter",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "notifyCenterDetail",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "settlementDetail",
-                    "meta": {
-                        "sync": true,
-                        "title": "",
-                        "group": ""
-                    }
-                },
-                {
-                    "path": "material",
                     "meta": {
                         "sync": true,
                         "title": "",
@@ -501,12 +282,6 @@
                     "path": "merchantEnter/agreement"
                 },
                 {
-                    "path": "collectionShop/index"
-                },
-                {
-                    "path": "sign/index"
-                },
-                {
                     "path": "bindMobilePhone/index"
                 },
                 {
@@ -514,12 +289,6 @@
                 },
                 {
                     "path": "userCertification/index"
-                },
-                {
-                    "path": "levelCenter/index"
-                },
-                {
-                    "path": "levelCenter/benefit"
                 }
             ]
         }

@@ -9,7 +9,6 @@ import { ref } from "vue";
 import { addToCart } from "@/api/product/product";
 import { addExchangeToCart } from "@/api/exchange/exchange";
 import { useI18n } from "vue-i18n";
-import { isB2B } from "@/utils";
 import { useConfigStore } from "@/store/config";
 
 const { t } = useI18n();
@@ -49,7 +48,6 @@ const handleBuy = async () => {
     try {
         if (loading.value) return;
         loading.value = true;
-        const salesmanId = getSalemanId(props.id!);
         let result: AnyObject = {};
         const filterParams: AnyObject = {
             id: props.id ?? 0,
@@ -60,15 +58,11 @@ const handleBuy = async () => {
         if (props.extraAttrIds) {
             filterParams.extraAttrIds = props.extraAttrIds;
         }
-        if (isB2B()) {
-            filterParams.skuItem = props.skuItem;
-        }
         switch (props.type) {
             case "exchange":
                 result = await addExchangeToCart(filterParams);
                 break;
             default:
-                filterParams.salesmanId = salesmanId > 0 ? salesmanId : undefined;
                 result = await addToCart(filterParams);
         }
         emit("callback");
@@ -83,13 +77,6 @@ const handleBuy = async () => {
     } finally {
         loading.value = false;
     }
-};
-
-const getSalemanId = (id: number) => {
-    const salesmanProducts = uni.getStorageSync("salesmanProducts") || [];
-    if (!salesmanProducts.length) return 0;
-    const salesman = salesmanProducts.find((item: any) => item.productId == id);
-    return Number(salesman?.salesmanId) || 0;
 };
 </script>
 

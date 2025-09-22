@@ -102,86 +102,7 @@
                         </div>
                     </el-form-item>
                 </div>
-                <div class="content_wrapper">
-                    <div class="title">Facebook登录</div>
-                    <el-form-item label="是否开启Facebook登录" prop="facebookLoginOn" class="WidthMax">
-                        <el-radio-group v-model="formState.facebookLoginOn" class="itemWidth" :disabled="!isOverseas()">
-                            <el-radio :value="1">是</el-radio>
-                            <el-radio :value="0">否</el-radio>
-                        </el-radio-group>
-                        <div class="extra">如果选是，登录页面显示Facebook登录快捷入口，如需开通设置，请购买跨境版授权。</div>
-                    </el-form-item>
-                    <el-form-item label="应用APP ID" prop="facebookClientId">
-                        <div>
-                            <TigInput
-                                classType="tig-form-input"
-                                v-model="formState.facebookClientId"
-                                :disabled="formState.facebookLoginOn == 0 || !isOverseas()"
-                            />
-                            <div class="extra">需开通Facebook开发者平台，创建APP应用（未开通Tigshop APP商城可忽略）。</div>
-                        </div>
-                    </el-form-item>
-                    <el-form-item label="应用APP SECRET" prop="facebookClientSecret">
-                        <div>
-                            <div class="flex flex-align-center" style="gap: 10px">
-                                <div class="secret-txt line1" :style="{ maxWidth: formState.facebookLoginOn !== 0 || isOverseas() ? '380px' : '450px' }">
-                                    {{ formState.facebookClientSecret }}
-                                </div>
-                                <DialogForm
-                                    v-if="formState.facebookLoginOn !== 0 || isOverseas()"
-                                    :maskClose="false"
-                                    :isDrawer="false"
-                                    :params="{ title: '应用APP SECRET', content: formState.facebookClientSecret }"
-                                    path="setting/config/src/EditSecret"
-                                    title="应用APP SECRET"
-                                    width="600px"
-                                    @okCallback="formState.facebookClientSecret = $event"
-                                >
-                                    <el-button style="margin-top: 3px" link type="primary"> 编辑 </el-button>
-                                </DialogForm>
-                            </div>
-                            <div class="extra">编辑完成后，点击下方提交按钮确认修改，请确保填写正确的应用APP SECRET</div>
-                        </div>
-                    </el-form-item>
-                </div>
-                <div class="content_wrapper">
-                    <div class="title">Google登录</div>
-                    <el-form-item label="是否开启Google登录" prop="googleLoginOn" class="WidthMax">
-                        <el-radio-group v-model="formState.googleLoginOn" class="itemWidth" :disabled="!isOverseas()">
-                            <el-radio :value="1">是</el-radio>
-                            <el-radio :value="0">否</el-radio>
-                        </el-radio-group>
-                        <div class="extra">如果选是，登录页面将显示Google登录快捷入口。如需开通设置，请购买跨境版授权。</div>
-                    </el-form-item>
-                    <el-form-item label="应用APP ID" prop="googleClientId">
-                        <div>
-                            <TigInput classType="tig-form-input" v-model="formState.googleClientId" :disabled="formState.googleLoginOn == 0 || !isOverseas()" />
-                            <div class="extra">需开通Google开发者平台，创建APP应用（未开通Tigshop APP商城可忽略）。</div>
-                        </div>
-                    </el-form-item>
-                    <el-form-item label="应用APP SECRET" prop="googleClientSecret">
-                        <div>
-                            <div class="flex flex-align-center" style="gap: 10px">
-                                <div class="secret-txt line1" :style="{ maxWidth: formState.googleLoginOn !== 0 || isOverseas() ? '380px' : '450px' }">
-                                    {{ formState.googleClientSecret }}
-                                </div>
-                                <DialogForm
-                                    v-if="formState.googleLoginOn !== 0 || isOverseas()"
-                                    :maskClose="false"
-                                    :isDrawer="false"
-                                    :params="{ title: '应用APP SECRET', content: formState.googleClientSecret }"
-                                    path="setting/config/src/EditSecret"
-                                    title="应用APP SECRET"
-                                    width="600px"
-                                    @okCallback="formState.googleClientSecret = $event"
-                                >
-                                    <el-button style="margin-top: 3px" link type="primary"> 编辑 </el-button>
-                                </DialogForm>
-                            </div>
-                            <div class="extra">编辑完成后，点击下方提交按钮确认修改，请确保填写正确的应用APP SECRET</div>
-                        </div>
-                    </el-form-item>
-                </div>
+
                 <div class="content_wrapper">
                     <div class="title">邮箱登录</div>
                     <el-form-item label="是否开启邮箱注册" prop="openEmailRegister" class="WidthMax">
@@ -229,7 +150,6 @@ import { getConfigLogin, saveConfigLogin } from "@/api/setting/config";
 import { useConfigStore } from "@/store/config";
 import { convertNullsToEmptyStrings } from "@/utils/format";
 import { useRoute } from "vue-router";
-import { isOverseas } from "@/utils/version";
 import { useThemeStore } from "@/store/theme";
 const { themeInfo } = useThemeStore();
 const route = useRoute();
@@ -349,15 +269,14 @@ const onSubmit = async () => {
     }
 }
 @media (max-width: 768px) {
-    .web-content{
-        :deep(.el-form-item__content){
+    .web-content {
+        :deep(.el-form-item__content) {
             margin-left: 0 !important;
         }
-        .wechat-config{
+        .wechat-config {
             width: 100%;
             padding-right: 10px;
         }
     }
 }
-
 </style>

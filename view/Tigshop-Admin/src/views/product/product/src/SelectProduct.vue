@@ -100,7 +100,7 @@ import { Pagination } from "@/components/list";
 import { ProductFilterParams, ProductFilterState } from "@/types/product/product";
 import { useConfigStore } from "@/store/config";
 import { getProductList } from "@/api/product/product";
-import SelectSku from "@/views/promotion/productGift/src/SelectSku.vue"
+
 const props = defineProps({
     // 已选择的项，用于排除重复，禁止选择
     selectedIds: { type: Array, default: [] },

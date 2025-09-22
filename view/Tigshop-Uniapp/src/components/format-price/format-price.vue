@@ -1,27 +1,17 @@
 <template>
     <view class="price-content" :class="{ bottom: isBottom }">
-        <template v-if="showB2bText">
-            <view class="line1 b2b-text">{{ $t(b2bText) }}</view>
-        </template>
-        <template v-else>
-            <view v-if="props.currencyFormat" :style="hasContent(currencyStyle) ? currencyStyle : fontStyle" class="num util">
-                {{ currency }}
-            </view>
-            <view class="num integer" :style="fontStyle">{{ price.integer }}</view>
-            <view v-if="showDecimals" class="num decimal" :style="hasContent(decimalsStyle) ? decimalsStyle : fontStyle">{{ price.decimals }}</view>
-        </template>
+        <view v-if="props.currencyFormat" :style="hasContent(currencyStyle) ? currencyStyle : fontStyle" class="num util">
+            {{ currency }}
+        </view>
+        <view class="num integer" :style="fontStyle">{{ price.integer }}</view>
+        <view v-if="showDecimals" class="num decimal" :style="hasContent(decimalsStyle) ? decimalsStyle : fontStyle">{{ price.decimals }}</view>
     </view>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useConfigStore } from "@/store/config";
-import { useCurrencyStore } from "@/store/currency";
-import { useUserStore } from "@/store/user";
-import { isOverseas, moneyFormat, isB2B } from "@/utils";
 
 const configStore = useConfigStore();
-const currencyStore = useCurrencyStore();
-const userStore = useUserStore();
 
 const props = defineProps({
     priceData: [String, Number],
@@ -52,28 +42,8 @@ const hasContent = (styleObj: any) => {
     return styleObj && Object.keys(styleObj).length > 0;
 };
 
-const b2bText = computed(() => {
-    let str = "登录查看";
-    if (Object.keys(userStore.userInfo).length > 0) {
-        str = "实名查看";
-    }
-    return str;
-});
-
-const showB2bText = computed(() => {
-    let value = false;
-    if (isB2B() && props.showText && configStore.isIdentity === 1) {
-        if (Object.keys(userStore.userInfo).length === 0) {
-            value = true;
-        } else if (!userStore.userInfo.isCompanyAuth) {
-            value = true;
-        }
-    }
-    return value;
-});
-
 const currency = computed(() => {
-    return isOverseas() ? currencyStore.currentCurrencyData.symbol : configStore.dollarSign;
+    return configStore.dollarSign;
 });
 const price = computed(() => {
     let num = typeof props.priceData === "number" ? String(props.priceData) : props.priceData;
@@ -83,9 +53,7 @@ const price = computed(() => {
             decimals: ".00"
         };
     }
-    if (isOverseas() && currencyStore.currentCurrencyData.rate) {
-        num = moneyFormat((Number(num) * Number(currencyStore.currentCurrencyData.rate)).toString());
-    }
+
     // 检测小数点和后续数字
     const match = num.match(/^(\d+)(\.\d+)?$/);
     if (match) {

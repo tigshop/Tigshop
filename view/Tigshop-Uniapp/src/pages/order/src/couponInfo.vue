@@ -21,11 +21,7 @@
                     <view class="points-content" @click="handlePoints">
                         <view v-if="pointsAmount > 0" class="points-text">{{ $t("共抵扣：") }}{{ currency + pointsAmount }}</view>
                         <view v-else-if="points === 0 && pointsAmount === 0" class="points-text">{{ $t(`暂无可用${configStore.integralName}`) }}</view>
-                        <view v-else class="points-text">{{
-                            isOverseas()
-                                ? $t(`最多可用{0}${configStore.integralName}`, [availablePoints])
-                                : `最多可用${availablePoints}${configStore.integralName}`
-                        }}</view>
+                        <view v-else class="points-text">{{ `最多可用${availablePoints}${configStore.integralName}` }}</view>
                         <image lazy-load class="more-ico" :src="staticResource('common/more.png')" />
                     </view>
                 </view>
@@ -176,7 +172,6 @@ import { useConfigStore } from "@/store/config";
 import { staticResource } from "@/utils";
 import { useCurrency } from "@/hooks/useCurrency";
 import { useI18n } from "vue-i18n";
-import { isOverseas } from "@/utils";
 
 const { t } = useI18n();
 

@@ -1,1 +1,0 @@
-import{a0 as r}from"./index-BEWhCL1q.js";const s=e=>r({url:"salesman/overview/coreSummary",method:"get",params:e}),t=e=>r({url:"salesman/overview/coreTrend",method:"get",params:e}),n=e=>r({url:"salesman/salesman/ranking",method:"get",params:e}),o=e=>r({url:"salesman/product/analysis",method:"get",params:e});export{n as a,o as b,t as c,s as g};

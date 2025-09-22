@@ -4,7 +4,7 @@ import { useMenusStore } from "@/store/menu";
 import { getMineInfo, getShopInfo, LogOut } from "@/api/authority/accountEditing";
 import type { UserInfo } from "@/types/authority/accountEditing.d";
 import { loginOut } from "@/utils/storage";
-import { vendorSetting } from '@/api/vendor/setting'
+
 interface State {
     userInfo: UserInfo;
     shopInfo: any;
@@ -45,20 +45,6 @@ export const useUserStore = defineStore("user", {
                     this.userInfo = result as UserInfo;
                     localStorage.setItem("user", JSON.stringify({ userInfo: result }));
                 });
-                if (localStorage.getItem("adminType") == "shop") {
-                    const result2 = getShopInfo();
-                    result2.then((result) => {
-                        this.shopInfo = result as any;
-                        localStorage.setItem("shopInfo", JSON.stringify(result));
-                    });
-                }
-                if (localStorage.getItem("adminType") == "vendor") {
-                    const result3 = vendorSetting();
-                    result3.then((result) => {
-                        this.vendorInfo = result as any;
-                        localStorage.setItem("vendorInfo", JSON.stringify(result));
-                    });
-                }
             } catch (error) {
             } finally {
             }

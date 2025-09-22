@@ -22,12 +22,6 @@
                     <view class="buy_btn"><text class="iconfont-h5 icon-gouwuche3 buy_btn_icon" /></view>
                 </buy>
             </view>
-            <block v-if="item.shop">
-                <view class="shop" @click.stop="handleToShop(item.shop.shopId)">
-                    <view class="shop-name">{{ item.shop.shopTitle }}</view>
-                    <view class="shop-btn">{{ $t("进店") }} <text class="iconfont-h5 icon-youjiantou" /></view>
-                </view>
-            </block>
         </view>
     </view>
 </template>
@@ -47,11 +41,6 @@ const getCallback = () => {
 const toPage = (item: any) => {
     let id = item.productId;
     uni.navigateTo({ url: "/pages/product/index?id=" + id });
-};
-const handleToShop = (id: number) => {
-    uni.navigateTo({
-        url: `/pages/shop/index?shopId=${id}`
-    });
 };
 </script>
 <style lang="scss" scoped>

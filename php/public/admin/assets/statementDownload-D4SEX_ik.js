@@ -1,1 +1,0 @@
-import{a0 as e}from"./index-BEWhCL1q.js";const a=t=>e({url:"finance/statement/getStatementStatisticsList",method:"get",params:t}),s=()=>e({url:"finance/statement/getStatementQueryConfig",method:"get"}),r=t=>e({url:"finance/statement/exportStatementStatistics",method:"get",responseType:"arraybuffer",params:t});export{s as a,r as e,a as g};

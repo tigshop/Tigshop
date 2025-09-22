@@ -15,14 +15,10 @@
                                     </view>
                                     <view v-if="item.sendType === 1" class="col-3"> {{ $t("有效期") }}：{{ item.useEndDate }} </view>
                                     <view v-if="item.sendType === 0 && item.delayDay > 0" class="col-3">
-                                        {{
-                                            isOverseas()
-                                                ? $t("领券{0}天后生效，有效期{1}天", [item.delayDay, item.useDay])
-                                                : `领券${item.delayDay}天后生效，有效期{1}天`
-                                        }}
+                                        {{ `领券${item.delayDay}天后生效，有效期{1}天` }}
                                     </view>
                                     <view v-if="item.sendType === 0 && item.delayDay === 0" class="col-3">
-                                        {{ isOverseas() ? $t("领券当日起{0}天内可用", [item.useDay]) : `领券当日起${item.useDay}天内可用` }}
+                                        {{ `领券当日起${item.useDay}天内可用` }}
                                     </view>
                                 </view>
                                 <view class="right">
@@ -151,7 +147,6 @@ import type { CouponFilterParams, CouponFilterResult, CouponData } from "@/types
 import { onLoad, onReachBottom, onShow } from "@dcloudio/uni-app";
 import { staticResource } from "@/utils";
 import { useI18n } from "vue-i18n";
-import { isOverseas } from "@/utils";
 
 const { t } = useI18n();
 
@@ -255,11 +250,6 @@ onLoad((options) => {
         if (options.type) {
             pageType.value = options.type;
             options.type == 2 && (navbarTitle.value = "我的优惠券");
-        }
-
-        if (options.shopId) {
-            filterParams.shopId = options.shopId;
-            navbarTitle.value = "店铺优惠券";
         }
     }
 });

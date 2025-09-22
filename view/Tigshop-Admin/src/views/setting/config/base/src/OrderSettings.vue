@@ -112,27 +112,6 @@
                             </div>
                         </div>
                     </el-form-item>
-                    <div class="title" v-if="isMerchant()">店铺后台订单流转设置</div>
-                    <el-form-item label="已发货订单可取消发货" prop="isShopCancelDeliverOrder" v-if="isMerchant()">
-                        <div>
-                            <div>
-                                <el-radio-group v-model="formState.isShopCancelDeliverOrder" class="itemWidth">
-                                    <el-radio :value="1">开启</el-radio>
-                                    <el-radio :value="0">关闭</el-radio>
-                                </el-radio-group>
-                            </div>
-                            <div class="extra">开启后，店铺后台已发货订单可取消发货，已填写的物流信息将会清空
-                                <el-popover :width="540" placement="right-end" trigger="click">
-                                        <template #reference>
-                                            <a>查看示例</a>
-                                        </template>
-                                        <template #default>
-                                            <img src="@/style/images/isShopCancelDeliverOrder.png" style="width: 500px" />
-                                        </template>
-                                    </el-popover>
-                            </div>
-                        </div>
-                    </el-form-item>
                 </div>
             </el-form>
             <div style="height: 20px"></div>
@@ -156,7 +135,7 @@ import { useConfigStore } from "@/store/config";
 import { convertNullsToEmptyStrings } from "@/utils/format";
 import { useRoute } from "vue-router";
 import { useThemeStore } from "@/store/theme";
-import { isMerchant } from "@/utils/version";
+
 const { themeInfo } = useThemeStore();
 const route = useRoute();
 const configStore = useConfigStore();

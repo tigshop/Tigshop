@@ -227,62 +227,6 @@
                         </el-form-item>
                     </template>
                 </div>
-                <div class="content_wrapper" v-if="isOverseas()">
-                    <div class="title" id="multilingualSettings">多语言设置</div>
-                    <el-form-item label="是否开启多语言" prop="langOn">
-                        <el-radio-group v-model="formState.langOn" class="itemWidth">
-                            <el-radio :value="1">是</el-radio>
-                            <el-radio :value="0">否</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="接口翻译" prop="langType">
-                        <el-radio-group v-model="formState.langType" class="itemWidth">
-                            <el-radio :value="1">火山翻译</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="火山翻译AssessKey" prop="langVolcengineAccessKey">
-                        <div>
-                            <div class="flex flex-align-center" style="gap: 10px">
-                                <div class="secret-txt line1" style="max-width: 380px">
-                                    {{ formState.langVolcengineAccessKey }}
-                                </div>
-                                <DialogForm
-                                    :maskClose="false"
-                                    :isDrawer="false"
-                                    :params="{ title: '火山翻译AssessKey', content: formState.langVolcengineAccessKey }"
-                                    path="setting/config/src/EditSecret"
-                                    title="火山翻译AssessKey"
-                                    width="600px"
-                                    @okCallback="formState.langVolcengineAccessKey = $event"
-                                >
-                                    <el-button style="margin-top: 3px" link type="primary"> 编辑 </el-button>
-                                </DialogForm>
-                            </div>
-                            <div class="extra">编辑完成后，点击下方提交按钮确认修改，请确保填写正确的火山翻译AssessKey</div>
-                        </div>
-                    </el-form-item>
-                    <el-form-item label="火山翻译SecretKey" prop="langVolcengineSecret">
-                        <div>
-                            <div class="flex flex-align-center" style="gap: 10px">
-                                <div class="secret-txt line1" style="max-width: 380px">
-                                    {{ formState.langVolcengineSecret }}
-                                </div>
-                                <DialogForm
-                                    :maskClose="false"
-                                    :isDrawer="false"
-                                    :params="{ title: '火山翻译SecretKey', content: formState.langVolcengineSecret }"
-                                    path="setting/config/src/EditSecret"
-                                    title="火山翻译SecretKey"
-                                    width="600px"
-                                    @okCallback="formState.langVolcengineSecret = $event"
-                                >
-                                    <el-button style="margin-top: 3px" link type="primary"> 编辑 </el-button>
-                                </DialogForm>
-                            </div>
-                            <div class="extra">编辑完成后，点击下方提交按钮确认修改，请确保填写正确的火山翻译SecretKey</div>
-                        </div>
-                    </el-form-item>
-                </div>
             </el-form>
         </a-spin>
     </div>
@@ -307,8 +251,7 @@ import { useConfigStore } from "@/store/config";
 import BusinessData from "@/components/multilingual/BusinessData.vue";
 import { convertNullsToEmptyStrings } from "@/utils/format";
 import { ThemeTogglePopup } from "@/components/themetogglepopup";
-import { BaseDisplayConfig, Regions } from "@/types/setting/config";
-import { isOverseas } from "@/utils/version";
+import {  Regions } from "@/types/setting/config";
 import { useThemeStore } from "@/store/theme";
 const { themeInfo } = useThemeStore();
 const adminType = localStorage.getItem("adminType");
@@ -320,7 +263,7 @@ const confirmLoading = ref<boolean>(false);
 const countryList = ref<Regions[]>([]);
 const formState = ref<Partial<GlobalConfig>>({
     layout: "default",
-    navTheme: "dark",
+    navTheme: "light",
     primaryColor: "blue",
     adminLightLogo: "",
     versionInfoHidden: 0,

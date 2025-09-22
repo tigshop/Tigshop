@@ -19,7 +19,7 @@
                             <view class="cart_table">
                                 <view class="cart_store_title noborder">
                                     <tig-checkbox v-model:checked="item.isChecked" size="20" @change="onCheckAllItem(index)" />
-                                    <view class="store_label" @click="handleToShop(item.shopId)">{{ item.shopTitle ? item.shopTitle : $t("自营") }}</view>
+                                    <view class="store_label">{{ item.shopTitle ? item.shopTitle : $t("自营") }}</view>
                                 </view>
                                 <view class="goods-list-cart">
                                     <uni-swipe-action>
@@ -164,26 +164,15 @@
                                                                                 <view class="line" />
                                                                             </view>
                                                                             <view class="content">
-                                                                                <template v-if="isOverseas()">
-                                                                                    <text class="line1 content-text"
-                                                                                        >{{ $t(`已选{0}项`, goods.extraSkuData.length) }}
-                                                                                        <format-price
-                                                                                            :show-text="false"
-                                                                                            class="price"
-                                                                                            :price-data="goods.extraSkuData[0].attrPrice"
-                                                                                        />
-                                                                                    </text>
-                                                                                </template>
-                                                                                <template v-else>
-                                                                                    <text class="line1 content-text"
-                                                                                        >{{ `已选${goods.extraSkuData.length}项` }}
-                                                                                        <format-price
-                                                                                            :show-text="false"
-                                                                                            class="price"
-                                                                                            :price-data="goods.serviceFee"
-                                                                                        />
-                                                                                    </text>
-                                                                                </template>
+                                                                                <text class="line1 content-text"
+                                                                                    >{{ `已选${goods.extraSkuData.length}项` }}
+                                                                                    <format-price
+                                                                                        :show-text="false"
+                                                                                        class="price"
+                                                                                        :price-data="goods.serviceFee"
+                                                                                    />
+                                                                                </text>
+
                                                                                 <text class="iconfont-h5 icon-xiajiantou1-copy" />
                                                                             </view>
                                                                         </view>
@@ -310,7 +299,6 @@ import { useTabbarStore } from "@/store/tabbar";
 import { getCart, updateCartItemData, updateCartCheck, clearCart, removeCartItemData } from "@/api/cart/cart";
 import { updateCollectProduct } from "@/api/product/product";
 import type { updateCartCheckitem } from "@/types/cart/cart";
-import { isOverseas } from "@/utils";
 import { useI18n } from "vue-i18n";
 import { imageFormat } from "@/utils/format";
 
@@ -539,13 +527,6 @@ const handleDel = (cartId: number) => {
                 }
             }
         }
-    });
-};
-
-const handleToShop = (id: number) => {
-    if (id === 0) return;
-    uni.navigateTo({
-        url: `/pages/shop/index?shopId=${id}`
     });
 };
 

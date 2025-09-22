@@ -1,1 +1,0 @@
-const _={VITE_IS_B2B:"0",VITE_IS_MERCHANT:"1",VITE_IS_OVERSEAS:"0",VITE_IS_PRO:"1",VITE_IS_VENDOR:"0"},{VITE_IS_MERCHANT:I,VITE_IS_PRO:n,VITE_IS_OVERSEAS:E,VITE_IS_B2B:t,VITE_IS_VENDOR:r}=_;function S(){return I==1}function s(){return n==1}function V(){return E==1}function i(){return t==1}function e(){return r==1}export{s as a,V as b,e as c,i as d,S as i};

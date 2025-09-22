@@ -1,11 +1,6 @@
 <template>
     <view>
-        <template v-if="isOverseas()">
-            <overseasLogin v-model:csrf-token="csrfToken" v-model:login-type="loginType" :oauth-callback-data="oauthCallbackData" />
-        </template>
-        <template v-else>
-            <baseLogin v-model:csrf-token="csrfToken" v-model:login-type="loginType" />
-        </template>
+        <baseLogin v-model:csrf-token="csrfToken" v-model:login-type="loginType" />
     </view>
 </template>
 
@@ -13,9 +8,7 @@
 import { ref } from "vue";
 import { onLoad, onShow } from "@dcloudio/uni-app";
 import { csrfCreate } from "@/api/login/login";
-import { isOverseas } from "@/utils";
 import baseLogin from "./src/baseLogin.vue";
-import overseasLogin from "./src/overseasLogin.vue";
 import { useUserStore } from "@/store/user";
 
 const userStore = useUserStore();

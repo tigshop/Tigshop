@@ -1,1 +1,0 @@
-import{a0 as r}from"./index-BEWhCL1q.js";const u=e=>r({url:"user/userRank/list",method:"get",params:e}),a=e=>r({url:"user/userRank/listByPro",method:"get",params:e}),n=e=>r({url:"user/userRank/"+e,method:"get"}),o=(e,s)=>r({url:"user/userRank/"+e,method:"post",data:s});export{n as a,a as b,u as g,o as u};

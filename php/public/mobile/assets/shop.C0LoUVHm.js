@@ -1,1 +1,0 @@
-import{a2 as o}from"./index-BcyAKDDV.js";const s=s=>o({url:`shop/shop/detail?shopId=${s}`,method:"get"}),t=s=>o({url:"shop/shop/collect",method:"post",data:s}),e=s=>o({url:`shop/shop/decorate?shopId=${s}`,method:"get"}),h=s=>o({url:`shop/category/tree?shopId=${s}`,method:"get"}),p=s=>o({url:"shop/shop/list",method:"get",params:s});export{e as a,s as b,h as c,p as g,t as s};

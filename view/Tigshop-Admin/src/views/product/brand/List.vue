@@ -2,21 +2,6 @@
     <div class="container">
         <div class="content_wrapper">
             <div class="lyecs-table-list-warp">
-                <div class="tabs-box" v-if="adminType === 'admin' && isMerchant()">
-                    <el-tabs v-model="activeKey" tab-position="top" @tab-change="onTabChange">
-                        <el-tab-pane :name="1" label="品牌管理"></el-tab-pane>
-                        <el-tab-pane :name="2">
-                            <template #label>
-                                <el-badge :value="count" color="#f33" :offset="[5, -3]" :hidden="count === 0"> 品牌审核 </el-badge>
-                            </template>
-                        </el-tab-pane>
-                    </el-tabs>
-                </div>
-                <!-- <el-badge :value="item.count" color="#f33" :offset="[-5, 5]" :hidden="item.count === 0">
-                    <div class="item" @click="onTabChange(item.value)" :class="modelValue == item.value ? 'active' : ''">
-                        {{ item.label }}
-                    </div>
-                </el-badge> -->
                 <div class="list-table-tool lyecs-search-warp">
                     <div class="advanced-search-warp list-table-tool-row">
                         <div class="simple-form-warp">
@@ -36,14 +21,6 @@
                                                 <el-button @click="onSearchSubmit"><span class="iconfont icon-chakan1"></span> </el-button>
                                             </template>
                                         </TigInput>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-if="adminType != 'shop' && isMerchant()" class="simple-form-field">
-                                <div class="form-group">
-                                    <label class="control-label"><span>店铺：</span></label>
-                                    <div class="control-container">
-                                        <SelectShop v-model:shopId="filterParams.shopId" @onChange="onSearchSubmit"></SelectShop>
                                     </div>
                                 </div>
                             </div>
@@ -118,12 +95,6 @@
                             >
                                 <el-button type="primary">添加品牌</el-button>
                             </DialogForm>
-                            <router-link
-                                v-if="activeKey === 1 && isOverseas() && adminType === 'admin'"
-                                :to="{ path: '/setting/translationContent/list', query: { type: 'brand' } }"
-                            >
-                                <el-button>批量翻译品牌名称</el-button>
-                            </router-link>
                             <el-popconfirm title="您确认要批量删除所选数据吗？" @confirm="onBatchSubmit('del')">
                                 <template #reference>
                                     <el-button :disabled="selectedIds.length === 0">批量删除</el-button>
@@ -311,7 +282,6 @@ import { SelectShop } from "@/components/select";
 import { BrandFilterParams, BrandFilterState } from "@/types/product/brand";
 import { batchSubmit, delBrand, getBrandList, updateBrandField, updateFirstWorld, getAuditBrandList, getBrandAuditWaitNum } from "@/api/product/brand";
 import { useListRequest } from "@/hooks/useListRequest";
-import { isOverseas, isMerchant } from "@/utils/version";
 import { getAdminType } from "@/utils/storage";
 const adminType = getAdminType();
 const config: any = useConfigStore();
@@ -370,9 +340,6 @@ const onTabChange = (val: 1 | 2) => {
         filterParams.status = adminType == "admin" ? 1 : -1;
     }
     loadFilter();
-    if (isMerchant()) {
-        _getBrandAuditWaitNum();
-    }
 };
 const _getBrandAuditWaitNum = async () => {
     try {
@@ -383,9 +350,6 @@ const _getBrandAuditWaitNum = async () => {
     }
     loadFilter();
 };
-if (isMerchant()) {
-    _getBrandAuditWaitNum();
-}
 
 // 更新首字母
 const onUpdateFirstWorld = async () => {

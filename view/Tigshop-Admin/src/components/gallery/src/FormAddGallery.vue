@@ -60,7 +60,7 @@
                                 <a v-else class="lyecs-dialogImage">
                                     <Image class="gallery-img" :big="element.picUrl" :src="imageFormat(element.picThumb)" />
                                 </a>
-                                <i v-show="!disabled" @click="removePic(index)" class="btn-del iconfont icon-cha" :class="{ overseas: isOverseas() }"></i>
+                                <i v-show="!disabled" @click="removePic(index)" class="btn-del iconfont icon-cha"></i>
                             </div>
                         </div>
                     </template>
@@ -88,8 +88,6 @@ import { Image } from "@/components/image";
 import { imageFormat } from "@/utils/format";
 import { Plus } from "@element-plus/icons-vue";
 import BusinessImg from "@/components/multilingual/BusinessImg.vue";
-import { isOverseas } from "@/utils/version";
-const dom: Ref<HTMLDivElement> = ref(null) as any;
 
 const props = defineProps({
     photo: {

@@ -16,7 +16,7 @@
                             <view class="coupon-title-con">{{ $t(module.desc) }}</view>
                         </view>
                         <view>
-                            <navigator :url="shopId == -1 ? '/pages/coupon/index' : `/pages/coupon/index?shopId=${shopId}`">
+                            <navigator url="/pages/coupon/index">
                                 <text class="more">{{ $t("更多") }}</text>
                                 <text class="module_ico module-ico-youjiantou" />
                             </navigator>
@@ -63,10 +63,6 @@ const props = defineProps({
     module: {
         type: Object,
         default: () => ({})
-    },
-    shopId: {
-        type: Number,
-        default: -1
     }
 });
 const { frame } = props.module;
@@ -92,11 +88,9 @@ const __getHomeCoupon = async () => {
     isLoad.value = true;
     try {
         let result;
-        if (props.shopId == -1) {
-            result = await getHomeCoupon();
-        } else {
-            result = await getHomeCoupon(props.shopId);
-        }
+
+        result = await getHomeCoupon();
+
         couponList.value = result;
     } catch (error) {
         console.error(error);
@@ -108,7 +102,7 @@ onMounted(() => {
 });
 
 const handleCoupon = (id: number) => {
-    let url = props.shopId > -1 ? `/pages/coupon/detail?id=${id}&shopId=${props.shopId}` : `/pages/coupon/detail?id=${id}`;
+    let url = `/pages/coupon/detail?id=${id}`;
     uni.navigateTo({
         url
     });

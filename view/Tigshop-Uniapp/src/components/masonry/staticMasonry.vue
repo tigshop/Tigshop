@@ -70,13 +70,6 @@
                                 </block>
                             </view>
                         </view>
-
-                        <block v-if="item.shop && isMerchant()">
-                            <view class="shop" @click.stop="handleToShop(item.shop.shop_id)">
-                                <view class="shop-name">{{ item.shop.shop_title }}</view>
-                                <view class="shop-btn">{{ $t("进店") }} <text class="iconfont-h5 icon-youjiantou" /></view>
-                            </view>
-                        </block>
                     </view>
                 </view>
             </block>
@@ -89,7 +82,7 @@
 import { ref, type PropType, computed } from "vue";
 import specification from "@/components/product/specification.vue";
 import activityCard from "./activityCard.vue";
-import { isMerchant, staticResource } from "@/utils";
+import { staticResource } from "@/utils";
 const props = defineProps({
     commodityList: {
         type: Array as PropType<any[]>,
@@ -126,11 +119,6 @@ const toPage = (item: any) => {
     params = sku_id ? `${params}&sku_id=${sku_id}` : params;
 
     uni.navigateTo({ url: "/pages/product/index?" + params });
-};
-const handleToShop = (id: number) => {
-    uni.navigateTo({
-        url: `/pages/shop/index?shop_id=${id}`
-    });
 };
 
 const list = computed(() => {

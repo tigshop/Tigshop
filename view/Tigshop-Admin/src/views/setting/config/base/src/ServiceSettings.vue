@@ -10,7 +10,6 @@
                             <el-radio-button :value="1">腾讯云客服</el-radio-button>
                             <el-radio-button :value="2">企业微信客服</el-radio-button>
                             <el-radio-button :value="3">自定义客服</el-radio-button>
-                            <el-radio-button :value="4" v-if="isMerchant() || isPro()">TigChart客服</el-radio-button>
                         </el-radio-group>
                         <div v-if="formState.kefuType == 1">
                             <div class="extra">腾讯云设置地址：https://yzf.qq.com/xv/html/admin/chat/channel/web</div>
@@ -102,7 +101,6 @@ import { message } from "ant-design-vue";
 import { BaseKefuConfig } from "@/types/setting/config";
 import { getConfigKefu, saveConfigKefu } from "@/api/setting/config";
 import { useConfigStore } from "@/store/config";
-import { isMerchant, isPro } from "@/utils/version";
 import { convertNullsToEmptyStrings } from "@/utils/format";
 import { useRoute } from "vue-router";
 import { useThemeStore } from "@/store/theme";

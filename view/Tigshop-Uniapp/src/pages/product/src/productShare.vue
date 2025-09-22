@@ -32,7 +32,7 @@ import { computed, ref, watch } from "vue";
 import type { ProductItem } from "@/types/product/product";
 import poster from "@/components/product/poster.vue";
 import guide from "@/components/product/guide.vue";
-import { copy, isB2B } from "@/utils";
+import { copy } from "@/utils";
 import { useConfigStore } from "@/store/config";
 import { useUserStore } from "@/store/user";
 import { useI18n } from "vue-i18n";
@@ -71,17 +71,6 @@ const show = computed({
 const showPoster = ref(false);
 const handlePoster = () => {
     emits("update:modelValue", false);
-    if (isB2B() && configStore.isIdentity === 1) {
-        let str = "登录后查看";
-        if (Object.keys(userStore.userInfo).length > 0) {
-            str = "实名后查看";
-        }
-        uni.showToast({
-            title: t(str),
-            icon: "none"
-        });
-        return;
-    }
 
     showPoster.value = true;
 };

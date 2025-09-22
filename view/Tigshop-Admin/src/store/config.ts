@@ -30,11 +30,11 @@ export const useConfigStore = defineStore("config", {
             poweredBy: 0,
             poweredByLogo: "",
             poweredByStatus: 0,
-            adminLightLogo: null,  //  后台LOGO
-            versionInfoHidden: 0,  //  是否隐藏版本号
-            layout: "default",  //  导航模式
-            navTheme: "dark",  //   外观
-            primaryColor: "blue",  //  主题色 
+            adminLightLogo: null, //  后台LOGO
+            versionInfoHidden: 0, //  是否隐藏版本号
+            layout: "default", //  导航模式
+            navTheme: "light", //   外观
+            primaryColor: "blue", //  主题色
             withdrawSettingVO: {}
         },
         loaded: false,

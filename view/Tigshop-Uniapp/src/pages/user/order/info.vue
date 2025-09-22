@@ -102,7 +102,7 @@
                     <view class="product-card card-space">
                         <template v-for="item in orderInfo.items" :key="item.productId">
                             <view class="item-box">
-                                <view v-if="orderInfo.shop" class="shop-info" @click.stop="handleToShop(orderInfo.shop?.shopId)">
+                                <view v-if="orderInfo.shop" class="shop-info">
                                     <text class="text">
                                         {{ orderInfo.shop?.shopTitle }}
                                     </text>
@@ -438,12 +438,6 @@ const handleCancelOrder = (id: number) => {
 const handlePay = (id: number) => {
     uni.navigateTo({
         url: `/pages/order/pay?orderId=${id}`
-    });
-};
-
-const handleToShop = (id: number) => {
-    uni.navigateTo({
-        url: `/pages/shop/index?shopId=${id}`
     });
 };
 

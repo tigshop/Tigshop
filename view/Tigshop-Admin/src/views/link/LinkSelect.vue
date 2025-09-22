@@ -26,9 +26,6 @@
             <template v-if="selectedIndex === 3">
                 <SelectCoupon v-model:linkSelectData="selectData" :isMultiple="false"></SelectCoupon>
             </template>
-            <template v-if="selectedIndex === 7 && adminType === 'admin' && isMerchant()">
-                <SelectShop v-model:linkSelectData="selectData" :isMultiple="false"></SelectShop>
-            </template>
             <template v-if="selectedIndex === 4">
                 <SelectArticle v-model:linkSelectData="selectData" :isMultiple="false"></SelectArticle>
             </template>
@@ -57,7 +54,6 @@ import SelectArticle from "@/views/content/article/src/SelectArticle.vue";
 import SelectShop from "@/views/shop/shop/src/SelectShop.vue";
 import SelectCoupon from "@/views/promotion/coupon/src/SelectCoupon.vue";
 import type { LinkType } from "@/types/decorate/decorate"
-import { isMerchant } from "@/utils/version";
 const adminType = ref(localStorage.getItem("adminType"));
 const props = defineProps({
     type: { type: String, default: "" },
@@ -72,9 +68,6 @@ const title = ref([
 onMounted(() => {
     if (props.type === "mobile") {
         title.value.splice(8, 0, '装修页面')
-    }
-    if(adminType.value === 'admin' && isMerchant()){
-        title.value.splice(7, 0, '店铺搜索')
     }
 })
 const selectedIndex = ref<number>(0);

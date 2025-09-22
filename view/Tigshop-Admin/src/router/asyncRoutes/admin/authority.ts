@@ -37,20 +37,6 @@ export default {
             ]
         },
 
-        // {
-        //     path: "",
-        //     name: "suppliers",
-        //     meta: { title: "供应商" },
-        //     children: [
-        //         {
-        //             path: "suppliers/list",
-        //             name: "suppliersManage",
-        //             meta: { title: "供应商列表" },
-        //             component: () => import("@/views/authority/suppliers/List.vue")
-        //         }
-        //     ]
-        // },
-
         {
             path: "",
             name: "privilege",

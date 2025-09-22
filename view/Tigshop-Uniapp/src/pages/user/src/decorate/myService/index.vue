@@ -25,10 +25,8 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useUserStore } from "@/store/user";
-import { staticResource, redirect, isB2B } from "@/utils";
+import { staticResource, redirect } from "@/utils";
 import { urlFormat } from "@/utils/format";
-import { isMerchant, isOverseas, isPro } from "@/utils";
 
 const props = defineProps({
     data: {
@@ -41,22 +39,13 @@ const props = defineProps({
     }
 });
 
-const userStore = useUserStore();
-
 const list = computed(() => {
     let data = props.data;
-    if (isOverseas()) {
-        data = data.filter((item) => item.picTitle !== "发票管理");
-    }
-    if (!isPro() || Object.keys(userStore.userInfo).length === 0 || !userStore.userInfo.salesman) {
-        data = data.filter((item) => item.picTitle !== "分销员中心");
-    }
-    if (!isB2B()) {
-        data = data.filter((item) => item.picTitle !== "实名认证");
-    }
-    if (!isMerchant()) {
-        data = data.filter((item) => item.picTitle !== "商家入驻");
-    }
+
+    data = data.filter((item) => item.picTitle !== "实名认证");
+
+    data = data.filter((item) => item.picTitle !== "商家入驻");
+
     return data;
 });
 const handleClick = (item: any) => {

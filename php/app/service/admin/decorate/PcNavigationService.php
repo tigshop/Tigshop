@@ -244,7 +244,6 @@ class PcNavigationService extends BaseService
             ["name" => "站内消息", "app_link" => '', "link" => "member/userMessage/list"],
             ["name" => "发票管理", "app_link" => '', "link" => "member/orderInvoice/list"],
             ["name" => "账号信息", "app_link" => '', "link" => "member/profile/info"],
-            ["name" => "积分商城", "app_link" => '', "link" => "exchange/list"],
 
         ];
         if (config('app.IS_MERCHANT')) {

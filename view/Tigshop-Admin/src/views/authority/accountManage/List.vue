@@ -60,27 +60,6 @@
                                     <span>{{ row.email || "-" }}</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="店铺数" prop="shopCount" align="center">
-                                <template #default="{ row }">
-                                    <router-link v-if="row.shopCount" :to="{ path: '/organize/shop/list', query: { account: row.username } }">
-                                        {{ row.shopCount }}
-                                    </router-link>
-                                    <span v-else>-</span>
-                                </template>
-                            </el-table-column>
-                            <!-- <el-table-column label="门店数" prop="shopCount" align="center">
-                                <template #default="{ row }">
-                                    <span>{{ row.shopCount || "-" }}</span>
-                                </template>
-                            </el-table-column> -->
-                            <el-table-column label="供应商数" prop="vendorCount" align="center">
-                                <template #default="{ row }">
-                                    <router-link v-if="row.vendorCount" :to="{ path: '/organize/suppliers/list', query: { account: row.username } }">
-                                        {{ row.vendorCount }}
-                                    </router-link>
-                                    <span v-else>-</span>
-                                </template>
-                            </el-table-column>
 
                             <el-table-column :width="180" fixed="right" label="操作">
                                 <template #default="{ row }">
@@ -137,9 +116,8 @@ import { extractContent } from "@/utils/util";
 import { imageFormat } from "@/utils/format";
 import { returnAvatar } from "@/utils/avatar";
 import MobileCard from "@/components/list/src/MobileCard.vue";
-import { Tag } from "@/components/form";
-import { isMerchant } from "@/utils/version";
 import { useListRequest } from "@/hooks/useListRequest";
+
 const router = useRouter();
 const config: any = useConfigStore();
 const {

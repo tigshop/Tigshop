@@ -1,27 +1,12 @@
 <template>
     <div class="multilingual-item-content" :style="style" v-if="modelValue">
         <slot></slot>
-        <DialogForm
-            isDrawer
-            @okCallback="_getCreateTranslation"
-            :title="'内容翻译'"
-            width="800px"
-            path="setting/multilingual/translationContent/BusinessImgDialog"
-            :params="{ act: isTranslation ? 'add' : 'detail', id: dataId, dataType: dataType, translationName: modelValue }"
-        >
-            <div v-if="isOverseas()" class="multilingual-icon">
-                <SvgIcon v-if="!isTranslation" name="multilingual-multilingual" width="20" height="20" />
-                <SvgIcon v-else name="multilingual-multilingual-a" width="20" height="20" />
-            </div>
-        </DialogForm>
     </div>
 </template>
 <script lang="ts" setup>
 import { DialogForm } from "@/components/dialog";
 import { ref, defineModel, onMounted, watch } from "vue";
 import { message } from "ant-design-vue";
-import { getCreateTranslation, updateCreateTranslation } from "@/api/multilingual/currencyManagement";
-import { isOverseas } from "@/utils/version";
 import { imageFormat } from "@/utils/format";
 import { CircleCloseFilled } from "@element-plus/icons-vue";
 const props = defineProps({
@@ -79,23 +64,6 @@ const emit = defineEmits(["update:modelValue", "Edit", "Delete"]);
 const modelValue = defineModel<string>("modelValue", { type: String, default: "" });
 const translationName = ref<string>("");
 const isTranslation = ref(false);
-const _getCreateTranslation = async () => {
-    try {
-        const result = await getCreateTranslation({
-            dataType: props.dataType,
-            dataId: 0,
-            translationName: modelValue.value
-        });
-        if (result.items.length <= 0) {
-            isTranslation.value = true;
-        } else {
-            translationName.value = result.translationName;
-            isTranslation.value = false;
-        }
-    } catch (error: any) {
-        message.error(error.message);
-    }
-};
 
 const onEdit = (result: any, data: any) => {
     emit("Edit", { result, data });
@@ -114,9 +82,6 @@ watch(modelValue, (newVal: string) => {
         isTranslation.value = false;
     }
 });
-if (modelValue.value) {
-    _getCreateTranslation();
-}
 </script>
 
 <style lang="less" scoped>

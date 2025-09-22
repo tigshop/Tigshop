@@ -22,9 +22,6 @@
                                     >
                                         <el-button type="primary">添加分类</el-button>
                                     </DialogForm>
-                                    <router-link v-if="isOverseas()" :to="{ path: '/setting/translationContent/list', query: { type: 'category' } }">
-                                        <el-button>批量翻译分类名称</el-button>
-                                    </router-link>
                                     <el-popconfirm title="您确认要批量删除所选数据吗？" @confirm="onBatchSubmit('del')">
                                         <template #reference>
                                             <el-button :disabled="selectedIds.length === 0">批量删除</el-button>
@@ -218,7 +215,6 @@ import { imageFormat } from "@/utils/format";
 import { CategoryFilterParams, CategoryFilterState } from "@/types/product/category";
 import { batchSubmit, delCategory, getCategoryList, updateCategoryFiled } from "@/api/product/category";
 import { useCategoryStore } from "@/store/category";
-import { isOverseas } from "@/utils/version";
 const categoryStore = useCategoryStore();
 //获取来自路由的参数
 const { currentRoute } = useRouter();

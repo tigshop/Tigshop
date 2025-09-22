@@ -34,7 +34,7 @@
             />
         </template>
 
-        <template v-if="configStore.canInvoice === 1 && !isOverseas()">
+        <template v-if="configStore.canInvoice === 1">
             <invoiceInfo v-model:invoice-info="formState.invoiceData" :get-address-info="getAddressInfo" />
         </template>
 
@@ -85,7 +85,7 @@ import { getAddressList } from "@/api/user/address";
 import { useConfigStore } from "@/store/config";
 import { useUserStore } from "@/store/user";
 import { useI18n } from "vue-i18n";
-import { isOverseas, redirect } from "@/utils";
+import { redirect } from "@/utils";
 import addressInfo from "./src/addressInfo.vue";
 import paymentMode from "./src/paymentMode.vue";
 import stroeCard from "./src/storeCard.vue";

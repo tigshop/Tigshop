@@ -1,0 +1,1 @@
+import{Z as t}from"./index-BGgofOm4.js";const s=e=>t({url:"panel/salesStatistics/salesDetail",method:"get",params:e}),l=e=>t({url:"panel/salesStatistics/salesProductDetail",method:"get",params:e}),r=e=>t({url:"panel/salesStatistics/salesProductDetail",method:"get",responseType:"arraybuffer",params:e});export{l as a,r as e,s as g};

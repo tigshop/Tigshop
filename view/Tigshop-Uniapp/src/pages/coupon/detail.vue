@@ -6,15 +6,7 @@
             <!-- #endif -->
             <view class="coupon-detail-title">
                 <view class="detail-title-box">
-                    <template v-if="layoutRef && layoutRef.isZh">
-                        <image class="img-box" :src="staticResource('coupon/coupon-bg1.png')" />
-                    </template>
-                    <template v-else>
-                        <view class="img-box-con">
-                            <image class="img-box" :src="staticResource('coupon/overseas-coupon-bg.png')" />
-                            <view class="img-box-text">{{ $t("用券买 更划算") }}</view>
-                        </view>
-                    </template>
+                    <image class="img-box" :src="staticResource('coupon/coupon-bg1.png')" />
 
                     <view class="coupon-box">
                         <view class="coupon-item">
@@ -41,20 +33,10 @@
                                 <view class="middle-title">{{ $t("优惠券") }}</view>
                                 <view v-if="detailData.sendType === 1" class="sub"> {{ $t("有效期") }}：{{ detailData.useEndDate }} </view>
                                 <view v-if="detailData.sendType === 0 && detailData.delayDay > 0" class="sub">
-                                    <template v-if="isOverseas()">
-                                        {{ $t("领券{0}天后生效，有效期{1}天", [detailData.delayDay, detailData.useDay]) }}
-                                    </template>
-                                    <template v-else>
-                                        {{ `领券${detailData.delayDay}天后生效，有效期${detailData.useDay}天` }}
-                                    </template>
+                                    {{ `领券${detailData.delayDay}天后生效，有效期${detailData.useDay}天` }}
                                 </view>
                                 <view v-if="detailData.sendType === 0 && detailData.delayDay === 0" class="sub">
-                                    <template v-if="isOverseas()">
-                                        {{ $t("领券当日起{0}天内可用", [detailData.useDay]) }}
-                                    </template>
-                                    <template v-else>
-                                        {{ `领券当日起${detailData.useDay}天内可用` }}
-                                    </template>
+                                    {{ `领券当日起${detailData.useDay}天内可用` }}
                                 </view>
                             </view>
                             <view class="coupon-btn" :class="{ disabled: couponStatus === '已领取' }" @click="handleSubmit"> {{ $t(couponStatus) }} </view>
@@ -175,7 +157,6 @@ import { redirect, staticResource } from "@/utils";
 import specification from "@/components/product/specification.vue";
 import { useScrollTop } from "@/hooks/index";
 import { useI18n } from "vue-i18n";
-import { isOverseas } from "@/utils";
 
 const { t } = useI18n();
 const { scrollTop } = useScrollTop();
@@ -232,9 +213,6 @@ onLoad((options) => {
             id.value = Number(options.id);
             filterParams.couponId = id.value;
         }
-        if (options.shopId) {
-            filterParams.shopId = Number(options.shopId);
-        }
 
         __getCategoryProduct();
     }
@@ -286,7 +264,6 @@ interface FilterParams {
     order: string;
     keyword: string;
     couponId: number;
-    shopId?: number;
 }
 const filterParams = reactive<FilterParams>({
     //初始化用于查询的参数
@@ -376,41 +353,19 @@ const tipText = computed(() => {
         text = t(`快去选购商品参与优惠活动`);
     } else if (discountAmount.value.couponUnit === 1) {
         if (Number(discountAmount.value.productPrice) > Number(discountAmount.value.minOrderAmount)) {
-            // text = `已满足优惠条件，用券下单立减${discountAmount.value.discount_money}元`;
-            text = isOverseas()
-                ? t(`已满足优惠条件，用券下单立减{0}元`, [discountAmount.value.discountMoney])
-                : `已满足优惠条件，用券下单立减${discountAmount.value.discountMoney}元`;
+            text = `已满足优惠条件，用券下单立减${discountAmount.value.discountMoney}元`;
         } else {
-            // text = `还需${Number(discountAmount.value.min_order_amount) - Number(discountAmount.value.product_price)}元，即可用券下单立减${
-            //     discountAmount.value.discount_money
-            // }元，快去选购商品参与优惠活动`;
-            text = isOverseas()
-                ? t(`还需{0}元，即可用券下单立减{1}元，快去选购商品参与优惠活动`, [
-                      Number(discountAmount.value.minOrderAmount) - Number(discountAmount.value.productPrice),
-                      discountAmount.value.discountMoney
-                  ])
-                : `还需${Number(discountAmount.value.minOrderAmount) - Number(discountAmount.value.productPrice)}元，即可用券下单立减${
-                      discountAmount.value.discountMoney
-                  }元，快去选购商品参与优惠活动`;
+            text = `还需${Number(discountAmount.value.minOrderAmount) - Number(discountAmount.value.productPrice)}元，即可用券下单立减${
+                discountAmount.value.discountMoney
+            }元，快去选购商品参与优惠活动`;
         }
     } else {
         if (Number(discountAmount.value.quantityCount) >= Number(discountAmount.value.minOrderAmount)) {
-            // text = `已满足优惠条件，用券下单立减${discountAmount.value.discount_money}元`;
-            text = isOverseas()
-                ? t(`已满足优惠条件，用券下单立减{0}元`, [discountAmount.value.discountMoney])
-                : `已满足优惠条件，用券下单立减${discountAmount.value.discountMoney}元`;
+            text = `已满足优惠条件，用券下单立减${discountAmount.value.discountMoney}元`;
         } else {
-            // text = `还差${Number(discountAmount.value.min_order_amount) - Number(discountAmount.value.quantity_count)}件，即可用券下单立减${
-            //     discountAmount.value.discount_money
-            // }元，快去选购商品参与优惠活动`;
-            text = isOverseas()
-                ? t(`还差{0}件，即可用券下单立减{1}元，快去选购商品参与优惠活动`, [
-                      Number(discountAmount.value.minOrderAmount) - Number(discountAmount.value.quantityCount),
-                      discountAmount.value.discountMoney
-                  ])
-                : `还差${Number(discountAmount.value.minOrderAmount) - Number(discountAmount.value.quantityCount)}件，即可用券下单立减${
-                      discountAmount.value.discountMoney
-                  }元，快去选购商品参与优惠活动`;
+            text = `还差${Number(discountAmount.value.minOrderAmount) - Number(discountAmount.value.quantityCount)}件，即可用券下单立减${
+                discountAmount.value.discountMoney
+            }元，快去选购商品参与优惠活动`;
         }
     }
 

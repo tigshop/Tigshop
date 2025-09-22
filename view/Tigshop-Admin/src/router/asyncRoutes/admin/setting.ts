@@ -52,20 +52,6 @@ export default {
                     meta: { title: "售后服务设置" },
                     component: () => import("@/views/setting/config/AfterSalesService.vue")
                 }
-                // 暂未分配
-                // {
-                //     // 已分配完
-                //     path: "base-indicate",
-                //     name: "baseIndicateManage",
-                //     meta: { title: "显示设置" },
-                //     component: () => import("@/views/setting/config/base/src/IndicateSettings.vue")
-                // },
-                // {
-                //      // 已分配完
-                //     path: "base-interface",
-                //     meta: { title: "接口设置" },
-                //     component: () => import("@/views/setting/config/base/src/InterfactSettings.vue")
-                // }
             ]
         },
         {
@@ -93,15 +79,6 @@ export default {
                     meta: { title: "运费模板" },
                     component: () => import("@/views/setting/shippingTpl/List.vue")
                 }
-
-                // 暂未分配
-                // {
-                //     //已删除
-                //     path: "shipping-type/list",
-                //     name: "shippingTypeManage",
-                //     meta: { title: "配送类型" },
-                //     component: () => import("@/views/setting/shippingType/List.vue")
-                // }
             ]
         },
 
@@ -163,44 +140,6 @@ export default {
         },
         {
             path: "",
-            name: "multilingual",
-            meta: { title: "多语言管理" },
-            redirect: "/setting/languagesList/list",
-            children: [
-                {
-                    path: "languagesList/list",
-                    name: "languagesListManage",
-                    meta: { title: "语言管理" },
-                    component: () => import("@/views/setting/multilingual/languagesList/List.vue")
-                },
-                {
-                    path: "translationContent/list",
-                    name: "translationContentManage",
-                    meta: { title: "翻译内容维护" },
-                    component: () => import("@/views/setting/multilingual/translationContent/List.vue")
-                },
-                {
-                    path: "currencyManagement/list",
-                    name: "currencyManagementManage",
-                    meta: { title: "币种管理" },
-                    component: () => import("@/views/setting/multilingual/currencyManagement/List.vue")
-                },
-                {
-                    path: "areaCode/list",
-                    name: "areaCodeManage",
-                    meta: { title: "区号管理" },
-                    component: () => import("@/views/setting/multilingual/areaCode/List.vue")
-                },
-                {
-                    path: "verbalAssociation/list",
-                    name: "verbalAssociationManage",
-                    meta: { title: "语言关联设置" },
-                    component: () => import("@/views/setting/multilingual/verbalAssociation/List.vue")
-                }
-            ]
-        },
-        {
-            path: "",
             name: "messageSetting",
             meta: { title: "消息设置" },
             redirect: "/setting/base-notice",
@@ -231,12 +170,6 @@ export default {
                     meta: { title: "授权信息" },
                     component: () => import("@/views/setting/licensed/Index.vue")
                 }
-                // {
-                //     path: "copyright/index",
-                //     name: "copyright",
-                //     meta: { title: "版权设置" },
-                //     component: () => import("@/views/setting/licensed/Index.vue")
-                // }
             ]
         }
     ]

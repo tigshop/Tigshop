@@ -25,12 +25,7 @@
                     >{{ $t("去添加新的") }}{{ accountPlaceholder }}{{ $t("账号") }}。</view
                 >
                 <up-form-item :label="$t('提现姓名')" prop="accountData.accountName">
-                    <up-input
-                        v-model="formState.accountData.accountName"
-                        :placeholder="isOverseas() ? $t('请选择{0}账号', accountPlaceholder) : `请选择${accountPlaceholder}账号`"
-                        disabled
-                        font-size="12"
-                    />
+                    <up-input v-model="formState.accountData.accountName" :placeholder="`请选择${accountPlaceholder}账号`" disabled font-size="12" />
                 </up-form-item>
                 <up-form-item v-if="formState.accountData.accountType === 1" :label="$t('银行详情')" prop="accountData.bankName">
                     <up-textarea v-model="formState.accountData.bankName" :placeholder="$t('请选择银行卡账号')" disabled font-size="12" />
@@ -55,7 +50,6 @@ import { onShow } from "@dcloudio/uni-app";
 import { getAccountNoList, updateWithdrawApply } from "@/api/user/account";
 import type { AccountFormState, AccountInfo } from "@/types/user/account";
 import { useI18n } from "vue-i18n";
-import { isOverseas } from "@/utils";
 
 const { t } = useI18n();
 

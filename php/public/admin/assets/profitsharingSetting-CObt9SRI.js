@@ -1,1 +1,0 @@
-import{a0 as t}from"./index-BEWhCL1q.js";const n=()=>t({url:"setting/config/profitSharingSettings",method:"get"}),e=r=>t({url:"setting/config/saveProfitSharing",method:"post",data:r}),o=()=>t({url:"setting/config/withdrawalSettings",method:"get"}),s=r=>t({url:"setting/config/saveWithdrawal",method:"post",data:r});export{o as a,s as b,n as g,e as s};

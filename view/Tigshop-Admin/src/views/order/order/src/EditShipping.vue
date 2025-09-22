@@ -11,10 +11,9 @@
                             <el-radio :value="1">物流配送</el-radio>
                             <el-radio :value="2">商家配送</el-radio>
                             <el-radio :value="3">无需配送</el-radio>
-                            <el-radio :value="4">电子面单</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <div v-show="formState.shippingMethod === 1 || formState.shippingMethod === 4">
+                    <div v-show="formState.shippingMethod === 1">
                         <el-form-item label="配送类型" prop="shippingTypeId">
                             <ShippingType v-model:id="formState.shippingTypeId"></ShippingType>
                         </el-form-item>
@@ -23,9 +22,6 @@
                         </el-form-item>
                         <el-form-item v-if="formState.shippingMethod === 1" label="快递单号" prop="trackingNo">
                             <TigInput classType="tig-form-input" v-model="formState.trackingNo" />
-                        </el-form-item>
-                        <el-form-item v-if="formState.shippingMethod === 4" label="发货备注" prop="billRemark">
-                            <TigInput classType="tig-form-input" v-model="formState.billRemark" type="textarea" :rows="3" />
                         </el-form-item>
                     </div>
                 </el-form>

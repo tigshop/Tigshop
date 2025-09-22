@@ -1,13 +1,13 @@
 import { getAllAuthority, getAllAuthorityData } from "@/api/authority/authority";
 import type { MainMenu } from "@/types/common/common.d";
-import { adminRouters, merchantRouters, vendorRouters } from "@/router/asyncRoutes";
+import { adminRouters } from "@/router/asyncRoutes";
 import { useMenusStore } from "@/store/menu";
 
 export const updateMenu = async () => {
     try {
         const result = await getAllAuthority();
         return result as MainMenu[];
-    } catch (error) { }
+    } catch (error) {}
 };
 
 export const getMenu = async () => {
@@ -17,26 +17,19 @@ export const getMenu = async () => {
             return [];
         }
         const menus = useMenusStore();
-        let arr:any = result;
-        let routers:any = [];
-        menus.setLicensed(arr.find((item:any) => item.authoritySn === "licensed" && item.isShow === 1) ? true : false);
+        let arr: any = result;
+        let routers: any = [];
+        menus.setLicensed(arr.find((item: any) => item.authoritySn === "licensed" && item.isShow === 1) ? true : false);
 
         const adminType = localStorage.getItem("adminType");
-        if (adminType === "shop") {
-            routers = merchantRouters;
-            arr = [...arr, { authoritySn: "accountManage", authorityName: "账户列表" }];
-        }
-        if (adminType === "vendor") {
-            routers = vendorRouters;
-            arr = [...arr, { authoritySn: "accountManage", authorityName: "账户列表" }];
-        }
+
         if (adminType === "admin") {
             routers = adminRouters;
             arr = [...arr, { authoritySn: "accountEditingManage", authorityName: "个人中心" }];
         }
 
         return filterRoutesByAuthority(routers, arr) || [];
-    } catch (error) { }
+    } catch (error) {}
 };
 
 /**

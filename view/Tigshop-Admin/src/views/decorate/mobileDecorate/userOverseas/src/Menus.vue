@@ -26,7 +26,6 @@ import { defineProps, PropType } from "vue";
 import { imageFormat } from "@/utils/format";
 import { ArrowRight } from "@element-plus/icons-vue";
 import { DecorateUserMenu } from "@/types/decorate/decorateDiscrete.d";
-import { isMerchant } from "@/utils/version";
 const props = defineProps({
     module: {
         type: Object as PropType<DecorateUserMenu>,

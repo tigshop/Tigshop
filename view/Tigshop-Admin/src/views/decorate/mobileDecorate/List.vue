@@ -87,25 +87,6 @@
                                     {{ row.status == 1 ? "已发布" : "未发布" }}
                                 </template>
                             </el-table-column>
-                            <el-table-column label="页面语言" prop="children" :width="200" v-if="isOverseas()">
-                                <template #default="{ row }">
-                                    <div class="flex flex-wrap" style="gap: 10px; cursor: pointer">
-                                        <div>
-                                            <el-tag type="primary" effect="plain" @click="toPage(props.decorateType, 0, row.decorateId, 0, true)"
-                                                >默认语言</el-tag
-                                            >
-                                        </div>
-                                        <div v-for="item in row.children" :key="item.decorateId">
-                                            <el-tag
-                                                type="primary"
-                                                effect="plain"
-                                                @click="toPage(props.decorateType, row.decorateId, item.decorateId, item.localeId, false)"
-                                                >{{ item.language }}</el-tag
-                                            >
-                                        </div>
-                                    </div>
-                                </template>
-                            </el-table-column>
                             <el-table-column label="更新时间" prop="updateTime" sortable="custom">
                                 <template #default="{ row }">
                                     {{ row.updateTime }}
@@ -157,7 +138,6 @@
 
 <script setup lang="ts">
 import "@/style/css/list.less";
-import { isOverseas } from "@/utils/version";
 import { DialogForm } from "@/components/dialog";
 import { PopForm } from "@/components/pop-form";
 import { DeleteRecord, Pagination } from "@/components/list";

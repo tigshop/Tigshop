@@ -39,14 +39,7 @@
                             <view class="cart-item flex align-center justify-between" @click="showSpecification">
                                 <view class="flex align-center">
                                     <view class="title"> {{ $t("规格") }} </view>
-                                    <view class="label">
-                                        <template v-if="isB2B() && attrList.spe?.length > 0">
-                                            <template v-for="item in attrList.spe" :key="item">
-                                                <text>{{ item.attrList.length + $t("种") + $t(item.attrName) }}</text>
-                                            </template>
-                                        </template>
-                                        <template v-else> {{ $t(skuStr) }} {{ $t(productNumber) }} {{ $t("件") }}</template>
-                                    </view>
+                                    <view class="label"> {{ $t(skuStr) }} {{ $t(productNumber) }} {{ $t("件") }} </view>
                                 </view>
                                 <view>
                                     <image class="icon-image" :src="staticResource('common/more.png')" />
@@ -120,10 +113,6 @@
                             </template>
                         </view>
 
-                        <template v-if="Object.keys(shopInfo).length > 0 && isMerchant()">
-                            <productShopInfo :shop-info="shopInfo" @refresh-shop-detail="refreshShopDetail" />
-                        </template>
-
                         <productComment class="evaluate-area" :product-id="product.productId" />
 
                         <productContent
@@ -140,28 +129,17 @@
                         <view :style="{ 'padding-bottom': configStore.safeBottom + 'rpx' }" class="bottom-bar-box">
                             <view class="bottom-bar flex align-center">
                                 <view class="icon-box">
-                                    <template v-if="shopInfo.shopId">
-                                        <view class="label" @click="handleToShop">
-                                            <view>
-                                                <image :src="staticResource('product/shop.png')" class="img" />
-                                            </view>
-                                            <view class="label-text">
-                                                <text>{{ $t("店铺") }}</text>
-                                            </view>
+                                    <view class="label" @click="handleToHome">
+                                        <view>
+                                            <image mode="widthFix" :src="staticResource('product/home.png')" class="img" />
                                         </view>
-                                    </template>
-                                    <template v-else>
-                                        <view class="label" @click="handleToHome">
-                                            <view>
-                                                <image mode="widthFix" :src="staticResource('product/home.png')" class="img" />
-                                            </view>
-                                            <view class="label-text">
-                                                <text>{{ $t("首页") }}</text>
-                                            </view>
+                                        <view class="label-text">
+                                            <text>{{ $t("首页") }}</text>
                                         </view>
-                                    </template>
+                                    </view>
+
                                     <view v-if="showService" class="label">
-                                        <service :phone="shopInfo.kefuPhone" :product-id="productId" :shop-id="shopInfo.shopId">
+                                        <service :product-id="productId">
                                             <view>
                                                 <image mode="widthFix" :src="staticResource('product/service.png')" class="img" />
                                             </view>
@@ -251,7 +229,6 @@ import productTitleInfo from "./src/productTitleInfo.vue";
 import productSeckillTitle from "./src/productSeckillTitle.vue";
 import productDiscountTitle from "./src/productDiscountTitle.vue";
 import productComment from "./src/productComment.vue";
-import productShopInfo from "./src/productShopInfo.vue";
 import specification from "@/components/product/specification.vue";
 import productCoupon from "./src/productCoupon.vue";
 import productContent from "./src/productContent.vue";
@@ -266,10 +243,8 @@ import { getProductDetail } from "@/api/product/product";
 import { getExchangeDetail } from "@/api/exchange/exchange";
 import { useConfigStore } from "@/store/config";
 import { asyncGetCartCount } from "@/api/cart/cart";
-import { getShopDetail } from "@/api/shop/shop";
 import type { PicList, ProductItem, AttrList, SkuList, ServiceList, RankDetail, DescArr, SkuPromotion, VideoList } from "@/types/product/product";
-import type { ShopDetailItem } from "@/types/shop/shop";
-import { redirect, getElementRect, staticResource, isMerchant, isB2B } from "@/utils";
+import { redirect, getElementRect, staticResource } from "@/utils";
 import { useScrollTop } from "@/hooks";
 import { useUserStore } from "@/store/user";
 
@@ -342,9 +317,6 @@ const __getProductDetail = async (id: number) => {
         uni.setNavigationBarTitle({
             title: result.item.productName
         });
-        if (result.item.shopId) {
-            getShopInfo(result.item.shopId);
-        }
         nextTick(() => {
             layoutRef.value?.handleLog();
         });
@@ -358,26 +330,6 @@ const __getProductDetail = async (id: number) => {
 const loadEndStatus = ref(true);
 const getLoadStatus = () => {
     loadEndStatus.value = false;
-};
-
-const shopInfo = ref<ShopDetailItem>({} as ShopDetailItem);
-const getShopInfo = async (id: number) => {
-    try {
-        const result = await getShopDetail(id);
-        shopInfo.value = result;
-    } catch (error: any) {
-        console.error(error);
-    }
-};
-const refreshShopDetail = (id: number) => {
-    getShopInfo(id);
-};
-const handleToShop = () => {
-    if (shopInfo.value.shopId) {
-        uni.navigateTo({
-            url: `/pages/shop/index?shopId=${shopInfo.value.shopId}`
-        });
-    }
 };
 
 const skuStr = ref<string>("");
@@ -574,14 +526,7 @@ onShareTimeline(() => {
 });
 
 const showService = computed(() => {
-    if (Object.keys(shopInfo.value).length > 0) {
-        if (shopInfo.value.kefuInlet && shopInfo.value.kefuInlet.length > 0 && shopInfo.value.kefuInlet.includes(1)) {
-            return true;
-        }
-        return false;
-    } else {
-        return userStore.serviceConfig.show;
-    }
+    return userStore.serviceConfig.show;
 });
 </script>
 <style lang="scss" scoped>

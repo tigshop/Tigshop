@@ -1,1 +1,0 @@
-import{d as e}from"./index-BEWhCL1q.js";const i=e({__name:"View",setup(n,{expose:o}){return o({defaultFrame:{backgroundColor:"",innerPadding:0,boxRadius:0,boxPadding:10,boxPaddingTop:5,boxPaddingBottom:5}}),(d,t)=>null}});export{i as default};

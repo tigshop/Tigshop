@@ -79,14 +79,6 @@ export const updateCreateTranslation = (data: object) => {
         data
     });
 };
-// 业务翻译数据
-export const getCreateTranslation = (params: object) => {
-    return request({
-        url: "lang/translations/getTranslations",
-        method: "get",
-        params
-    });
-};
 
 // 一键翻译接口
 export const unifiedTranslation = (data: object) => {

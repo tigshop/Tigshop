@@ -18,7 +18,7 @@
                 <template v-for="item in orderList" :key="item.orderId">
                     <view class="order-list-item">
                         <view class="order-list-item-header">
-                            <text v-if="item.shop" class="special-text" @click.stop="handleToShop(item.shop?.shopId)">
+                            <text v-if="item.shop" class="special-text">
                                 <text class="iconfont icon-dianpu" />
                                 {{ item.shop?.shopTitle }}
                                 <text class="iconfont icon-xiangyou" />
@@ -367,11 +367,6 @@ const handleConfirmReceipt = (id: number) => {
     });
 };
 
-const handleToShop = (id: number) => {
-    uni.navigateTo({
-        url: `/pages/shop/index?shopId=${id}`
-    });
-};
 const formatOrderStatus = (status: string) => {
     switch (status) {
         case "all":

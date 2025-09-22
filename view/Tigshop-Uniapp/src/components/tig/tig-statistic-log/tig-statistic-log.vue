@@ -11,14 +11,6 @@ const props = defineProps({
         type: [Number, String],
         default: ""
     },
-    shopId: {
-        type: [Number, String],
-        default: ""
-    },
-    shopCategoryId: {
-        type: [Number, String],
-        default: ""
-    },
     immediateLog: {
         type: Boolean,
         default: true
@@ -36,12 +28,6 @@ const filterParams = reactive<IFilterParams>({});
 const __commonLog = async () => {
     if (props.productId) {
         filterParams.productId = props.productId;
-    }
-    if (props.shopId) {
-        filterParams.shopId = props.shopId;
-    }
-    if (props.shopCategoryId) {
-        filterParams.shopCategoryId = props.shopCategoryId;
     }
     try {
         await commonLog(filterParams);

@@ -24,34 +24,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="simple-form-field" v-if="isMerchant() && adminType !== 'shop'">
-                                <div class="form-group">
-                                    <label class="control-label"><span>选择店铺：</span></label>
-                                    <div class="control-container">
-                                        <SelectShop v-model:modelValue="filterParams.shopId" @onChange="onSearchSubmit"></SelectShop>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="simple-form-field">
-                                <div class="form-group">
-                                    <label class="control-label"><span>支付状态：</span></label>
-                                    <div class="control-container">
-                                        <el-select v-model="filterParams.payStatus" clearable @change="onSearchSubmit">
-                                            <el-option v-for="item in payStatusList" :label="item.label" :value="item.value"></el-option>
-                                        </el-select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="simple-form-field">
-                                <div class="form-group">
-                                    <label class="control-label"><span>发货状态：</span></label>
-                                    <div class="control-container">
-                                        <el-select v-model="filterParams.shippingStatus" clearable @change="onSearchSubmit">
-                                            <el-option v-for="item in shippingStatusList" :label="item.label" :value="item.value"></el-option>
-                                        </el-select>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="simple-form-field">
                                 <div class="form-group">
                                     <label class="control-label"><span> 详细地址：</span></label>
@@ -484,7 +456,6 @@ import { priceFormat } from "@/utils/format";
 import { useRoute, useRouter } from "vue-router";
 import { Tag } from "@/components/form";
 import { SelectTimeInterval } from "@/components/select";
-import { isMerchant } from "@/utils/version";
 import { maskString } from "@/utils/util";
 import MobileCard from "@/components/list/src/MobileCard.vue";
 import EditSign from "@/views/order/order/src/EditSign.vue";

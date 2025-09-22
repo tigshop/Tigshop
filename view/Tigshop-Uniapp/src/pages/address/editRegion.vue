@@ -67,7 +67,6 @@ import { nextTick, reactive, ref } from "vue";
 import { onLoad, onShow } from "@dcloudio/uni-app";
 import { getAddressData, updateAddressData, addAddressData } from "@/api/user/address";
 import { useI18n } from "vue-i18n";
-import { isOverseas } from "@/utils";
 
 const { t } = useI18n();
 
@@ -112,14 +111,10 @@ const rules = {
             { required: true, errorMessage: t("请您填写收货人手机号码") },
             {
                 validateFunction: function (rule: any, value: any, data: any, callback: any) {
-                    if (isOverseas()) {
-                        callback(); // 如果是海外手机号，直接通过验证
-                    } else {
-                        const regex = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
-                        const status = regex.test(value);
-                        if (!status) {
-                            callback(t("请输入正确的手机号码"));
-                        }
+                    const regex = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
+                    const status = regex.test(value);
+                    if (!status) {
+                        callback(t("请输入正确的手机号码"));
                     }
 
                     return true;

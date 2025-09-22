@@ -12,25 +12,18 @@
             <tig-button :custom-style="{ height: '70rpx', width: '260rpx' }" @click="handleLink('admin')">{{ $t("商家后台") }}</tig-button>
         </view>
         <view v-if="initialUserInfo && initialUserInfo.initialPassword && initialUserInfo.mobile" class="tip">
-            {{
-                isOverseas()
-                    ? $t("您的账号：{0}，初始密码：{1}，为了保障你的账户安全，请尽快修改初始密码", [
-                          initialUserInfo.mobile ?? "",
-                          initialUserInfo.initialPassword ?? ""
-                      ])
-                    : `您的账号：${initialUserInfo.mobile ?? ""}，初始密码：${initialUserInfo.initialPassword ?? ""}，为了保障你的账户安全，请尽快修改初始密码`
-            }}
+            {{ `您的账号：${initialUserInfo.mobile ?? ""}，初始密码：${initialUserInfo.initialPassword ?? ""}，为了保障你的账户安全，请尽快修改初始密码` }}
         </view>
     </view>
 </template>
 
 <script setup lang="ts">
-import { isOverseas, redirect, staticResource } from "@/utils";
+import { redirect, staticResource } from "@/utils";
 import { useConfigStore } from "@/store/config";
 
 const configStore = useConfigStore();
 
-const props = defineProps({
+defineProps({
     initialUserInfo: {
         type: Object,
         default: () => ({})

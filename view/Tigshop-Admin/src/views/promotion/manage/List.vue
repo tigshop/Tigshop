@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col activity">
                     <div>
-                        <div class="tip">仅统计优惠券、满减/送、限时折扣、秒杀、多人拼团、赠品 活动</div>
+                        <div class="tip">仅统计优惠券、秒杀</div>
                         <div class="tabs flex">
                             <div
                                 v-for="item in promotionTypeList"
@@ -45,79 +45,6 @@
                                     </div>
                                 </div>
                             </el-col>
-                            <el-col :lg="6" :md="8" :sm="12" :xs="12" class="app-wrapper-item" @click="toPage(3)">
-                                <div class="item">
-                                    <div class="icon-col">
-                                        <p>减</p>
-                                    </div>
-                                    <div>
-                                        <div class="name">满减</div>
-                                        <div class="tip">购满一定金额或件数享受优惠</div>
-                                    </div>
-                                </div>
-                            </el-col>
-                            <el-col :lg="6" :md="8" :sm="12" :xs="12" class="app-wrapper-item" @click="toPage(5)">
-                                <div class="item">
-                                    <div class="icon-col">
-                                        <p>送</p>
-                                    </div>
-                                    <div>
-                                        <div class="name">满送</div>
-                                        <div class="tip">购满一定金额或件数享受优惠</div>
-                                    </div>
-                                </div>
-                            </el-col>
-                            
-                            <el-col :lg="6" :md="8" :sm="12" :xs="12" class="app-wrapper-item" @click="toPage(6)">
-                                <div class="item">
-                                    <div class="icon-col">
-                                        <i class="iconfont-admin icon-time-limit"></i>
-                                    </div>
-                                    <div>
-                                        <div class="name">限时折扣</div>
-                                        <div class="tip">设置商品限时打折促销</div>
-                                    </div>
-                                </div>
-                            </el-col>
-
-                            <template v-if="adminType === 'admin'">
-                                <el-col :lg="6" :md="8" :sm="12" :xs="12" class="app-wrapper-item" @click="toPage(9)">
-                                    <div class="item">
-                                        <div class="icon-col">
-                                            <i class="iconfont-admin icon-qiandao"></i>
-                                        </div>
-                                        <div>
-                                            <div class="name">日历签到</div>
-                                            <div class="tip">每日签到领取积分或奖励</div>
-                                        </div>
-                                    </div>
-                                </el-col>
-                            </template>
-
-                            <el-col :lg="6" :md="8" :sm="12" :xs="12" class="app-wrapper-item" @click="toPage(10)">
-                                <div class="item">
-                                    <div class="icon-col">
-                                        <p>赠</p>
-                                    </div>
-                                    <div>
-                                        <div class="name">赠品</div>
-                                        <div class="tip">设置赠品, 回馈客户</div>
-                                    </div>
-                                </div>
-                            </el-col>
-                            <template v-if="adminType === 'admin'">
-                                <el-col :lg="6" :md="8" :sm="12" :xs="12" class="app-wrapper-item" @click="toPage(7)">
-                                    <div class="item">
-                                        <div class="icon-col">
-                                            <p>充</p>
-                                        </div>
-                                        <div>
-                                            <div class="name">余额充值</div>
-                                            <div class="tip">充值店铺余额</div>
-                                        </div>
-                                    </div>
-                                </el-col>
-                            </template>
                         </el-row>
                     </div>
                 </div>
@@ -228,9 +155,6 @@ const promotionStatusList = reactive([
     { value: 0, label: "全部" },
     { value: 1, label: "秒杀" },
     { value: 2, label: "优惠券" },
-    { value: 6, label: "限时折扣" },
-    { value: 3, label: "满减" },
-    { value: 5, label: "满赠" }
 ]);
 const filterParams = reactive<PromotionFilterParams>({
     page: 1,
@@ -288,30 +212,6 @@ const toPage = (type: number) => {
         case 2:
             // 优惠券
             router.push({ path: "/promotion/coupon/list" });
-            break;
-        case 6:
-            // 限时折扣
-            router.push({ path: "/promotion/limitdiscount-gift/list" });
-            break;
-        case 3:
-            // 满减
-            router.push({ path: "/promotion/full-reduction/list" });
-            break;
-        case 5:
-            // 满赠
-            router.push({ path: "/promotion/reward-gift/list" });
-            break;
-        case 9:
-            // 签到
-            router.push({ path: "/promotion/sign-in-setting/list" });
-            break;
-        case 7:
-            // 充值
-            router.push({ path: "/promotion/recharge-setting/list" });
-            break;
-        case 10:
-            // 赠品
-            router.push({ path: "/promotion/product-gift/list" });
             break;
     }
 };

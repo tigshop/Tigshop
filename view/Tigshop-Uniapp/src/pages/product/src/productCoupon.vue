@@ -80,16 +80,10 @@
                                         {{ $t("有效期") }}：{{ item.useEndDate }}
                                     </view>
                                     <view v-if="item.sendType === 0 && item.delayDay > 0" class="col-3" :class="{ 'special-col': !item.couponDesc }">
-                                        <!-- 领券{{ item.delayDay }}天后生效，有效期{{ item.useDay }}天 -->
-                                        {{
-                                            isOverseas()
-                                                ? $t("领券{0}天后生效，有效期{1}天", [item.delayDay, item.useDay])
-                                                : `领券${item.delayDay}天后生效，有效期${item.useDay}天`
-                                        }}
+                                        {{ `领券${item.delayDay}天后生效，有效期${item.useDay}天` }}
                                     </view>
                                     <view v-if="item.sendType === 0 && item.delayDay === 0" class="col-3" :class="{ 'special-col': !item.couponDesc }">
-                                        <!-- 领券当日起{{ item.useDay }}天内可用 -->
-                                        {{ isOverseas() ? $t("领券当日起{0}天内可用", [item.useDay]) : `领券当日起${item.useDay}天内可用` }}
+                                        {{ `领券当日起${item.useDay}天内可用` }}
                                     </view>
                                 </view>
                                 <view class="right">
@@ -147,8 +141,6 @@ import { addCoupon } from "@/api/coupon/coupon";
 import type { ProductCouponItem } from "@/types/product/product";
 import { getProductCouponList } from "@/api/product/product";
 import { useI18n } from "vue-i18n";
-import { isOverseas } from "@/utils";
-import { formatTimestamp } from "@/utils/format";
 
 const { t } = useI18n();
 

@@ -48,10 +48,9 @@ export const getHomeSeckill = () => {
 };
 
 // 首页优惠券
-export const getHomeCoupon = (id?: number) => {
-    const url = id ? `home/home/getCoupon?shopId=${id}` : "home/home/getCoupon";
+export const getHomeCoupon = () => {
     return request<CouponResponse>({
-        url,
+        url: "home/home/getCoupon",
         method: "get"
     });
 };

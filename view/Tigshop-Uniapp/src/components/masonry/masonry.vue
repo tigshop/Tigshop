@@ -80,13 +80,6 @@
                                     </template>
                                 </view>
                             </view>
-
-                            <template v-if="item.shop && isMerchant()">
-                                <view class="shop" @click.stop="handleToShop(item.shop.shopId)">
-                                    <view class="shop-name">{{ item.shop.shopTitle }}</view>
-                                    <view class="shop-btn">{{ $t("进店") }} <text class="iconfont-h5 icon-youjiantou" /></view>
-                                </view>
-                            </template>
                         </view>
                     </view>
                 </slot>
@@ -163,13 +156,6 @@
                                     </template>
                                 </view>
                             </view>
-
-                            <template v-if="item.shop && isMerchant()">
-                                <view class="shop" @click.stop="handleToShop(item.shop.shopId)">
-                                    <view class="shop-name">{{ item.shop.shopTitle }}</view>
-                                    <view class="shop-btn">{{ $t("进店") }} <text class="iconfont-h5 icon-youjiantou" /></view>
-                                </view>
-                            </template>
                         </view>
                     </view>
                 </slot>
@@ -183,7 +169,7 @@
 import { ref, type PropType, watch, getCurrentInstance, nextTick } from "vue";
 import specification from "@/components/product/specification.vue";
 import activityCard from "./activityCard.vue";
-import { isMerchant, staticResource, getElementRect } from "@/utils";
+import { staticResource, getElementRect } from "@/utils";
 
 const props = defineProps({
     commodityList: {
@@ -294,11 +280,6 @@ const toPage = (item: any) => {
     params = skuId ? `${params}&skuId=${skuId}` : params;
 
     uni.navigateTo({ url: "/pages/product/index?" + params });
-};
-const handleToShop = (id: number) => {
-    uni.navigateTo({
-        url: `/pages/shop/index?shopId=${id}`
-    });
 };
 
 const productId = ref(0);

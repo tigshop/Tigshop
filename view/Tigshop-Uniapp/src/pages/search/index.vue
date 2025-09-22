@@ -1,5 +1,5 @@
 <template>
-    <tig-layout :title="navbarTitle" :customBack="true" @back="handleBack">
+    <tig-layout :title="navbarTitle" :custom-back="true" @back="handleBack">
         <view class="searchGood">
             <view class="search-warp acea-row">
                 <view class="search-input acea-row">
@@ -48,13 +48,7 @@ const searchHistory = ref<any[]>([]);
 
 const shopId = ref("");
 
-onLoad((options: any) => {
-    if (options) {
-        if (options.shopId && options.shopId != 'undefined') {
-            shopId.value = options.shopId;
-            navbarTitle.value = "店铺搜索";
-        }
-    }
+onLoad(() => {
     if (uni.getStorageSync("searchHistory")) {
         searchHistory.value = uni.getStorageSync("searchHistory");
     }
@@ -82,7 +76,6 @@ const clearHistory = () => {
 
 const handleSearch = (item: any) => {
     let url = `/pages/search/result?keyWords=${item}`;
-    shopId.value && (url += `&shopId=${shopId.value}`);
     redirect({
         url
     });
@@ -92,7 +85,7 @@ const handleBack = () => {
     uni.switchTab({
         url: "/pages/index/index"
     });
-}
+};
 </script>
 <style>
 page {

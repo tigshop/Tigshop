@@ -90,17 +90,6 @@
                 <el-button bg size="small" text type="primary" @click="openPage(`/print/orderPrint?ids=${formState.orderId}`, 'order')">
                     打印配送单
                 </el-button>
-                <el-button
-                    v-if="formState.wayBill"
-                    bg
-                    size="small"
-                    text
-                    type="primary"
-                    @click="openPage(`/print/waybill?id=${formState.orderId}`, 'waybill')"
-                >
-                    打印面单
-                </el-button>
-                <el-button v-if="isPro() && hasPrint" bg size="small" text type="primary" :loading="loadingPrint" @click="handlePrint"> 打印小票 </el-button>
             </el-space>
             <div v-if="formState.mark" style="margin-left: 10px">
                 <EditSign title="编辑标记" :item="formState" @callBack="fetchOrder">
@@ -379,7 +368,6 @@ import MobileCard from "@/components/list/src/MobileCard.vue";
 import EditSign from "@/views/order/order/src/EditSign.vue";
 import SignTag from "@/views/order/order/src/SignTag.vue";
 import { hasEnabledPrint, triggerPrint } from "@/api/setting/receiptPrint";
-import { isPro } from "@/utils/version";
 const config: any = useConfigStore();
 const adminType = ref(localStorage.getItem("adminType"));
 const emit = defineEmits(["submitCallback", "callback", "update:confirmLoading", "close"]);
@@ -549,18 +537,7 @@ const _hasEnabledPrint = async () => {
         console.log(error);
     }
 };
-const loadingPrint = ref(false);
-const handlePrint = async () => {
-    loadingPrint.value = true;
-    try {
-        let res = await triggerPrint({ ids: [id.value] });
-        message.success("正在打印中~");
-    } catch (error) {
-        console.log(error);
-    } finally {
-        loadingPrint.value = false;
-    }
-};
+
 
 defineExpose({ onFormSubmit });
 </script>

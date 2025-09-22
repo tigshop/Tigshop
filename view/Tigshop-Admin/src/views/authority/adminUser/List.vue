@@ -1,10 +1,6 @@
 <template>
     <div class="container">
         <div class="content_wrapper">
-            <!-- <el-tabs v-if="isMerchant()" v-model="activeKey" class="lyecs-tabs" tab-position="top" @tab-change="onTabChange">
-                <el-tab-pane label="管理员列表" name="admin"></el-tab-pane>
-                <el-tab-pane label="店铺管理员列表" name="shop"></el-tab-pane>
-            </el-tabs> -->
             <div class="lyecs-table-list-warp">
                 <div class="list-table-tool lyecs-search-warp">
                     <div class="list-table-tool-row">
@@ -161,7 +157,6 @@ import { imageFormat } from "@/utils/format";
 import { returnAvatar } from "@/utils/avatar";
 import MobileCard from "@/components/list/src/MobileCard.vue";
 import { Tag } from "@/components/form";
-import { isMerchant } from "@/utils/version";
 import { useListRequest } from "@/hooks/useListRequest";
 const router = useRouter();
 const config: any = useConfigStore();

@@ -1,0 +1,1 @@
+import{a0 as a}from"./index-DE5OqlOG.js";const t=t=>a({url:"merchant/merchant/apply",method:"post",data:t}),e=t=>a({url:"merchant/merchant/applyDetail",method:"get",params:{id:t}}),m=()=>a({url:"merchant/merchant/myApply",method:"get"}),r=()=>a({url:"merchant/merchant/applyShopAgreement",method:"get"});export{t as a,m as b,r as c,e as g};

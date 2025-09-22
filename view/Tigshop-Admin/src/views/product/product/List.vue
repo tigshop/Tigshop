@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="content_wrapper">            
+        <div class="content_wrapper">
             <div class="lyecs-table-list-warp">
                 <TigTabs v-model="activeKey" :tabs="productStatusList" @onTabChange="onTabChange"></TigTabs>
                 <div class="list-table-tool lyecs-search-warp">
@@ -23,14 +23,6 @@
                                                     <el-button @click="onSearchSubmit"><span class="iconfont icon-chakan1"></span></el-button>
                                                 </template>
                                             </TigInput>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-if="activeKey !== 2 && adminType != 'shop' && isMerchant()" class="simple-form-field">
-                                    <div class="form-group">
-                                        <label class="control-label"><span>店铺：</span></label>
-                                        <div class="control-container">
-                                            <SelectShop v-model:shopId="filterParams.shopId" @onChange="SelectShopChange"></SelectShop>
                                         </div>
                                     </div>
                                 </div>
@@ -86,30 +78,6 @@
                                     >
                                         <el-button type="primary">添加商品</el-button>
                                     </DialogForm>
-                                    <DialogForm
-                                        v-if="isS2b2c()"
-                                        :params="{ act: 'add' }"
-                                        isDrawer
-                                        path="product/product/vendor/ProductList"
-                                        title="导入供应商商品"
-                                        width="1100px"
-                                        :show-footer="false"
-                                        @callback="loadFilter"
-                                    >
-                                        <el-button type="primary">导入供应商商品</el-button>
-                                    </DialogForm>
-                                    <router-link
-                                        v-if="isOverseas() && adminType === 'admin'"
-                                        :to="{ path: '/setting/translationContent/list', query: { type: 'product' } }"
-                                    >
-                                        <el-button>批量翻译商品</el-button>
-                                    </router-link>
-                                    <!-- <router-link
-                                        v-if="isOverseas() && adminType === 'shop'"
-                                        :to="{ path: '/merchant_setting/shop_multilingual/shop_translationContent/list', query: { type: 'product' } }"
-                                    >
-                                        <el-button>批量翻译商品</el-button>
-                                    </router-link> -->
                                     <el-popconfirm
                                         v-if="activeKey == 4 || activeKey == 1"
                                         title="您确认要批量移入回收站吗？"
@@ -268,14 +236,14 @@
                                     <a v-if="row.productExist">{{ row.productStock }}</a>
                                     <div v-else>
                                         <ProductStockPop
-                                            v-if="row.vendorProductId == null || row.vendorProductId < 0 && !loading"
+                                            v-if="row.vendorProductId == null || (row.vendorProductId < 0 && !loading)"
                                             :params="{ id: row.productId, productInfo: row }"
                                             :requestApi="updateProductFiled"
                                             @callback="loadFilter"
                                         >
                                             <div>{{ row.productStock }}</div>
                                         </ProductStockPop>
-                                        <div v-if="row.vendorProductId != null  && row.vendorProductId > 0">{{ row.productStock }}</div>
+                                        <div v-if="row.vendorProductId != null && row.vendorProductId > 0">{{ row.productStock }}</div>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -457,7 +425,6 @@ import {
 import { SelectBrand, SelectCategory, SelectShop } from "@/components/select";
 import { imageFormat, urlFormat } from "@/utils/format";
 import ProductStockPop from "./src/ProductStockPop.vue";
-import { isMerchant, isOverseas, isS2b2c } from "@/utils/version";
 import { useListRequest } from "@/hooks/useListRequest";
 const config: any = useConfigStore();
 const waitingCheckedCount = ref<number>(0);
@@ -540,16 +507,6 @@ const productStatusList = ref([
         isShow: true
     },
     {
-        label: "自营商品",
-        value: 2,
-        isShow: adminType.value === "admin" && isMerchant()
-    },
-    {
-        label: "店铺商品",
-        value: 3,
-        isShow: adminType.value === "admin" && isMerchant()
-    },
-    {
         label: "已下架商品",
         value: 4,
         isShow: true
@@ -558,12 +515,6 @@ const productStatusList = ref([
         label: "商品回收站",
         value: 7,
         isShow: true
-    },
-    {
-        label: "待审核商品",
-        value: 5,
-        count: 0,
-        isShow: adminType.value === "admin" && isMerchant()
     },
     {
         label: "审核失败商品",

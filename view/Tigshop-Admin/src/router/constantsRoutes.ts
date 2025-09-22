@@ -54,40 +54,6 @@ export default [
             }
         ]
     },
-    {
-        path: "/im",
-        name: "im",
-        component: () => import("@/layouts/im/index.vue"),
-        meta: { title: "客服" },
-        redirect: "/im/index",
-        children: [
-            {
-                path: "index",
-                name: "imChart",
-                meta: { title: "即时会话" },
-                component: () => import("@/views/im/Index.vue")
-            },
-            {
-                path: "history",
-                name: "history",
-                meta: { title: "历史会话" },
-                component: () => import("@/views/im/History.vue")
-            },
-            {
-                path: "systemSetting",
-                name: "systemSetting",
-                meta: { title: "系统设置" },
-                children: [
-                    {
-                        path: "autoReply",
-                        name: "autoReply",
-                        meta: { title: "客服自动回复" },
-                        component: () => import("@/views/im/AutoReply.vue")
-                    }
-                ]
-            }
-        ]
-    },
     // {
     //     path: "/:pathMatch(.*)*",
     //     name: "notFound",

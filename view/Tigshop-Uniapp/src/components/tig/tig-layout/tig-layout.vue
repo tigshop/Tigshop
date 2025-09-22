@@ -1,5 +1,5 @@
 <template>
-    <view class="layout" :class="{ 'not-zh': !isZh && isOverseas() }" :style="{ ...cssVariable }">
+    <view class="layout" :style="{ ...cssVariable }">
         <template v-if="needSafeTop">
             <view class="safe-top-box" />
         </template>
@@ -26,7 +26,7 @@
         <appUpdatePop />
         <!-- #endif -->
 
-        <tig-statistic-log ref="statisticLogRef" :immediate-log="immediateLog" :product-id="productId" :shop-id="shopId" :shop-category-id="shopCategoryId" />
+        <tig-statistic-log ref="statisticLogRef" :immediate-log="immediateLog" :product-id="productId" />
     </view>
 </template>
 
@@ -42,8 +42,6 @@ import { useConfigStore } from "@/store/config";
 import { useThemeStore } from "@/store/theme";
 import { computed, ref } from "vue";
 import { useSafeAreaInsets, useSaveTopBoxHeight } from "@/hooks";
-import { useI18nStore } from "@/store/i18n";
-import { isOverseas } from "@/utils";
 import appUpdatePop from "@/components/appUpdatePop/index.vue";
 
 const props = defineProps({
@@ -60,14 +58,6 @@ const props = defineProps({
         default: "#fff"
     },
     productId: {
-        type: [Number, String],
-        default: ""
-    },
-    shopId: {
-        type: [Number, String],
-        default: ""
-    },
-    shopCategoryId: {
         type: [Number, String],
         default: ""
     },
@@ -94,7 +84,7 @@ const props = defineProps({
     color: {
         type: String,
         default: "#000"
-    },
+    }
 });
 
 const emit = defineEmits(["loginSuccess", "back"]);
@@ -102,14 +92,6 @@ const emit = defineEmits(["loginSuccess", "back"]);
 const tabbarStore = useTabbarStore();
 const configStore = useConfigStore();
 const themeStore = useThemeStore();
-const i18nStore = useI18nStore();
-const isZh = computed(() => {
-    if (isOverseas()) {
-        return i18nStore.langCode ? i18nStore.langCode.includes("zh") : uni.getLocale().includes("zh");
-    } else {
-        return true;
-    }
-});
 
 // #ifdef  H5
 configStore.setH5Title();
@@ -134,8 +116,7 @@ const handleLog = () => {
 };
 
 defineExpose({
-    handleLog,
-    isZh
+    handleLog
 });
 </script>
 

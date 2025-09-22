@@ -8,51 +8,11 @@
                         <i class="iconfont-admin icon-tuichu" style="margin-right: 8px"></i>退出编辑
                     </div>
                     <div class="topbar-now-txt"><span class="tit">正在装修：</span>{{ decorateTitle }}</div>
-
-                    <el-dropdown v-if="isOverseas()" :disabled="decorateDisabled">
-                        <div class="lang-btn">
-                            语言：{{ languageName }}
-                            <el-icon class="el-icon--right"><arrow-down /></el-icon>
-                        </div>
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item v-for="item in localesList" @click="changeLanguage(item.id, item.isDefault)">
-                                    <span :class="{ 'lang-item-active': item.id === languageId }">
-                                        {{ item.language }}{{ item.isDefault ? "（默认）" : "" }}
-                                    </span>
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
                 </div>
                 <el-space class="topbar-right">
                     <el-button class="btn" text @click="onPreview()" :disabled="decorateDisabled">预览</el-button>
                     <el-button class="btn" text @click="onSavetoDraft()" :disabled="decorateDisabled">存至草稿</el-button>
                     <el-button @click="onPublish()" type="primary" :disabled="decorateDisabled">保存并发布</el-button>
-                    <el-dropdown v-if="isOverseas()" :disabled="decorateDisabled">
-                        <div class="lang-btn">
-                            <span class="iconfont-admin icon-gengduo1"></span>
-                        </div>
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item>
-                                    <DialogForm
-                                        isDrawer
-                                        title="选择模板"
-                                        :showClose="false"
-                                        :showOnOk="false"
-                                        width="700px"
-                                        @okCallback="copyDecorate"
-                                        path="decorate/decorate/src/DecorateLanguagesList"
-                                        :params="{ id: id, decorateType: decorateType }"
-                                    >
-                                        从其他页面复制
-                                    </DialogForm>
-                                </el-dropdown-item>
-                                <el-dropdown-item @click="_delDecorate()">删除该页面</el-dropdown-item>
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
                 </el-space>
             </div>
         </div>
@@ -174,7 +134,6 @@ import { ModulesType, EditResult } from "@/types/decorate/decorate.d";
 import { ModuleTypeList } from "@/views/decorate/decorate/src/modules/editIndex";
 import { getLocalesList } from "@/api/multilingual/languagesList";
 import { delDecorate } from "@/api/decorate/mobileDecorate";
-import { isOverseas } from "@/utils/version";
 import "@/views/decorate/decorate/src/css/decorate.less";
 import "@/views/decorate/decorate/src/css/module.less";
 import { useDecorateStore } from "@/store/decorate";
@@ -254,28 +213,6 @@ const _decorateDetail = async () => {
     }
 };
 
-const _getLocalesList = async () => {
-    try {
-        const result = await getLocalesList({ size: 999, isEnabled: 1 });
-        if (languageId.value == "") {
-            result.records.map((item: any) => {
-                if (item.isDefault) {
-                    languageId.value = item.id;
-                }
-            });
-        }
-        if (languageId.value == "") {
-            message.error("当前默认语言未发布，请先发布默认语言！");
-            decorateDisabled.value = true;
-        }
-        localesList.value = result.records;
-    } catch (error: any) {
-        message.error(error.message);
-    }
-};
-if (isOverseas()) {
-    _getLocalesList();
-}
 _decorateDetail();
 
 const copyDecorate = async (id: any) => {

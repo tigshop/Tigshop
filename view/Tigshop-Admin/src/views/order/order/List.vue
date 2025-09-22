@@ -25,22 +25,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="simple-form-field" v-if="isMerchant() && adminType !== 'shop'">
-                                <div class="form-group">
-                                    <label class="control-label"><span>选择店铺：</span></label>
-                                    <div class="control-container">
-                                        <SelectShop v-model:shopId="filterParams.shopId" @onChange="onSearchSubmit"></SelectShop>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="simple-form-field" v-if="isS2b2c() && adminType == 'shop'">
-                                <div class="form-group">
-                                    <label class="control-label"><span>供应商：</span></label>
-                                    <div class="control-container">
-                                        <SelectVendor v-model:vendorId="filterParams.vendorId" @onChange="onSearchSubmit"></SelectVendor>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="simple-form-field">
                                 <div class="form-group">
                                     <label class="control-label"><span>支付方式：</span></label>
@@ -177,18 +161,9 @@
                                 <el-button> 批量发货 </el-button>
                             </DialogForm>
                             <el-button v-else :disabled="true"> 批量发货 </el-button> -->
-                            <el-button v-if="selectedIds.length > 0" @click="openPage(`/print/orderPrint?ids=${selectedIds}`)">
-                                批量打印配送单
-                            </el-button>
+                            <el-button v-if="selectedIds.length > 0" @click="openPage(`/print/orderPrint?ids=${selectedIds}`)"> 批量打印配送单 </el-button>
                             <el-button v-else :disabled="true"> 批量打印配送单 </el-button>
 
-                            <template v-if="isPro() && hasPrint">
-                                <el-button v-if="selectedIds.length > 0" @click="handlePrint(selectedIds)">
-                                    批量打印小票
-                                </el-button>
-                                <el-button v-else :disabled="true">  批量打印小票 </el-button>
-                            </template>
-                           
                             <span v-if="selectedIds.length > 0">
                                 已选择：<b>{{ selectedIds.length }}</b> 项
                             </span>
@@ -476,20 +451,13 @@
                                                 path="order/order/src/ToShip"
                                                 width="900px"
                                                 @okCallback="loadFilter"
-                                                v-if="(item.availableActions.deliver && adminType == 'admin' && !item.vendorId) || (item.availableActions.deliver  && adminType == 'vendor')"
+                                                v-if="
+                                                    (item.availableActions.deliver && adminType == 'admin' && !item.vendorId) ||
+                                                    (item.availableActions.deliver && adminType == 'vendor')
+                                                "
                                             >
                                                 <el-button bg size="small" text type="danger"> 去发货 </el-button>
                                             </DialogForm>
-                                            <el-button
-                                                v-if="item.availableActions.deliver && item.vendorId && isS2b2c() && adminType !== 'vendor'"
-                                                bg
-                                                size="small"
-                                                text
-                                                type="danger"
-                                                @click="_remindDeliver(item.orderId)"
-                                            >
-                                                催发货
-                                            </el-button>
                                             <el-button
                                                 v-if="item.availableActions.confirmReceipt"
                                                 bg
@@ -559,13 +527,12 @@ import { priceFormat } from "@/utils/format";
 import { useRoute, useRouter } from "vue-router";
 import { Tag } from "@/components/form";
 import { SelectTimeInterval } from "@/components/select";
-import { isMerchant, isS2b2c } from "@/utils/version";
 import MobileCard from "@/components/list/src/MobileCard.vue";
 import EditSign from "@/views/order/order/src/EditSign.vue";
 import SignTag from "@/views/order/order/src/SignTag.vue";
 import { maskString } from "@/utils/util";
 import { hasEnabledPrint, triggerPrint } from "@/api/setting/receiptPrint";
-import { isPro } from "@/utils/version";
+
 const adminType = ref(localStorage.getItem("adminType"));
 const config: any = useConfigStore();
 // 基本参数定义

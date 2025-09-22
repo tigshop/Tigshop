@@ -1,1 +1,0 @@
-import{ap as e}from"./index-BEWhCL1q.js";const l=e("gallery",{state:()=>({videoGalleryId:0,topVideoGalleryId:0,topGalleryId:0,galleryId:0,page:1,sortOrder:"desc",isRefresh:!1}),getters:{}});export{l as u};

@@ -60,23 +60,8 @@
                     <uni-icons type="closeempty" size="24" style="color: #c8c9cc" />
                 </view>
             </view>
-            <template v-if="isB2B() && skuList.length > 1">
-                <view class="placeholder" />
-                <view class="tab">
-                    <view class="tab-item" :class="{ active: tabIndex === 0 }" @click="handleTabChange(0)">
-                        {{ $t("单品采购") }}
-                        <image v-show="tabIndex === 1" class="image" style="right: 0" :src="staticResource('product/shadow-right.png')" />
-                    </view>
-                    <view class="tab-item" :class="{ active: tabIndex === 1 }" @click="handleTabChange(1)">
-                        {{ $t("批量采购") }}
-                        <image v-show="tabIndex === 0" class="image" style="left: 0" :src="staticResource('product/shadow-left.png')" />
-                    </view>
-                    <view class="line" :style="`${tabIndex === 0 ? 'left: 0' : 'right: 0'}`" />
-                    <view class="subline" :style="`${tabIndex === 0 ? 'right: 0' : 'left: 0'}`" />
-                </view>
-            </template>
 
-            <view v-show="tabIndex !== 1">
+            <view>
                 <view v-if="specificationList.length > 0" class="product-sku-info">
                     <view v-for="(item, index) in specificationList" :key="index" class="sku-item">
                         <view class="tit">
@@ -118,31 +103,6 @@
                 </view>
             </view>
 
-            <view v-show="isBatch">
-                <template v-if="skuList.length > 1">
-                    <view class="allskulist">
-                        <template v-for="(item, index) in b2bSkuList" :key="item.skuId">
-                            <view class="allskulist-item">
-                                <view class="left">
-                                    <view class="title line2">{{ item.title }}</view>
-                                    <!-- <view class="title line2">{{ item.skuValue }}</view> -->
-                                    <view class="desc">
-                                        <view class="price">
-                                            <format-price :price-data="item.price" />
-                                        </view>
-                                        <view class="line" />
-                                        <view class="stock">库存：{{ item.stock }}</view>
-                                    </view>
-                                </view>
-                                <view class="right">
-                                    <tig-number-box v-model="item.num" :button-width="30" :min="0" :max="item.skuStock" @change="handleNumberChange()" />
-                                </view>
-                            </view>
-                        </template>
-                    </view>
-                </template>
-            </view>
-
             <template v-if="additionAttribute.length > 0">
                 <view class="product-sku-info attribute">
                     <template v-for="(item, index) in additionAttribute" :key="index">
@@ -169,58 +129,53 @@
         </scroll-view>
 
         <template v-if="!(productType === 4 && productIsBuy === 1)">
-            <view class="footer" :class="{ shadow: isBatch }">
-                <template v-if="isBatch">
-                    <view class="b2b-btn">
-                        <view class="desc">
-                            <view
-                                >已选<text class="num">{{ productAmount.count }}</text
-                                >件</view
-                            >
-                            <view class="price">
-                                <view>商品金额：</view>
-                                <format-price
-                                    :font-style="{ fontSize: '32rpx', color: 'var(--general)' }"
-                                    :currency-style="{
-                                        fontSize: '22rpx',
-                                        color: 'var(--general)'
-                                    }"
-                                    :decimals-style="{
-                                        fontSize: '25rpx',
-                                        color: 'var(--general)'
-                                    }"
-                                    :price-data="productAmount.total"
-                                />
-                            </view>
-                        </view>
-                        <view class="add_cart">
-                            <buy
-                                :id="Number(modelValue)"
-                                :disabled="skuItem.length === 0"
-                                :sku-item="skuItem"
-                                :extra-attr-ids="filterParams.extraAttrIds"
-                                @callback="addCard"
-                            >
-                                <view class="btn cart" :class="skuItem.length === 0 ? 'disabled-div' : ''">{{ $t("批量加入购物车") }}</view>
-                            </buy>
-                            <buy
-                                :id="Number(modelValue)"
-                                :sku-item="skuItem"
-                                :disabled="skuItem.length === 0"
-                                :extra-attr-ids="filterParams.extraAttrIds"
-                                :is-quick="true"
-                                @callback="closePopup"
-                            >
-                                <view class="btn buy-right" :class="skuItem.length === 0 ? 'disabled-div' : ''">{{ $t("立即购买") }}</view>
-                            </buy>
-                        </view>
+            <view class="footer">
+                <template v-if="type === 'exchange'">
+                    <view class="exchange-btn">
+                        <buy
+                            :id="exchangeDetail.id"
+                            :sku-id="currentSku.skuId"
+                            :disabled="productStock == 0"
+                            :extra-attr-ids="filterParams.extraAttrIds"
+                            :number="productNumber"
+                            :is-quick="true"
+                            :type="type"
+                            @callback="closePopup"
+                        >
+                            <view class="btn" :class="productStock === 0 ? 'disabled-div' : ''">{{ $t("立即兑换") }}</view>
+                        </buy>
                     </view>
                 </template>
                 <template v-else>
-                    <template v-if="type === 'exchange'">
+                    <template v-if="productType === 1">
+                        <view class="add_cart">
+                            <buy
+                                :id="Number(modelValue)"
+                                :sku-id="currentSku.skuId"
+                                :disabled="productStock == 0"
+                                :extra-attr-ids="filterParams.extraAttrIds"
+                                :number="productNumber"
+                                @callback="addCard"
+                            >
+                                <view class="btn cart" :class="productStock === 0 ? 'disabled-div' : ''">{{ $t("加入购物车") }}</view>
+                            </buy>
+                            <buy
+                                :id="Number(modelValue)"
+                                :sku-id="currentSku.skuId"
+                                :disabled="productStock == 0"
+                                :extra-attr-ids="filterParams.extraAttrIds"
+                                :number="productNumber"
+                                :is-quick="true"
+                                @callback="closePopup"
+                            >
+                                <view class="btn buy-right" :class="productStock === 0 ? 'disabled-div' : ''">{{ $t("立即购买") }}</view>
+                            </buy>
+                        </view>
+                    </template>
+                    <template v-else>
                         <view class="exchange-btn">
                             <buy
-                                :id="exchangeDetail.id"
+                                :id="modelValue"
                                 :sku-id="currentSku.skuId"
                                 :disabled="productStock == 0"
                                 :extra-attr-ids="filterParams.extraAttrIds"
@@ -229,52 +184,9 @@
                                 :type="type"
                                 @callback="closePopup"
                             >
-                                <view class="btn" :class="productStock === 0 ? 'disabled-div' : ''">{{ $t("立即兑换") }}</view>
+                                <view class="btn" :class="productStock === 0 ? 'disabled-div' : ''">{{ $t("立即购买") }}</view>
                             </buy>
                         </view>
-                    </template>
-                    <template v-else>
-                        <template v-if="productType === 1">
-                            <view class="add_cart">
-                                <buy
-                                    :id="Number(modelValue)"
-                                    :sku-id="currentSku.skuId"
-                                    :disabled="productStock == 0"
-                                    :extra-attr-ids="filterParams.extraAttrIds"
-                                    :number="productNumber"
-                                    @callback="addCard"
-                                >
-                                    <view class="btn cart" :class="productStock === 0 ? 'disabled-div' : ''">{{ $t("加入购物车") }}</view>
-                                </buy>
-                                <buy
-                                    :id="Number(modelValue)"
-                                    :sku-id="currentSku.skuId"
-                                    :disabled="productStock == 0"
-                                    :extra-attr-ids="filterParams.extraAttrIds"
-                                    :number="productNumber"
-                                    :is-quick="true"
-                                    @callback="closePopup"
-                                >
-                                    <view class="btn buy-right" :class="productStock === 0 ? 'disabled-div' : ''">{{ $t("立即购买") }}</view>
-                                </buy>
-                            </view>
-                        </template>
-                        <template v-else>
-                            <view class="exchange-btn">
-                                <buy
-                                    :id="modelValue"
-                                    :sku-id="currentSku.skuId"
-                                    :disabled="productStock == 0"
-                                    :extra-attr-ids="filterParams.extraAttrIds"
-                                    :number="productNumber"
-                                    :is-quick="true"
-                                    :type="type"
-                                    @callback="closePopup"
-                                >
-                                    <view class="btn" :class="productStock === 0 ? 'disabled-div' : ''">{{ $t("立即购买") }}</view>
-                                </buy>
-                            </view>
-                        </template>
                     </template>
                 </template>
             </view>
@@ -284,11 +196,11 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
-import type { SkuList, SkuPromotion, ProductAmountItem } from "@/types/product/product";
-import { getProductDetail, getProductSkuDetail, getProductAmount, getBatchProductAvailability } from "@/api/product/product";
+import type { SkuList, SkuPromotion } from "@/types/product/product";
+import { getProductDetail, getProductSkuDetail } from "@/api/product/product";
 import { getExchangeDetail } from "@/api/exchange/exchange";
 import buy from "@/components/product/buy.vue";
-import { staticResource, isB2B } from "@/utils";
+import { staticResource } from "@/utils";
 import { imageFormat } from "@/utils/format";
 import { useI18n } from "vue-i18n";
 
@@ -336,7 +248,6 @@ const handlePreviewImg = (image: string) => {
 
 const specificationList = ref<any[]>([]);
 const skuList = ref<SkuList[]>([]);
-const b2bSkuList = ref<SkuList[]>([]);
 const currentSku = ref<SkuList>({} as SkuList);
 const productPrice = ref("0");
 const productOriginPrice = ref("0");
@@ -385,10 +296,6 @@ const __getProductDetail = async () => {
         additionAttribute.value = result.attrList.extra;
         skuList.value = result.skuList;
 
-        if (isB2B() && skuList.value.length > 1) {
-            getBatchProductAvailabilityList();
-        }
-
         setDefaultValue();
     } catch (error: any) {
         uni.showToast({
@@ -404,7 +311,6 @@ const reset = () => {
     checkedValue.value = [];
     currentSku.value = {} as SkuList;
     checkedAttrs.value = [];
-    tabIndex.value = 0;
 };
 
 const firstLoad = ref(false);
@@ -637,78 +543,11 @@ const handleOverlimit = (event: string) => {
     }
 };
 
-// b2b
-const getBatchProductAvailabilityList = async () => {
-    try {
-        const skuIds = skuList.value.map((item: SkuList) => item.skuId).join(",");
-        const result = await getBatchProductAvailability({ skuIds });
-        b2bSkuList.value = skuList.value.map((sku: SkuList) => {
-            const newSku = {
-                ...sku,
-                num: 0,
-                title: sku.skuValue.replace(/\|/g, ",")
-            };
-
-            const skuId = sku.skuId.toString();
-            if (result[skuId]) {
-                Object.assign(newSku, {
-                    price: result[skuId].price,
-                    stock: result[skuId].stock
-                });
-            }
-
-            return newSku;
-        });
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-const isBatch = computed(() => {
-    return isB2B() && tabIndex.value === 1;
-});
-const tabIndex = ref(0);
-const handleTabChange = (index: number) => {
-    tabIndex.value = index;
-};
-const skuItem = ref<any>([]);
-let delayTimer: number | null = null;
-const handleNumberChange = () => {
-    if (delayTimer) {
-        clearTimeout(delayTimer);
-    }
-    delayTimer = setTimeout(() => {
-        const skus = b2bSkuList.value.filter((item: any) => item.num);
-        skuItem.value = skus.map((item: any) => {
-            return {
-                skuId: item.skuId,
-                num: item.num
-            };
-        });
-        __getProductAmount();
-    }, 300);
-};
-const productAmount = ref<ProductAmountItem>({
-    count: 0,
-    total: "0"
-} as ProductAmountItem);
-const __getProductAmount = async () => {
-    try {
-        const result = await getProductAmount({
-            id: props.modelValue,
-            skuItem: skuItem.value
-        });
-        productAmount.value = result;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 const height = computed(() => {
-    return isB2B() ? "75vh" : "65vh";
+    return "65vh";
 });
 const paddingBottom = computed(() => {
-    return `calc(${isB2B() && tabIndex.value === 1 ? "150rpx" : "100rpx"} + 15px + var(--safe-bottom))`;
+    return `calc(100rpx + 15px + var(--safe-bottom))`;
 });
 
 defineExpose({

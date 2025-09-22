@@ -52,18 +52,6 @@
                         :loading="loading"
                         v-model:form-state="formState"
                     ></PriceInfo>
-                    <VendorPriceInfo
-                        v-if="type == 'vendor'"
-                        ref="priceInfoRef"
-                        :id="id"
-                        :shopId="shopId"
-                        :act="act"
-                        :examine="examine"
-                        :attrTplList="attrTplList"
-                        v-model:isLimit="isLimit"
-                        :loading="loading"
-                        v-model:form-state="formState"
-                    ></VendorPriceInfo>
                 </div>
                 <div id="part3" class="form-warp">
                     <div class="title">
@@ -99,12 +87,11 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, shallowRef, nextTick, watch } from "vue";
-import { BasicInfo, PriceInfo, LogisticsInfo, DescInfo, AdvancedInfo, VendorPriceInfo } from "@/views/product/product/src/components";
+import { BasicInfo, PriceInfo, LogisticsInfo, DescInfo, AdvancedInfo } from "@/views/product/product/src/components";
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import { ProductFormState, ServiceList } from "@/types/product/product.d";
 import { getProduct, getProductConfig, updateProduct, AuditAgainProduct } from "@/api/product/product";
-import { isPro } from "@/utils/version";
 import { getAdminType } from "@/utils/storage";
 const adminType = getAdminType();
 const emit = defineEmits(["submitCallback", "update:confirmLoading", "close", "closeConfirm"]);
@@ -205,31 +192,9 @@ watch(formState.value, (val) => {
 const radioList = ref<any[]>([]);
 onMounted(async () => {
     await fetchProductConfig(false);
-    if (isPro()) {
-        radioList.value = [
-            { key: 1, title: "普通商品", desc: "物流配送" },
-            {
-                key: 3,
-                title: "卡密商品",
-                tips: "可以在菜单中【营销>电子卡券组】创建卡券组，然后在【查看卡列表】添加单个卡密或通过下载【批量导入模板文件】填好卡密后在通过批量导入电子卡券按钮上传该文件批量导入。",
-                desc: "无需物流"
-            },
-            {
-                key: 2,
-                title: "虚拟商品",
-                tips: "网盘链接、视频链接，在添加商品添加虚拟商品。用户购买后将在订单详情直接展示。",
-                desc: "无需物流"
-            },
-            {
-                key: 4,
-                title: "付费内容",
-                tips: "软件授权、在线课程等。通过简单的操作，即可将这些商品添加到您的商店中，为客户提供更丰富的选择。立即体验，享受便捷的付费内容管理服务。",
-                desc: "无需物流"
-            }
-        ];
-    } else {
-        radioList.value = [{ key: 1, title: "普通商品" }];
-    }
+
+    radioList.value = [{ key: 1, title: "普通商品" }];
+
     if (action.value === "detail" || action.value === "copy" || action.value === "again") {
         // 获取详情数据
         await fetchProduct();

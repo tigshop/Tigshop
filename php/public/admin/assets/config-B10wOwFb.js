@@ -1,1 +1,0 @@
-import{a0 as o}from"./index-BEWhCL1q.js";const i=e=>o({prefix:"/im",url:"config/config/detail",method:"get",params:e}),r=e=>o({prefix:"/im",url:"config/config/save",method:"post",data:e});export{i as g,r as s};

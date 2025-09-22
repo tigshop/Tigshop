@@ -47,12 +47,6 @@ export default {
                     component: () => import("@/views/decorate/mobileDecorate/userOverseas/User.vue")
                 },
                 {
-                    path: "mobile-decorate/SplashAd",
-                    name: "mobileSplashAdManage",
-                    meta: { title: "开屏广告" },
-                    component: () => import("@/views/decorate/mobileDecorate/SplashAd.vue")
-                },
-                {
                     path: "mobile-cat-nav/list",
                     name: "mobileCatNavManage",
                     meta: { title: "分类导航" },

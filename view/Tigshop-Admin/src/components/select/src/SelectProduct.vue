@@ -88,7 +88,6 @@ import { message } from "ant-design-vue";
 import { ProductFilterParams, type ProductFilterState } from "@/types/product/product";
 import { useConfigStore } from "@/store/config";
 import { Pagination } from "@/components/list";
-import SelectSku from "@/views/promotion/productGift/src/SelectSku.vue"
 // 传值
 const props = defineProps({
     // 传入需要显示的商品list

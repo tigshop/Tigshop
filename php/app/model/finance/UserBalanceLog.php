@@ -27,7 +27,7 @@ class UserBalanceLog extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'user_id', 'user_id')
-            ->bind(["username", "after_balance" => "balance", "after_frozen_balance" => "frozen_balance"]);
+            ->bind(["username", "after_balance" => "balance"]);
     }
 
     //变动类型

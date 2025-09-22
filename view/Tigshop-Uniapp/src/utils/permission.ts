@@ -14,11 +14,8 @@ const whiteList = [
     "/pages/cart/index",
     "/pages/user/index",
     "/pages/product/index",
-    "/pages/shop/index",
     "/pages/category/index",
-    "/pages/im/index",
     "/pages/user/bindMobilePhone/index",
-    "/pages/salesman/salesmanCard",
     "/pages/reset/index",
     "/pages/customPage/index"
 ];

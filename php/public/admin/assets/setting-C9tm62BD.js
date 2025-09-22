@@ -1,0 +1,1 @@
+import{Z as t}from"./index-BGgofOm4.js";const n=()=>t({url:"setting/config/getLoginProtocol",method:"get"}),g=o=>t({url:"setting/config/getLoginProtocolContent",method:"get",params:o}),r=o=>t({url:"setting/config/saveLoginProtocol",method:"post",data:o});export{g as a,n as g,r as s};

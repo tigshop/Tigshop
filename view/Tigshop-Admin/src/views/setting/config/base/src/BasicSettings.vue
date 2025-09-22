@@ -4,11 +4,10 @@
             <el-form ref="formRef" :model="formState" label-width="150px" style="display: flex; gap: 12px; flex-direction: column">
                 <div class="content_wrapper">
                     <div class="title">商城信息</div>
-                    <!-- isOverseas -->
-                    <template v-if="!isOverseas()">
-                        <el-form-item label="商城LOGO" prop="shopLogo">
-                            <FormAddGallery v-model:photo="formState.shopLogo" style="width: 100%" />
-                            <div class="extra">
+
+                    <el-form-item label="商城LOGO" prop="shopLogo">
+                        <FormAddGallery v-model:photo="formState.shopLogo" style="width: 100%" />
+                        <div class="extra">
                             请根据页面设置对应大小的LOGO，高清需要上传双倍大小
                             <el-popover :width="400" placement="right-end" trigger="click">
                                 <template #reference>
@@ -19,18 +18,8 @@
                                 </template>
                             </el-popover>
                         </div>
-                        </el-form-item>
-                    </template>
-                    <template v-else>
-                        <el-form-item label="商城LOGO-黑底" prop="shopLogo">
-                            <FormAddGallery v-model:photo="formState.shopLogo" style="width: 100%" />
-                            <div class="extra">请根据页面设置对应大小的LOGO，高清需要上传双倍大小</div>
-                        </el-form-item>
-                        <el-form-item label="商城LOGO-白底" prop="lightShopLogo">
-                            <FormAddGallery v-model:photo="formState.lightShopLogo" style="width: 100%" />
-                            <div class="extra">请根据页面设置对应大小的LOGO，高清需要上传双倍大小</div>
-                        </el-form-item>
-                    </template>
+                    </el-form-item>
+
                     <el-form-item label="商城名称" prop="shopName">
                         <BusinessData v-model:modelValue="formState.shopName" :dataId="1" :dataType="5"></BusinessData>
                     </el-form-item>
@@ -200,7 +189,6 @@ import { convertNullsToEmptyStrings } from "@/utils/format";
 import { FormAddGallery } from "@/components/gallery";
 import { useRoute } from "vue-router";
 import { useThemeStore } from "@/store/theme";
-import { isOverseas } from "@/utils/version";
 const { themeInfo } = useThemeStore();
 const route = useRoute();
 import { useLicensedStore } from "@/store/licensed";
@@ -284,8 +272,8 @@ const onSubmit = async () => {
         const result = await saveConfigBasic(formState.value);
         message.success("修改成功");
         // 更新后台设置项
-        await configStore.updateConfig()
-        await licensedStore._getLicensed()
+        await configStore.updateConfig();
+        await licensedStore._getLicensed();
         setTimeout(() => {
             location.reload();
         }, 500);

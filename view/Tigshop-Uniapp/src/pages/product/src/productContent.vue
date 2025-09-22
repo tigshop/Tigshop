@@ -5,20 +5,6 @@
             <view class="tab" :class="{ active: tabIndex == 1 }" @click="tabIndex = 1">{{ $t("售后服务") }}</view>
         </view>
         <view v-if="tabIndex == 0" class="default">
-            <template v-if="isPro() && productType === 4">
-                <template v-if="isBuy === 1 && paidContent">
-                    <template v-for="(item, index) in paidContent" :key="index">
-                        <view v-if="item.type == 'pic'" class="desc-pic-item">
-                            <image lazy-load :src="imageFormat(item?.pic || '')" class="slide-image" mode="widthFix" />
-                        </view>
-                        <rich-text v-if="item.type == 'text'" class="desc-text-item" :nodes="formatRichText(item.html)" />
-                    </template>
-                </template>
-                <template v-else>
-                    <image class="img" :src="staticResource('product/paid_content_bg.png')" mode="widthFix" />
-                </template>
-            </template>
-
             <template v-for="(item, index) in descArr" :key="index">
                 <view v-if="item.type == 'pic'" class="desc-pic-item">
                     <image lazy-load :src="imageFormat(item?.pic || '')" class="slide-image" mode="widthFix" />
@@ -37,7 +23,7 @@ import { ref } from "vue";
 import type { PropType } from "vue";
 import afterSaleService from "./afterSaleService.vue";
 import { imageFormat } from "@/utils/format";
-import { isPro, staticResource, formatRichText } from "@/utils";
+import { formatRichText } from "@/utils";
 
 defineProps({
     descArr: {

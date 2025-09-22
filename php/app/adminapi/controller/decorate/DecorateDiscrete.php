@@ -101,18 +101,7 @@ class DecorateDiscrete extends AdminBaseController
                     'link' => '/pages/address/list'
                 ]
             ],
-            [
-                'type' => 'default',
-                'pic_title' => '商家入驻',
-                'pic_thumb' => 'https://oss.tigshop.com/static/user/shangjiaruzhu.png',
-                'pic_url' => 'https://oss.tigshop.com/static/user/shangjiaruzhu.png',
-                'pic_link' => [
-                    'path' => 'default',
-                    'label' => '商家入驻',
-                    'name' => '商家入驻',
-                    'link' => '/pages/user/merchantEnter/principalType'
-                ]
-            ],
+
             [
                 'type' => 'default',
                 'pic_title' => '发票管理',
@@ -160,43 +149,8 @@ class DecorateDiscrete extends AdminBaseController
                     'name' => '资讯中心',
                     'link' => '/pages/article/news/list?id=bzgg'
                 ]
-            ],
-            [
-                'type' => 'default',
-                'pic_title' => '分销员中心',
-                'pic_thumb' => 'https://oss.tigshop.com/static/user/salesmanIco.png',
-                'pic_url' => 'https://oss.tigshop.com/static/user/salesmanIco.png',
-                'pic_link' => [
-                    'path' => 'default',
-                    'label' => '分销员中心',
-                    'name' => '分销员中心',
-                    'link' => '/pages/salesman/index'
-                ]
-            ],
-            [
-                'type' => 'default',
-                'pic_title' => '积分商城',
-                'pic_thumb' => 'https://oss.tigshop.com/static/user/jifen.png',
-                'pic_url' => 'https://oss.tigshop.com/static/user/jifen.png',
-                'pic_link' => [
-                    'path' => 'default',
-                    'label' => '积分商城',
-                    'name' => '积分商城',
-                    'link' => '/pages/exchange/list'
-                ]
-            ],
-            [
-                "type" => "default",
-                "pic_title" => "实名认证",
-                "pic_thumb" => "https://oss.tigshop.com/static/user/realName.png",
-                "pic_url" => "https://oss.tigshop.com/static/user/realName.png",
-                "pic_link" => [
-                    "path" => "default",
-                    "label" => "实名认证",
-                    "name" => "实名认证",
-                    "link" => "/pages/user/userCertification/index"
-                ]
             ]
+
         ];
         return $this->success(
             [

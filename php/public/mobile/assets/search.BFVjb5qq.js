@@ -1,0 +1,1 @@
+import{a0 as e}from"./index-DE5OqlOG.js";const a=a=>e({url:"category/category/parentTree",method:"get",data:{id:a}}),r=a=>e({url:"search/search/getFilter",method:"get",params:a}),t=a=>e({url:"search/search/getProduct",method:"get",params:a}),s=a=>e({url:`shop/category/parentTree?id=${a}`,method:"get"});export{r as a,a as b,s as c,t as g};

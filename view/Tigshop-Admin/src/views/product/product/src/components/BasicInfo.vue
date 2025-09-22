@@ -150,7 +150,6 @@ import { RadioType } from "@/components/radio";
 import { SelectBrand, SelectCategory, SelectShopProductCategory } from "@/components/select";
 import { DialogForm } from "@/components/dialog";
 import BusinessData from "@/components/multilingual/BusinessData.vue";
-import { isPro } from "@/utils/version";
 import { getAdminType } from "@/utils/storage";
 const adminType = getAdminType();
 const emit = defineEmits(["submitCallback", "update:confirmLoading", "close", "closeConfirm"]);
@@ -183,31 +182,7 @@ const props = defineProps({
 const formState = defineModel<ProductFormState>("formState", { default: {} });
 const radioList = ref<any[]>([]);
 onMounted(async () => {
-    if (isPro()) {
-        radioList.value = [
-            { key: 1, title: "普通商品", desc: "物流配送" },
-            {
-                key: 3,
-                title: "卡密商品",
-                tips: "可以在菜单中【营销>电子卡券组】创建卡券组，然后在【查看卡列表】添加单个卡密或通过下载【批量导入模板文件】填好卡密后在通过批量导入电子卡券按钮上传该文件批量导入。",
-                desc: "无需物流"
-            },
-            {
-                key: 2,
-                title: "虚拟商品",
-                tips: "网盘链接、视频链接，在添加商品添加虚拟商品。用户购买后将在订单详情直接展示。",
-                desc: "无需物流"
-            },
-            {
-                key: 4,
-                title: "付费内容",
-                tips: "软件授权、在线课程等。通过简单的操作，即可将这些商品添加到您的商店中，为客户提供更丰富的选择。立即体验，享受便捷的付费内容管理服务。",
-                desc: "无需物流"
-            }
-        ];
-    } else {
-        radioList.value = [{ key: 1, title: "普通商品" }];
-    }
+    radioList.value = [{ key: 1, title: "普通商品" }];
 });
 // 会员名称
 const validateName = (rule: any, value: any, callback: any) => {

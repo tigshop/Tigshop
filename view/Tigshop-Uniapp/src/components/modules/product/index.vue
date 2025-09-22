@@ -184,10 +184,6 @@ const props = defineProps({
     moduleIndex: {
         type: Number,
         default: 0
-    },
-    shopId: {
-        type: Number,
-        default: -1
     }
 });
 const { frame } = props.module;
@@ -234,9 +230,6 @@ const _getproductList = async () => {
                 });
             }
         }
-    }
-    if (props.shopId && props.shopId != -1) {
-        param.shopId = props.shopId;
     }
     try {
         const result = await getProductsList(param);

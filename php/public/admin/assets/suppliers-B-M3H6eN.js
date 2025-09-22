@@ -1,1 +1,0 @@
-import{a0 as r}from"./index-BEWhCL1q.js";const s=e=>r({url:"vendor/vendor/list",method:"get",params:e}),d=(e,t)=>r({url:"vendor/vendor/"+e,method:"get",params:t}),u=(e,t)=>r({url:"vendor/vendor/"+e,method:"post",data:t}),n=e=>r({url:"vendor/vendor/updateField",method:"post",data:e});export{d as a,u as b,s as g,n as u};

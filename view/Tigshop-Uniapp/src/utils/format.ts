@@ -127,9 +127,6 @@ export function urlFormat(params: string | { path: string; [key: string]: any })
             case "article":
                 // 文章
                 return `/pages/article/news/detail?id=${params.data.id}`;
-            case "shop":
-                // 文章
-                return `/pages/shop/index?shopId=${params.data.id}`;
             case "brand":
                 // 品牌
                 if (params.data.id) {

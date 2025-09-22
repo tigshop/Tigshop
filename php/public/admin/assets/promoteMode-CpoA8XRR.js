@@ -1,1 +1,0 @@
-import{a0 as e}from"./index-BEWhCL1q.js";const n=()=>e({url:"salesman/config/detail?code=salesmanConfig",method:"get"}),o=s=>e({url:"salesman/config/save?code=salesmanConfig",method:"post",data:s});export{n as g,o as s};

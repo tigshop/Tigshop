@@ -1,8 +1,7 @@
 import pinia from "@/store/index";
 import { useUserStore } from "@/store/user";
 import { useConfigStore } from "@/store/config";
-import { useI18nStore } from "@/store/i18n";
-import { formatArguments, isOverseas, currFullPath } from "@/utils";
+import { formatArguments, currFullPath } from "@/utils";
 import init from "@/utils/init";
 import { KEY, aesEncrypt } from "@/utils/crypto";
 
@@ -71,7 +70,6 @@ export const setIsInit = (value: boolean) => {
 };
 
 export default function request<T extends ResponseData>(config: RequestConfig): Promise<T["data"]> {
-    const i18nStore = useI18nStore();
     const configStore = useConfigStore();
     config.noSkipLogin = config.noSkipLogin || false;
     const method = (config.method || "GET").toUpperCase();
@@ -82,7 +80,6 @@ export default function request<T extends ResponseData>(config: RequestConfig): 
         Authorization: "Bearer " + (uni.getStorageSync("token") ? uni.getStorageSync("token") : null),
         ...config.header,
         "X-Client-Type": configStore.XClientType,
-        "X-Locale-Code": isOverseas() ? i18nStore.langCode || uni.getLocale() : "",
         Secret: getSecret()
     };
     const data = method === "GET" ? formatArguments(config.params) : config.data;

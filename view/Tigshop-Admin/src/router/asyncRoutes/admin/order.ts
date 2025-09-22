@@ -23,12 +23,6 @@ export default {
                     component: () => import("@/views/order/order/Deliverlist.vue")
                 },
                 {
-                    path: "exchange-order/list",
-                    name: "exchangeOrderManage",
-                    meta: { title: "积分订单" },
-                    component: () => import("@/views/order/orderExchange/List.vue")
-                },
-                {
                     path: "order-export/list",
                     name: "orderExportManage",
                     meta: { title: "订单导出" },

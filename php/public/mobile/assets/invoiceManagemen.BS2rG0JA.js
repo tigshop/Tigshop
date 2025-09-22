@@ -1,0 +1,1 @@
+import{a0 as e}from"./index-DE5OqlOG.js";const t=t=>e({url:"user/orderInvoice/create",method:"post",data:t}),a=t=>e({url:"user/orderInvoice/update",method:"post",data:t}),o=()=>e({url:"user/invoice/detail",method:"get"}),r=t=>e({url:"user/invoice/create",method:"post",data:t}),s=t=>e({url:"user/invoice/update",method:"post",data:t});export{a,r as c,o as g,t as o,s as u};

@@ -4,11 +4,7 @@
             <div class="message_center">
                 <div class="tab_box tab_box1">
                     <div v-for="(item, index) in msgList">
-                        <div class="tab" :class="msgIndex == index ? 'current' : ''" @click="msgChange(index)" v-if="item.catId == 4 && isMerchant()">
-                            <p>{{ item.catName }}</p>
-                            <p class="num" v-if="item.unreadCount > 0">{{ item.unreadCount }}</p>
-                        </div>
-                        <div class="tab" :class="msgIndex == index ? 'current' : ''" @click="msgChange(index)" v-else-if="item.catId != 4">
+                        <div class="tab" :class="msgIndex == index ? 'current' : ''" @click="msgChange(index)" v-if="item.catId != 4">
                             <p>{{ item.catName }}</p>
                             <p class="num" v-if="item.unreadCount > 0">{{ item.unreadCount }}</p>
                         </div>
@@ -58,7 +54,6 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref, onMounted } from "vue";
-import { isMerchant } from "@/utils/version";
 import { useConfigStore } from "@/store/config";
 import { Pagination } from "@/components/list";
 import { message } from "ant-design-vue";
@@ -66,7 +61,7 @@ import Collapse from "./src/Collapse.vue";
 import { useUserStore } from "@/store/user";
 const useStore = useUserStore();
 import type { AdminMsgFilterParams, AdminMsgFilterState, AdminMsgMsgTypeFilterState } from "@/types/panel/adminMsg";
-import { getAdminMsgList,getAdminMsgType, getAdminMsgSetAllReaded } from "@/api/panel/adminMsg";
+import { getAdminMsgList, getAdminMsgType, getAdminMsgSetAllReaded } from "@/api/panel/adminMsg";
 import dayjs from "dayjs";
 // 父组件回调
 const emit = defineEmits(["callback", "update:confirmLoading", "close"]);
@@ -92,7 +87,7 @@ const filterState = ref(<AdminMsgFilterState[]>[]);
 const total = ref<number>(0);
 // 获取列表的查询结果
 const loadFilter = async () => {
-    emit("callback")
+    emit("callback");
     loading.value = true;
     try {
         const result = await getAdminMsgList({ ...filterParams });
@@ -117,7 +112,7 @@ onMounted(() => {
 });
 const setAllReaded = async () => {
     await getAdminMsgSetAllReaded();
-    emit("callback", false)
+    emit("callback", false);
     loadFilter();
 };
 const msgChange = (index: number) => {
@@ -164,7 +159,7 @@ const toArray = (arr: any) => {
         border-right: 1px solid #eee;
         display: flex;
         flex-direction: column;
-        gap:6px;
+        gap: 6px;
         .tab {
             padding: 7px 20px;
             line-height: 20px;

@@ -21,7 +21,6 @@ import { ref, toRefs } from "vue";
 import Verify from "@/components/verifition/Verify.vue";
 import { useI18n } from "vue-i18n";
 import { useConfigStore } from "@/store/config";
-import { isOverseas } from "@/utils"
 
 const configStore = useConfigStore();
 const { t } = useI18n();
@@ -59,7 +58,7 @@ const handBtn = async () => {
             emit("mobileErrorCallback", t("手机号不能为空！"));
             return;
         }
-        if (!isOverseas() && !validatePhoneNumber(mobile.value)) {
+        if (!validatePhoneNumber(mobile.value)) {
             emit("mobileErrorCallback", t("手机号格式错误"));
             return;
         }

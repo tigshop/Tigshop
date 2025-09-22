@@ -20,12 +20,6 @@ const handlerToPcMobile = () => {
         return;
     }
 
-    const whiteUrl = "pages/im";
-    if (window.location.href.includes(whiteUrl)) {
-        console.log("检测到在白名单页面，停止PC端检测");
-        return;
-    }
-
     const userAgent = navigator.userAgent;
     const isPC = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
 

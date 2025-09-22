@@ -1,1 +1,0 @@
-import{ak as o}from"./index-BEWhCL1q.js";function c(t){return typeof t!="object"||t===null?t:JSON.parse(JSON.stringify(t))}function a(t,n=c){const e=o(n(t));return[e,()=>{const s=n(t);Object.keys(e).forEach(r=>{r in s?e[r]=s[r]:delete e[r]})}]}export{a as u};

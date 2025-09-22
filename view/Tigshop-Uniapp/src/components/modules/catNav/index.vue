@@ -29,9 +29,6 @@
                                         <view class="catnav-search-text" :style="searchFormat['searchTextColor']">{{ $t(searchFormat.searchText) }}</view>
                                     </view>
                                 </view>
-                                <template v-if="isOverseas()">
-                                    <tig-select-lang />
-                                </template>
                             </view>
                         </div>
 
@@ -69,7 +66,6 @@ import { ref, computed } from "vue";
 import { usecatnavStore } from "@/store/catnav";
 import { useConfigStore } from "@/store/config";
 import { imageFormat } from "@/utils/format";
-import { isOverseas } from "@/utils";
 
 const catnavStore = usecatnavStore();
 

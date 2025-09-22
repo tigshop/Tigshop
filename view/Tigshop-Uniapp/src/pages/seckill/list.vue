@@ -1,12 +1,6 @@
 <template>
     <tig-layout ref="layoutRef">
-        <view class="seckill-title">
-            <view v-if="layoutRef && !layoutRef.isZh" class="seckill-title-text-box">
-                <view class="seckill-title-text">
-                    {{ $t("限时秒杀") }}
-                </view>
-            </view>
-        </view>
+        <view class="seckill-title" />
         <view class="qianggou-list">
             <view v-for="(item, index) in seckillProductList" :key="index" class="qianggou-item" @click="toDetail(item)">
                 <view class="qianggou-img-box">
@@ -102,10 +96,7 @@ const seckillPercentage = (sales: number, stock: number) => {
 };
 
 const titleBg = computed(() => {
-    if (layoutRef.value && layoutRef.value.isZh) {
-        return `url(${staticResource("common/seckillTitle.png")}) no-repeat`;
-    }
-    return `url(${staticResource("common/overseas-seckillTitle.jpg")}) no-repeat`;
+    return `url(${staticResource("common/seckillTitle.png")}) no-repeat`;
 });
 </script>
 <style>

@@ -2,12 +2,6 @@
     <link :href="icoDefinedCss" rel="stylesheet"/>
     <div class="container">
         <div class="content_wrapper">
-            <el-tabs v-if="isMerchant()" v-model="activeKey" class="lyecs-tabs" tab-position="top" @tab-change="onTabChange">
-                <!-- <el-tab-pane label="全部" name="-1"></el-tab-pane> -->
-                <el-tab-pane label="管理后台" name="admin"></el-tab-pane>
-                <el-tab-pane label="店铺后台" name="shop"></el-tab-pane>
-                <el-tab-pane label="供应商后台" name="vendor" v-if="isS2b2c()"></el-tab-pane>
-            </el-tabs>
             <div v-if="activeKey!=null" class="lyecs-table-list-warp">
                 <div class="list-table-tool lyecs-search-warp">
                     <el-form :model="filterParams" name="form">
@@ -220,7 +214,6 @@ import {batchSubmit, delAuthority, getAuthorityList, updateAuthorityFiled} from 
 import {useMenusStore} from "@/store/menu";
 import { updateMenu } from "@/utils/menus";
 import type { MainMenu } from "@/types/common/common.d";
-import { isMerchant,isS2b2c } from "@/utils/version";
 const menusStore = useMenusStore();
 //获取来自路由的参数
 const {currentRoute} = useRouter();

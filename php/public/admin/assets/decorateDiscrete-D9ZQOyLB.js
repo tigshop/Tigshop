@@ -1,0 +1,1 @@
+import{Z as t}from"./index-BGgofOm4.js";const a=e=>t({url:"decorate/decorateDiscrete/detail",method:"get",params:e}),o=()=>t({url:"decorate/decorateDiscrete/memberDecorateData",method:"get"}),c=e=>t({url:"decorate/decorateDiscrete/update",method:"post",data:e});export{o as a,a as g,c as u};

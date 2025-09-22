@@ -1,0 +1,1 @@
+import{Z as t}from"./index-BGgofOm4.js";const r=()=>t({url:"msg/adminMsg/msgTypeArr",method:"get"}),d=e=>t({url:"msg/adminMsg/list",method:"get",params:e}),g=e=>t({url:"msg/adminMsg/setReaded",method:"post",data:e}),n=()=>t({url:"msg/adminMsg/setAllReaded",method:"post"}),m=e=>t({url:"panel/panel/searchMenu",method:"get",params:e});export{d as a,r as b,n as c,g as d,m as g};

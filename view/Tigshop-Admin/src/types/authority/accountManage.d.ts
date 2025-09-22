@@ -103,10 +103,6 @@ export interface AdminUserAccountListVO {
     /**
      * 手机
      */
-    mobile?: string;
-    /**
-     * 关联店铺数
-     */
     shopCount?: number;
     /**
      * 账号名称

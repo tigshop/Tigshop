@@ -1,19 +1,7 @@
 import pagesJson from "@/pages.json";
 
-export const isMerchant = () => {
-    return import.meta.env.VITE_IS_MERCHANT == 1;
-};
-export const isPro = () => {
-    return import.meta.env.VITE_IS_PRO == 1;
-};
-export const isB2B = () => {
-    return import.meta.env.VITE_IS_B2B == 1;
-};
-export const isOverseas = () => {
-    return import.meta.env.VITE_IS_OVERSEAS == 1;
-};
 export const isDemo = () => {
-    return import.meta.env.VITE_IS_DEMO == 1;
+    return false;
 };
 
 /**

@@ -19,14 +19,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="simple-form-field" v-if="adminType != 'shop' && isMerchant()">
-                                    <div class="form-group">
-                                        <label class="control-label"><span>选择店铺：</span></label>
-                                        <div class="control-container">
-                                            <SelectShop v-model:modelValue="filterParams.shopId"></SelectShop>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="simple-form-field">
                                     <div class="form-group">
                                         <label class="control-label"><span>订单状态：</span></label>
@@ -180,7 +172,6 @@ import { useConfigStore } from "@/store/config";
 import { ExportItemList, ExportItemListFilterParams } from "@/types/order/orderExport";
 import { getExportItemInfo, getExportItemList, getOrderExport, saveExportItem } from "@/api/order/orderExport";
 import requestExport from "@/utils/export";
-import { isMerchant } from "@/utils/version";
 import { SelectTimeInterval } from "@/components/select";
 import { getDays } from "@/utils/util";
 import { formattedDate } from "@/utils/time";

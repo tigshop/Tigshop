@@ -41,42 +41,6 @@
                                 <el-button type="primary">立即新建</el-button>
                             </DialogForm>
                         </div>
-                        <div class="item-bg coupon-cards-item item-bg2">
-                            <div>
-                                <div class="title">新人专享券</div>
-                                <div class="desc">
-                                    <p>仅店铺新客可领，提高新客<br />首单转化</p>
-                                </div>
-                            </div>
-                            <DialogForm
-                                isDrawer
-                                @okCallback="loadFilter"
-                                title="添加新人专享券"
-                                width="800px"
-                                path="promotion/coupon/Info"
-                                :params="{ act: 'add', isNewUser: 1 }"
-                            >
-                                <el-button type="primary">立即新建</el-button>
-                            </DialogForm>
-                        </div>
-                        <div class="item-bg coupon-cards-item item-bg2">
-                            <div>
-                                <div class="title">会员专享券</div>
-                                <div class="desc">
-                                    <p>限会员可领的优惠券，丰富会<br />员权益，凸显会员身份价值</p>
-                                </div>
-                            </div>
-                            <DialogForm
-                                isDrawer
-                                @okCallback="loadFilter"
-                                title="添加会员专享券"
-                                width="850px"
-                                path="promotion/coupon/Info"
-                                :params="{ act: 'add', isNewUser: 2 }"
-                            >
-                                <el-button type="primary">立即新建</el-button>
-                            </DialogForm>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -1,1 +1,0 @@
-import{a0 as t}from"./index-BEWhCL1q.js";const o=()=>t({url:"merchant/shopAccount/index",method:"get"}),r=()=>t({url:"merchant/shopAccount/logList",method:"get"}),n=()=>t({url:"merchant/shopAccount/applyShopAgreement",method:"get"}),c=()=>t({url:"merchant/shop/staffShow",method:"get"});export{r as a,c as b,n as c,o as g};

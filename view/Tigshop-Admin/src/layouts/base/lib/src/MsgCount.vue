@@ -18,14 +18,6 @@
                 </a>
             </DialogForm>
         </div>
-        <div class="top-bar-item top-admin_msg" v-if="isMerchant() || isPro()" :class="themeInfo.layout">
-            <router-link :to="{ path: '/im/index' }" target="_blank">
-                <p class="top-bar-btn" :class="themeInfo.navTheme">
-                    <i class="iconfont-admin icon-xiaoxi"></i><span v-if="themeInfo.layout !== 'topMenu'">客服</span
-                    ><em class="admin_msg-count" v-if="message?.imMsgCount > 0">{{ message.imMsgCount }}</em>
-                </p>
-            </router-link>
-        </div>
         <div class="top-bar-item" :class="themeInfo.layout">
             <a class="top-bar-btn" :class="themeInfo.navTheme" :href="urlFormat('/')" target="_blank"
                 ><i class="iconfont icon-guanli"></i><span v-if="themeInfo.layout !== 'topMenu'">查看店铺</span></a
@@ -58,10 +50,6 @@
                 <template #overlay>
                     <div class="dropdown-memu top-bar-memu">
                         <div class="entrance-list">
-                            <p class="entrance lyecs-openPage" v-if="isMerchant()" @click="switchShop">
-                                <i class="iconfont-tig icon-shanghu"></i>
-                                <span>切换组织</span>
-                            </p>
                             <router-link :to="{ path: adminType == 'shop' || adminType == 'vendor' ? '/setting/account-editing/index' : '/authority/account-editing/index' }">
                                 <p class="entrance lyecs-openPage">
                                     <!-- <i class="iconfont icon-gerenshezhi"></i> -->
@@ -99,7 +87,6 @@ import { getAdminMsgCount } from "@/api/common/common";
 import { DialogForm } from "@/components/dialog";
 import { useConfigStore } from "@/store/config";
 import { useMenusStore } from "@/store/menu";
-import { isMerchant, isPro } from "@/utils/version";
 import { useThemeStore } from "@/store/theme";
 import { useUserStore } from "@/store/user";
 import { urlFormat, imageFormat } from "@/utils/format";

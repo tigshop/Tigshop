@@ -14,21 +14,6 @@
                     <div class="extra">后台系统整体风格切换，点击可切换浅色风格或深色风格。(点击保存后生效)</div>
                 </div>
             </el-form-item>
-            <el-form-item label="主题色">
-                <div>
-                    <div class="flex color-row-wrap">
-                        <div class="color-row" v-for="color in colorList" :style="{ backgroundColor: color.color }"
-                             @click="changeColor(color)">
-                            <template v-if="color.type == formState.primaryColor">
-                                <el-icon>
-                                    <Check />
-                                </el-icon>
-                            </template>
-                        </div>
-                    </div>
-                    <div class="extra">后台系统主题色切换，点击可直接切换主题色。(点击保存后生效)</div>
-                </div>
-            </el-form-item>
             <el-form-item label="导航模式">
                 <div>
                     <div class="flex">
@@ -156,10 +141,6 @@ const navTheme = [
         label: "浅色风格",
         value: "light"
     },
-    {
-        label: "深色风格",
-        value: "dark"
-    }
     // {
     //     label: "暗黑风格",
     //     value: "realDark"
@@ -169,10 +150,6 @@ const layout = [
     {
         label: "侧边菜单布局",
         value: "default"
-    },
-    {
-        label: "顶部菜单布局",
-        value: "topMenu"
     }
 ];
 const colorList = [

@@ -10,23 +10,18 @@
                                 <el-radio :value="1">物流配送</el-radio>
                                 <el-radio :value="2">商家配送</el-radio>
                                 <el-radio :value="3">无需配送</el-radio>
-                                <el-radio :value="4">电子面单</el-radio>
                             </el-radio-group>
-                            <div class="extra" v-if="formState.shippingMethod == 4">此功能需要配置快递相关接口，请前往 设置->配送管理->配送设置 进行配置</div>
                         </div>
                     </el-form-item>
-                    <div v-show="formState.shippingMethod === 1 || formState.shippingMethod === 4">
+                    <div v-show="formState.shippingMethod === 1">
                         <!-- <el-form-item label="配送类型" prop="shippingTypeId">
                             <ShippingType v-model:id="formState.shippingTypeId" @change="onChangeShippingType"></ShippingType>
                         </el-form-item> -->
-                        <el-form-item label="物流公司" prop="logisticsId" :rules="[ { required: formState.shippingMethod == 4 ? true : false, message: '请选择物流公司' } ]">
+                        <el-form-item label="物流公司" prop="logisticsId" :rules="[{ required: false, message: '请选择物流公司' }]">
                             <SelectLogisticsCompany v-model:logisticsId="formState.logisticsId"></SelectLogisticsCompany>
                         </el-form-item>
                         <el-form-item v-if="formState.shippingMethod === 1" label="快递单号" prop="trackingNo">
                             <TigInput width="100%" v-model="formState.trackingNo" />
-                        </el-form-item>
-                        <el-form-item v-if="formState.shippingMethod === 4" label="发货备注" prop="billRemark">
-                            <TigInput width="100%" v-model="formState.billRemark" type="textarea" :rows="3" />
                         </el-form-item>
                     </div>
                     <el-table :data="formState.items" style="width: 100%" @selection-change="handleSelectionChange">

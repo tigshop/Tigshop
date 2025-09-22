@@ -39,7 +39,6 @@
 import { ref, defineAsyncComponent, onMounted, shallowRef } from "vue";
 import draggable from "vuedraggable";
 import { cloneDeep } from "lodash";
-import { isOverseas } from "@/utils/version";
 const props = defineProps({
     modules: {
         type: Object,
@@ -50,7 +49,6 @@ const emit = defineEmits(["item-added"]);
 const modules = ref(props.modules);
 const toolList = ref([
     { type: "pcBanner", url: "pc", label: "轮播Banner", content: "", module: {}, isShow: true },
-    { type: "pcBanner2", url: "pc", label: "轮播Banner2", content: "", module: {}, isShow: isOverseas() ? true : false },
     { type: "pcGroupBanner", url: "pc", label: "分组轮播Banner", content: "", module: {}, isShow: true },
     { type: "pcSeckill", url: "pc", label: "秒杀模块", content: "", module: {}, isShow: true },
     { type: "pcCoupon", url: "pc", label: "优惠券模块", content: "", module: {}, isShow: true },

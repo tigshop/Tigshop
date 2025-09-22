@@ -106,15 +106,6 @@ export const getDefaultLang = (code: string) => {
     });
 };
 
-// 翻译
-export const getTranslate = (data: object) => {
-    return request<any>({
-        url: "common/translate/translate",
-        method: "post",
-        data
-    });
-};
-
 // 货币列表
 export const getCurrencyList = () => {
     return request<CurrencyResponse>({

@@ -1,7 +1,7 @@
 <template>
     <view v-for="(item, index) in cartList" :key="index" class="store-card">
         <view class="store-card-item">
-            <view class="store-card-item-title" @click="handleLink(`/pages/shop/index?shopId=`, item.shopId)">
+            <view class="store-card-item-title">
                 <view v-if="item.shopId === 0" class="store-card-item-label">{{ $t("自营") }}</view>
                 <view class="store-card-item-name">{{ item.shopId === 0 ? $t("自营") : item.shopTitle }}</view>
             </view>
@@ -179,7 +179,7 @@
 
             <tig-fixed-placeholder background-color="#fff">
                 <view class="attribute-btn">
-                    <view class="desc">{{ isOverseas() ? $t(`已选择{0}种`, checkedAttrs.length) : `已选择${checkedAttrs.length}种` }}</view>
+                    <view class="desc">{{ `已选择${checkedAttrs.length}种` }}</view>
                     <view class="">
                         <tig-button style="width: 400rpx; height: 80rpx" @click="handleAttribute"> {{ $t("确定") }}</tig-button>
                     </view>
@@ -193,7 +193,6 @@
 import { computed, ref } from "vue";
 import type { CartList, ShippingTypeItem } from "@/types/order/check";
 import activityCard from "@/components/masonry/activityCard.vue";
-import { isOverseas } from "@/utils";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
