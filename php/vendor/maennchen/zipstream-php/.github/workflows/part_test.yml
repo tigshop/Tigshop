@@ -17,31 +17,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.1", "8.2", "8.3"]
+        php: ["8.2", "8.3", "8.4"]
         os: [ubuntu-latest]
         experimental: [false]
         include:
           - php: nightly
             os: ubuntu-latest
             experimental: true
-          - php: "8.3"
+          - php: "8.4"
             os: windows-latest
             experimental: false
-          - php: "8.3"
+          - php: "8.4"
             os: macos-latest
             experimental: false
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           egress-policy: audit
 
       - name: Checkout Code
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: SetUp PHP
         id: setup-php
-        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # v2
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 # v2
         with:
           php-version: "${{ matrix.php }}"
           tools: phpunit
@@ -56,7 +56,7 @@ jobs:
         if: "${{ runner.os == 'Windows' }}"
         run: echo "dir=$(composer config cache-files-dir)" >> $env:GITHUB_OUTPUT
       - name: Cache Deps
-        uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4.1.1
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         id: cache
         with:
           path: ${{ steps.composer-cache-common.outputs.dir }}${{ steps.composer-cache-windows.outputs.dir }}
@@ -73,9 +73,7 @@ jobs:
         if: matrix.php == 'nightly'
         run: composer install --prefer-dist --ignore-platform-req=php+
       - name: Run PHPUnit
-        run: composer run test:unit
-        env:
-          XDEBUG_MODE: coverage
+        run: composer run test:unit:cov
       - name: Upload coverage results to Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -91,12 +89,12 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           egress-policy: audit
 
       - name: Coveralls Finished
-        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63 # v2.3.0
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
         with:
           github-token: ${{ secrets.github_token }}
           parallel-finished: true
@@ -111,22 +109,22 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           egress-policy: audit
 
       - name: Checkout Code
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: SetUp PHP
         id: setup-php
-        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # v2
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 # v2
         with:
           php-version: "8.3"
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache Deps
-        uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4.1.1
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         id: cache
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -141,7 +139,7 @@ jobs:
       - name: Run Psalm
         run: composer run test:lint -- --report=results.sarif
       - name: "Upload SARIF"
-        uses: github/codeql-action/upload-sarif@c36620d31ac7c881962c3d9dd939c40ec9434f2b # v3
+        uses: github/codeql-action/upload-sarif@f6091c0113d1dcf9b98e269ee48e8a7e51b7bdd4 # v3
         with:
           sarif_file: results.sarif
 
@@ -152,22 +150,22 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           egress-policy: audit
 
       - name: Checkout Code
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: SetUp PHP
         id: setup-php
-        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # v2
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 # v2
         with:
           php-version: "8.3"
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache Deps
-        uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4.1.1
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         id: cache
         with:
           path: ${{ steps.composer-cache.outputs.dir }}

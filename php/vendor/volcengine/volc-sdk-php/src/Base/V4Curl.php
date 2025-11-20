@@ -12,7 +12,8 @@ use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\RequestInterface;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Response;
 use Throwable;
 
 abstract class V4Curl extends Singleton
@@ -147,8 +148,21 @@ abstract class V4Curl extends Singleton
         try {
             $response = $this->client->request($method, $info['url'], $info['config']);
             return $response;
-        } catch (ClientException $exception) {
+        } catch (RequestException $exception) {
             return $exception->getResponse();
+        } catch (Exception $exception) {
+            return new Response(
+                500,
+                ['Content-Type' => 'application/json'],
+                json_encode([
+                    'ResponseMetadata' => [
+                        'Error' => [
+                            'Code' => 'InternalError',
+                            'Message' => $exception->getMessage()
+                        ]
+                    ]
+                ], JSON_UNESCAPED_UNICODE)
+            );
         }
     }
 
@@ -217,6 +231,7 @@ abstract class V4Curl extends Singleton
             "Resource" => $resources,
         ];
     }
+
     protected function configMerge($c1, $c2, $c3)
     {
         $result = $c1;

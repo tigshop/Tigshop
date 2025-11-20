@@ -1,6 +1,6 @@
 {
 	"name": "nette/php-generator",
-	"description": "🐘 Nette PHP Generator: generates neat PHP code for you. Supports new PHP 8.3 features.",
+	"description": "🐘 Nette PHP Generator: generates neat PHP code for you. Supports new PHP 8.4 features.",
 	"keywords": ["nette", "php", "code", "scaffolding"],
 	"homepage": "https://nette.org",
 	"license": ["BSD-3-Clause", "GPL-2.0-only", "GPL-3.0-only"],

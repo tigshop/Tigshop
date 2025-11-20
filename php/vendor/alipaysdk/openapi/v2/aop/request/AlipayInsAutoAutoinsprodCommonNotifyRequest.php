@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ins.auto.autoinsprod.common.notify request
  *
  * @author auto create
- * @since 1.0, 2023-08-23 20:07:38
+ * @since 1.0, 2025-08-13 14:47:45
  */
 class AlipayInsAutoAutoinsprodCommonNotifyRequest
 {

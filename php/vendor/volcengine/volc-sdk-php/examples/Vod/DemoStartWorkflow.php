@@ -23,6 +23,7 @@ $request->setCallbackArgs("your CallbackArgs");
 $request->setEnableLowPriority(false);
 $request->setDirectUrl(new Volc\Service\Vod\Models\Business\DirectUrl());
 $request->setTaskListId("your TaskListId");
+$request->setClientToken("your ClientToken");
 
 
 $response = new Volc\Service\Vod\Models\Response\VodStartWorkflowResponse();

@@ -3,7 +3,7 @@
  * ALIPAY API: datadigital.fincloud.generalsaas.ocr.server.detect request
  *
  * @author auto create
- * @since 1.0, 2024-01-16 19:57:02
+ * @since 1.0, 2025-08-26 10:42:35
  */
 class DatadigitalFincloudGeneralsaasOcrServerDetectRequest
 {

@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Swoole\Coroutine;
 
+/**
+ * @not-serializable Objects of this class cannot be serialized.
+ * @alias This class has an alias of "\Co\Client" when directive "swoole.use_shortname" is not explicitly turned off.
+ * @see \Co\Client
+ */
 class Client
 {
     public const MSG_OOB = 1;
@@ -26,141 +31,90 @@ class Client
 
     public $connected = false;
 
-    private $socket;
+    /**
+     * The socket object of the client.
+     *
+     * This is a private property before Swoole 5.0.2.
+     */
+    public ?Socket $socket;
 
-    public function __construct($type)
+    public function __construct(int $type)
     {
     }
 
-    public function __destruct()
+    public function set(array $settings): bool
+    {
+    }
+
+    public function connect(string $host, int $port = 0, float $timeout = 0, int $sock_flag = 0): bool
+    {
+    }
+
+    public function recv(float $timeout = 0): string|false
+    {
+    }
+
+    public function peek(int $length = 65535): string|false
+    {
+    }
+
+    public function send(string $data, float $timeout = 0): int|false
+    {
+    }
+
+    public function sendfile(string $filename, int $offset = 0, int $length = 0): bool
+    {
+    }
+
+    public function sendto(string $address, int $port, string $data): bool
+    {
+    }
+
+    public function recvfrom(int $length, mixed &$address, mixed &$port = 0): string|false
     {
     }
 
     /**
-     * @return mixed
+     * This method is available only when OpenSSL support is enabled (i.e., when Swoole is installed with configuration
+     * option "--enable-openssl" included).
      */
-    public function set(array $settings)
+    public function enableSSL(): bool
     {
     }
 
     /**
-     * @param mixed $host
-     * @param mixed|null $port
-     * @param mixed|null $timeout
-     * @param mixed|null $sock_flag
-     * @return mixed
+     * This method is available only when OpenSSL support is enabled (i.e., when Swoole is installed with configuration
+     * option "--enable-openssl" included).
      */
-    public function connect($host, $port = null, $timeout = null, $sock_flag = null)
+    public function getPeerCert(): string|false
     {
     }
 
     /**
-     * @param mixed|null $timeout
-     * @return mixed
+     * This method is available only when OpenSSL support is enabled (i.e., when Swoole is installed with configuration
+     * option "--enable-openssl" included).
      */
-    public function recv($timeout = null)
+    public function verifyPeerCert(bool $allow_self_signed = false): bool
     {
     }
 
-    /**
-     * @param mixed|null $length
-     * @return mixed
-     */
-    public function peek($length = null)
+    public function isConnected(): bool
     {
     }
 
-    /**
-     * @param mixed $data
-     * @return mixed
-     */
-    public function send($data)
+    public function getsockname(): array|false
     {
     }
 
-    /**
-     * @param mixed $filename
-     * @param mixed|null $offset
-     * @param mixed|null $length
-     * @return mixed
-     */
-    public function sendfile($filename, $offset = null, $length = null)
+    public function getpeername(): array|false
     {
     }
 
-    /**
-     * @param mixed $address
-     * @param mixed $port
-     * @param mixed $data
-     * @return mixed
-     */
-    public function sendto($address, $port, $data)
+    public function close(): bool
     {
     }
 
-    /**
-     * @param mixed $length
-     * @param mixed $address
-     * @param mixed|null $port
-     * @return mixed
-     */
-    public function recvfrom($length, &$address, &$port = null)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function enableSSL()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPeerCert()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function verifyPeerCert()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function isConnected()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getsockname()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getpeername()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function close()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function exportSocket()
+    public function exportSocket(): Socket|false
     {
     }
 }

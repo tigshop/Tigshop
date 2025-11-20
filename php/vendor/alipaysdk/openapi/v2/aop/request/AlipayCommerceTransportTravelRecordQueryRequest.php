@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.transport.travel.record.query request
  *
  * @author auto create
- * @since 1.0, 2024-05-08 17:37:59
+ * @since 1.0, 2024-10-25 11:03:51
  */
 class AlipayCommerceTransportTravelRecordQueryRequest
 {

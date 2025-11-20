@@ -22,8 +22,15 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  */
 class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {
-    private \SessionHandlerInterface&\SessionUpdateTimestampHandlerInterface $currentHandler;
-    private \SessionHandlerInterface&\SessionUpdateTimestampHandlerInterface $writeOnlyHandler;
+    /**
+     * @var \SessionHandlerInterface&\SessionUpdateTimestampHandlerInterface
+     */
+    private \SessionHandlerInterface $currentHandler;
+
+    /**
+     * @var \SessionHandlerInterface&\SessionUpdateTimestampHandlerInterface
+     */
+    private \SessionHandlerInterface $writeOnlyHandler;
 
     public function __construct(\SessionHandlerInterface $currentHandler, \SessionHandlerInterface $writeOnlyHandler)
     {
@@ -46,7 +53,7 @@ class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdat
         return $result;
     }
 
-    public function destroy(#[\SensitiveParameter] string $sessionId): bool
+    public function destroy(string $sessionId): bool
     {
         $result = $this->currentHandler->destroy($sessionId);
         $this->writeOnlyHandler->destroy($sessionId);
@@ -70,13 +77,13 @@ class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdat
         return $result;
     }
 
-    public function read(#[\SensitiveParameter] string $sessionId): string
+    public function read(string $sessionId): string
     {
         // No reading from new handler until switch-over
         return $this->currentHandler->read($sessionId);
     }
 
-    public function write(#[\SensitiveParameter] string $sessionId, string $sessionData): bool
+    public function write(string $sessionId, string $sessionData): bool
     {
         $result = $this->currentHandler->write($sessionId, $sessionData);
         $this->writeOnlyHandler->write($sessionId, $sessionData);
@@ -84,13 +91,13 @@ class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdat
         return $result;
     }
 
-    public function validateId(#[\SensitiveParameter] string $sessionId): bool
+    public function validateId(string $sessionId): bool
     {
         // No reading from new handler until switch-over
         return $this->currentHandler->validateId($sessionId);
     }
 
-    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $sessionData): bool
+    public function updateTimestamp(string $sessionId, string $sessionData): bool
     {
         $result = $this->currentHandler->updateTimestamp($sessionId, $sessionData);
         $this->writeOnlyHandler->updateTimestamp($sessionId, $sessionData);

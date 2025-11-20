@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace think\model\concern;
 
+use ReflectionClass;
 use think\db\exception\ModelEventException;
 use think\helper\Str;
 
@@ -34,6 +35,13 @@ trait ModelEvent
      * @var bool
      */
     protected $withEvent = true;
+
+    /**
+     * 事件观察者.
+     *
+     * @var string
+     */
+    protected $eventObserver;
 
     /**
      * 设置Event对象
@@ -77,10 +85,17 @@ trait ModelEvent
         $call = 'on' . Str::studly($event);
 
         try {
-            if (method_exists(static::class, $call)) {
-                $result = call_user_func([static::class, $call], $this);
+            if ($this->eventObserver) {
+                $reflect  = new ReflectionClass($this->eventObserver);
+                $observer = $reflect->newinstance();
+            } else {
+                $observer = static::class;
+            }
+
+            if (method_exists($observer, $call)) {
+                $result = $this->invoke([$observer, $call], [$this]);
             } elseif (is_object(self::$event) && method_exists(self::$event, 'trigger')) {
-                $result = self::$event->trigger('model.' . static::class . '.' . $event, $this);
+                $result = self::$event->trigger(static::class . '.' . $event, $this);
                 $result = empty($result) ? true : end($result);
             } else {
                 $result = true;

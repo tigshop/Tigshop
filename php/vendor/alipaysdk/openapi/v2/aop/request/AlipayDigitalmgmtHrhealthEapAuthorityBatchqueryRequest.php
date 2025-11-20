@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.digitalmgmt.hrhealth.eap.authority.batchquery request
  *
  * @author auto create
- * @since 1.0, 2024-04-12 14:26:59
+ * @since 1.0, 2025-08-26 12:31:48
  */
 class AlipayDigitalmgmtHrhealthEapAuthorityBatchqueryRequest
 {

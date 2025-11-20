@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.yuntask.resume request
  *
  * @author auto create
- * @since 1.0, 2023-08-23 20:46:48
+ * @since 1.0, 2024-12-17 17:26:01
  */
 class AlipayCommerceYuntaskResumeRequest
 {

@@ -6,227 +6,196 @@ namespace Swoole\Coroutine;
 
 use Swoole\Client;
 
+/**
+ * A coroutine-friendly socket class used to represent a socket connection.
+ *
+ * When runtime hook flag SWOOLE_HOOK_SOCKETS is enabled, this class is used to represent a \Socket object (i.e., it's a
+ * child class of built-in PHP class \Socket).
+ *
+ * @not-serializable Objects of this class cannot be serialized.
+ * @alias This class has an alias of "\Co\Socket" when directive "swoole.use_shortname" is not explicitly turned off.
+ * @see \Co\Socket
+ * @see \Socket
+ */
 class Socket
 {
-    public $fd = -1;
+    public int $fd = -1;
 
-    public $domain = 0;
+    public int $domain = 0;
 
-    public $type = 0;
+    public int $type = 0;
 
-    public $protocol = 0;
+    public int $protocol = 0;
 
-    public $errCode = 0;
+    public int $errCode = 0;
 
-    public $errMsg = '';
-
-    public function __construct($domain, $type, $protocol = null)
-    {
-    }
+    public string $errMsg = '';
 
     /**
-     * @param mixed $address
-     * @param mixed|null $port
-     * @return mixed
+     * @since 5.1.0
      */
-    public function bind($address, $port = null)
-    {
-    }
+    public $__ext_sockets_nonblock = false;
 
     /**
-     * @param mixed|null $backlog
-     * @return mixed
+     * @since 5.1.0
      */
-    public function listen($backlog = null)
+    public $__ext_sockets_timeout = 0;
+
+    public function __construct(int $domain, int $type, int $protocol = 0)
+    {
+    }
+
+    public function bind(string $address, int $port = 0): bool
+    {
+    }
+
+    public function listen(int $backlog = 512): bool
+    {
+    }
+
+    public function accept(float $timeout = 0): Socket|false
+    {
+    }
+
+    public function connect(string $host, int $port = 0, float $timeout = 0): bool
     {
     }
 
     /**
-     * @param mixed|null $timeout
-     * @return mixed
+     * Check liveness of the socket.
+     *
+     * @return bool Returns true if the socket is still alive, false otherwise.
+     * @since 4.5.0
      */
-    public function accept($timeout = null)
+    public function checkLiveness(): bool
     {
     }
 
     /**
-     * @param mixed $host
-     * @param mixed|null $port
-     * @param mixed|null $timeout
-     * @return mixed
+     * Get the coroutine ID that the socket is bound to of the specified event type.
+     *
+     * @param int $event Type of the event that the socket is performing inside the coroutine. It can be one of the following values:
+     *                   - SWOOLE_EVENT_READ
+     *                   - SWOOLE_EVENT_WRITE
+     *                   - SWOOLE_EVENT_READ | SWOOLE_EVENT_WRITE.
+     * @return int Returns the coroutine ID that the socket is bound to of the specified event type. Returns 0 if no matching coroutine is found.
+     * @since 5.0.2
      */
-    public function connect($host, $port = null, $timeout = null)
+    public function getBoundCid(int $event): int
     {
     }
 
     /**
-     * @return mixed
+     * @since 4.5.0
      */
-    public function checkLiveness()
+    public function peek(int $length = 65536): string|false
     {
     }
 
     /**
-     * @param mixed|null $length
-     * @return mixed
+     * @see \Swoole\Coroutine\Socket::recvAll()
+     * @see \Swoole\Coroutine\Socket::recvLine()
+     * @see \Swoole\Coroutine\Socket::recvWithBuffer()
      */
-    public function peek($length = null)
+    public function recv(int $length = 65536, float $timeout = 0): string|false
     {
     }
 
     /**
-     * @param mixed|null $length
-     * @param mixed|null $timeout
-     * @return mixed
+     * @see \Swoole\Coroutine\Socket::recv()
+     * @see \Swoole\Coroutine\Socket::recvLine()
+     * @see \Swoole\Coroutine\Socket::recvWithBuffer()
      */
-    public function recv($length = null, $timeout = null)
+    public function recvAll(int $length = 65536, float $timeout = 0): string|false
     {
     }
 
     /**
-     * @param mixed|null $length
-     * @param mixed|null $timeout
-     * @return mixed
+     * @see \Swoole\Coroutine\Socket::recv()
+     * @see \Swoole\Coroutine\Socket::recvAll()
+     * @see \Swoole\Coroutine\Socket::recvWithBuffer()
      */
-    public function recvAll($length = null, $timeout = null)
+    public function recvLine(int $length = 65536, float $timeout = 0): string|false
     {
     }
 
     /**
-     * @param mixed|null $length
-     * @param mixed|null $timeout
-     * @return mixed
+     * @see \Swoole\Coroutine\Socket::recv()
+     * @see \Swoole\Coroutine\Socket::recvAll()
+     * @see \Swoole\Coroutine\Socket::recvLine()
      */
-    public function recvLine($length = null, $timeout = null)
+    public function recvWithBuffer(int $length = 65536, float $timeout = 0): string|false
     {
     }
 
     /**
-     * @param mixed|null $length
-     * @param mixed|null $timeout
-     * @return mixed
+     * @since 4.4.0
      */
-    public function recvWithBuffer($length = null, $timeout = null)
+    public function recvPacket(float $timeout = 0): string|false
+    {
+    }
+
+    public function send(string $data, float $timeout = 0): int|false
+    {
+    }
+
+    public function readVector(array $io_vector, float $timeout = 0): array|false
+    {
+    }
+
+    public function readVectorAll(array $io_vector, float $timeout = 0): array|false
+    {
+    }
+
+    public function writeVector(array $io_vector, float $timeout = 0): int|false
+    {
+    }
+
+    public function writeVectorAll(array $io_vector, float $timeout = 0): int|false
     {
     }
 
     /**
-     * @param mixed|null $timeout
-     * @return mixed
+     * @since 4.4.0
      */
-    public function recvPacket($timeout = null)
+    public function sendFile(string $file, int $offset = 0, int $length = 0): bool
+    {
+    }
+
+    public function sendAll(string $data, float $timeout = 0): int|false
+    {
+    }
+
+    public function recvfrom(mixed &$peername, float $timeout = 0): string|false
+    {
+    }
+
+    public function sendto(string $addr, int $port, string $data): int|false
+    {
+    }
+
+    public function getOption(int $level, int $opt_name): mixed
     {
     }
 
     /**
-     * @param mixed $data
-     * @param mixed|null $timeout
-     * @return mixed
-     */
-    public function send($data, $timeout = null)
-    {
-    }
-
-    /**
-     * @param mixed $io_vector
-     * @param mixed|null $timeout
-     * @return mixed
-     */
-    public function readVector($io_vector, $timeout = null)
-    {
-    }
-
-    /**
-     * @param mixed $io_vector
-     * @param mixed|null $timeout
-     * @return mixed
-     */
-    public function readVectorAll($io_vector, $timeout = null)
-    {
-    }
-
-    /**
-     * @param mixed $io_vector
-     * @param mixed|null $timeout
-     * @return mixed
-     */
-    public function writeVector($io_vector, $timeout = null)
-    {
-    }
-
-    /**
-     * @param mixed $io_vector
-     * @param mixed|null $timeout
-     * @return mixed
-     */
-    public function writeVectorAll($io_vector, $timeout = null)
-    {
-    }
-
-    /**
-     * @param mixed $filename
-     * @param mixed|null $offset
-     * @param mixed|null $length
-     * @return mixed
-     */
-    public function sendFile($filename, $offset = null, $length = null)
-    {
-    }
-
-    /**
-     * @param mixed $data
-     * @param mixed|null $timeout
-     * @return mixed
-     */
-    public function sendAll($data, $timeout = null)
-    {
-    }
-
-    /**
-     * @param mixed $peername
-     * @param mixed|null $timeout
-     * @return mixed
-     */
-    public function recvfrom(&$peername, $timeout = null)
-    {
-    }
-
-    /**
-     * @param mixed $addr
-     * @param mixed $port
-     * @param mixed $data
-     * @return mixed
-     */
-    public function sendto($addr, $port, $data)
-    {
-    }
-
-    /**
-     * @param mixed $level
-     * @param mixed $opt_name
-     * @return mixed
-     */
-    public function getOption($level, $opt_name)
-    {
-    }
-
-    /**
-     * @return bool Returns TRUE if succeed; otherwise FALSE.
+     * @return bool Returns TRUE if succeeds; otherwise FALSE.
+     * @since 4.4.0
      */
     public function setProtocol(array $settings): bool
     {
     }
 
-    /**
-     * @param mixed $level
-     * @param mixed $opt_name
-     * @param mixed $opt_value
-     * @return mixed
-     */
-    public function setOption($level, $opt_name, $opt_value)
+    public function setOption(int $level, int $opt_name, mixed $opt_value): bool
     {
     }
 
+    /**
+     * This method is available only when OpenSSL support is enabled (i.e., when Swoole is installed with configuration
+     * option "--enable-openssl" included).
+     *
+     * @since 4.5.0
+     */
     public function sslHandshake(): bool
     {
     }
@@ -239,7 +208,8 @@ class Socket
     }
 
     /**
-     * @param int $event Must be constant SWOOLE_EVENT_READ or SWOOLE_EVENT_WRITE.
+     * @param int $event a SWOOLE_EVENT_READ or SWOOLE_EVENT_WRITE event.
+     * @since 4.4.0
      */
     public function cancel(int $event = SWOOLE_EVENT_READ): bool
     {
@@ -252,21 +222,32 @@ class Socket
     /**
      * @return array|false If succeeds, return an array with two fields in it: "address" and "port"; otherwise, return FALSE.
      */
-    public function getpeername()
+    public function getpeername(): array|false
     {
     }
 
     /**
      * @return array|false If succeeds, return an array with two fields in it: "address" and "port"; otherwise, return FALSE.
      */
-    public function getsockname()
+    public function getsockname(): array|false
     {
     }
 
     /**
+     * Check if the socket is closed.
+     *
+     * @return bool Returns true if the socket is closed, false otherwise.
      * @since 4.8.3
      */
     public function isClosed(): bool
+    {
+    }
+
+    /**
+     * @since 5.0.0
+     * @param mixed $stream
+     */
+    public static function import($stream): Socket|false
     {
     }
 }

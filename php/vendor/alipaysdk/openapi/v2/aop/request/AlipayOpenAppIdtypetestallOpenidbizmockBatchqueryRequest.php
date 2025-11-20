@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.app.idtypetestall.openidbizmock.batchquery request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:29:01
+ * @since 1.0, 2024-10-23 10:29:10
  */
 class AlipayOpenAppIdtypetestallOpenidbizmockBatchqueryRequest
 {

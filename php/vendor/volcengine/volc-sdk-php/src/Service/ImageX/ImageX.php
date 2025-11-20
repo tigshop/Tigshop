@@ -180,7 +180,7 @@ class ImageX extends V4Curl
         if ($isLargeFile) {
             $headers[] = ['X-Storage-Mode' => 'gateway'];
         }
-        $response = $httpClient->put($storeInfo["StoreUri"] . '?uploads', ['headers' => $headers]);
+        $response = $httpClient->put(ImageXUtil::escapePath($storeInfo["StoreUri"]) . '?uploads', ['headers' => $headers]);
         $initUploadResponse = json_decode((string)$response->getBody(), true);
         if (!isset($initUploadResponse["success"]) || $initUploadResponse["success"] != 0) {
             return "";
@@ -190,7 +190,7 @@ class ImageX extends V4Curl
 
     private function uploadPart(array $storeInfo, string $uploadID, int $partNumber, $data, bool $isLargeFile, Client $client): string
     {
-        $uri = sprintf("%s?partNumber=%d&uploadID=%s", $storeInfo["StoreUri"], $partNumber, $uploadID);
+        $uri = sprintf("%s?partNumber=%d&uploadID=%s", ImageXUtil::escapePath($storeInfo["StoreUri"]), $partNumber, $uploadID);
         $crc32 = sprintf("%08x", crc32($data));
         $headers = ['Authorization' => ['Authorization' => $storeInfo["Auth"]], 'Content-CRC32' => $crc32];
         if ($isLargeFile) {
@@ -206,7 +206,7 @@ class ImageX extends V4Curl
 
     private function uploadMergePart(array $storeInfo, string $uploadID, array $checkSum, bool $isLargeFile, Client $client): int
     {
-        $uri = sprintf("%s?uploadID=%s", $storeInfo["StoreUri"], $uploadID);
+        $uri = sprintf("%s?uploadID=%s", ImageXUtil::escapePath($storeInfo["StoreUri"]), $uploadID);
         $m = [];
         for ($i = 0; $i < count($checkSum); $i++) {
             $no = $i;
@@ -235,7 +235,7 @@ class ImageX extends V4Curl
             'base_uri' => "https://" . $uploadHost,
             'timeout' => 30.0,
         ]);
-        $response = $tosClient->request('PUT', $storeInfo["StoreUri"], ["body" => $content, "headers" => ['Authorization' => $storeInfo["Auth"], 'Content-CRC32' => $crc32]]);
+        $response = $tosClient->request('PUT', ImageXUtil::escapePath($storeInfo["StoreUri"]), ["body" => $content, "headers" => ['Authorization' => $storeInfo["Auth"], 'Content-CRC32' => $crc32]]);
         $uploadResponse = json_decode((string)$response->getBody(), true);
         if (!isset($uploadResponse["success"]) || $uploadResponse["success"] != 0) {
             return -2;

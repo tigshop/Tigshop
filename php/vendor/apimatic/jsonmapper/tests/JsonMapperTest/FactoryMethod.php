@@ -83,8 +83,24 @@ class FactoryMethod
         return 'value is ' . $value;
     }
 
+    public static function createFromBoolStrict($value)
+    {
+        if (!is_bool($value)) {
+            throw new InvalidArgumentException('Only boolean types are allowed');
+        }
+        return 'value is ' . $value;
+    }
+
     public static function createFromInt($value)
     {
+        return $value === 1;
+    }
+
+    public static function createFromIntStrict($value)
+    {
+        if (!is_numeric($value)) {
+            throw new InvalidArgumentException('Only integer types are allowed');
+        }
         return $value === 1;
     }
 

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.isponetest.wzwtest.wzwtest.preview request
  *
  * @author auto create
- * @since 1.0, 2024-07-03 15:42:30
+ * @since 1.0, 2025-08-13 14:27:44
  */
 class AlipayIsponetestWzwtestWzwtestPreviewRequest
 {

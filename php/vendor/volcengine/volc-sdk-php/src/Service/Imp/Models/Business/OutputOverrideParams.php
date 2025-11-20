@@ -61,11 +61,21 @@ class OutputOverrideParams extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.OutputPath OutputPath = 2;</code>
-     * @return \Volc\Service\Imp\Models\Business\OutputPath
+     * @return \Volc\Service\Imp\Models\Business\OutputPath|null
      */
     public function getOutputPath()
     {
         return $this->OutputPath;
+    }
+
+    public function hasOutputPath()
+    {
+        return isset($this->OutputPath);
+    }
+
+    public function clearOutputPath()
+    {
+        unset($this->OutputPath);
     }
 
     /**

@@ -11,39 +11,30 @@ declare(strict_types=1);
 
 namespace Swoole\Database;
 
-use mysqli;
-use mysqli_stmt;
-
 class MysqliStatementProxy extends ObjectProxy
 {
     public const IO_METHOD_REGEX = '/^close|execute|fetch|prepare$/i';
 
-    /** @var mysqli_stmt */
+    /** @var \mysqli_stmt */
     protected $__object;
 
-    /** @var null|string */
-    protected $queryString;
+    protected ?string $queryString;
 
-    /** @var null|array */
-    protected $attrSetContext;
+    protected array $attrSetContext = [];
 
-    /** @var null|array */
-    protected $bindParamContext;
+    protected array $bindParamContext;
 
-    /** @var null|array */
-    protected $bindResultContext;
+    protected array $bindResultContext;
 
-    /** @var Mysqli|MysqliProxy */
-    protected $parent;
+    protected MysqliProxy $parent;
 
-    /** @var int */
-    protected $parentRound;
+    protected int $parentRound;
 
-    public function __construct(mysqli_stmt $object, ?string $queryString, MysqliProxy $parent)
+    public function __construct(\mysqli_stmt $object, ?string $queryString, MysqliProxy $parent)
     {
         parent::__construct($object);
         $this->queryString = $queryString;
-        $this->parent = $parent;
+        $this->parent      = $parent;
         $this->parentRound = $parent->getRound();
     }
 
@@ -64,21 +55,19 @@ class MysqliStatementProxy extends ObjectProxy
                     /* if not equal, parent has reconnected */
                     $this->parent->reconnect();
                 }
-                $parent = $this->parent->__getObject();
+                $parent         = $this->parent->__getObject();
                 $this->__object = $this->queryString ? @$parent->prepare($this->queryString) : @$parent->stmt_init();
                 if ($this->__object === false) {
                     throw new MysqliException($parent->error, $parent->errno);
                 }
-                if ($this->bindParamContext) {
+                if (!empty($this->bindParamContext)) {
                     $this->__object->bind_param($this->bindParamContext[0], ...$this->bindParamContext[1]);
                 }
-                if ($this->bindResultContext) {
+                if (!empty($this->bindResultContext)) {
                     $this->__object->bind_result($this->bindResultContext);
                 }
-                if ($this->attrSetContext) {
-                    foreach ($this->attrSetContext as $attr => $value) {
-                        $this->__object->attr_set($attr, $value);
-                    }
+                foreach ($this->attrSetContext as $attr => $value) {
+                    $this->__object->attr_set($attr, $value);
                 }
                 continue;
             }

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.aiservice.cloudbus.metrood.query request
  *
  * @author auto create
- * @since 1.0, 2023-08-21 05:09:13
+ * @since 1.0, 2025-08-13 14:57:44
  */
 class AlipayDataAiserviceCloudbusMetroodQueryRequest
 {

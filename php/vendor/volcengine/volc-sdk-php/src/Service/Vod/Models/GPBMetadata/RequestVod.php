@@ -20,10 +20,12 @@ class RequestVod
         \Volc\Service\Vod\Models\GPBMetadata\VodMedia::initOnce();
         \Volc\Service\Vod\Models\GPBMetadata\VodCdn::initOnce();
         \Volc\Service\Vod\Models\GPBMetadata\VodMigrate::initOnce();
+        \Volc\Service\Vod\Models\GPBMetadata\VodSpace::initOnce();
+        \Volc\Service\Vod\Models\GPBMetadata\VodDrama::initOnce();
         $pool->internalAddGeneratedFile(
             '
- ô
-(volcengine/vod/request/request_vod.protoVolcengine.Vod.Models.Request*volcengine/vod/business/vod_workflow.proto(volcengine/vod/business/vod_upload.proto\'volcengine/vod/business/vod_media.proto%volcengine/vod/business/vod_cdn.proto)volcengine/vod/business/vod_migrate.proto"Ñ
+§Ø
+(volcengine/vod/request/request_vod.protoVolcengine.Vod.Models.Request*volcengine/vod/business/vod_workflow.proto(volcengine/vod/business/vod_upload.proto\'volcengine/vod/business/vod_media.proto%volcengine/vod/business/vod_cdn.proto)volcengine/vod/business/vod_migrate.proto\'volcengine/vod/business/vod_space.proto\'volcengine/vod/business/vod_drama.proto"Ñ
 VodGetAllPlayInfoRequest
 Vids (	
 Formats (	
@@ -45,7 +47,7 @@ NeedThumbs	 (	
 KeyFrameAlignmentVersion (	
 
 UserAction (	
-Quality (	"è
+Quality (	"‚
 VodGetPlayInfoRequest
 Vid (	
 Format (	
@@ -70,7 +72,11 @@ NeedThumbs	 (	
 PlayConfig (	
 NeedOriginal (	
 ForceExpire (	
-GetAll ("g
+GetAll (
+DigitalWatermarkType (	
+	UserToken (	
+DrmKEK (	
+JSPlayer (	"g
 VodGetPrivateDrmPlayAuthRequest
 DrmType (	
 Vid (	
@@ -80,7 +86,9 @@ PlayConfig (	
 DrmAuthToken (	
 
 Ak (	
-Source (	"ò
+Source (	"5
+ VodCreateHlsDecryptionKeyRequest
+	SpaceName (	"ò
 +VodGetPlayInfoWithLiveTimeShiftSceneRequest
 	StoreUris (	
 	SpaceName (	
@@ -227,7 +235,7 @@ ExpireTime (2.google.protobuf.StringValue"\'
 CallbackArgs (	"D
 VodDeleteMediaTosFileRequest
 	FileNames (	
-	SpaceName (	"˚
+	SpaceName (	"ä
 VodGetMediaListRequest
 	SpaceName (	
 Vid (	
@@ -241,7 +249,8 @@ ExpireTime (2.google.protobuf.StringValue"\'
 ClassificationIds
  (	
 TosStorageClasses (	
-VodUploadSources (	"Ê
+VodUploadSources (	
+Title (	"Ê
 VodGetSubtitleInfoListRequest
 Vid (	
 FileIds (	
@@ -335,9 +344,17 @@ BucketName (	
 	SpaceName (	J
 FileUpdateInfos (21.Volcengine.Vod.Models.Business.VodFileUpdateInfo
 
-BucketName (	"-
+BucketName (	"P
+VodGetInnerAuditURLsRequest
+	SpaceName (	
+Vid (	
+	FileNames (	"R
+VodGetAdAuditResultByVidRequest
+	SpaceName (	
+Vid (	
+FileIds (	"-
 VodExtractMediaMetaTaskRequest
-Vid (	"é
+Vid (	"£
 VodStartWorkflowRequest
 Vid (	
 
@@ -348,7 +365,8 @@ TemplateId (	=
 EnableLowPriority (<
 	DirectUrl (2).Volcengine.Vod.Models.Business.DirectUrl
 
-TaskListId (	"D
+TaskListId (	
+ClientToken	 (	"D
 !VodRetrieveTranscodeResultRequest
 Vid (	
 
@@ -521,7 +539,28 @@ OrderByKey (	
 !VodUpdateSpaceUploadConfigRequest
 	SpaceName (	
 	ConfigKey (	
-ConfigValue (	"ï
+ConfigValue (	"8
+#VodDescribeUploadSpaceConfigRequest
+	SpaceName (	"Ü
+!VodUpdateUploadSpaceConfigRequest
+	SpaceName (	
+
+AutoPoster (	N
+CustomPosterConfig (22.Volcengine.Vod.Models.Business.CustomPosterConfig
+GetPosterMode (	
+AutoPosterCandidate (	
+AutoTranscode (	H
+TranscodeConfig (2/.Volcengine.Vod.Models.Business.TranscodeConfig
+AutoSetVideoStatus (	
+UploadOverwrite	 (	
+CallbackReturnPlayUrl
+ (	
+CallbackReturnRunId (	
+GetMetaMode (	
+AutoGetArchiveVideoMeta (	
+AutoGetIAVideoMeta (	
+
+MetaGetMd5 (	"ï
 %VodDescribeVodSpaceStorageDataRequest
 	SpaceList (	
 	StartTime (	
@@ -587,12 +626,17 @@ DomainName (	
 StartTimestamp (
 EndTimestamp (
 PageNum (
-PageSize	 ("n
+PageSize	 ("¥
 VodListCdnAccessLogRequest
 Domains (	
 StartTimestamp (
 EndTimestamp (
-	SpaceName (	"p
+	SpaceName (	
+PageNum (H à
+PageSize (HàB
+
+_PageNumB
+	_PageSize"p
 VodListCdnTopAccessUrlRequest
 Domains (	
 StartTimestamp (
@@ -641,7 +685,7 @@ NeedDetail (
 
 NeedDetail ("\'
 VodDescribeIPInfoRequest
-Ips (	"ê
+Ips (	"¢
 VodListCdnPvDataRequest
 Domains (	
 Interval (	
@@ -649,7 +693,8 @@ NeedDetail ("\'
 EndTimestamp (
 DataType (	
 
-NeedDetail ("ì
+NeedDetail (
+Protocol (	"ì
 VodListCdnHitrateDataRequest
 Domains (	
 Interval (	
@@ -668,10 +713,11 @@ DomainList (	
 TrafficType (	
 Area (	
 
-RegionList (	"A
+RegionList (	"T
 VodSubmitBlockTasksRequest
 FileUrls (	
-	Operation (	"∂
+	Operation (	
+	SpaceName (	"∂
 VodGetContentBlockTasksRequest
 Url (	
 Domain (	
@@ -681,7 +727,7 @@ RegionList (	"A
 	StartTime (
 EndTime (
 PageNum (
-PageSize	 ("¡
+PageSize	 ("Ô
 VodCreateDomainV2Request
 	SpaceName (	
 
@@ -692,7 +738,18 @@ DomainType (	
 Origins (	
 Area (	
 
-BucketName	 (	"Å
+BucketName	 (	
+Host
+ (	
+PrivateBucketAccess (O
+PrivateBucketAuth (24.Volcengine.Vod.Models.Business.VodPrivateBucketAuth
+Region (	
+OriginProtocol (	
+HttpPort (	
+	HttpsPort (	
+Weight (	=
+Origin (2-.Volcengine.Vod.Models.Business.CdnOriginRule
+BusinessType (	"Å
 VodCreateDomainV3Request
 	SpaceName (	
 
@@ -726,7 +783,30 @@ DomainType (	
 Domain (	
 MainKey (	
 	BackupKey (	
-Status (	"L
+Status (	"‘
+VodDescribeCdnEdgeIpRequest
+	SpaceName (	
+
+DomainType (	
+Domain (	
+	IpVersion (	H à
+Isp (	Hà
+Region (	Hà
+Status (	HàB
+
+_IpVersionB
+_IspB	
+_RegionB	
+_Status"?
+!VodDescribeCdnRegionAndIspRequest
+Area (	H àB
+_Area"A
+VodVerifyDomainOwnerRequest
+Domain (	
+
+VerifyType (	"7
+%VodDescribeDomainVerifyContentRequest
+Domain (	"L
 VodListPCDNDomainRequest
 	SpaceName (	
 Offset (
@@ -776,7 +856,16 @@ DomainType (	
 Events (	
 AuthEnabled (	
 
-PrivateKey (	"Ù
+PrivateKey (	"´
+GetCallbackRecordRequest
+	SpaceName (	
+Vid (	
+Status (	
+	StartTime (
+EndTime (
+Limit (
+	EventType (	
+ContinuationToken (	"Ù
 &VodGetSmartStrategyLitePlayInfoRequest
 PlayUrl (	
 Format (	
@@ -908,7 +997,11 @@ RegionList (	"{
 	StartTime (	
 EndTime (	
 PageSize (
-PageNum ("A
+PageNum ("\\
+#DescribeVodVidTrafficFileLogRequest
+	SpaceList (	
+	StartTime (	
+EndTime (	"A
 VodSubmitBlockMediaTaskRequest
 	SpaceName (	
 Vids (	"C
@@ -919,7 +1012,11 @@ RegionList (	"{
 	SpaceName (	
 Vids (	"
 VodListProjectsRequest"!
-VodGetTradeConfigurationRequest"Æ
+VodGetTradeConfigurationRequest"4
+VodReportEventRequest
+
+Id (	
+Reports ("Æ
 VodSetCloudMigrateJobRequest
 JobId (S
 JobSourceInfo (2<.Volcengine.Vod.Models.Business.VodCloudMigrateJobSourceInfo
@@ -934,7 +1031,29 @@ RegionList (	"{
 	SpaceName (	"@
 VodGetCloudMigrateJobRequest
 JobId (
-	SpaceName (	B»
+	SpaceName (	"
+VodCreateDramaRecapTaskRequest
+	SpaceName (	
+Vids (	
+DramaScriptTaskId (	H à
+	RecapText (	[
+SpeakerConfig (2D.Volcengine.Vod.Models.Business.VodCreateDramaRecapTaskSpeakerConfig
+IsEraseSubtitle (HàU
+
+FontConfig (2A.Volcengine.Vod.Models.Business.VodCreateDramaRecapTaskFontconfigB
+_DramaScriptTaskIdB
+_IsEraseSubtitle"Ç
+VodCreateDramaScriptTaskRequest
+	SpaceName (	
+Vids (	#
+ReRunDramaScriptTaskId (	H àB
+_ReRunDramaScriptTaskId"B
+VodQueryDramaRecapTaskRequest
+	SpaceName (	
+TaskId (	"C
+VodQueryDramaScriptTaskRequest
+	SpaceName (	
+TaskId (	B»
 (com.volcengine.service.vod.model.requestB
 VodRequestPZ@github.com/volcengine/volc-sdk-golang/service/vod/models/request†ÿ Volc\\Service\\Vod\\Models\\Request‚#Volc\\Service\\Vod\\Models\\GPBMetadatabproto3'
         , true);

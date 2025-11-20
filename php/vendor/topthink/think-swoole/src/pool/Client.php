@@ -61,7 +61,7 @@ class Client implements ConnectorInterface
     /**
      * Validate the connection
      *
-     * @param \Swoole\Coroutine\Client $connection
+     * @param mixed $connection
      * @return bool
      */
     public function validate($connection): bool

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.function.trafficconfig.get request
  *
  * @author auto create
- * @since 1.0, 2023-08-08 22:46:41
+ * @since 1.0, 2024-11-22 14:41:40
  */
 class AlipayCloudCloudbaseFunctionTrafficconfigGetRequest
 {

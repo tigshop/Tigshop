@@ -3,7 +3,7 @@
  * ALIPAY API: anttech.morse.dataservice.insighttask.create request
  *
  * @author auto create
- * @since 1.0, 2024-06-03 11:02:03
+ * @since 1.0, 2025-06-19 14:30:47
  */
 class AnttechMorseDataserviceInsighttaskCreateRequest
 {

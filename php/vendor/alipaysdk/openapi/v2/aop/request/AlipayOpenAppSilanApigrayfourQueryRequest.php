@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.app.silan.apigrayfour.query request
  *
  * @author auto create
- * @since 1.0, 2024-08-08 21:46:31
+ * @since 1.0, 2025-09-08 10:27:40
  */
 class AlipayOpenAppSilanApigrayfourQueryRequest
 {

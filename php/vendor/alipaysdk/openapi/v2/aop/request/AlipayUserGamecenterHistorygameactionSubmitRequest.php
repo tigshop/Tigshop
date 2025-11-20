@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.user.gamecenter.historygameaction.submit request
  *
  * @author auto create
- * @since 1.0, 2024-03-27 08:51:50
+ * @since 1.0, 2025-08-14 11:27:36
  */
 class AlipayUserGamecenterHistorygameactionSubmitRequest
 {

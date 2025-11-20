@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.customer.zmcard.score.certify request
  *
  * @author auto create
- * @since 1.0, 2024-04-01 23:07:47
+ * @since 1.0, 2025-08-14 11:07:36
  */
 class ZhimaCustomerZmcardScoreCertifyRequest
 {

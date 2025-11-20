@@ -8,6 +8,7 @@ use AlibabaCloud\Credentials\Request\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use RuntimeException;
+use AlibabaCloud\Credentials\Credential\RefreshResult;
 
 /**
  * @internal This class is intended for internal use within the package. 
@@ -51,12 +52,12 @@ class EcsRamRoleCredentialsProvider extends SessionCredentialsProvider
     /**
      * @var int
      */
-    private $connectTimeout = 5;
+    private $connectTimeout = 1;
 
     /**
      * @var int
      */
-    private $readTimeout = 5;
+    private $readTimeout = 1;
 
 
     /**
@@ -96,10 +97,6 @@ class EcsRamRoleCredentialsProvider extends SessionCredentialsProvider
         if (isset($params['roleName'])) {
             $this->roleName = $params['roleName'];
         }
-
-        if (is_null($this->roleName) || $this->roleName === '') {
-            $this->roleName = $this->getRoleNameFromMeta();
-        }
     }
 
     private function filterDisableECSIMDSv1($params)
@@ -116,13 +113,21 @@ class EcsRamRoleCredentialsProvider extends SessionCredentialsProvider
     /**
      * Get credentials by request.
      *
-     * @return array
+     * @return RefreshResult
      * @throws InvalidArgumentException
      * @throws RuntimeException
      * @throws GuzzleException
      */
     public function refreshCredentials()
     {
+        if (Helper::envNotEmpty('ALIBABA_CLOUD_ECS_METADATA_DISABLED') && Helper::env('ALIBABA_CLOUD_ECS_METADATA_DISABLED') === true) {
+            throw new RuntimeException('IMDS credentials is disabled');
+        }
+
+        if (is_null($this->roleName) || $this->roleName === '') {
+            $this->roleName = $this->getRoleNameFromMeta();
+        }
+
         $url = $this->metadataHost . $this->ecsUri . $this->roleName;
         $options = Request::commonOptions();
         $options['read_timeout'] = $this->readTimeout;
@@ -153,7 +158,13 @@ class EcsRamRoleCredentialsProvider extends SessionCredentialsProvider
             throw new RuntimeException('Error retrieving credentials from IMDS result, Code is not Success:' . $result->toJson());
         }
 
-        return $credentials;
+        return new RefreshResult(new Credentials([
+            'accessKeyId' => $credentials['AccessKeyId'],
+            'accessKeySecret' => $credentials['AccessKeySecret'],
+            'securityToken' => $credentials['SecurityToken'],
+            'expiration' => \strtotime($credentials['Expiration']),
+            'providerName' => $this->getProviderName(),
+        ]), $this->getStaleTime(strtotime($credentials["Expiration"])), $this->getPrefetchTime(strtotime($credentials["Expiration"])));
     }
 
     /**
@@ -221,6 +232,15 @@ class EcsRamRoleCredentialsProvider extends SessionCredentialsProvider
         return (string) $result;
     }
 
+    /**
+     * @var int
+     */
+    public function getPrefetchTime($expiration)
+    {
+        return $expiration <= 0 ?
+            time() + (5 * 60) :
+            time() + (60 * 60);
+    }
 
     /**
      * @return string

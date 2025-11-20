@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.app.silan.luckyeight.query request
  *
  * @author auto create
- * @since 1.0, 2024-08-08 21:42:44
+ * @since 1.0, 2025-09-08 10:27:39
  */
 class AlipayOpenAppSilanLuckyeightQueryRequest
 {

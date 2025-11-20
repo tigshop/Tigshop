@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.bpaas.service.query request
  *
  * @author auto create
- * @since 1.0, 2023-09-04 00:20:36
+ * @since 1.0, 2025-08-28 14:32:37
  */
 class AlipayOpenBpaasServiceQueryRequest
 {

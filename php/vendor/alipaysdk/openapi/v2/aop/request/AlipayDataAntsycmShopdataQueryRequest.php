@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.antsycm.shopdata.query request
  *
  * @author auto create
- * @since 1.0, 2024-04-12 17:42:00
+ * @since 1.0, 2025-07-02 16:12:55
  */
 class AlipayDataAntsycmShopdataQueryRequest
 {

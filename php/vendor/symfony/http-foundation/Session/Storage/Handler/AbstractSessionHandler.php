@@ -38,13 +38,13 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         return true;
     }
 
-    abstract protected function doRead(#[\SensitiveParameter] string $sessionId): string;
+    abstract protected function doRead(string $sessionId): string;
 
-    abstract protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool;
+    abstract protected function doWrite(string $sessionId, string $data): bool;
 
-    abstract protected function doDestroy(#[\SensitiveParameter] string $sessionId): bool;
+    abstract protected function doDestroy(string $sessionId): bool;
 
-    public function validateId(#[\SensitiveParameter] string $sessionId): bool
+    public function validateId(string $sessionId): bool
     {
         $this->prefetchData = $this->read($sessionId);
         $this->prefetchId = $sessionId;
@@ -52,7 +52,7 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         return '' !== $this->prefetchData;
     }
 
-    public function read(#[\SensitiveParameter] string $sessionId): string
+    public function read(string $sessionId): string
     {
         if (isset($this->prefetchId)) {
             $prefetchId = $this->prefetchId;
@@ -72,7 +72,7 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         return $data;
     }
 
-    public function write(#[\SensitiveParameter] string $sessionId, string $data): bool
+    public function write(string $sessionId, string $data): bool
     {
         // see https://github.com/igbinary/igbinary/issues/146
         $this->igbinaryEmptyData ??= \function_exists('igbinary_serialize') ? igbinary_serialize([]) : '';
@@ -84,9 +84,9 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         return $this->doWrite($sessionId, $data);
     }
 
-    public function destroy(#[\SensitiveParameter] string $sessionId): bool
+    public function destroy(string $sessionId): bool
     {
-        if (!headers_sent() && filter_var(\ini_get('session.use_cookies'), \FILTER_VALIDATE_BOOL)) {
+        if (!headers_sent() && filter_var(\ini_get('session.use_cookies'), \FILTER_VALIDATE_BOOLEAN)) {
             if (!isset($this->sessionName)) {
                 throw new \LogicException(sprintf('Session name cannot be empty, did you forget to call "parent::open()" in "%s"?.', static::class));
             }

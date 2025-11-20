@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Swoole\Http;
 
+/**
+ * The HTTP Request class.
+ *
+ * @not-serializable Objects of this class cannot be serialized.
+ */
 class Request
 {
-    public $fd = 0;
+    public int $fd = 0;
 
-    public $streamId = 0;
+    public int $streamId = 0;
 
     public $header;
 
@@ -24,69 +29,52 @@ class Request
 
     public $tmpfiles;
 
-    public function __destruct()
-    {
-    }
-
     /**
      * Get the request content, kind of like function call fopen('php://input').
      *
-     * This method has an alias of \Swoole\Http\Request::rawContent().
-     *
      * @return string|false Return the request content back; return FALSE when error happens.
+     * @alias This method has an alias of \Swoole\Http\Request::rawContent().
      * @see \Swoole\Http\Request::rawContent()
      * @since 4.5.0
      */
-    public function getContent()
+    public function getContent(): string|false
     {
     }
 
     /**
      * Get the request content, kind of like function call fopen('php://input').
      *
-     * Alias of method \Swoole\Http\Request::getContent().
-     *
      * @return string|false Return the request content back; return FALSE when error happens.
+     * @alias Alias of method \Swoole\Http\Request::getContent().
      * @see \Swoole\Http\Request::getContent()
      */
-    public function rawContent()
+    public function rawContent(): string|false
+    {
+    }
+
+    public function getData(): string|false
+    {
+    }
+
+    public static function create(array $options = []): Request
     {
     }
 
     /**
-     * @return mixed
+     * @since 4.6.0
      */
-    public function getData()
+    public function parse(string $data): int|false
     {
     }
 
     /**
-     * @param mixed|null $options
-     * @return mixed
+     * @since 4.6.0
      */
-    public static function create($options = null)
+    public function isCompleted(): bool
     {
     }
 
-    /**
-     * @param mixed $data
-     * @return mixed
-     */
-    public function parse($data)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function isCompleted()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMethod()
+    public function getMethod(): string|false
     {
     }
 }

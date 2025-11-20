@@ -3,7 +3,7 @@
  * ALIPAY API: ant.merchant.expand.brand.asset.unbind request
  *
  * @author auto create
- * @since 1.0, 2023-09-04 00:36:43
+ * @since 1.0, 2025-04-01 11:33:00
  */
 class AntMerchantExpandBrandAssetUnbindRequest
 {

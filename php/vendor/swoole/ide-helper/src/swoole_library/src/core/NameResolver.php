@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Swoole;
 
-use RuntimeException;
 use Swoole\Coroutine\Http\ClientProxy;
+use Swoole\Http\Status;
 use Swoole\NameResolver\Cluster;
 use Swoole\NameResolver\Exception;
 
@@ -20,16 +20,13 @@ abstract class NameResolver
 {
     protected $baseUrl;
 
-    protected $prefix;
-
     protected $info;
 
     private $filter_fn;
 
-    public function __construct($url, $prefix = 'swoole_service_')
+    public function __construct($url, protected $prefix = 'swoole_service_')
     {
         $this->checkServerUrl($url);
-        $this->prefix = $prefix;
     }
 
     abstract public function join(string $name, string $ip, int $port, array $options = []): bool;
@@ -59,7 +56,7 @@ abstract class NameResolver
      * and an empty string indicates name lookup failed, and lookup operation will not continue.
      * return Cluster: has multiple nodes and failover is possible
      * return false or null: try another name resolver
-     * @return null|Cluster|false|string
+     * @return Cluster|false|string|null
      */
     public function lookup(string $name)
     {
@@ -80,18 +77,17 @@ abstract class NameResolver
 
     /**
      * !!! The host MUST BE IP ADDRESS
-     * @param $url
      */
-    protected function checkServerUrl($url)
+    protected function checkServerUrl(string $url)
     {
         $info = parse_url($url);
         if (empty($info['scheme']) or empty($info['host'])) {
-            throw new RuntimeException("invalid url parameter '{$url}'");
+            throw new \RuntimeException("invalid url parameter '{$url}'");
         }
         if (!filter_var($info['host'], FILTER_VALIDATE_IP)) {
             $info['ip'] = gethostbyname($info['host']);
             if (!filter_var($info['ip'], FILTER_VALIDATE_IP)) {
-                throw new RuntimeException("Failed to resolve host '{$info['host']}'");
+                throw new \RuntimeException("Failed to resolve host '{$info['host']}'");
             }
         } else {
             $info['ip'] = $info['host'];
@@ -104,30 +100,15 @@ abstract class NameResolver
             $baseUrl .= rtrim($info['path'], '/');
         }
         $this->baseUrl = $baseUrl;
-        $this->info = $info;
+        $this->info    = $info;
     }
 
-    /**
-     * @param $r ClientProxy
-     * @param $url
-     * @return bool
-     */
-    protected function checkResponse($r, $url)
+    protected function checkResponse(ClientProxy $response): bool
     {
-        if (empty($r)) {
-            throw new Exception("failed to request URL({$url})");
+        if ($response->getStatusCode() === Status::OK) {
+            return true;
         }
-        if ($r->getStatusCode() !== 200) {
-            $msg = '';
-            if (!empty($r->errMsg)) {
-                $msg .= 'errMsg: ' . $r->errMsg;
-            }
-            $body = $r->getBody();
-            if (empty($r->errMsg)) {
-                $msg .= 'Http Body: ' . $body;
-            }
-            throw new Exception($msg, $r->errCode ?: $r->getStatusCode());
-        }
-        return true;
+
+        throw new Exception('Http Body: ' . $response->getBody(), $response->getStatusCode());
     }
 }

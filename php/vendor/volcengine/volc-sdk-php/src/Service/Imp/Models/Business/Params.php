@@ -39,11 +39,21 @@ class Params extends \Google\Protobuf\Internal\Message
      * 动态参数
      *
      * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.OverrideParams OverrideParams = 1;</code>
-     * @return \Volc\Service\Imp\Models\Business\OverrideParams
+     * @return \Volc\Service\Imp\Models\Business\OverrideParams|null
      */
     public function getOverrideParams()
     {
         return $this->OverrideParams;
+    }
+
+    public function hasOverrideParams()
+    {
+        return isset($this->OverrideParams);
+    }
+
+    public function clearOverrideParams()
+    {
+        unset($this->OverrideParams);
     }
 
     /**

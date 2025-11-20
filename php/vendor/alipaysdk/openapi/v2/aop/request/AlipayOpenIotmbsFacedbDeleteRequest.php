@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.iotmbs.facedb.delete request
  *
  * @author auto create
- * @since 1.0, 2023-08-24 21:13:02
+ * @since 1.0, 2025-08-13 15:32:40
  */
 class AlipayOpenIotmbsFacedbDeleteRequest
 {

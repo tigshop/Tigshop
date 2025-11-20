@@ -154,7 +154,7 @@ No authorization required
 ## `update()`
 
 ```php
-update($alipayEcoMycarParkingParkinglotinfoUpdateModel): object
+update($alipayEcoMycarParkingParkinglotinfoUpdateModel): \Alipay\OpenAPISDK\Model\AlipayEcoMycarParkingParkinglotinfoUpdateResponseModel
 ```
 
 修改停车场信息
@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+**\Alipay\OpenAPISDK\Model\AlipayEcoMycarParkingParkinglotinfoUpdateResponseModel**
 
 ### Authorization
 

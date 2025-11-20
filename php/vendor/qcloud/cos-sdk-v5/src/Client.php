@@ -115,6 +115,7 @@ use GuzzleHttp\Psr7\Uri;
  * @method object DescribeDocProcessJob(array $args) 查询文档转码任务
  * @method object GetDescribeDocProcessJobs(array $args) 拉取符合条件的文档转码任务
  * @method object DetectImage(array $args) 图片审核
+ * @method object DetectImageUrl(array $args) 图片审核
  * @method object DetectImages(array $args) 图片审核-批量
  * @method object DetectVirus(array $args) 云查毒
  * @method object GetDetectVirusResult(array $args) 查询病毒检测任务结果
@@ -191,6 +192,7 @@ use GuzzleHttp\Psr7\Uri;
  * @method object CloseOriginProtect(array $args) 关闭原图保护
  * @method object ImageDetectFace(array $args) 人脸检测
  * @method object ImageFaceEffect(array $args) 人脸特效
+ * @method object ImageUrlFaceEffect(array $args) 人脸特效
  * @method object IDCardOCR(array $args) 身份证识别
  * @method object IDCardOCRByUpload(array $args) 身份证识别-上传时处理
  * @method object GetLiveCode(array $args) 获取数字验证码
@@ -280,7 +282,7 @@ use GuzzleHttp\Psr7\Uri;
  * @see \Qcloud\Cos\Service::getService()
  */
 class Client extends GuzzleClient {
-    const VERSION = '2.6.13';
+    const VERSION = '2.6.16';
 
     public $httpClient;
 

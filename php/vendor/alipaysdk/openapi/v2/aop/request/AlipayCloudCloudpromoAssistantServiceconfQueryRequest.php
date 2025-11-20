@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudpromo.assistant.serviceconf.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-15 16:22:04
+ * @since 1.0, 2024-10-23 21:12:19
  */
 class AlipayCloudCloudpromoAssistantServiceconfQueryRequest
 {

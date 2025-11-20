@@ -16,13 +16,14 @@ use Predis\Connection\Aggregate\PredisCluster;
 use Predis\Connection\Aggregate\ReplicationInterface;
 use Predis\Response\ErrorInterface;
 use Predis\Response\Status;
-use Relay\Relay;
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\Cache\Exception\InvalidArgumentException;
 use Symfony\Component\Cache\Exception\LogicException;
 use Symfony\Component\Cache\Marshaller\DeflateMarshaller;
 use Symfony\Component\Cache\Marshaller\MarshallerInterface;
 use Symfony\Component\Cache\Marshaller\TagAwareMarshaller;
+use Symfony\Component\Cache\Traits\RedisClusterProxy;
+use Symfony\Component\Cache\Traits\RedisProxy;
 use Symfony\Component\Cache\Traits\RedisTrait;
 
 /**
@@ -55,24 +56,28 @@ class RedisTagAwareAdapter extends AbstractTagAwareAdapter
     private const DEFAULT_CACHE_TTL = 8640000;
 
     /**
-     * detected eviction policy used on Redis server.
+     * @var string|null detected eviction policy used on Redis server
      */
-    private string $redisEvictionPolicy;
-    private string $namespace;
+    private $redisEvictionPolicy;
+    private $namespace;
 
-    public function __construct(\Redis|Relay|\RedisArray|\RedisCluster|\Predis\ClientInterface $redis, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
+    /**
+     * @param \Redis|\RedisArray|\RedisCluster|\Predis\ClientInterface|RedisProxy|RedisClusterProxy $redis           The redis client
+     * @param string                                                                                $namespace       The default namespace
+     * @param int                                                                                   $defaultLifetime The default lifetime
+     */
+    public function __construct($redis, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
     {
         if ($redis instanceof \Predis\ClientInterface && $redis->getConnection() instanceof ClusterInterface && !$redis->getConnection() instanceof PredisCluster) {
             throw new InvalidArgumentException(sprintf('Unsupported Predis cluster connection: only "%s" is, "%s" given.', PredisCluster::class, get_debug_type($redis->getConnection())));
         }
 
-        $isRelay = $redis instanceof Relay;
-        if ($isRelay || \defined('Redis::OPT_COMPRESSION') && \in_array($redis::class, [\Redis::class, \RedisArray::class, \RedisCluster::class], true)) {
-            $compression = $redis->getOption($isRelay ? Relay::OPT_COMPRESSION : \Redis::OPT_COMPRESSION);
+        if (\defined('Redis::OPT_COMPRESSION') && ($redis instanceof \Redis || $redis instanceof \RedisArray || $redis instanceof \RedisCluster)) {
+            $compression = $redis->getOption(\Redis::OPT_COMPRESSION);
 
             foreach (\is_array($compression) ? $compression : [$compression] as $c) {
-                if ($isRelay ? Relay::COMPRESSION_NONE : \Redis::COMPRESSION_NONE !== $c) {
-                    throw new InvalidArgumentException(sprintf('redis compression must be disabled when using "%s", use "%s" instead.', static::class, DeflateMarshaller::class));
+                if (\Redis::COMPRESSION_NONE !== $c) {
+                    throw new InvalidArgumentException(sprintf('phpredis compression must be disabled when using "%s", use "%s" instead.', static::class, DeflateMarshaller::class));
                 }
             }
         }
@@ -81,6 +86,9 @@ class RedisTagAwareAdapter extends AbstractTagAwareAdapter
         $this->namespace = $namespace;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doSave(array $values, int $lifetime, array $addTagData = [], array $delTagData = []): array
     {
         $eviction = $this->getRedisEvictionPolicy();
@@ -132,6 +140,9 @@ class RedisTagAwareAdapter extends AbstractTagAwareAdapter
         return $failed;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doDeleteYieldTags(array $ids): iterable
     {
         $lua = <<<'EOLUA'
@@ -156,7 +167,7 @@ EOLUA;
         });
 
         foreach ($results as $id => $result) {
-            if ($result instanceof \RedisException || $result instanceof \Relay\Exception || $result instanceof ErrorInterface) {
+            if ($result instanceof \RedisException || $result instanceof ErrorInterface) {
                 CacheItem::log($this->logger, 'Failed to delete key "{key}": '.$result->getMessage(), ['key' => substr($id, \strlen($this->namespace)), 'exception' => $result]);
 
                 continue;
@@ -164,12 +175,15 @@ EOLUA;
 
             try {
                 yield $id => !\is_string($result) || '' === $result ? [] : $this->marshaller->unmarshall($result);
-            } catch (\Exception) {
+            } catch (\Exception $e) {
                 yield $id => [];
             }
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doDeleteTagRelations(array $tagData): bool
     {
         $results = $this->pipeline(static function () use ($tagData) {
@@ -185,6 +199,9 @@ EOLUA;
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doInvalidate(array $tagIds): bool
     {
         // This script scans the set of items linked to tag: it empties the set
@@ -223,7 +240,7 @@ EOLUA;
         $results = $this->pipeline(function () use ($tagIds, $lua) {
             if ($this->redis instanceof \Predis\ClientInterface) {
                 $prefix = $this->redis->getOptions()->prefix ? $this->redis->getOptions()->prefix->getPrefix() : '';
-            } elseif (\is_array($prefix = $this->redis->getOption($this->redis instanceof Relay ? Relay::OPT_PREFIX : \Redis::OPT_PREFIX) ?? '')) {
+            } elseif (\is_array($prefix = $this->redis->getOption(\Redis::OPT_PREFIX) ?? '')) {
                 $prefix = current($prefix);
             }
 
@@ -244,7 +261,7 @@ EOLUA;
 
         $success = true;
         foreach ($results as $id => $values) {
-            if ($values instanceof \RedisException || $values instanceof \Relay\Exception || $values instanceof ErrorInterface) {
+            if ($values instanceof \RedisException || $values instanceof ErrorInterface) {
                 CacheItem::log($this->logger, 'Failed to invalidate key "{key}": '.$values->getMessage(), ['key' => substr($id, \strlen($this->namespace)), 'exception' => $values]);
                 $success = false;
 
@@ -280,7 +297,7 @@ EOLUA;
 
     private function getRedisEvictionPolicy(): string
     {
-        if (isset($this->redisEvictionPolicy)) {
+        if (null !== $this->redisEvictionPolicy) {
             return $this->redisEvictionPolicy;
         }
 
@@ -294,13 +311,13 @@ EOLUA;
         foreach ($hosts as $host) {
             $info = $host->info('Memory');
 
-            if (false === $info || null === $info || $info instanceof ErrorInterface) {
+            if ($info instanceof ErrorInterface) {
                 continue;
             }
 
             $info = $info['Memory'] ?? $info;
 
-            return $this->redisEvictionPolicy = $info['maxmemory_policy'] ?? '';
+            return $this->redisEvictionPolicy = $info['maxmemory_policy'];
         }
 
         return $this->redisEvictionPolicy = '';

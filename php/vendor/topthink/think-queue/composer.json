@@ -25,7 +25,7 @@
         "ext-json": "*",
         "topthink/framework": "^6.0 || ^8.0",
         "symfony/process": ">=4.2",
-        "nesbot/carbon": "^2.16"
+        "nesbot/carbon": ">=2.16"
     },
     "extra": {
         "think": {
@@ -33,7 +33,7 @@
                 "think\\queue\\Service"
             ],
             "config": {
-                "queue": "src/config.php"
+                "queue": "src/config/queue.php"
             }
         }
     },

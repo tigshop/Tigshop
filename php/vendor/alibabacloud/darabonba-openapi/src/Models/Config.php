@@ -42,10 +42,9 @@ class Config extends Model
         'key' => '',
         'cert' => '',
         'ca' => '',
+        'tlsMinVersion' => '',
     ];
-    public function validate()
-    {
-    }
+    public function validate() {}
     public function toMap()
     {
         $res = [];
@@ -138,6 +137,9 @@ class Config extends Model
         }
         if (null !== $this->disableHttp2) {
             $res['disableHttp2'] = $this->disableHttp2;
+        }
+        if (null !== $this->tlsMinVersion) {
+            $res['tlsMinVersion'] = $this->tlsMinVersion;
         }
         return $res;
     }
@@ -237,6 +239,9 @@ class Config extends Model
         }
         if (isset($map['disableHttp2'])) {
             $model->disableHttp2 = $map['disableHttp2'];
+        }
+        if (isset($map['tlsMinVersion'])) {
+            $model->tlsMinVersion = $map['tlsMinVersion'];
         }
         return $model;
     }
@@ -428,14 +433,16 @@ class Config extends Model
 
     /**
      * @description client certificate
-     * @example -----BEGIN CERTIFICATE-----xxx-----END CERTIFICATE-----
+     * @example -----BEGIN CERTIFICATE-----
+xxx-----END CERTIFICATE-----
      * @var string
      */
     public $cert;
 
     /**
      * @description server certificate
-     * @example -----BEGIN CERTIFICATE-----xxx-----END CERTIFICATE-----
+     * @example -----BEGIN CERTIFICATE-----
+xxx-----END CERTIFICATE-----
      * @var string
      */
     public $ca;
@@ -447,4 +454,10 @@ class Config extends Model
      */
     public $disableHttp2;
 
+    /**
+     * @description TLS Minimum Version
+     * @example TLSv1, TLSv1.1, TLSv1.2, TLSv1.3
+     * @var string
+     */
+    public $tlsMinVersion;
 }

@@ -38,8 +38,8 @@ class FileSource implements ExternalAccountCredentialSourceInterface
      */
     public function __construct(
         string $file,
-        string $format = null,
-        string $subjectTokenFieldName = null
+        ?string $format = null,
+        ?string $subjectTokenFieldName = null
     ) {
         $this->file = $file;
 
@@ -53,7 +53,7 @@ class FileSource implements ExternalAccountCredentialSourceInterface
         $this->subjectTokenFieldName = $subjectTokenFieldName;
     }
 
-    public function fetchSubjectToken(callable $httpHandler = null): string
+    public function fetchSubjectToken(?callable $httpHandler = null): string
     {
         $contents = file_get_contents($this->file);
         if ($this->format === 'json') {

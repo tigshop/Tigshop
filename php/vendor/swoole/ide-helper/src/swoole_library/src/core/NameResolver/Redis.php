@@ -74,7 +74,7 @@ class Redis extends NameResolver
 
     protected function connect()
     {
-        $redis = new \redis();
+        $redis = new \Redis();
         if ($redis->connect($this->serverHost, $this->serverPort) === false) {
             return false;
         }

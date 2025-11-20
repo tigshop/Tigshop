@@ -523,7 +523,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
             $fieldA = $a[$field] ?? null;
             $fieldB = $b[$field] ?? null;
 
-            return 'desc' == strtolower($order) ? intval($fieldB > $fieldA) : intval($fieldA > $fieldB);
+            return 'desc' == strtolower($order) ? ($fieldB <=> $fieldA) : ($fieldA <=> $fieldB);
         });
     }
 

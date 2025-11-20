@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.httpaccess.domain.get request
  *
  * @author auto create
- * @since 1.0, 2023-08-08 23:41:38
+ * @since 1.0, 2024-11-22 14:41:26
  */
 class AlipayCloudCloudbaseHttpaccessDomainGetRequest
 {

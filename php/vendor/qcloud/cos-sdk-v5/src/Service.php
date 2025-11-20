@@ -3710,6 +3710,7 @@ class Service {
                 'DescribeDocProcessJob' => Descriptions::DescribeDocProcessJob(), // 查询文档转码任务
                 'GetDescribeDocProcessJobs' => Descriptions::GetDescribeDocProcessJobs(), // 拉取符合条件的文档转码任务
                 'DetectImage' => Descriptions::DetectImage(), // 图片审核
+                'DetectImageUrl' => Descriptions::DetectImageUrl(), // 图片审核
                 'DetectImages' => Descriptions::DetectImages(), // 图片审核-批量
                 'DetectVirus' => Descriptions::DetectVirus(), // 云查毒
                 'GetDetectVirusResult' => Descriptions::GetDetectVirusResult(), // 查询病毒检测任务结果
@@ -3786,6 +3787,7 @@ class Service {
                 'CloseOriginProtect' => Descriptions::CloseOriginProtect(), // 关闭原图保护
                 'ImageDetectFace' => Descriptions::ImageDetectFace(), // 人脸检测
                 'ImageFaceEffect' => Descriptions::ImageFaceEffect(), // 人脸特效
+                'ImageUrlFaceEffect' => Descriptions::ImageUrlFaceEffect(), // 人脸特效
                 'IDCardOCR' => Descriptions::IDCardOCR(), // 身份证识别
                 'IDCardOCRByUpload' => Descriptions::IDCardOCRByUpload(), // 身份证识别-上传时处理
                 'GetLiveCode' => Descriptions::GetLiveCode(), // 获取数字验证码

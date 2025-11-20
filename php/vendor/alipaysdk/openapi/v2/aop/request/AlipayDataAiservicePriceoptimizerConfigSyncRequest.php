@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.aiservice.priceoptimizer.config.sync request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:31:49
+ * @since 1.0, 2025-08-13 14:57:41
  */
 class AlipayDataAiservicePriceoptimizerConfigSyncRequest
 {

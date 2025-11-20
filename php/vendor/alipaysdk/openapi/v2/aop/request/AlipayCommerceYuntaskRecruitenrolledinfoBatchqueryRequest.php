@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.yuntask.recruitenrolledinfo.batchquery request
  *
  * @author auto create
- * @since 1.0, 2024-08-28 14:42:53
+ * @since 1.0, 2025-08-14 05:02:39
  */
 class AlipayCommerceYuntaskRecruitenrolledinfoBatchqueryRequest
 {

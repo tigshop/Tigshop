@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.httpscerthosting.modify request
  *
  * @author auto create
- * @since 1.0, 2024-06-06 16:22:02
+ * @since 1.0, 2025-08-04 11:08:53
  */
 class AlipayCloudCloudbaseHttpscerthostingModifyRequest
 {

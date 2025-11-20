@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.zcardprod.user.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:29:16
+ * @since 1.0, 2025-04-07 17:10:26
  */
 class AlipayFundZcardprodUserQueryRequest
 {

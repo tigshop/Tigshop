@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ebpp.industry.bot.vote.submit request
  *
  * @author auto create
- * @since 1.0, 2024-07-31 11:07:03
+ * @since 1.0, 2025-05-19 19:12:27
  */
 class AlipayEbppIndustryBotVoteSubmitRequest
 {

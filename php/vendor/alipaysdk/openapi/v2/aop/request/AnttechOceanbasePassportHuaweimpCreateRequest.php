@@ -3,7 +3,7 @@
  * ALIPAY API: anttech.oceanbase.passport.huaweimp.create request
  *
  * @author auto create
- * @since 1.0, 2024-04-17 14:37:00
+ * @since 1.0, 2025-06-09 15:22:29
  */
 class AnttechOceanbasePassportHuaweimpCreateRequest
 {

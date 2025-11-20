@@ -31,7 +31,7 @@ class HttpHandlerFactory
      * @return Guzzle6HttpHandler|Guzzle7HttpHandler
      * @throws \Exception
      */
-    public static function build(ClientInterface $client = null)
+    public static function build(?ClientInterface $client = null)
     {
         if (is_null($client)) {
             $stack = null;

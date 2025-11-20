@@ -11,14 +11,12 @@
 
 namespace Symfony\Component\HttpClient\DataCollector;
 
-use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\TraceableHttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
-use Symfony\Component\Process\Process;
 use Symfony\Component\VarDumper\Caster\ImgStub;
 
 /**
@@ -33,17 +31,17 @@ final class HttpClientDataCollector extends DataCollector implements LateDataCol
      */
     private array $clients = [];
 
-    public function registerClient(string $name, TraceableHttpClient $client): void
+    public function registerClient(string $name, TraceableHttpClient $client)
     {
         $this->clients[$name] = $client;
     }
 
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
+    public function collect(Request $request, Response $response, \Throwable $exception = null)
     {
         $this->lateCollect();
     }
 
-    public function lateCollect(): void
+    public function lateCollect()
     {
         $this->data['request_count'] = $this->data['request_count'] ?? 0;
         $this->data['error_count'] = $this->data['error_count'] ?? 0;
@@ -88,7 +86,7 @@ final class HttpClientDataCollector extends DataCollector implements LateDataCol
         return 'http_client';
     }
 
-    public function reset(): void
+    public function reset()
     {
         $this->data = [
             'clients' => [],
@@ -195,18 +193,27 @@ final class HttpClientDataCollector extends DataCollector implements LateDataCol
         $dataArg = [];
 
         if ($json = $trace['options']['json'] ?? null) {
-            $dataArg[] = '--data-raw '.$this->escapePayload(self::jsonEncode($json));
+            if (!$this->argMaxLengthIsSafe($payload = self::jsonEncode($json))) {
+                return null;
+            }
+            $dataArg[] = '--data '.escapeshellarg($payload);
         } elseif ($body = $trace['options']['body'] ?? null) {
             if (\is_string($body)) {
-                $dataArg[] = '--data-raw '.$this->escapePayload($body);
-            } elseif (\is_array($body)) {
-                try {
-                    $body = explode('&', self::normalizeBody($body));
-                } catch (TransportException) {
+                if (!$this->argMaxLengthIsSafe($body)) {
                     return null;
                 }
+                try {
+                    $dataArg[] = '--data '.escapeshellarg($body);
+                } catch (\ValueError) {
+                    return null;
+                }
+            } elseif (\is_array($body)) {
+                $body = explode('&', self::normalizeBody($body));
                 foreach ($body as $value) {
-                    $dataArg[] = '--data-raw '.$this->escapePayload(urldecode($value));
+                    if (!$this->argMaxLengthIsSafe($payload = urldecode($value))) {
+                        return null;
+                    }
+                    $dataArg[] = '--data '.escapeshellarg($payload);
                 }
             } else {
                 return null;
@@ -221,11 +228,6 @@ final class HttpClientDataCollector extends DataCollector implements LateDataCol
             if (str_starts_with('< ', $line)) {
                 // End of the request, beginning of the response. Stop parsing.
                 break;
-            }
-
-            if (str_starts_with('Due to a bug in curl ', $line)) {
-                // When the curl client disables debug info due to a curl bug, we cannot build the command.
-                return null;
             }
 
             if ('' === $line || preg_match('/^[*<]|(Host: )/', $line)) {
@@ -248,18 +250,13 @@ final class HttpClientDataCollector extends DataCollector implements LateDataCol
         return implode(" \\\n  ", $command);
     }
 
-    private function escapePayload(string $payload): string
+    /**
+     * Let's be defensive : we authorize only size of 8kio on Windows for escapeshellarg() argument to avoid a fatal error.
+     *
+     * @see https://github.com/php/php-src/blob/9458f5f2c8a8e3d6c65cc181747a5a75654b7c6e/ext/standard/exec.c#L397
+     */
+    private function argMaxLengthIsSafe(string $payload): bool
     {
-        static $useProcess;
-
-        if ($useProcess ??= class_exists(Process::class)) {
-            return (new Process([$payload]))->getCommandLine();
-        }
-
-        if ('\\' === \DIRECTORY_SEPARATOR) {
-            return '"'.str_replace('"', '""', $payload).'"';
-        }
-
-        return "'".str_replace("'", "'\\''", $payload)."'";
+        return \strlen($payload) < ('\\' === \DIRECTORY_SEPARATOR ? 8100 : 256000);
     }
 }

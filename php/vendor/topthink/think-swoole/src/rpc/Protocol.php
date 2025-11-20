@@ -38,7 +38,7 @@ class Protocol
      */
     public static function make(string $interface, string $method, array $params, array $context = [])
     {
-        $instance = new static();
+        $instance = new self();
 
         $instance->interface = $interface;
         $instance->method    = $method;

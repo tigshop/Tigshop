@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.overseas.travel.promotion.get request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 15:51:35
+ * @since 1.0, 2024-11-07 20:01:17
  */
 class AlipayOverseasTravelPromotionGetRequest
 {

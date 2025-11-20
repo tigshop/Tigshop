@@ -45,6 +45,20 @@ class SpriteSnapshotParams extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>int32 CaptureNum = 8;</code>
      */
     protected $CaptureNum = 0;
+    /**
+     * Generated from protobuf field <code>bool ResAdapt = 9;</code>
+     */
+    protected $ResAdapt = false;
+    /**
+     * Generated from protobuf field <code>int32 ResLimit = 10;</code>
+     */
+    protected $ResLimit = 0;
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 11;</code>
+     */
+    protected $FillType = '';
 
     /**
      * Constructor.
@@ -60,6 +74,10 @@ class SpriteSnapshotParams extends \Google\Protobuf\Internal\Message
      *     @type int $Interval
      *     @type int $OffsetTime
      *     @type int $CaptureNum
+     *     @type bool $ResAdapt
+     *     @type int $ResLimit
+     *     @type string $FillType
+     *           填充类型 
      * }
      */
     public function __construct($data = NULL) {
@@ -239,6 +257,76 @@ class SpriteSnapshotParams extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->CaptureNum = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>bool ResAdapt = 9;</code>
+     * @return bool
+     */
+    public function getResAdapt()
+    {
+        return $this->ResAdapt;
+    }
+
+    /**
+     * Generated from protobuf field <code>bool ResAdapt = 9;</code>
+     * @param bool $var
+     * @return $this
+     */
+    public function setResAdapt($var)
+    {
+        GPBUtil::checkBool($var);
+        $this->ResAdapt = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>int32 ResLimit = 10;</code>
+     * @return int
+     */
+    public function getResLimit()
+    {
+        return $this->ResLimit;
+    }
+
+    /**
+     * Generated from protobuf field <code>int32 ResLimit = 10;</code>
+     * @param int $var
+     * @return $this
+     */
+    public function setResLimit($var)
+    {
+        GPBUtil::checkInt32($var);
+        $this->ResLimit = $var;
+
+        return $this;
+    }
+
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 11;</code>
+     * @return string
+     */
+    public function getFillType()
+    {
+        return $this->FillType;
+    }
+
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 11;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setFillType($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->FillType = $var;
 
         return $this;
     }

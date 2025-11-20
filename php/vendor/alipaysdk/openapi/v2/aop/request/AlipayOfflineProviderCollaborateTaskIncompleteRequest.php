@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.offline.provider.collaborate.task.incomplete request
  *
  * @author auto create
- * @since 1.0, 2024-10-08 15:43:19
+ * @since 1.0, 2024-11-30 15:57:21
  */
 class AlipayOfflineProviderCollaborateTaskIncompleteRequest
 {

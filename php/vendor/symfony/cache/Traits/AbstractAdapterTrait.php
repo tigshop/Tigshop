@@ -26,21 +26,21 @@ trait AbstractAdapterTrait
     use LoggerAwareTrait;
 
     /**
-     * needs to be set by class, signature is function(string <key>, mixed <value>, bool <isHit>).
+     * @var \Closure needs to be set by class, signature is function(string <key>, mixed <value>, bool <isHit>)
      */
-    private static \Closure $createCacheItem;
+    private static $createCacheItem;
 
     /**
-     * needs to be set by class, signature is function(array <deferred>, string <namespace>, array <&expiredIds>).
+     * @var \Closure needs to be set by class, signature is function(array <deferred>, string <namespace>, array <&expiredIds>)
      */
-    private static \Closure $mergeByLifetime;
+    private static $mergeByLifetime;
 
-    private string $namespace = '';
-    private int $defaultLifetime;
-    private string $namespaceVersion = '';
-    private bool $versioningIsEnabled = false;
-    private array $deferred = [];
-    private array $ids = [];
+    private $namespace = '';
+    private $defaultLifetime;
+    private $namespaceVersion = '';
+    private $versioningIsEnabled = false;
+    private $deferred = [];
+    private $ids = [];
 
     /**
      * @var int|null The maximum length to enforce for identifiers or null when no limit applies
@@ -51,29 +51,37 @@ trait AbstractAdapterTrait
      * Fetches several cache items.
      *
      * @param array $ids The cache identifiers to fetch
+     *
+     * @return array|\Traversable
      */
-    abstract protected function doFetch(array $ids): iterable;
+    abstract protected function doFetch(array $ids);
 
     /**
      * Confirms if the cache contains specified cache item.
      *
      * @param string $id The identifier for which to check existence
+     *
+     * @return bool
      */
-    abstract protected function doHave(string $id): bool;
+    abstract protected function doHave(string $id);
 
     /**
      * Deletes all items in the pool.
      *
      * @param string $namespace The prefix used for all identifiers managed by this pool
+     *
+     * @return bool
      */
-    abstract protected function doClear(string $namespace): bool;
+    abstract protected function doClear(string $namespace);
 
     /**
      * Removes multiple items from the pool.
      *
      * @param array $ids An array of identifiers that should be removed from the pool
+     *
+     * @return bool
      */
-    abstract protected function doDelete(array $ids): bool;
+    abstract protected function doDelete(array $ids);
 
     /**
      * Persists several cache items immediately.
@@ -83,9 +91,14 @@ trait AbstractAdapterTrait
      *
      * @return array|bool The identifiers that failed to be cached or a boolean stating if caching succeeded or not
      */
-    abstract protected function doSave(array $values, int $lifetime): array|bool;
+    abstract protected function doSave(array $values, int $lifetime);
 
-    public function hasItem(mixed $key): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public function hasItem($key)
     {
         $id = $this->getId($key);
 
@@ -102,7 +115,12 @@ trait AbstractAdapterTrait
         }
     }
 
-    public function clear(string $prefix = ''): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public function clear(string $prefix = '')
     {
         $this->deferred = [];
         if ($cleared = $this->versioningIsEnabled) {
@@ -138,12 +156,22 @@ trait AbstractAdapterTrait
         }
     }
 
-    public function deleteItem(mixed $key): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public function deleteItem($key)
     {
         return $this->deleteItems([$key]);
     }
 
-    public function deleteItems(array $keys): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public function deleteItems(array $keys)
     {
         $ids = [];
 
@@ -156,7 +184,7 @@ trait AbstractAdapterTrait
             if ($this->doDelete($ids)) {
                 return true;
             }
-        } catch (\Exception) {
+        } catch (\Exception $e) {
         }
 
         $ok = true;
@@ -178,7 +206,10 @@ trait AbstractAdapterTrait
         return $ok;
     }
 
-    public function getItem(mixed $key): CacheItem
+    /**
+     * {@inheritdoc}
+     */
+    public function getItem($key)
     {
         $id = $this->getId($key);
 
@@ -202,7 +233,10 @@ trait AbstractAdapterTrait
         return (self::$createCacheItem)($key, null, false);
     }
 
-    public function getItems(array $keys = []): iterable
+    /**
+     * {@inheritdoc}
+     */
+    public function getItems(array $keys = [])
     {
         $ids = [];
         $commit = false;
@@ -227,7 +261,12 @@ trait AbstractAdapterTrait
         return $this->generateItems($items, $ids);
     }
 
-    public function save(CacheItemInterface $item): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public function save(CacheItemInterface $item)
     {
         if (!$item instanceof CacheItem) {
             return false;
@@ -237,7 +276,12 @@ trait AbstractAdapterTrait
         return $this->commit();
     }
 
-    public function saveDeferred(CacheItemInterface $item): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public function saveDeferred(CacheItemInterface $item)
     {
         if (!$item instanceof CacheItem) {
             return false;
@@ -257,7 +301,7 @@ trait AbstractAdapterTrait
      *
      * @return bool the previous state of versioning
      */
-    public function enableVersioning(bool $enable = true): bool
+    public function enableVersioning(bool $enable = true)
     {
         $wasEnabled = $this->versioningIsEnabled;
         $this->versioningIsEnabled = $enable;
@@ -267,7 +311,10 @@ trait AbstractAdapterTrait
         return $wasEnabled;
     }
 
-    public function reset(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function reset()
     {
         if ($this->deferred) {
             $this->commit();
@@ -276,14 +323,14 @@ trait AbstractAdapterTrait
         $this->ids = [];
     }
 
-    public function __sleep(): array
+    /**
+     * @return array
+     */
+    public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
-    /**
-     * @return void
-     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
@@ -321,7 +368,7 @@ trait AbstractAdapterTrait
     /**
      * @internal
      */
-    protected function getId(mixed $key): string
+    protected function getId($key)
     {
         if ($this->versioningIsEnabled && '' === $this->namespaceVersion) {
             $this->ids = [];
@@ -357,8 +404,8 @@ trait AbstractAdapterTrait
             return $this->namespace.$this->namespaceVersion.$key;
         }
         if (\strlen($id = $this->namespace.$this->namespaceVersion.$key) > $this->maxIdLength) {
-            // Use xxh128 to favor speed over security, which is not an issue here
-            $this->ids[$key] = $id = substr_replace(base64_encode(hash('xxh128', $key, true)), static::NS_SEPARATOR, -(\strlen($this->namespaceVersion) + 2));
+            // Use MD5 to favor speed over security, which is not an issue here
+            $this->ids[$key] = $id = substr_replace(base64_encode(hash('md5', $key, true)), static::NS_SEPARATOR, -(\strlen($this->namespaceVersion) + 2));
             $id = $this->namespace.$this->namespaceVersion.$id;
         }
 
@@ -368,7 +415,7 @@ trait AbstractAdapterTrait
     /**
      * @internal
      */
-    public static function handleUnserializeCallback(string $class): never
+    public static function handleUnserializeCallback(string $class)
     {
         throw new \DomainException('Class not found: '.$class);
     }

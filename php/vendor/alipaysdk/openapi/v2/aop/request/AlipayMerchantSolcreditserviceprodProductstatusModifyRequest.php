@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.merchant.solcreditserviceprod.productstatus.modify request
  *
  * @author auto create
- * @since 1.0, 2024-10-11 09:12:13
+ * @since 1.0, 2024-11-14 19:57:20
  */
 class AlipayMerchantSolcreditserviceprodProductstatusModifyRequest
 {

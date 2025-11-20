@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ebpp.industry.job.healthcert.query request
  *
  * @author auto create
- * @since 1.0, 2024-09-27 16:07:13
+ * @since 1.0, 2025-03-06 13:52:26
  */
 class AlipayEbppIndustryJobHealthcertQueryRequest
 {

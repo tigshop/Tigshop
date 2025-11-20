@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.iservice.icontrol.nonstandarddata.upload request
  *
  * @author auto create
- * @since 1.0, 2024-09-25 09:27:10
+ * @since 1.0, 2025-04-22 17:37:26
  */
 class AlipayIserviceIcontrolNonstandarddataUploadRequest
 {

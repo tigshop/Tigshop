@@ -31,7 +31,7 @@ trait WithContainer
     /**
      * 获取配置
      * @param string $name
-     * @param null $default
+     * @param mixed $default
      * @return mixed
      */
     public function getConfig(string $name, $default = null)

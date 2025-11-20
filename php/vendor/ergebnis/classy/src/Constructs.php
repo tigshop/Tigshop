@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2017-2023 Andreas Möller
+ * Copyright (c) 2017-2025 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -16,11 +16,11 @@ namespace Ergebnis\Classy;
 final class Constructs
 {
     /**
-     * Returns an array of names of classy constructs (classes, interfaces, traits) found in source.
+     * Returns a list of constructs defined in source code.
      *
      * @throws Exception\ParseError
      *
-     * @return array<int, Construct>
+     * @return list<Construct>
      */
     public static function fromSource(string $source): array
     {
@@ -40,15 +40,42 @@ final class Constructs
 
         $namespaceSegmentOrNamespaceTokens = [
             \T_STRING,
-            \T_NAME_QUALIFIED,
         ];
+
+        /**
+         * @see https://wiki.php.net/rfc/namespaced_names_as_token
+         */
+        if (
+            \PHP_VERSION_ID >= 80000
+            && \defined('T_NAME_QUALIFIED')
+        ) {
+            /** @var list<int> $namespaceSegmentOrNamespaceTokens */
+            $namespaceSegmentOrNamespaceTokens = [
+                \T_STRING,
+                \T_NAME_QUALIFIED,
+            ];
+        }
 
         $classyTokens = [
             \T_CLASS,
-            \T_ENUM,
             \T_INTERFACE,
             \T_TRAIT,
         ];
+
+        /**
+         * @see https://wiki.php.net/rfc/enumerations
+         */
+        if (
+            \PHP_VERSION_ID >= 80100
+            && \defined('T_ENUM')
+        ) {
+            $classyTokens = [
+                \T_CLASS,
+                \T_ENUM,
+                \T_INTERFACE,
+                \T_TRAIT,
+            ];
+        }
 
         for ($index = 0; $index < $count; ++$index) {
             $token = $sequence[$index];
@@ -111,12 +138,12 @@ final class Constructs
     }
 
     /**
-     * Returns an array of constructs defined in a directory.
+     * Returns a list of constructs defined in a directory.
      *
      * @throws Exception\DirectoryDoesNotExist
      * @throws Exception\MultipleDefinitionsFound
      *
-     * @return array<int, Construct>
+     * @return list<Construct>
      */
     public static function fromDirectory(string $directory): array
     {
@@ -126,7 +153,7 @@ final class Constructs
 
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(
             $directory,
-            \RecursiveDirectoryIterator::FOLLOW_SYMLINKS,
+            \FilesystemIterator::FOLLOW_SYMLINKS,
         ));
 
         $constructs = [];
@@ -197,7 +224,7 @@ final class Constructs
     private static function significantAfter(
         int $index,
         array $sequence,
-        int $count,
+        int $count
     ): int {
         for ($current = $index + 1; $current < $count; ++$current) {
             $token = $sequence[$current];
@@ -219,7 +246,7 @@ final class Constructs
      */
     private static function significantBefore(
         int $index,
-        array $sequence,
+        array $sequence
     ): int {
         for ($current = $index - 1; -1 < $current; --$current) {
             $token = $sequence[$current];

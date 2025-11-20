@@ -25,7 +25,6 @@ use Symfony\Component\Cache\Traits\FilesystemTrait;
 class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements PruneableInterface
 {
     use FilesystemTrait {
-        prune as private doPrune;
         doClear as private doClearCache;
         doSave as private doSaveCache;
     }
@@ -42,49 +41,10 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
         $this->init($namespace, $directory);
     }
 
-    public function prune(): bool
-    {
-        $ok = $this->doPrune();
-
-        set_error_handler(static function () {});
-        $chars = '+-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-        try {
-            foreach ($this->scanHashDir($this->directory.self::TAG_FOLDER.\DIRECTORY_SEPARATOR) as $dir) {
-                $dir .= \DIRECTORY_SEPARATOR;
-                $keepDir = false;
-                for ($i = 0; $i < 38; ++$i) {
-                    if (!is_dir($dir.$chars[$i])) {
-                        continue;
-                    }
-                    for ($j = 0; $j < 38; ++$j) {
-                        if (!is_dir($d = $dir.$chars[$i].\DIRECTORY_SEPARATOR.$chars[$j])) {
-                            continue;
-                        }
-                        foreach (scandir($d, \SCANDIR_SORT_NONE) ?: [] as $link) {
-                            if ('.' === $link || '..' === $link) {
-                                continue;
-                            }
-                            if ('_' !== $dir[-2] && realpath($d.\DIRECTORY_SEPARATOR.$link)) {
-                                $keepDir = true;
-                            } else {
-                                unlink($d.\DIRECTORY_SEPARATOR.$link);
-                            }
-                        }
-                        $keepDir ?: rmdir($d);
-                    }
-                    $keepDir ?: rmdir($dir.$chars[$i]);
-                }
-                $keepDir ?: rmdir($dir);
-            }
-        } finally {
-            restore_error_handler();
-        }
-
-        return $ok;
-    }
-
-    protected function doClear(string $namespace): bool
+    /**
+     * {@inheritdoc}
+     */
+    protected function doClear(string $namespace)
     {
         $ok = $this->doClearCache($namespace);
 
@@ -95,11 +55,9 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
         set_error_handler(static function () {});
         $chars = '+-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-        $this->tmpSuffix ??= str_replace('/', '-', base64_encode(random_bytes(6)));
-
         try {
             foreach ($this->scanHashDir($this->directory.self::TAG_FOLDER.\DIRECTORY_SEPARATOR) as $dir) {
-                if (rename($dir, $renamed = substr_replace($dir, $this->tmpSuffix.'_', -9))) {
+                if (rename($dir, $renamed = substr_replace($dir, bin2hex(random_bytes(4)), -8))) {
                     $dir = $renamed.\DIRECTORY_SEPARATOR;
                 } else {
                     $dir .= \DIRECTORY_SEPARATOR;
@@ -132,6 +90,9 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
         return $ok;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doSave(array $values, int $lifetime, array $addTagData = [], array $removeTagData = []): array
     {
         $failed = $this->doSaveCache($values, $lifetime);
@@ -168,6 +129,9 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
         return $failed;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doDeleteYieldTags(array $ids): iterable
     {
         foreach ($ids as $id) {
@@ -176,7 +140,7 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
                 continue;
             }
 
-            if (!@unlink($file)) {
+            if ((\PHP_VERSION_ID >= 70300 || '\\' !== \DIRECTORY_SEPARATOR) && !@unlink($file)) {
                 fclose($h);
                 continue;
             }
@@ -195,15 +159,22 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
 
                 try {
                     yield $id => '' === $meta ? [] : $this->marshaller->unmarshall($meta);
-                } catch (\Exception) {
+                } catch (\Exception $e) {
                     yield $id => [];
                 }
             }
 
             fclose($h);
+
+            if (\PHP_VERSION_ID < 70300 && '\\' === \DIRECTORY_SEPARATOR) {
+                @unlink($file);
+            }
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doDeleteTagRelations(array $tagData): bool
     {
         foreach ($tagData as $tagId => $idList) {
@@ -216,6 +187,9 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doInvalidate(array $tagIds): bool
     {
         foreach ($tagIds as $tagId) {
@@ -223,12 +197,10 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
                 continue;
             }
 
-            $this->tmpSuffix ??= str_replace('/', '-', base64_encode(random_bytes(6)));
-
             set_error_handler(static function () {});
 
             try {
-                if (rename($tagFolder, $renamed = substr_replace($tagFolder, $this->tmpSuffix.'_', -10))) {
+                if (rename($tagFolder, $renamed = substr_replace($tagFolder, bin2hex(random_bytes(4)), -9))) {
                     $tagFolder = $renamed.\DIRECTORY_SEPARATOR;
                 } else {
                     $renamed = null;

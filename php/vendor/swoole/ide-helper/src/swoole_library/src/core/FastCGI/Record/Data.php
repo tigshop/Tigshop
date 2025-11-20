@@ -21,7 +21,7 @@ use Swoole\FastCGI\Record;
  */
 class Data extends Record
 {
-    public function __construct(string $contentData = '')
+    public function __construct(string $contentData)
     {
         $this->type = FastCGI::DATA;
         $this->setContentData($contentData);

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.0 - 2024-10-17
+
+- Refactor all credentials providers.
+
 ## 1.1.3 - 2020-12-24
 
 - Require guzzle ^6.3|^7.0

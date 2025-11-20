@@ -166,6 +166,59 @@ class JsonMapperTest_Simple
         $this->additional[$key] = $value;
     }
 
+    /**
+     * @param string $key
+     * @param int $value
+     */
+    public function addTypedAdditionalProperty($key, $value)
+    {
+        $this->additional[$key] = $value;
+    }
+
+    /**
+     * @param string $key
+     * @param JsonMapperTest_Simple $value
+     */
+    public function addCustomTypedAdditionalProperty($key, $value)
+    {
+        $this->additional[$key] = $value;
+    }
+
+    /**
+     * @factory FactoryMethod::createFromInt
+     *
+     * @param string $key
+     * @param bool $value
+     */
+    public function addFactoryAdditionalProperty($key, $value)
+    {
+        $this->additional[$key] = $value;
+    }
+
+    /**
+     * @mapsBy oneOf(float,mixed)
+     *
+     * @param string $key
+     * @param int|float $value
+     */
+    public function addMapsByAdditionalProperty($key, $value)
+    {
+        $this->additional[$key] = $value;
+    }
+
+    /**
+     * @mapsBy anyOf(int,bool)
+     * @factory FactoryMethod::createFromIntStrict int
+     * @factory FactoryMethod::createFromBoolStrict bool
+     *
+     * @param string $key
+     * @param int|bool $value
+     */
+    public function addMapsByFactoryAdditionalProperty($key, $value)
+    {
+        $this->additional[$key] = $value;
+    }
+
     private function privateAddAdditionalProperty($key, $value)
     {
         $this->additional[$key] = $value;

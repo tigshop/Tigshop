@@ -54,7 +54,7 @@ class Packet
 
     public static function create($type, array $decoded = [])
     {
-        $new     = new static($type);
+        $new = new self($type);
         $new->id = $decoded['id'] ?? null;
         if (isset($decoded['nsp'])) {
             $new->nsp = $decoded['nsp'] ?: '/';

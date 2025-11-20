@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.operation.benefit.single.query request
  *
  * @author auto create
- * @since 1.0, 2023-05-31 03:34:34
+ * @since 1.0, 2025-08-13 15:37:39
  */
 class AlipayCommerceOperationBenefitSingleQueryRequest
 {

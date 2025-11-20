@@ -3,7 +3,7 @@
  * ALIPAY API: techrisk.innovate.cloudbaseenv.workspace.batchquery request
  *
  * @author auto create
- * @since 1.0, 2024-08-08 22:11:05
+ * @since 1.0, 2025-08-13 14:27:43
  */
 class TechriskInnovateCloudbaseenvWorkspaceBatchqueryRequest
 {

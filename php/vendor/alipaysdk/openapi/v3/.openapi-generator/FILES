@@ -269,7 +269,6 @@ docs/Api/AlipayOpenInstantdeliveryAccountApi.md
 docs/Api/AlipayOpenInstantdeliveryMerchantagreementApi.md
 docs/Api/AlipayOpenInstantdeliveryMerchantshopApi.md
 docs/Api/AlipayOpenInviteOrderApi.md
-docs/Api/AlipayOpenMiniAppdeployByappidApi.md
 docs/Api/AlipayOpenMiniAppdeployByappversionApi.md
 docs/Api/AlipayOpenMiniAppdeployBydeployversionApi.md
 docs/Api/AlipayOpenMiniBaseinfoApi.md
@@ -294,7 +293,6 @@ docs/Api/AlipayOpenMiniInnerversionAuditApi.md
 docs/Api/AlipayOpenMiniInnerversionBackdevApi.md
 docs/Api/AlipayOpenMiniInnerversionBetaApi.md
 docs/Api/AlipayOpenMiniInnerversionBetainfoApi.md
-docs/Api/AlipayOpenMiniInnerversionBuildauditApi.md
 docs/Api/AlipayOpenMiniInnerversionConditionApi.md
 docs/Api/AlipayOpenMiniInnerversionContentApi.md
 docs/Api/AlipayOpenMiniInnerversionGrayApi.md
@@ -331,8 +329,6 @@ docs/Api/AlipayOpenMiniVersionBuildApi.md
 docs/Api/AlipayOpenMiniVersionDetailApi.md
 docs/Api/AlipayOpenMiniVersionGrayApi.md
 docs/Api/AlipayOpenMiniVersionListApi.md
-docs/Api/AlipayOpenMiniWidgetDataApi.md
-docs/Api/AlipayOpenMiniWidgetGoodsApi.md
 docs/Api/AlipayOpenPublicAccountApi.md
 docs/Api/AlipayOpenPublicAdvertApi.md
 docs/Api/AlipayOpenPublicArticlesummaryDataApi.md
@@ -746,7 +742,6 @@ src/Api/AlipayOpenInstantdeliveryAccountApi.php
 src/Api/AlipayOpenInstantdeliveryMerchantagreementApi.php
 src/Api/AlipayOpenInstantdeliveryMerchantshopApi.php
 src/Api/AlipayOpenInviteOrderApi.php
-src/Api/AlipayOpenMiniAppdeployByappidApi.php
 src/Api/AlipayOpenMiniAppdeployByappversionApi.php
 src/Api/AlipayOpenMiniAppdeployBydeployversionApi.php
 src/Api/AlipayOpenMiniBaseinfoApi.php
@@ -771,7 +766,6 @@ src/Api/AlipayOpenMiniInnerversionAuditApi.php
 src/Api/AlipayOpenMiniInnerversionBackdevApi.php
 src/Api/AlipayOpenMiniInnerversionBetaApi.php
 src/Api/AlipayOpenMiniInnerversionBetainfoApi.php
-src/Api/AlipayOpenMiniInnerversionBuildauditApi.php
 src/Api/AlipayOpenMiniInnerversionConditionApi.php
 src/Api/AlipayOpenMiniInnerversionContentApi.php
 src/Api/AlipayOpenMiniInnerversionGrayApi.php
@@ -808,8 +802,6 @@ src/Api/AlipayOpenMiniVersionBuildApi.php
 src/Api/AlipayOpenMiniVersionDetailApi.php
 src/Api/AlipayOpenMiniVersionGrayApi.php
 src/Api/AlipayOpenMiniVersionListApi.php
-src/Api/AlipayOpenMiniWidgetDataApi.php
-src/Api/AlipayOpenMiniWidgetGoodsApi.php
 src/Api/AlipayOpenPublicAccountApi.php
 src/Api/AlipayOpenPublicAdvertApi.php
 src/Api/AlipayOpenPublicArticlesummaryDataApi.php
@@ -1079,9 +1071,11 @@ src/Model/AlipayCommerceEcEmployeeInviteQueryResponseModel.php
 src/Model/AlipayCommerceEcEmployeeTitleCreateDefaultResponse.php
 src/Model/AlipayCommerceEcEmployeeTitleCreateErrorResponseModel.php
 src/Model/AlipayCommerceEcEmployeeTitleCreateModel.php
+src/Model/AlipayCommerceEcEmployeeTitleCreateResponseModel.php
 src/Model/AlipayCommerceEcEmployeeTitleDeleteDefaultResponse.php
 src/Model/AlipayCommerceEcEmployeeTitleDeleteErrorResponseModel.php
 src/Model/AlipayCommerceEcEmployeeTitleDeleteModel.php
+src/Model/AlipayCommerceEcEmployeeTitleDeleteResponseModel.php
 src/Model/AlipayCommerceEcEmployeeTitleModifyDefaultResponse.php
 src/Model/AlipayCommerceEcEmployeeTitleModifyErrorResponseModel.php
 src/Model/AlipayCommerceEcEmployeeTitleModifyModel.php
@@ -1616,6 +1610,7 @@ src/Model/AlipayEcoMycarParkingParkinglotinfoQueryResponseModel.php
 src/Model/AlipayEcoMycarParkingParkinglotinfoUpdateDefaultResponse.php
 src/Model/AlipayEcoMycarParkingParkinglotinfoUpdateErrorResponseModel.php
 src/Model/AlipayEcoMycarParkingParkinglotinfoUpdateModel.php
+src/Model/AlipayEcoMycarParkingParkinglotinfoUpdateResponseModel.php
 src/Model/AlipayEcoMycarParkingPaymentinfoSyncDefaultResponse.php
 src/Model/AlipayEcoMycarParkingPaymentinfoSyncErrorResponseModel.php
 src/Model/AlipayEcoMycarParkingPaymentinfoSyncModel.php
@@ -2465,9 +2460,6 @@ src/Model/AlipayOpenInstantdeliveryMerchantshopQueryResponseModel.php
 src/Model/AlipayOpenInviteOrderQueryDefaultResponse.php
 src/Model/AlipayOpenInviteOrderQueryErrorResponseModel.php
 src/Model/AlipayOpenInviteOrderQueryResponseModel.php
-src/Model/AlipayOpenMiniAppdeployByappidQueryDefaultResponse.php
-src/Model/AlipayOpenMiniAppdeployByappidQueryErrorResponseModel.php
-src/Model/AlipayOpenMiniAppdeployByappidQueryResponseModel.php
 src/Model/AlipayOpenMiniAppdeployByappversionQueryDefaultResponse.php
 src/Model/AlipayOpenMiniAppdeployByappversionQueryErrorResponseModel.php
 src/Model/AlipayOpenMiniAppdeployByappversionQueryResponseModel.php
@@ -2478,6 +2470,7 @@ src/Model/AlipayOpenMiniBaseinfoModifyDefaultResponse.php
 src/Model/AlipayOpenMiniBaseinfoModifyErrorResponseModel.php
 src/Model/AlipayOpenMiniBaseinfoModifyModel.php
 src/Model/AlipayOpenMiniBaseinfoModifyRequest.php
+src/Model/AlipayOpenMiniBaseinfoModifyResponseModel.php
 src/Model/AlipayOpenMiniBaseinfoNameCheckDefaultResponse.php
 src/Model/AlipayOpenMiniBaseinfoNameCheckErrorResponseModel.php
 src/Model/AlipayOpenMiniBaseinfoNameCheckResponseModel.php
@@ -2572,9 +2565,6 @@ src/Model/AlipayOpenMiniInnerversionBetaConfirmModel.php
 src/Model/AlipayOpenMiniInnerversionBetainfoQueryDefaultResponse.php
 src/Model/AlipayOpenMiniInnerversionBetainfoQueryErrorResponseModel.php
 src/Model/AlipayOpenMiniInnerversionBetainfoQueryResponseModel.php
-src/Model/AlipayOpenMiniInnerversionBuildauditSubmitDefaultResponse.php
-src/Model/AlipayOpenMiniInnerversionBuildauditSubmitErrorResponseModel.php
-src/Model/AlipayOpenMiniInnerversionBuildauditSubmitModel.php
 src/Model/AlipayOpenMiniInnerversionConditionBatchqueryDefaultResponse.php
 src/Model/AlipayOpenMiniInnerversionConditionBatchqueryErrorResponseModel.php
 src/Model/AlipayOpenMiniInnerversionConditionBatchqueryModel.php
@@ -2623,9 +2613,6 @@ src/Model/AlipayOpenMiniInnerversionSyncModel.php
 src/Model/AlipayOpenMiniInnerversionTemplatedUploadDefaultResponse.php
 src/Model/AlipayOpenMiniInnerversionTemplatedUploadErrorResponseModel.php
 src/Model/AlipayOpenMiniInnerversionTemplatedUploadModel.php
-src/Model/AlipayOpenMiniInnerversionUpgradeDefaultResponse.php
-src/Model/AlipayOpenMiniInnerversionUpgradeErrorResponseModel.php
-src/Model/AlipayOpenMiniInnerversionUpgradeModel.php
 src/Model/AlipayOpenMiniInnerversionUploadDefaultResponse.php
 src/Model/AlipayOpenMiniInnerversionUploadErrorResponseModel.php
 src/Model/AlipayOpenMiniInnerversionUploadModel.php
@@ -2762,21 +2749,6 @@ src/Model/AlipayOpenMiniVersionUploadDefaultResponse.php
 src/Model/AlipayOpenMiniVersionUploadErrorResponseModel.php
 src/Model/AlipayOpenMiniVersionUploadModel.php
 src/Model/AlipayOpenMiniVersionUploadResponseModel.php
-src/Model/AlipayOpenMiniWidgetDataSyncDefaultResponse.php
-src/Model/AlipayOpenMiniWidgetDataSyncErrorResponseModel.php
-src/Model/AlipayOpenMiniWidgetDataSyncModel.php
-src/Model/AlipayOpenMiniWidgetDataSyncResponseModel.php
-src/Model/AlipayOpenMiniWidgetGoodsModifyDefaultResponse.php
-src/Model/AlipayOpenMiniWidgetGoodsModifyErrorResponseModel.php
-src/Model/AlipayOpenMiniWidgetGoodsModifyModel.php
-src/Model/AlipayOpenMiniWidgetGoodsModifyResponseModel.php
-src/Model/AlipayOpenMiniWidgetGoodsQueryDefaultResponse.php
-src/Model/AlipayOpenMiniWidgetGoodsQueryErrorResponseModel.php
-src/Model/AlipayOpenMiniWidgetGoodsQueryResponseModel.php
-src/Model/AlipayOpenMiniWidgetGoodsUploadDefaultResponse.php
-src/Model/AlipayOpenMiniWidgetGoodsUploadErrorResponseModel.php
-src/Model/AlipayOpenMiniWidgetGoodsUploadModel.php
-src/Model/AlipayOpenMiniWidgetGoodsUploadResponseModel.php
 src/Model/AlipayOpenPublicAccountCreateDefaultResponse.php
 src/Model/AlipayOpenPublicAccountCreateErrorResponseModel.php
 src/Model/AlipayOpenPublicAccountCreateModel.php
@@ -3506,6 +3478,7 @@ src/Model/AttachmentExplain.php
 src/Model/AttachmentExplainBean.php
 src/Model/AuditEvidenceInfo.php
 src/Model/AuditLicenseInfo.php
+src/Model/AuditResultInfo.php
 src/Model/AuthApiDTO.php
 src/Model/AuthFieldApply.php
 src/Model/AuthFieldDTO.php
@@ -3552,6 +3525,7 @@ src/Model/CategoryRequireInfo.php
 src/Model/ChargeInfo.php
 src/Model/ChargeItems.php
 src/Model/ChatMessage.php
+src/Model/CloseExtendParams.php
 src/Model/CloudResumeCertificateInfo.php
 src/Model/CloudResumeEducationExperience.php
 src/Model/CloudResumeHeadPic.php
@@ -3569,6 +3543,8 @@ src/Model/CommonVoucherSendRule.php
 src/Model/CommonVoucherUseRule.php
 src/Model/CommonVoucherUseRuleLiteInfo.php
 src/Model/CompleteVoucherInfo.php
+src/Model/ComplexBusinessTime.php
+src/Model/ComplexBusinessTimePeriod.php
 src/Model/ComplexLabelRule.php
 src/Model/ConfigInfo.php
 src/Model/ConfigInfoBean.php
@@ -3673,11 +3649,14 @@ src/Model/DiscountVoucher.php
 src/Model/DiscountVoucherInfo.php
 src/Model/DocInfo.php
 src/Model/EcConsumeInfo.php
+src/Model/EcEmployeeTitleFailed.php
+src/Model/EcEmployeeTitleModifyTaxNoAndTitleId.php
 src/Model/EcOrderInfo.php
 src/Model/EcOrderItem.php
 src/Model/EcShopInfo.php
 src/Model/EcVoucherInfo.php
 src/Model/EinvTrade.php
+src/Model/EmployeeAccountingEntityDTO.php
 src/Model/EmployeeDepartmentDTO.php
 src/Model/EmployeeInfoDTO.php
 src/Model/EmployeeTitleDTO.php
@@ -3733,7 +3712,6 @@ src/Model/GoodsDetailIstd.php
 src/Model/GoodsInfoDTO.php
 src/Model/GoodsInfoIstd.php
 src/Model/GoodsOrder.php
-src/Model/GoodsQueryResponse.php
 src/Model/HSchoolInfo.php
 src/Model/HbFqPayInfo.php
 src/Model/HolidayRuleInfo.php
@@ -3751,6 +3729,7 @@ src/Model/IndirectSupportCredentials.php
 src/Model/IndustryQualificationInfo.php
 src/Model/Instance.php
 src/Model/InstitutionBasicInfo.php
+src/Model/InstitutionScopeInfo.php
 src/Model/IntactChargeInfo.php
 src/Model/InterfaceInfoList.php
 src/Model/InviteMemberBusinessParamsDTO.php
@@ -3865,7 +3844,12 @@ src/Model/MiniVersionBaseInfo.php
 src/Model/MiniappBrandAuditResult.php
 src/Model/ModelFunction.php
 src/Model/ModelInterface.php
+src/Model/ModifyIssueRuleDetailInfo.php
+src/Model/ModifyIssueRuleInfo.php
 src/Model/ModifyQuotaDetails.php
+src/Model/ModifyScopeInfo.php
+src/Model/ModifyStandardDetailInfo.php
+src/Model/ModifyStandardInfo.php
 src/Model/MonitorHeartbeatSynDefaultResponse.php
 src/Model/MonitorHeartbeatSynErrorResponseModel.php
 src/Model/MonitorHeartbeatSynModel.php
@@ -3982,6 +3966,7 @@ src/Model/QueryExtension.php
 src/Model/QueryGroup.php
 src/Model/QueryLabelRule.php
 src/Model/QueryMenu.php
+src/Model/QuotaInfoDTO.php
 src/Model/QuotaModifyDetail.php
 src/Model/QuotaQueryResponse.php
 src/Model/ReceiverAddressInfo.php
@@ -4001,6 +3986,7 @@ src/Model/RefundGoodsDetail.php
 src/Model/RefundRoyaltyResult.php
 src/Model/RefundSubFee.php
 src/Model/RegionInfo.php
+src/Model/ReliableEnterpriseProfilesDTO.php
 src/Model/ReplyRecord.php
 src/Model/ReplyRecordResponse.php
 src/Model/Role.php
@@ -4011,6 +3997,7 @@ src/Model/RoyaltyDetailInfos.php
 src/Model/RoyaltyEntity.php
 src/Model/RoyaltyInfo.php
 src/Model/Scene.php
+src/Model/SceneRuleParams.php
 src/Model/SchoolBaseInfo.php
 src/Model/SchoolSimpleInfo.php
 src/Model/SearchAbilityOrderData.php
@@ -4222,8 +4209,6 @@ src/Model/WaybillInvoice.php
 src/Model/WaybillInvoiceIstd.php
 src/Model/WaybillInvoiceQueryIstd.php
 src/Model/WeekRuleInfo.php
-src/Model/WidgetActivityInfo.php
-src/Model/WidgetGoodsInfo.php
 src/Model/ZMGOBasicConfig.php
 src/Model/ZMGOCycleFlexConfig.php
 src/Model/ZMGOCycleWithholdConfig.php

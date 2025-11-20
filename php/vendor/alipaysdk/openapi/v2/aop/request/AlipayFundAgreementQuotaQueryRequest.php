@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.agreement.quota.query request
  *
  * @author auto create
- * @since 1.0, 2023-09-11 17:49:16
+ * @since 1.0, 2025-08-13 15:57:41
  */
 class AlipayFundAgreementQuotaQueryRequest
 {

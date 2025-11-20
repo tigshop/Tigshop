@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ins.scene.common.grouporder.close request
  *
  * @author auto create
- * @since 1.0, 2023-10-25 16:36:38
+ * @since 1.0, 2024-10-30 14:41:37
  */
 class AlipayInsSceneCommonGrouporderCloseRequest
 {

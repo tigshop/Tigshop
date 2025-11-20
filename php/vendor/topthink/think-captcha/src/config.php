@@ -30,6 +30,10 @@ return [
     'imageH'   => 0,
     // 验证码图片宽度
     'imageW'   => 0,
+    // 验证码图片透明度
+    'alpha'    => 0,
+    // 是否采用API模式生成
+    'api'      => false,
 
     // 添加额外的验证码设置
     // verify => [

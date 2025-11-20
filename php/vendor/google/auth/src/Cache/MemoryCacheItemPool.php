@@ -57,8 +57,9 @@ final class MemoryCacheItemPool implements CacheItemPoolInterface
     public function getItems(array $keys = []): iterable
     {
         $items = [];
+        $itemClass = \PHP_VERSION_ID >= 80000 ? TypedItem::class : Item::class;
         foreach ($keys as $key) {
-            $items[$key] = $this->hasItem($key) ? clone $this->items[$key] : new TypedItem($key);
+            $items[$key] = $this->hasItem($key) ? clone $this->items[$key] : new $itemClass($key);
         }
 
         return $items;

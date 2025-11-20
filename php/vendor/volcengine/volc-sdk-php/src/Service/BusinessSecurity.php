@@ -312,6 +312,116 @@ class BusinessSecurity extends V4Curl
                 ],
             ]
         ],
+        'CreateCustomLib' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'CreateCustomLib',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'UpdateCustomLib' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'UpdateCustomLib',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'ChangeCustomContentsStatus' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'ChangeCustomContentsStatus',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'DeleteCustomLib' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'DeleteCustomLib',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'GetCustomLib' => [
+            'url' => '/',
+            'method' => 'get',
+            'config' => [
+                'query' => [
+                    'Action' => 'GetCustomLib',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'GetTextLibContent' => [
+            'url' => '/',
+            'method' => 'get',
+            'config' => [
+                'query' => [
+                    'Action' => 'GetTextLibContent',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'UploadTextLibContent' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'UploadTextLibContent',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'DeleteTextLibContent' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'DeleteTextLibContent',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'GetImageLibContent' => [
+            'url' => '/',
+            'method' => 'get',
+            'config' => [
+                'query' => [
+                    'Action' => 'GetImageLibContent',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'DeleteImageLibContent' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'DeleteImageLibContent',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
+        'UploadImageLibContent' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'UploadImageLibContent',
+                    'Version' => '2023-10-01',
+                ],
+            ]
+        ],
     ];
 
     private $customerTimeout = 0;
@@ -665,5 +775,158 @@ class BusinessSecurity extends V4Curl
             "query" => $commitBody
         ];
         return $this->requestWithRetry("ContentRiskStat", $commitReq);
+    }
+
+    public function CreateCustomLib(int $appId, string $name, string $description, string $matchType, string $decision, string $biztypes, string $service, string $libType): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["description"] = $description;
+        $commitBody["match_type"] = $matchType;
+        $commitBody["decision"] = $decision;
+        $commitBody["biztypes"] = $biztypes;
+        $commitBody["service"] = $service;
+        $commitBody["lib_type"] = $libType;
+        $commitReq = [
+            "json" => $commitBody
+        ];
+        return $this->requestWithRetry("CreateCustomLib", $commitReq);
+    }
+
+    public function UpdateCustomLib(int $appId, string $name, string $description, string $biztypes, string $service, string $libType): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["description"] = $description;
+        $commitBody["biztypes"] = $biztypes;
+        $commitBody["service"] = $service;
+        $commitBody["lib_type"] = $libType;
+        $commitReq = [
+            "json" => $commitBody
+        ];
+        return $this->requestWithRetry("UpdateCustomLib", $commitReq);
+    }
+
+    public function ChangeCustomContentsStatus(int $appId, string $name, string $service, string $libType, int $status): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["status"] = $status;
+        $commitBody["service"] = $service;
+        $commitBody["lib_type"] = $libType;
+        $commitReq = [
+            "json" => $commitBody
+        ];
+        return $this->requestWithRetry("ChangeCustomContentsStatus", $commitReq);
+    }
+
+    public function DeleteCustomLib(int $appId, string $name, string $service, string $libType): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["service"] = $service;
+        $commitBody["lib_type"] = $libType;
+        $commitReq = [
+            "json" => $commitBody
+        ];
+        return $this->requestWithRetry("DeleteCustomLib", $commitReq);
+    }
+
+    public function GetCustomLib(int $appId, string $service, string $libType): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["service"] = $service;
+        $commitBody["lib_type"] = $libType;
+        $commitReq = [
+            "query" => $commitBody
+        ];
+        return $this->requestWithRetry("GetCustomLib", $commitReq);
+    }
+
+    public function GetTextLibContent(int $appId, string $name, string $service, string $keyword, int $pageNum, int $pageSize): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["service"] = $service;
+        $commitBody["name"] = $name;
+        $commitBody["keyword"] = $keyword;
+        $commitBody["page_num"] = $pageNum;
+        $commitBody["page_size"] = $pageSize;
+        $commitReq = [
+            "query" => $commitBody
+        ];
+        return $this->requestWithRetry("GetTextLibContent", $commitReq);
+    }
+
+    public function UploadTextLibContent(int $appId, string $name, string $service, array $data): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["service"] = $service;
+        $commitBody["data"] = $data;
+        $commitReq = [
+            "json" => $commitBody
+        ];
+        return $this->requestWithRetry("UploadTextLibContent", $commitReq);
+    }
+
+    public function DeleteTextLibContent(int $appId, string $name, string $service, array $data): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["service"] = $service;
+        $commitBody["data"] = $data;
+        $commitReq = [
+            "json" => $commitBody
+        ];
+        return $this->requestWithRetry("DeleteTextLibContent", $commitReq);
+    }
+
+    public function GetImageLibContent(int $appId, string $name, string $service, string $keyword, int $pageNum, int $pageSize): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["keyword"] = $keyword;
+        $commitBody["page_num"] = $pageNum;
+        $commitBody["page_size"] = $pageSize;
+        $commitBody["service"] = $service;
+        $commitReq = [
+            "query" => $commitBody
+        ];
+        return $this->requestWithRetry("GetImageLibContent", $commitReq);
+    }
+
+    public function DeleteImageLibContent(int $appId, string $name, string $service, array $data): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["service"] = $service;
+        $commitBody["data"] = $data;
+        $commitReq = [
+            "json" => $commitBody
+        ];
+        return $this->requestWithRetry("DeleteImageLibContent", $commitReq);
+    }
+
+    public function UploadImageLibContent(int $appId, string $name, string $service, array $data): string
+    {
+        $commitBody = array();
+        $commitBody["app_id"] = $appId;
+        $commitBody["name"] = $name;
+        $commitBody["service"] = $service;
+        $commitBody["data"] = $data;
+        $commitReq = [
+            "json" => $commitBody
+        ];
+        return $this->requestWithRetry("UploadImageLibContent", $commitReq);
     }
 }

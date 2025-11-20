@@ -26,9 +26,9 @@
     ],
     "require": {
         "php": "^7.2.5 || ^8.0",
-        "guzzlehttp/guzzle": "^7.8",
-        "guzzlehttp/promises": "^1.5.3 || ^2.0.1",
-        "guzzlehttp/psr7": "^1.9.1 || ^2.5.1"
+        "guzzlehttp/guzzle": "^7.9.2",
+        "guzzlehttp/promises": "^1.5.3 || ^2.0.3",
+        "guzzlehttp/psr7": "^2.7.0"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8.2",

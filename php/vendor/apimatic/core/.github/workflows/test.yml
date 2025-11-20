@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest] # windows-latest, macos-latest
-        php: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2']
+        php: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
         include:
           - php: 7.2
             phpunit: 7
@@ -31,6 +31,10 @@ jobs:
             phpunit: 9
           - php: 8.2
             phpunit: 9
+          - php: 8.3
+            phpunit: 9
+          - php: 8.4
+            phpunit: 9            
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -64,7 +68,7 @@ jobs:
       run: composer test-ci
 
     - name: Upload coverage report
-      if: ${{ matrix.os == 'ubuntu-latest' && matrix.php == '8.1' }}
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.php == '8.1' && github.actor != 'dependabot[bot]' }}
       uses: paambaati/codeclimate-action@v3.0.0
       env:
         CC_TEST_REPORTER_ID: 3ee5e7a87dbd07c2616dfc72aada93a8d88684a483279f3995ab045190b5a811

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.boss.fnc.outputinvoice.outbill.apply request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:25:21
+ * @since 1.0, 2025-06-11 16:27:30
  */
 class AlipayBossFncOutputinvoiceOutbillApplyRequest
 {

@@ -14,7 +14,7 @@ use Nette\InvalidStateException;
 
 
 /**
- * Namespaced part of a PHP file.
+ * Definition of a PHP namespace.
  *
  * Generates:
  * - namespace statement

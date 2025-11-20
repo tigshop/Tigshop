@@ -1,0 +1,30 @@
+name: Test Suite
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ "8.0", "8.1", "8.2", "8.3" ]
+    name: "PHP ${{ matrix.php }} Unit Test"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: codecov/codecov-action@v1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: pecl
+          extensions: grpc-1.49.0
+      - name: Install composer dependencies
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: composer install
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit -v

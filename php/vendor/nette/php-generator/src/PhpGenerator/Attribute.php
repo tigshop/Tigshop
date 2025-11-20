@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * PHP Attribute.
+ * Definition of a PHP attribute.
  */
 final class Attribute
 {

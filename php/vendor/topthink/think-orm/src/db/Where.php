@@ -168,7 +168,7 @@ class Where implements ArrayAccess
         $this->__unset($name);
     }
 
-    public function offsetGet(mixed $name)
+    public function offsetGet(mixed $name): mixed
     {
         return $this->__get($name);
     }

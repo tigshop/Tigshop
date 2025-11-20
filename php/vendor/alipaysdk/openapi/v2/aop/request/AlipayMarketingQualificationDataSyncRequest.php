@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.marketing.qualification.data.sync request
  *
  * @author auto create
- * @since 1.0, 2024-10-08 17:07:12
+ * @since 1.0, 2025-05-14 15:14:47
  */
 class AlipayMarketingQualificationDataSyncRequest
 {

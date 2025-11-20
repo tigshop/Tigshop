@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.mini.tips.statistic.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-12 15:37:03
+ * @since 1.0, 2025-03-14 14:22:25
  */
 class AlipayOpenMiniTipsStatisticQueryRequest
 {

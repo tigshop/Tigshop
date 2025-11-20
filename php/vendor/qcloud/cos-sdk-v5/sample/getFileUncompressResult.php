@@ -13,7 +13,7 @@ $cosClient = new Qcloud\Cos\Client(
             'secretId'  => $secretId,
             'secretKey' => $secretKey)));
 try {
-    // https://cloud.tencent.com/document/product/436/83111 查询文件解压结果
+    // 查询文件解压结果
     $result = $cosClient->getFileUncompressResult(array(
         'Bucket' => 'examplebucket-125000000', //存储桶名称，由BucketName-Appid 组成，可以在COS控制台查看 https://console.cloud.tencent.com/cos5/bucket
         'Key' => '', // jobId

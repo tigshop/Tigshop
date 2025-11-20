@@ -57,6 +57,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ListNetworkInterfaces listNetworkInterfaces(array $options = [])
  * @method ListNodeInfosForPod listNodeInfosForPod(array $options = [])
  * @method ListSubnets listSubnets(array $options = [])
+ * @method ListVccFlowInfos listVccFlowInfos(array $options = [])
  * @method ListVccGrantRules listVccGrantRules(array $options = [])
  * @method ListVccRouteEntries listVccRouteEntries(array $options = [])
  * @method ListVccs listVccs(array $options = [])
@@ -300,6 +301,7 @@ class AssociateVpdCidrBlock extends Rpc
  * @method string getSecurityGroupId()
  * @method string getDescription()
  * @method string getNodeId()
+ * @method string getEnableJumboFrame()
  * @method string getVSwitchId()
  * @method string getVpcId()
  * @method string getZoneId()
@@ -355,6 +357,19 @@ class CreateElasticNetworkInterface extends Rpc
     {
         $this->data['NodeId'] = $value;
         $this->options['form_params']['NodeId'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withEnableJumboFrame($value)
+    {
+        $this->data['EnableJumboFrame'] = $value;
+        $this->options['form_params']['EnableJumboFrame'] = $value;
 
         return $this;
     }
@@ -813,6 +828,7 @@ class CreateSubnet extends Rpc
  * @method string getCenId()
  * @method string getDescription()
  * @method string getCenOwnerId()
+ * @method string getBgpAsn()
  * @method string getAccessCouldService()
  * @method string getResourceGroupId()
  * @method string getVccName()
@@ -876,6 +892,19 @@ class CreateVcc extends Rpc
     {
         $this->data['CenOwnerId'] = $value;
         $this->options['form_params']['CenOwnerId'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withBgpAsn($value)
+    {
+        $this->data['BgpAsn'] = $value;
+        $this->options['form_params']['BgpAsn'] = $value;
 
         return $this;
     }
@@ -3742,6 +3771,82 @@ class ListSubnets extends Rpc
     {
         $this->data['Status'] = $value;
         $this->options['form_params']['Status'] = $value;
+
+        return $this;
+    }
+}
+
+/**
+ * @method string getFrom()
+ * @method string getTo()
+ * @method string getVccId()
+ * @method string getMetricName()
+ * @method string getDirection()
+ */
+class ListVccFlowInfos extends Rpc
+{
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withFrom($value)
+    {
+        $this->data['From'] = $value;
+        $this->options['form_params']['From'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withTo($value)
+    {
+        $this->data['To'] = $value;
+        $this->options['form_params']['To'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withVccId($value)
+    {
+        $this->data['VccId'] = $value;
+        $this->options['form_params']['VccId'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withMetricName($value)
+    {
+        $this->data['MetricName'] = $value;
+        $this->options['form_params']['MetricName'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withDirection($value)
+    {
+        $this->data['Direction'] = $value;
+        $this->options['form_params']['Direction'] = $value;
 
         return $this;
     }

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.marketing.exchangevoucher.use request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:41:16
+ * @since 1.0, 2025-09-16 11:02:40
  */
 class AlipayMarketingExchangevoucherUseRequest
 {

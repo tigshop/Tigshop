@@ -6,11 +6,11 @@ namespace Swoole\Server;
 
 class Event
 {
-    public $reactor_id = 0;
+    public int $reactor_id = 0;
 
-    public $fd = 0;
+    public int $fd = 0;
 
-    public $dispatch_time = 0;
+    public float $dispatch_time = 0;
 
-    public $data;
+    public string $data;
 }

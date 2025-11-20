@@ -10,6 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use RuntimeException;
 use Exception;
+use AlibabaCloud\Credentials\Credential\RefreshResult;
 
 /**
  * @internal This class is intended for internal use within the package. 
@@ -166,12 +167,16 @@ class OIDCRoleArnCredentialsProvider extends SessionCredentialsProvider
 
     private function filterSTSEndpoint(array $params)
     {
+        $prefix = 'sts';
+        if (Helper::envNotEmpty('ALIBABA_CLOUD_VPC_ENDPOINT_ENABLED') || (isset($params['enableVpc']) && $params['enableVpc'] === true)) {
+            $prefix = 'sts-vpc';
+        }
         if (Helper::envNotEmpty('ALIBABA_CLOUD_STS_REGION')) {
-            $this->stsEndpoint = 'sts' . Helper::env('ALIBABA_CLOUD_STS_REGION') . '.aliyuncs.com';
+            $this->stsEndpoint = $prefix . '.' . Helper::env('ALIBABA_CLOUD_STS_REGION') . '.aliyuncs.com';
         }
 
         if (isset($params['stsRegionId'])) {
-            $this->stsEndpoint = 'sts' . $params['stsRegionId'] . '.aliyuncs.com';
+            $this->stsEndpoint = $prefix . '.' . $params['stsRegionId'] . '.aliyuncs.com';
         }
 
         if (isset($params['stsEndpoint'])) {
@@ -199,7 +204,7 @@ class OIDCRoleArnCredentialsProvider extends SessionCredentialsProvider
     /**
      * Get credentials by request.
      *
-     * @return array
+     * @return RefreshResult
      * @throws RuntimeException
      * @throws GuzzleException
      */
@@ -242,7 +247,13 @@ class OIDCRoleArnCredentialsProvider extends SessionCredentialsProvider
             throw new RuntimeException('Error retrieving credentials from OIDC result:' . $result->toJson());
         }
 
-        return $credentials;
+        return new RefreshResult(new Credentials([
+            'accessKeyId' => $credentials['AccessKeyId'],
+            'accessKeySecret' => $credentials['AccessKeySecret'],
+            'securityToken' => $credentials['SecurityToken'],
+            'expiration' => \strtotime($credentials['Expiration']),
+            'providerName' => $this->getProviderName(),
+        ]), $this->getStaleTime(strtotime($credentials['Expiration'])));
     }
 
     public function key()

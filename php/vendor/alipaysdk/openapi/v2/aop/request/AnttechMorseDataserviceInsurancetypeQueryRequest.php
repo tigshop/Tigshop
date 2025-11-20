@@ -3,7 +3,7 @@
  * ALIPAY API: anttech.morse.dataservice.insurancetype.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-11 18:14:18
+ * @since 1.0, 2025-06-19 14:30:54
  */
 class AnttechMorseDataserviceInsurancetypeQueryRequest
 {

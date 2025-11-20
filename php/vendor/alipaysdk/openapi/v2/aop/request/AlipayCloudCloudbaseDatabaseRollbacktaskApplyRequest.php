@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.database.rollbacktask.apply request
  *
  * @author auto create
- * @since 1.0, 2024-03-13 16:56:58
+ * @since 1.0, 2025-05-16 15:17:25
  */
 class AlipayCloudCloudbaseDatabaseRollbacktaskApplyRequest
 {

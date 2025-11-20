@@ -198,7 +198,7 @@ class MorphToMany extends BelongsToMany
         }
 
         return $this->belongsToManyQuery($this->foreignKey, $this->localKey, [
-            ['pivot.' . $this->localKey, 'exp', new Raw('=' . $this->parent->db(false)->getTable() . '.' . $this->parent->getPk())],
+            ['pivot.' . $this->localKey, 'exp', new Raw('=' . $this->parent->db(false)->getTable(true) . '.' . $this->parent->getPk())],
             ['pivot.' . $this->morphType, '=', $this->morphClass],
         ])->fetchSql()->$aggregate($field);
     }

@@ -17,7 +17,7 @@ create($alipayEbppInvoiceInstitutionCreateModel): \Alipay\OpenAPISDK\Model\Alipa
 
 制度新增
 
-制度新增，包含制度下使用规则列表和发放规则列表的新增。
+制度新增，包含制度下使用规则列表、发放规则列表和适用范围的新增。
 
 ### Example
 
@@ -163,7 +163,7 @@ modify($alipayEbppInvoiceInstitutionModifyModel): \Alipay\OpenAPISDK\Model\Alipa
 
 制度编辑
 
-制度编辑
+制度编辑，支持制度基本信息、制度下适用范围、制度下使用规则和发放规则的修改。
 
 ### Example
 

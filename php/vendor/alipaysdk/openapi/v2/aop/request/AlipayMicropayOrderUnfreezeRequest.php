@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.micropay.order.unfreeze request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:41:17
+ * @since 1.0, 2025-09-08 10:13:50
  */
 class AlipayMicropayOrderUnfreezeRequest
 {

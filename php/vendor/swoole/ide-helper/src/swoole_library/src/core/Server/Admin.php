@@ -11,11 +11,6 @@ declare(strict_types=1);
 
 namespace Swoole\Server;
 
-use Reflection;
-use ReflectionClass;
-use ReflectionExtension;
-use ReflectionFunction;
-use ReflectionMethod;
 use Swoole\Coroutine;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -44,16 +39,16 @@ class Admin
 
     public const SIZE_OF_ZEND_ARRAY = 56;
 
-    private static $map = [
-        'reactor' => SWOOLE_SERVER_COMMAND_REACTOR_THREAD,
+    private static array $map = [
+        'reactor'        => SWOOLE_SERVER_COMMAND_REACTOR_THREAD,
         'reactor_thread' => SWOOLE_SERVER_COMMAND_REACTOR_THREAD,
-        'worker' => SWOOLE_SERVER_COMMAND_EVENT_WORKER,
-        'event_worker' => SWOOLE_SERVER_COMMAND_EVENT_WORKER,
-        'task' => SWOOLE_SERVER_COMMAND_TASK_WORKER,
-        'task_worker' => SWOOLE_SERVER_COMMAND_TASK_WORKER,
+        'worker'         => SWOOLE_SERVER_COMMAND_EVENT_WORKER,
+        'event_worker'   => SWOOLE_SERVER_COMMAND_EVENT_WORKER,
+        'task'           => SWOOLE_SERVER_COMMAND_TASK_WORKER,
+        'task_worker'    => SWOOLE_SERVER_COMMAND_TASK_WORKER,
     ];
 
-    private static $allList = [
+    private static array $allList = [
         'all',
         'all_reactor',
         'all_reactor_thread',
@@ -64,13 +59,13 @@ class Admin
         'specific',
     ];
 
-    private static $postMethodList = [
+    private static array $postMethodList = [
         'server_reload',
         'server_shutdown',
         'close_session',
     ];
 
-    private static $accessToken = '';
+    private static string $accessToken = '';
 
     public static function init(Server $server)
     {
@@ -82,7 +77,7 @@ class Admin
         $server->addCommand(
             'server_reload',
             $accepted_process_types,
-            function ($server, $msg) {
+            function (Server $server, string $msg) {
                 $server->reload();
                 return self::json('Operation succeeded');
             }
@@ -91,7 +86,7 @@ class Admin
         $server->addCommand(
             'server_shutdown',
             $accepted_process_types,
-            function ($server, $msg) {
+            function (Server $server, string $msg): void {
                 $server->shutdown();
             }
         );
@@ -99,26 +94,22 @@ class Admin
         $server->addCommand(
             'coroutine_stats',
             $accepted_process_types,
-            function ($server, $msg) {
-                return self::json(Coroutine::stats());
-            }
+            fn (Server $server, string $msg) => self::json(Coroutine::stats())
         );
 
         $server->addCommand(
             'coroutine_list',
             $accepted_process_types,
-            function ($server, $msg) {
-                return self::json(iterator_to_array(Coroutine::list()));
-            }
+            fn (Server $server, string $msg) => self::json(iterator_to_array(Coroutine::list()))
         );
 
         $server->addCommand(
             'coroutine_bt',
             $accepted_process_types,
-            function ($server, $msg) {
-                $json = json_decode($msg);
-                $cid = empty($json->cid) ? 0 : intval($json->cid);
-                $bt = Coroutine::getBackTrace($cid);
+            function (Server $server, string $msg) {
+                $json = json_decode($msg, null, 512, JSON_THROW_ON_ERROR);
+                $cid  = empty($json->cid) ? 0 : intval($json->cid);
+                $bt   = Coroutine::getBackTrace($cid);
                 if ($bt === false) {
                     return self::json("Coroutine#{$cid} not exists", 4004);
                 }
@@ -129,20 +120,18 @@ class Admin
         $server->addCommand(
             'server_stats',
             $accepted_process_types,
-            function ($server, $msg) {
-                return self::json($server->stats());
-            }
+            fn (Server $server, string $msg) => self::json($server->stats())
         );
 
         $server->addCommand(
             'server_setting',
             $accepted_process_types,
-            function (Server $server, $msg) {
-                $setting = $server->setting;
-                $setting['mode'] = $server->mode;
-                $setting['host'] = $server->host;
-                $setting['port'] = $server->port;
-                $setting['master_pid'] = $server->master_pid;
+            function (Server $server, string $msg) {
+                $setting                = $server->setting;
+                $setting['mode']        = $server->mode;
+                $setting['host']        = $server->host;
+                $setting['port']        = $server->port;
+                $setting['master_pid']  = $server->master_pid;
                 $setting['manager_pid'] = $server->manager_pid;
                 return self::json($setting);
             }
@@ -151,8 +140,8 @@ class Admin
         $server->addCommand(
             'get_client_info',
             $accepted_process_types,
-            function (Server $server, $msg) {
-                $json = json_decode($msg, true);
+            function (Server $server, string $msg) {
+                $json = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
                 if (empty($json['session_id'])) {
                     return self::json('require session_id', 4003);
                 }
@@ -160,39 +149,38 @@ class Admin
             }
         );
 
-        $server->addCommand('close_session', $accepted_process_types, [__CLASS__, 'handlerCloseSession']);
-        $server->addCommand('get_version_info', $accepted_process_types, [__CLASS__, 'handlerGetVersionInfo']);
-        $server->addCommand('get_worker_info', $accepted_process_types, [__CLASS__, 'handlerGetWorkerInfo']);
-        $server->addCommand('get_timer_list', $accepted_process_types, [__CLASS__, 'handlerGetTimerList']);
-        $server->addCommand('get_coroutine_list', $accepted_process_types, [__CLASS__, 'handlerGetCoroutineList']);
-        $server->addCommand('get_objects', $accepted_process_types, [__CLASS__, 'handlerGetObjects']);
-        $server->addCommand('get_class_info', $accepted_process_types, [__CLASS__, 'handlerGetClassInfo']);
-        $server->addCommand('get_function_info', $accepted_process_types, [__CLASS__, 'handlerGetFunctionInfo']);
-        $server->addCommand('get_object_by_handle', $accepted_process_types, [__CLASS__, 'handlerGetObjectByHandle']);
-        $server->addCommand('get_server_cpu_usage', $accepted_process_types, [__CLASS__, 'handlerGetServerCpuUsage']);
+        $server->addCommand('close_session', $accepted_process_types, [self::class, 'handlerCloseSession']);
+        $server->addCommand('get_version_info', $accepted_process_types, [self::class, 'handlerGetVersionInfo']);
+        $server->addCommand('get_worker_info', $accepted_process_types, [self::class, 'handlerGetWorkerInfo']);
+        $server->addCommand('get_timer_list', $accepted_process_types, [self::class, 'handlerGetTimerList']);
+        $server->addCommand('get_coroutine_list', $accepted_process_types, [self::class, 'handlerGetCoroutineList']);
+        $server->addCommand('get_objects', $accepted_process_types, [self::class, 'handlerGetObjects']);
+        $server->addCommand('get_class_info', $accepted_process_types, [self::class, 'handlerGetClassInfo']);
+        $server->addCommand('get_function_info', $accepted_process_types, [self::class, 'handlerGetFunctionInfo']);
+        $server->addCommand('get_object_by_handle', $accepted_process_types, [self::class, 'handlerGetObjectByHandle']);
+        $server->addCommand('get_server_cpu_usage', $accepted_process_types, [self::class, 'handlerGetServerCpuUsage']);
         $server->addCommand(
             'get_server_memory_usage',
             $accepted_process_types,
-            [__CLASS__, 'handlerGetServerMemoryUsage']
+            [self::class, 'handlerGetServerMemoryUsage']
         );
         $server->addCommand(
             'get_static_property_value',
             $accepted_process_types,
-            [__CLASS__, 'handlerGetStaticPropertyValue']
+            [self::class, 'handlerGetStaticPropertyValue']
         );
         $server->addCommand(
             'get_defined_functions',
             $accepted_process_types,
-            [__CLASS__, 'handlerGetDefinedFunctions']
+            [self::class, 'handlerGetDefinedFunctions']
         );
-        $server->addCommand('get_declared_classes', $accepted_process_types, [__CLASS__, 'handlerGetDeclaredClasses']);
+        $server->addCommand('get_declared_classes', $accepted_process_types, [self::class, 'handlerGetDeclaredClasses']);
 
         $server->addCommand(
             'gc_status',
             $accepted_process_types,
-            function ($server, $msg) {
-                $status = function_exists('gc_status') ? gc_status() : [];
-                return self::json($status);
+            function (Server $server, string $msg) {
+                return self::json(gc_status());
             }
         );
 
@@ -200,45 +188,37 @@ class Admin
             $server->addCommand(
                 'opcache_status',
                 $accepted_process_types,
-                function ($server, $msg) {
-                    return self::json(opcache_get_status(true));
-                }
+                fn (Server $server, string $msg) => self::json(opcache_get_status(true))
             );
         }
 
         $server->addCommand(
             'getpid',
             $accepted_process_types,
-            function ($server, $msg) {
-                return self::json(['pid' => posix_getpid()]);
-            }
+            fn (Server $server, string $msg) => self::json(['pid' => posix_getpid()])
         );
 
         $server->addCommand(
             'memory_usage',
             $accepted_process_types,
-            function ($server, $msg) {
-                return self::json([
-                    'usage' => memory_get_usage(),
-                    'real_usage' => memory_get_usage(true),
-                ]);
-            }
+            fn (Server $server, string $msg) => self::json([
+                'usage'      => memory_get_usage(),
+                'real_usage' => memory_get_usage(true),
+            ])
         );
 
         $server->addCommand(
             'get_included_files',
             $accepted_process_types,
-            function ($server, $msg) {
-                return self::json(['files' => get_included_files()]);
-            }
+            fn (Server $server, string $msg) => self::json(['files' => get_included_files()])
         );
 
-        $server->addCommand('get_resources', $accepted_process_types, [__CLASS__, 'handlerGetResources']);
+        $server->addCommand('get_resources', $accepted_process_types, [self::class, 'handlerGetResources']);
 
         $server->addCommand(
             'get_defined_constants',
             $accepted_process_types,
-            function ($server, $msg) {
+            function (Server $server, string $msg) {
                 $constants = get_defined_constants();
                 foreach ($constants as $k => $c) {
                     if (is_resource($c)) {
@@ -253,15 +233,15 @@ class Admin
         $server->addCommand(
             'get_loaded_extensions',
             $accepted_process_types,
-            function ($server, $msg) {
+            function (Server $server, string $msg) {
                 $extensions = get_loaded_extensions();
-                $list = [];
+                $list       = [];
                 foreach ($extensions as $key => $extension) {
-                    $ext = new ReflectionExtension($extension);
+                    $ext        = new \ReflectionExtension($extension);
                     $list[$key] = [
-                        'id' => ++$key,
-                        'name' => $extension,
-                        'version' => $ext->getVersion() ?? '',
+                        'id'      => ++$key,
+                        'name'    => $extension,
+                        'version' => (string) $ext->getVersion(),
                     ];
                 }
                 return self::json($list);
@@ -271,24 +251,20 @@ class Admin
         $server->addCommand(
             'get_declared_interfaces',
             $accepted_process_types,
-            function ($server, $msg) {
-                return self::json(get_declared_interfaces());
-            }
+            fn (Server $server, string $msg) => self::json(get_declared_interfaces())
         );
 
         $server->addCommand(
             'get_declared_traits',
             $accepted_process_types,
-            function ($server, $msg) {
-                return self::json(get_declared_traits());
-            }
+            fn (Server $server, string $msg) => self::json(get_declared_traits())
         );
 
         $server->addCommand(
             'get_included_file_contents',
             $accepted_process_types,
-            function (Server $server, $msg) {
-                $json = json_decode($msg, true);
+            function (Server $server, string $msg) {
+                $json = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
                 if (empty($json['filename'])) {
                     return self::json('require filename', 4003);
                 }
@@ -308,18 +284,18 @@ class Admin
         $server->addCommand(
             'get_globals',
             $accepted_process_types,
-            function ($server, $msg) {
+            function (Server $server, string $msg) {
                 $globals = [];
                 foreach ($GLOBALS as $key => $item) {
                     if ($key === 'GLOBALS') {
                         continue;
                     }
-                    $type = gettype($item);
+                    $type  = gettype($item);
                     $other = [];
                     if ($type === 'object') {
                         $other = [
-                            'class_name' => get_class($item),
-                            'object_id' => spl_object_id($item),
+                            'class_name'  => $item::class,
+                            'object_id'   => spl_object_id($item),
                             'object_hash' => spl_object_hash($item),
                         ];
                     }
@@ -327,9 +303,9 @@ class Admin
                         $item = '';
                     }
                     $globals[] = [
-                        'key' => $key,
+                        'key'   => $key,
                         'value' => $item,
-                        'type' => $type,
+                        'type'  => $type,
                         'other' => $other,
                     ];
                 }
@@ -340,14 +316,14 @@ class Admin
         $server->addCommand(
             'get_extension_info',
             $accepted_process_types,
-            function (Server $server, $msg) {
-                $json = json_decode($msg, true);
+            function (Server $server, string $msg) {
+                $json = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
 
                 if (empty($json['extension_name']) || !extension_loaded($json['extension_name'])) {
                     return self::json('require extension_name', 4004);
                 }
 
-                $ext = new ReflectionExtension($json['extension_name']);
+                $ext = new \ReflectionExtension($json['extension_name']);
 
                 ob_start();
                 $ext->info();
@@ -363,13 +339,13 @@ class Admin
                 unset($constants['NULL'], $constants['NAN'], $constants['INF']);
 
                 return self::json([
-                    'classes' => $ext->getClassNames(),
-                    'version' => $ext->getVersion(),
-                    'constants' => $constants,
-                    'ini_entries' => $ext->getINIEntries(),
+                    'classes'      => $ext->getClassNames(),
+                    'version'      => $ext->getVersion(),
+                    'constants'    => $constants,
+                    'ini_entries'  => $ext->getINIEntries(),
                     'dependencies' => $ext->getDependencies(),
-                    'functions' => array_keys($ext->getFunctions()),
-                    'info' => trim($info),
+                    'functions'    => array_keys($ext->getFunctions()),
+                    'info'         => trim($info),
                 ]);
             }
         );
@@ -377,7 +353,7 @@ class Admin
         $server->addCommand(
             'get_composer_packages',
             $accepted_process_types,
-            function (Server $server, $msg) {
+            function (Server $server, string $msg) {
                 if (!class_exists(\Composer\InstalledVersions::class)) {
                     return self::json('require composer 2.0', 4003);
                 }
@@ -400,7 +376,7 @@ class Admin
                             $key_name = "__root__{$key}";
                         }
                         $package['root']['install_path'] = !empty($package['root']['install_path']) ? realpath($package['root']['install_path']) : '';
-                        $list[$key_name] = $package;
+                        $list[$key_name]                 = $package;
                     }
                     break;
                 }
@@ -414,17 +390,18 @@ class Admin
         return self::$accessToken;
     }
 
-    public static function start(Server $server)
+    public static function start(Server $server): void
     {
         $admin_server_uri = swoole_string($server->setting['admin_server']);
         if ($admin_server_uri->startsWith('unix:/')) {
-            return swoole_error_log(SWOOLE_LOG_ERROR, "admin_server[{$server->setting['admin_server']}] is not supported");
+            swoole_error_log(SWOOLE_LOG_ERROR, "admin_server[{$server->setting['admin_server']}] is not supported");
+            return;
         }
 
         if ($admin_server_uri->contains('@')) {
             [$access_name, $access_secret] = $admin_server_uri->split('@', 2)->get(0)->split(':', 2)->toArray();
-            self::$accessToken = sha1($access_name . $access_secret);
-            [$host, $port] = $admin_server_uri->split('@', 2)->get(1)->split(':', 2)->toArray();
+            self::$accessToken             = sha1($access_name . $access_secret);
+            [$host, $port]                 = $admin_server_uri->split('@', 2)->get(1)->split(':', 2)->toArray();
         } else {
             [$host, $port] = $admin_server_uri->split(':', 2)->toArray();
         }
@@ -447,7 +424,8 @@ class Admin
             $method = $req->getMethod();
 
             if ($method === 'OPTIONS') {
-                return $resp->end();
+                $resp->end();
+                return;
             }
 
             $token = self::getAccessToken();
@@ -475,7 +453,7 @@ class Admin
             }
 
             if ($cmd === 'multi') {
-                $body = json_decode($req->getContent(), true);
+                $body = json_decode($req->getContent(), true, 512, JSON_THROW_ON_ERROR);
                 if (empty($body) || !is_array($body) || $method != 'POST') {
                     goto _bad_process;
                 }
@@ -493,10 +471,10 @@ class Admin
 
             if ($process->startsWith('master')) {
                 $process_type = SWOOLE_SERVER_COMMAND_MASTER;
-                $process_id = 0;
+                $process_id   = 0;
             } elseif ($process->startsWith('manager')) {
                 $process_type = SWOOLE_SERVER_COMMAND_MANAGER;
-                $process_id = 0;
+                $process_id   = 0;
             } elseif ($process->startsWith('all') || $process->equals('specific')) {
                 if (!in_array($process->toString(), self::$allList)) {
                     goto _bad_process;
@@ -520,7 +498,7 @@ class Admin
                 }
 
                 $process_type = self::$map[$array->get(0)->toString()];
-                $process_id = intval($array->get(1)->toString());
+                $process_id   = intval($array->get(1)->toString());
             }
 
             $result = $server->command($cmd, $process_id, intval($process_type), $data, false);
@@ -528,12 +506,12 @@ class Admin
                 $resp->end(json_encode([
                     'code' => swoole_last_error(),
                     'data' => swoole_strerror(swoole_last_error()),
-                ]));
+                ], JSON_THROW_ON_ERROR));
             } else {
                 $resp->end($result);
             }
         });
-        $admin_server->handle('/', function (Request $req, Response $resp) use ($server) {
+        $admin_server->handle('/', function (Request $req, Response $resp): void {
             $resp->status(404);
         });
         $server->admin_server = $admin_server;
@@ -541,17 +519,15 @@ class Admin
     }
 
     /**
-     * @param $server Server
-     * @param $msg
      * @return false|string
      */
-    public static function handlerGetResources($server, $msg)
+    public static function handlerGetResources(Server $server, string $msg)
     {
         $resources = get_resources();
-        $list = [];
+        $list      = [];
         foreach ($resources as $r) {
             $info = [
-                'id' => function_exists('get_resource_id') ? get_resource_id($r) : intval($r),
+                'id'   => get_resource_id($r),
                 'type' => get_resource_type($r),
             ];
             if ($info['type'] == 'stream') {
@@ -563,36 +539,30 @@ class Admin
     }
 
     /**
-     * @param $server Server
-     * @param $msg
      * @return false|string
      */
-    public static function handlerGetWorkerInfo($server, $msg)
+    public static function handlerGetWorkerInfo(Server $server, string $msg)
     {
         $info = [
-            'id' => $server->getWorkerId(),
-            'pid' => $server->getWorkerPid(),
-            'gc_status' => function_exists('gc_status') ? gc_status() : [],
-            'memory_usage' => memory_get_usage(),
+            'id'                => $server->getWorkerId(),
+            'pid'               => $server->getWorkerPid(),
+            'gc_status'         => gc_status(),
+            'memory_usage'      => memory_get_usage(),
             'memory_real_usage' => memory_get_usage(true),
-            'process_status' => self::getProcessStatus(),
-            'coroutine_stats' => Coroutine::stats(),
-            'timer_stats' => Timer::stats(),
+            'process_status'    => self::getProcessStatus(),
+            'coroutine_stats'   => Coroutine::stats(),
+            'timer_stats'       => Timer::stats(),
+            'vm_status'         => swoole_get_vm_status(),
         ];
-        if (function_exists('swoole_get_vm_status')) {
-            $info['vm_status'] = swoole_get_vm_status();
-        }
         return self::json($info);
     }
 
     /**
-     * @param $server
-     * @param $msg
      * @return false|string
      */
-    public static function handlerCloseSession($server, $msg)
+    public static function handlerCloseSession(Server $server, string $msg)
     {
-        $json = json_decode($msg, true);
+        $json = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
         if (empty($json['session_id'])) {
             return self::json('require session_id', 4003);
         }
@@ -603,16 +573,14 @@ class Admin
     }
 
     /**
-     * @param $server
-     * @param $msg
      * @return false|string
      */
-    public static function handlerGetTimerList($server, $msg)
+    public static function handlerGetTimerList(Server $server, string $msg)
     {
         $list = [];
         foreach (Timer::list() as $timer_id) {
             $list[] = [
-                'id' => $timer_id,
+                'id'   => $timer_id,
                 'info' => Timer::info($timer_id),
             ];
         }
@@ -621,43 +589,38 @@ class Admin
     }
 
     /**
-     * @param $server
-     * @param $msg
      * @return false|string
      */
-    public static function handlerGetCoroutineList($server, $msg)
+    public static function handlerGetCoroutineList(Server $server, string $msg)
     {
         $list = [];
         foreach (Coroutine::list() as $cid) {
             $list[] = [
-                'id' => $cid,
-                'elapsed' => Coroutine::getElapsed($cid),
+                'id'          => $cid,
+                'elapsed'     => Coroutine::getElapsed($cid),
                 'stack_usage' => Coroutine::getStackUsage($cid),
-                'backTrace' => Coroutine::getBackTrace($cid, DEBUG_BACKTRACE_IGNORE_ARGS, 1),
+                'backTrace'   => Coroutine::getBackTrace($cid, DEBUG_BACKTRACE_IGNORE_ARGS, 1),
             ];
         }
 
         return self::json($list);
     }
 
-    public static function handlerGetObjects($server, $msg)
+    public static function handlerGetObjects(Server $server, string $msg)
     {
-        if (!function_exists('swoole_get_objects')) {
-            return self::json(['require ext-swoole_plus'], 5000);
-        }
-        $list = [];
+        $list    = [];
         $objects = swoole_get_objects();
         foreach ($objects as $o) {
-            $class_name = get_class($o);
-            $class = new ReflectionClass($class_name);
-            $filename = $class->getFileName();
-            $line = $class->getStartLine();
-            $list[] = [
-                'id' => spl_object_id($o),
-                'hash' => spl_object_hash($o),
-                'class' => $class_name,
-                'filename' => $filename ?: '',
-                'line' => $line ?: '',
+            $class_name = $o::class;
+            $class      = new \ReflectionClass($class_name);
+            $filename   = $class->getFileName();
+            $line       = $class->getStartLine();
+            $list[]     = [
+                'id'          => spl_object_id($o),
+                'hash'        => spl_object_hash($o),
+                'class'       => $class_name,
+                'filename'    => $filename ?: '',
+                'line'        => $line ?: '',
                 'memory_size' => self::getObjectMemorySize($o),
             ];
         }
@@ -665,28 +628,24 @@ class Admin
         return self::json($list);
     }
 
-    public static function handlerGetClassInfo($server, $msg)
+    public static function handlerGetClassInfo(Server $server, string $msg)
     {
-        $json = json_decode($msg, true);
-        if (empty($json['class_name']) && empty($json['interface_name'])) {
-            return self::json(['error' => 'require class_name or interface_name'], 4004);
-        }
-
+        $json = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
         if (!empty($json['class_name'])) {
             if (!class_exists($json['class_name'], false) && !interface_exists($json['class_name'], false)) {
                 return self::json("{$json['class_name']} not exists", 4003);
             }
             $name = $json['class_name'];
-        }
-
-        if (!empty($json['interface_name'])) {
+        } elseif (!empty($json['interface_name'])) {
             if (!interface_exists($json['interface_name'], false)) {
                 return self::json("{$json['interface_name']} not exists", 4003);
             }
             $name = $json['interface_name'];
+        } else {
+            return self::json(['error' => 'require class_name or interface_name'], 4004);
         }
 
-        $class = new ReflectionClass($name);
+        $class = new \ReflectionClass($name);
 
         $filename = $class->getFileName();
 
@@ -694,38 +653,38 @@ class Admin
             $tmp = [];
             foreach ($data as $k => $v) {
                 $tmp[] = [
-                    'name' => $k,
+                    'name'  => $k,
                     'value' => is_array($v) ? var_export($v, true) : $v,
-                    'type' => is_array($v) ? 'detail' : 'default',
+                    'type'  => is_array($v) ? 'detail' : 'default',
                 ];
             }
             return $tmp;
         };
 
         $tmpConstants = $class->getConstants();
-        $constants = $tmpConstants ? $getTmpConstants($tmpConstants) : [];
+        $constants    = $tmpConstants ? $getTmpConstants($tmpConstants) : [];
 
         $staticProperties = [];
-        $properties = [];
-        $tmpProperties = $class->getProperties();
+        $properties       = [];
+        $tmpProperties    = $class->getProperties();
 
         $getTmpProperties = function ($class, $data) {
-            $static = [];
-            $noStatic = [];
+            $static            = [];
+            $noStatic          = [];
             $defaultProperties = $class->getDefaultProperties();
             foreach ($data as $k => $v) {
-                $name = $v->getName();
-                $modifiers = Reflection::getModifierNames($v->getModifiers());
+                $name      = $v->getName();
+                $modifiers = \Reflection::getModifierNames($v->getModifiers());
                 if ($v->isStatic()) {
                     $static[] = [
-                        'name' => $name,
-                        'value' => $defaultProperties[$name],
+                        'name'      => $name,
+                        'value'     => $defaultProperties[$name],
                         'modifiers' => implode(' ', $modifiers),
                     ];
                 } else {
                     $noStatic[] = [
-                        'name' => $name,
-                        'value' => $defaultProperties[$name],
+                        'name'      => $name,
+                        'value'     => $defaultProperties[$name],
                         'modifiers' => implode(' ', $modifiers),
                     ];
                 }
@@ -734,32 +693,32 @@ class Admin
         };
 
         if ($tmpProperties) {
-            $tmpProperties = $getTmpProperties($class, $tmpProperties);
+            $tmpProperties    = $getTmpProperties($class, $tmpProperties);
             $staticProperties = $tmpProperties['static'];
-            $properties = $tmpProperties['no_static'];
+            $properties       = $tmpProperties['no_static'];
         }
 
-        $staticMethods = [];
-        $methods = [];
+        $staticMethods    = [];
+        $methods          = [];
         $tmpStaticMethods = $class->getMethods();
 
         $getTmpMethods = function ($data) {
-            $static = [];
+            $static   = [];
             $noStatic = [];
             foreach ($data as $k => $v) {
-                $name = $v->getName();
-                $line = $v->getStartLine();
-                $modifiers = Reflection::getModifierNames($v->getModifiers());
+                $name      = $v->getName();
+                $line      = $v->getStartLine();
+                $modifiers = \Reflection::getModifierNames($v->getModifiers());
                 if ($v->isStatic()) {
                     $static[] = [
-                        'name' => $name,
-                        'line' => $line ?: '',
+                        'name'      => $name,
+                        'line'      => $line ?: '',
                         'modifiers' => implode(' ', $modifiers),
                     ];
                 } else {
                     $noStatic[] = [
-                        'name' => $name,
-                        'line' => $line ?: '',
+                        'name'      => $name,
+                        'line'      => $line ?: '',
                         'modifiers' => implode(' ', $modifiers),
                     ];
                 }
@@ -769,34 +728,31 @@ class Admin
 
         if ($tmpStaticMethods) {
             $tmpStaticMethods = $getTmpMethods($tmpStaticMethods);
-            $staticMethods = $tmpStaticMethods['static'];
-            $methods = $tmpStaticMethods['no_static'];
+            $staticMethods    = $tmpStaticMethods['static'];
+            $methods          = $tmpStaticMethods['no_static'];
         }
 
         $tmpParentClass = $class->getParentClass();
-        $parentClass = $tmpParentClass ? $tmpParentClass->getName() : '';
-
-        $tmpInterface = $class->getInterfaceNames();
-        $interface = $tmpInterface ?? [];
+        $parentClass    = $tmpParentClass ? $tmpParentClass->getName() : '';
 
         $data = [
-            'filename' => $filename,
-            'constants' => $constants,
+            'filename'         => $filename,
+            'constants'        => $constants,
             'staticProperties' => $staticProperties,
-            'properties' => $properties,
-            'staticMethods' => $staticMethods,
-            'methods' => $methods,
-            'parentClass' => $parentClass,
-            'interface' => $interface,
+            'properties'       => $properties,
+            'staticMethods'    => $staticMethods,
+            'methods'          => $methods,
+            'parentClass'      => $parentClass,
+            'interface'        => $class->getInterfaceNames(),
         ];
         return self::json($data);
     }
 
-    public static function handlerGetFunctionInfo($server, $msg)
+    public static function handlerGetFunctionInfo(Server $server, string $msg)
     {
-        $json = json_decode($msg, true);
+        $json = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
 
-        $className = $json['class_name'] ?? '';
+        $className    = $json['class_name'] ?? '';
         $functionName = $json['function_name'] ?? '';
 
         if (empty($json) || empty($functionName)) {
@@ -811,22 +767,22 @@ class Admin
             if (!method_exists($className, $functionName)) {
                 return self::json("{$className}->{$functionName} not exists", 4004);
             }
-            $ref = new ReflectionMethod($className, $functionName);
+            $ref      = new \ReflectionMethod($className, $functionName);
             $isStatic = $ref->isStatic();
         } else {
             if (!function_exists($functionName)) {
                 return self::json("{$functionName} not exists", 4004);
             }
-            $ref = new ReflectionFunction($functionName);
+            $ref = new \ReflectionFunction($functionName);
         }
 
         $result = [
-            'filename' => $ref->getFileName(),
-            'line' => $ref->getStartLine() ?? '',
-            'num' => $ref->getNumberOfParameters(),
+            'filename'     => $ref->getFileName(),
+            'line'         => $ref->getStartLine() ?: '',
+            'num'          => $ref->getNumberOfParameters(),
             'user_defined' => $ref->isUserDefined(),
-            'extension' => $ref->getExtensionName(),
-            'is_static' => $isStatic,
+            'extension'    => $ref->getExtensionName(),
+            'is_static'    => $isStatic,
         ];
 
         $params = $ref->getParameters();
@@ -877,19 +833,19 @@ class Admin
             }
 
             $isPassedByReference = $param->isPassedByReference() ? '&' : '';
-            $isVariadic = $param->isVariadic() ? '...' : '';
+            $isVariadic          = $param->isVariadic() ? '...' : '';
 
             $option = "{$optional}{$type} {$isPassedByReference}{$isVariadic}";
-            $param = "\${$paramName}{$default}";
+            $param  = "\${$paramName}{$default}";
 
             $list[] = [
-                'optional' => $optional,
-                'type' => $type,
+                'optional'               => $optional,
+                'type'                   => $type,
                 'is_passed_by_reference' => $isPassedByReference,
-                'is_variadic' => $isVariadic,
-                'name' => $paramName,
-                'default' => $default,
-                'full' => $option !== ' ' ? "{$option}{$param}" : $param,
+                'is_variadic'            => $isVariadic,
+                'name'                   => $paramName,
+                'default'                => $default,
+                'full'                   => $option !== ' ' ? "{$option}{$param}" : $param,
             ];
         }
         $result['params'] = $list;
@@ -897,13 +853,9 @@ class Admin
         return self::json($result);
     }
 
-    public static function handlerGetObjectByHandle($server, $msg)
+    public static function handlerGetObjectByHandle(Server $server, string $msg)
     {
-        if (!function_exists('swoole_get_object_by_handle')) {
-            return self::json(['require ext-swoole_plus'], 5000);
-        }
-
-        $json = json_decode($msg, true);
+        $json = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
         if (empty($json) || empty($json['object_id']) || empty($json['object_hash'])) {
             return self::json(['error' => 'Params Error!'], 4004);
         }
@@ -913,7 +865,7 @@ class Admin
             return self::json(['error' => 'Object destroyed!'], 4004);
         }
 
-        $object_hash = spl_object_hash($object);
+        $object_hash = spl_object_hash($object); // @phpstan-ignore argument.type
         if ($object_hash != $json['object_hash']) {
             return self::json(['error' => 'Object destroyed!'], 4004);
         }
@@ -921,11 +873,11 @@ class Admin
         return self::json(var_export($object, true));
     }
 
-    public static function handlerGetVersionInfo($server, $msg)
+    public static function handlerGetVersionInfo(Server $server, string $msg)
     {
         $ip_arr = swoole_get_local_ip();
-        $host = [];
-        $local = [];
+        $host   = [];
+        $local  = [];
         foreach ($ip_arr as $k => $ip) {
             if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
                 $host[] = $ip;
@@ -934,55 +886,55 @@ class Admin
             }
         }
         $data = [
-            'os' => php_uname('s') . '-' . php_uname('r'),
+            'os'     => php_uname('s') . '-' . php_uname('r'),
             'swoole' => swoole_version(),
-            'php' => phpversion(),
-            'ip' => $host ? $host[0] : $local[0],
+            'php'    => phpversion(),
+            'ip'     => $host ? $host[0] : $local[0],
         ];
         return self::json($data);
     }
 
-    public static function handlerGetDefinedFunctions($server, $msg)
+    public static function handlerGetDefinedFunctions(Server $server, string $msg)
     {
         $functions = get_defined_functions();
-        $arr = [];
-        if ($functions) {
-            $arr['internal'] = $functions['internal'];
-
+        $arr       = [
+            'internal' => $functions['internal'],
+        ];
+        if (!empty($functions['user'])) {
             foreach ($functions['user'] as $function_name) {
-                $function = new ReflectionFunction($function_name);
-                $filename = $function->getFileName();
-                $line = $function->getStartLine();
+                $function      = new \ReflectionFunction($function_name);
+                $filename      = $function->getFileName();
+                $line          = $function->getStartLine();
                 $arr['user'][] = [
                     'function' => $function_name,
                     'filename' => $filename,
-                    'line' => $line,
+                    'line'     => $line,
                 ];
             }
         }
         return self::json($arr);
     }
 
-    public static function handlerGetDeclaredClasses($server, $msg)
+    public static function handlerGetDeclaredClasses(Server $server, string $msg)
     {
         $classes = get_declared_classes();
-        $arr = [];
+        $arr     = [];
         if ($classes) {
             foreach ($classes as $classes_name) {
-                $function = new ReflectionClass($classes_name);
+                $function = new \ReflectionClass($classes_name);
                 $filename = $function->getFileName();
-                $line = $function->getStartLine();
-                $arr[] = [
-                    'class' => $classes_name,
+                $line     = $function->getStartLine();
+                $arr[]    = [
+                    'class'    => $classes_name,
                     'filename' => $filename ?: '',
-                    'line' => $line ?: '',
+                    'line'     => $line ?: '',
                 ];
             }
         }
         return self::json($arr);
     }
 
-    public static function handlerGetServerMemoryUsage($server, $msg)
+    public static function handlerGetServerMemoryUsage(Server $server, string $msg)
     {
         $total = 0;
 
@@ -998,8 +950,9 @@ class Admin
         $total += $result['manager'];
 
         $n = $server->setting['worker_num'] + $server->setting['task_worker_num'];
+        /** @var int $n */
         for ($i = 0; $i < $n; $i++) {
-            $key = 'worker-' . $i;
+            $key          = 'worker-' . $i;
             $result[$key] = self::getProcessMemoryRealUsage($server->getWorkerPid($i));
             $total += $result[$key];
         }
@@ -1010,13 +963,13 @@ class Admin
         // TODO: Support other OS
         if (PHP_OS_FAMILY === 'Linux') {
             preg_match('#MemTotal:\s+(\d+) kB#i', file_get_contents('/proc/meminfo'), $match);
-            $result['memory_size'] = $match[1] * 1024;
+            $result['memory_size'] = intval($match[1]) * 1024;
         }
 
         return self::json($result);
     }
 
-    public static function handlerGetServerCpuUsage($server, $msg)
+    public static function handlerGetServerCpuUsage(Server $server, string $msg)
     {
         $total = 0;
 
@@ -1034,21 +987,22 @@ class Admin
         $total += $result['manager'][1] ?? 0;
 
         $n = $server->setting['worker_num'] + $server->setting['task_worker_num'];
+        /** @var int $n */
         for ($i = 0; $i < $n; $i++) {
-            $key = 'worker-' . $i;
+            $key          = 'worker-' . $i;
             $result[$key] = self::getProcessCpuUsage($server->getWorkerPid($i))[1] ?? 0;
             $total += $result[$key];
         }
 
-        $result['total'] = $total;
+        $result['total']   = $total;
         $result['cpu_num'] = swoole_cpu_num();
 
         return self::json($result);
     }
 
-    public static function handlerGetStaticPropertyValue($server, $msg)
+    public static function handlerGetStaticPropertyValue(Server $server, string $msg)
     {
-        $json = json_decode($msg, true);
+        $json = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
         if (empty($json['class_name'])) {
             return self::json(['error' => 'require class_name!'], 4004);
         }
@@ -1056,15 +1010,15 @@ class Admin
             return self::json(['error' => 'require property_name!'], 4004);
         }
 
-        $className = $json['class_name'];
+        $className    = $json['class_name'];
         $propertyName = $json['property_name'];
 
         if (!class_exists($className)) {
             return self::json("class[{$className}] not exists", 4004);
         }
 
-        $reflection = new ReflectionClass($className);
-        $value = $reflection->getStaticPropertyValue($propertyName, []);
+        $reflection = new \ReflectionClass($className);
+        $value      = $reflection->getStaticPropertyValue($propertyName, []);
 
         $result = [
             'value' => var_export($value, true),
@@ -1077,7 +1031,7 @@ class Admin
         $return_list = [];
         foreach ($list as $key => $content) {
             $path_array = swoole_string($content['path'])->trim('/')->split('/');
-            $cmd = $path_array->get(1)->toString();
+            $cmd        = $path_array->get(1)->toString();
 
             if ($path_array->count() == 2) {
                 $process = swoole_string('master');
@@ -1085,7 +1039,7 @@ class Admin
                 $process = $path_array->get(2);
             }
 
-            $data = [];
+            $data      = [];
             $url_query = parse_url($process->toString(), PHP_URL_QUERY) ?? [];
             if (!empty($url_query)) {
                 parse_str($url_query, $data);
@@ -1094,10 +1048,10 @@ class Admin
 
             if ($process->startsWith('master')) {
                 $process_type = SWOOLE_SERVER_COMMAND_MASTER;
-                $process_id = 0;
+                $process_id   = 0;
             } elseif ($process->startsWith('manager')) {
                 $process_type = SWOOLE_SERVER_COMMAND_MANAGER;
-                $process_id = 0;
+                $process_id   = 0;
             } elseif ($process->startsWith('all') || $process->startsWith('specific')) {
                 if (!in_array($process->toString(), self::$allList) && !$process->startsWith('specific')) {
                     $return_list[$key] = json_decode('{}');
@@ -1117,7 +1071,7 @@ class Admin
                 }
 
                 $process_type = self::$map[$array->get(0)->toString()];
-                $process_id = intval($array->get(1)->toString());
+                $process_id   = intval($array->get(1)->toString());
             }
 
             $return_list[$key] = $server->command($cmd, $process_id, intval($process_type), $data, true);
@@ -1154,8 +1108,8 @@ class Admin
                         if ($array->count() != 2 || !isset(self::$map[$array->get(0)->toString()])) {
                             $result[$name] = $json_decode ? json_decode('{}') : $json_decode;
                         } else {
-                            $process_type = self::$map[$array->get(0)->toString()];
-                            $process_id = intval($array->get(1)->toString());
+                            $process_type  = self::$map[$array->get(0)->toString()];
+                            $process_id    = intval($array->get(1)->toString());
                             $result[$name] = $server->command($cmd, $process_id, $process_type, $data, $json_decode);
                         }
                     }
@@ -1199,8 +1153,8 @@ class Admin
     private static function handlerGetAllWorker($cmd, $data, Server $server, bool $json_decode = false)
     {
         $process_type = SWOOLE_SERVER_COMMAND_EVENT_WORKER;
-        $worker_num = $server->setting['worker_num'];
-        $list = [];
+        $worker_num   = $server->setting['worker_num'];
+        $list         = [];
         for ($process_id = 0; $process_id < $worker_num; $process_id++) {
             $list["worker-{$process_id}"] = $server->command($cmd, $process_id, $process_type, $data, $json_decode);
         }
@@ -1210,7 +1164,7 @@ class Admin
     private static function handlerGetAllTaskWorker($cmd, $data, Server $server, bool $json_decode = false)
     {
         $process_type = SWOOLE_SERVER_COMMAND_TASK_WORKER;
-        $list = [];
+        $list         = [];
         if (empty($server->setting['task_worker_num'])) {
             return $list;
         }
@@ -1228,7 +1182,7 @@ class Admin
             return [0];
         }
 
-        $statAll = file_get_contents('/proc/stat');
+        $statAll  = file_get_contents('/proc/stat');
         $statProc = file_get_contents("/proc/{$pid}/stat");
 
         $dataAll = preg_split("/[ \t]+/", $statAll, 6);
@@ -1261,12 +1215,12 @@ class Admin
             return $array;
         }
         $status = swoole_string(trim(file_get_contents("/proc/{$pid}/status")));
-        $lines = $status->split("\n");
+        $lines  = $status->split("\n");
         foreach ($lines as $l) {
             if (empty($l)) {
                 continue;
             }
-            [$k, $v] = swoole_string($l)->split(':');
+            [$k, $v]   = swoole_string($l)->split(':');
             $array[$k] = trim($v);
         }
         return $array;

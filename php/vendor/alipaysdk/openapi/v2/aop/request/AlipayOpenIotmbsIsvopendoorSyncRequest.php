@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.iotmbs.isvopendoor.sync request
  *
  * @author auto create
- * @since 1.0, 2023-08-24 22:51:44
+ * @since 1.0, 2025-01-02 16:55:53
  */
 class AlipayOpenIotmbsIsvopendoorSyncRequest
 {

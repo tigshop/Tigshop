@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.logistics.user.order.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 16:55:12
+ * @since 1.0, 2025-08-13 14:32:44
  */
 class AlipayCommerceLogisticsUserOrderQueryRequest
 {

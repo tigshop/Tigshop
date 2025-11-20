@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.boss.prod.antlescenter.partcontract.initialize request
  *
  * @author auto create
- * @since 1.0, 2024-08-14 15:48:29
+ * @since 1.0, 2025-08-07 12:47:37
  */
 class AlipayBossProdAntlescenterPartcontractInitializeRequest
 {

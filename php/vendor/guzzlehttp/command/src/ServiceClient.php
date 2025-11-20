@@ -49,7 +49,7 @@ class ServiceClient implements ServiceClientInterface
         HttpClient $httpClient,
         callable $commandToRequestTransformer,
         callable $responseToResultTransformer,
-        HandlerStack $commandHandlerStack = null
+        ?HandlerStack $commandHandlerStack = null
     ) {
         $this->httpClient = $httpClient;
         $this->commandToRequestTransformer = $commandToRequestTransformer;
@@ -144,7 +144,7 @@ class ServiceClient implements ServiceClientInterface
      *
      * @return ResultInterface|PromiseInterface
      *
-     * @see \GuzzleHttp\Command\ServiceClientInterface::getCommand
+     * @see ServiceClientInterface::getCommand
      */
     public function __call($name, array $args)
     {

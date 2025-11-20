@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.acommunication.unionmember.action.sync request
  *
  * @author auto create
- * @since 1.0, 2024-06-12 15:16:24
+ * @since 1.0, 2025-06-10 10:34:45
  */
 class AlipayCommerceAcommunicationUnionmemberActionSyncRequest
 {

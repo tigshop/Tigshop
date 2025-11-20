@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudpromo.face.check.create request
  *
  * @author auto create
- * @since 1.0, 2024-08-19 10:59:52
+ * @since 1.0, 2024-12-03 16:32:25
  */
 class AlipayCloudCloudpromoFaceCheckCreateRequest
 {

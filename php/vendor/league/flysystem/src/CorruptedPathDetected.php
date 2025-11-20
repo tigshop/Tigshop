@@ -2,11 +2,15 @@
 
 namespace League\Flysystem;
 
-use RuntimeException;
+use LogicException;
 
-final class CorruptedPathDetected extends RuntimeException implements FilesystemException
+class CorruptedPathDetected extends LogicException implements FilesystemException
 {
-    public static function forPath(string $path): CorruptedPathDetected
+    /**
+     * @param string $path
+     * @return CorruptedPathDetected
+     */
+    public static function forPath($path)
     {
         return new CorruptedPathDetected("Corrupted path detected: " . $path);
     }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2017-2023 Andreas Möller
+ * Copyright (c) 2017-2025 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -18,14 +18,14 @@ use Ergebnis\Classy\Construct;
 final class MultipleDefinitionsFound extends \RuntimeException implements ExceptionInterface
 {
     /**
-     * @var array<int, Construct>
+     * @var list<Construct>
      */
     private array $constructs = [];
 
     /**
      * Returns a new exception from constructs.
      *
-     * @param array<int, Construct> $constructs
+     * @param list<Construct> $constructs
      */
     public static function fromConstructs(array $constructs): self
     {
@@ -46,9 +46,9 @@ final class MultipleDefinitionsFound extends \RuntimeException implements Except
     }
 
     /**
-     * Returns an array of constructs.
+     * Returns a list of constructs.
      *
-     * @return array<int, Construct>
+     * @return list<Construct>
      */
     public function constructs(): array
     {

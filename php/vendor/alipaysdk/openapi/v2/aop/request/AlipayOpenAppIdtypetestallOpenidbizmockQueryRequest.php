@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.app.idtypetestall.openidbizmock.query request
  *
  * @author auto create
- * @since 1.0, 2023-02-15 14:51:37
+ * @since 1.0, 2024-10-23 10:28:59
  */
 class AlipayOpenAppIdtypetestallOpenidbizmockQueryRequest
 {

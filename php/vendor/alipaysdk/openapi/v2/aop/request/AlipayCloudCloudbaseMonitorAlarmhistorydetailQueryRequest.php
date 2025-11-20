@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.monitor.alarmhistorydetail.query request
  *
  * @author auto create
- * @since 1.0, 2024-05-08 14:34:09
+ * @since 1.0, 2024-11-22 09:21:14
  */
 class AlipayCloudCloudbaseMonitorAlarmhistorydetailQueryRequest
 {

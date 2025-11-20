@@ -11,12 +11,10 @@ declare(strict_types=1);
 
 namespace Swoole\Database;
 
-use Error;
-
 class ObjectProxy extends \Swoole\ObjectProxy
 {
-    public function __clone()
+    final public function __clone(): void
     {
-        throw new Error('Trying to clone an uncloneable database proxy object');
+        throw new \Error('Trying to clone an uncloneable database proxy object');
     }
 }

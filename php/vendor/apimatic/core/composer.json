@@ -23,7 +23,7 @@
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.5",
-    "phan/phan": "5.4.2",
+    "phan/phan": "5.4.5",
     "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5"
   },
   "autoload": {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.security.data.riskservicecloud.input.send request
  *
  * @author auto create
- * @since 1.0, 2024-07-29 10:42:04
+ * @since 1.0, 2025-06-05 11:27:46
  */
 class AlipaySecurityDataRiskservicecloudInputSendRequest
 {

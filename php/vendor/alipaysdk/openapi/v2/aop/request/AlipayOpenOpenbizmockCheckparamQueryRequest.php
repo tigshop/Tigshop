@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.openbizmock.checkparam.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-19 16:25:50
+ * @since 1.0, 2025-08-07 11:07:41
  */
 class AlipayOpenOpenbizmockCheckparamQueryRequest
 {

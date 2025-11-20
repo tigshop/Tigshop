@@ -4,17 +4,25 @@ declare(strict_types=1);
 
 namespace Swoole\Http2;
 
+/**
+ * @not-serializable Objects of this class cannot be serialized.
+ */
 class Request
 {
-    public $path = '/';
+    public string $path = '/';
 
-    public $method = 'GET';
+    public string $method = 'GET';
 
-    public $headers;
+    public array $headers;
 
-    public $cookies;
+    public array $cookies;
 
-    public $data = '';
+    public string $data = '';
 
-    public $pipeline = false;
+    public bool $pipeline = false;
+
+    /**
+     * @since 5.1.0
+     */
+    public $usePipelineRead = false;
 }

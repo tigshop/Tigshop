@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ebpp.instservice.signresult.batchquery request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:31:51
+ * @since 1.0, 2025-08-14 11:27:37
  */
 class AlipayEbppInstserviceSignresultBatchqueryRequest
 {

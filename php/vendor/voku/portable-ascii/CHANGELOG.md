@@ -1,5 +1,9 @@
 # Changelog
 
+### 2.0.2 (2024-11-21)
+
+- small fix for PHP 8.4 (thanks to @gilbertoalbino)
+
 ### 2.0.1 (2022-03-08)
 
 - "To people of Russia": There is a war in Ukraine right now. The forces of the Russian Federation are attacking civilians.

@@ -22,14 +22,14 @@ class Client
 {
     private static $converter;
     private static $jsonHelper;
-    public static function getConverter(Client $client = null): ConverterInterface
+    public static function getConverter(?Client $client = null): ConverterInterface
     {
         if (isset($client)) {
             return $client->localConverter;
         }
         return self::$converter;
     }
-    public static function getJsonHelper(Client $client = null): JsonHelper
+    public static function getJsonHelper(?Client $client = null): JsonHelper
     {
         if (isset($client)) {
             return $client->localJsonHelper;

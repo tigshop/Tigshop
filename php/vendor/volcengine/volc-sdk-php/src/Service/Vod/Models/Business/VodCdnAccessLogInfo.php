@@ -25,6 +25,18 @@ class VodCdnAccessLogInfo extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.VodCdnAccessLogElement LogList = 2;</code>
      */
     private $LogList;
+    /**
+     * Generated from protobuf field <code>int64 PageNum = 3;</code>
+     */
+    protected $PageNum = 0;
+    /**
+     * Generated from protobuf field <code>int64 PageSize = 4;</code>
+     */
+    protected $PageSize = 0;
+    /**
+     * Generated from protobuf field <code>int64 TotalCount = 5;</code>
+     */
+    protected $TotalCount = 0;
 
     /**
      * Constructor.
@@ -36,6 +48,9 @@ class VodCdnAccessLogInfo extends \Google\Protobuf\Internal\Message
      *           域名
      *     @type \Volc\Service\Vod\Models\Business\VodCdnAccessLogElement[]|\Google\Protobuf\Internal\RepeatedField $LogList
      *           日志列表
+     *     @type int|string $PageNum
+     *     @type int|string $PageSize
+     *     @type int|string $TotalCount
      * }
      */
     public function __construct($data = NULL) {
@@ -91,6 +106,72 @@ class VodCdnAccessLogInfo extends \Google\Protobuf\Internal\Message
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Volc\Service\Vod\Models\Business\VodCdnAccessLogElement::class);
         $this->LogList = $arr;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>int64 PageNum = 3;</code>
+     * @return int|string
+     */
+    public function getPageNum()
+    {
+        return $this->PageNum;
+    }
+
+    /**
+     * Generated from protobuf field <code>int64 PageNum = 3;</code>
+     * @param int|string $var
+     * @return $this
+     */
+    public function setPageNum($var)
+    {
+        GPBUtil::checkInt64($var);
+        $this->PageNum = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>int64 PageSize = 4;</code>
+     * @return int|string
+     */
+    public function getPageSize()
+    {
+        return $this->PageSize;
+    }
+
+    /**
+     * Generated from protobuf field <code>int64 PageSize = 4;</code>
+     * @param int|string $var
+     * @return $this
+     */
+    public function setPageSize($var)
+    {
+        GPBUtil::checkInt64($var);
+        $this->PageSize = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>int64 TotalCount = 5;</code>
+     * @return int|string
+     */
+    public function getTotalCount()
+    {
+        return $this->TotalCount;
+    }
+
+    /**
+     * Generated from protobuf field <code>int64 TotalCount = 5;</code>
+     * @param int|string $var
+     * @return $this
+     */
+    public function setTotalCount($var)
+    {
+        GPBUtil::checkInt64($var);
+        $this->TotalCount = $var;
 
         return $this;
     }

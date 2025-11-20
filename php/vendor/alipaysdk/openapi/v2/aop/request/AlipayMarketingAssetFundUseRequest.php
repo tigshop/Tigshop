@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.marketing.asset.fund.use request
  *
  * @author auto create
- * @since 1.0, 2024-10-09 16:02:14
+ * @since 1.0, 2025-10-10 14:49:34
  */
 class AlipayMarketingAssetFundUseRequest
 {

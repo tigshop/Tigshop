@@ -1,11 +1,28 @@
 <?php
-// Copyright 2022 The Ip2Region Authors. All rights reserved.
-// Use of this source code is governed by a Apache2.0-style
-// license that can be found in the LICENSE file.
-//
-// @Author Lion <chenxin619315@gmail.com>
-// @Date   2022/06/21
 
+/**
+ * XDB 查询器
+ * 
+ * 基于官方 ip2region XDB 格式的高性能 IP 查询引擎
+ * 支持文件查询、VectorIndex 缓存、完整数据缓存三种模式
+ * 
+ * 主要特性：
+ * - 支持多种缓存策略
+ * - 微秒级查询性能
+ * - 内存使用优化
+ * - 并发安全设计
+ * 
+ * @package Ip2Region
+ * @version 2.0.0
+ * @author Lion <chenxin619315@gmail.com>
+ * @link https://github.com/lionsoul2014/ip2region
+ * @license Apache-2.0
+ * @since 2022/06/21
+ * 
+ * Copyright 2022 The Ip2Region Authors. All rights reserved.
+ * Use of this source code is governed by a Apache2.0-style
+ * license that can be found in the LICENSE file.
+ */
 class XdbSearcher
 {
     const HeaderInfoLength = 256;
@@ -364,5 +381,4 @@ class XdbSearcher
     {
         return (microtime(true) * 1000);
     }
-
 }

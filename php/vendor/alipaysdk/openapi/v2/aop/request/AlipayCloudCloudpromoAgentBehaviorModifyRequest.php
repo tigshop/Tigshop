@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudpromo.agent.behavior.modify request
  *
  * @author auto create
- * @since 1.0, 2024-08-19 11:00:03
+ * @since 1.0, 2024-12-03 16:32:25
  */
 class AlipayCloudCloudpromoAgentBehaviorModifyRequest
 {

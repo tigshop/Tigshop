@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.receipt.batchquery request
  *
  * @author auto create
- * @since 1.0, 2023-05-31 00:00:29
+ * @since 1.0, 2025-08-13 15:32:43
  */
 class AlipayCommerceReceiptBatchqueryRequest
 {

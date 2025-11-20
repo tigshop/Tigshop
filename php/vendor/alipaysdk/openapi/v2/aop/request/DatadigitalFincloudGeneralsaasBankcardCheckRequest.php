@@ -3,7 +3,7 @@
  * ALIPAY API: datadigital.fincloud.generalsaas.bankcard.check request
  *
  * @author auto create
- * @since 1.0, 2024-09-24 09:17:10
+ * @since 1.0, 2024-11-07 19:27:21
  */
 class DatadigitalFincloudGeneralsaasBankcardCheckRequest
 {

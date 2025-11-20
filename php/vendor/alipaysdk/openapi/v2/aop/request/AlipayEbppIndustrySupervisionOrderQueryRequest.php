@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ebpp.industry.supervision.order.query request
  *
  * @author auto create
- * @since 1.0, 2024-02-21 10:27:01
+ * @since 1.0, 2025-10-14 19:17:39
  */
 class AlipayEbppIndustrySupervisionOrderQueryRequest
 {

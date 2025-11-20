@@ -13,7 +13,7 @@ namespace Nette\PhpGenerator;
 /**
  * Generates PHP code compatible with PSR-2 and PSR-12.
  */
-final class PsrPrinter extends Printer
+class PsrPrinter extends Printer
 {
 	public string $indentation = '    ';
 	public int $linesBetweenMethods = 1;

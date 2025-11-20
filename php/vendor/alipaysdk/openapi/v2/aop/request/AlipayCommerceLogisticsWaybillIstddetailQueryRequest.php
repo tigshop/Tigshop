@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.logistics.waybill.istddetail.query request
  *
  * @author auto create
- * @since 1.0, 2024-09-02 10:39:15
+ * @since 1.0, 2025-08-14 03:12:40
  */
 class AlipayCommerceLogisticsWaybillIstddetailQueryRequest
 {

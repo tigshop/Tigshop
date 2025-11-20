@@ -21,6 +21,10 @@ class OverrideParams extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>repeated .Volcengine.Imp.Models.Business.OutputOverrideParams Output = 2;</code>
      */
     private $Output;
+    /**
+     * Generated from protobuf field <code>repeated .Volcengine.Imp.Models.Business.SmartEmoticonOverrideParams SmartEmoticon = 3;</code>
+     */
+    private $SmartEmoticon;
 
     /**
      * Constructor.
@@ -30,6 +34,7 @@ class OverrideParams extends \Google\Protobuf\Internal\Message
      *
      *     @type \Volc\Service\Imp\Models\Business\SmartEraseOverrideParams[]|\Google\Protobuf\Internal\RepeatedField $SmartErase
      *     @type \Volc\Service\Imp\Models\Business\OutputOverrideParams[]|\Google\Protobuf\Internal\RepeatedField $Output
+     *     @type \Volc\Service\Imp\Models\Business\SmartEmoticonOverrideParams[]|\Google\Protobuf\Internal\RepeatedField $SmartEmoticon
      * }
      */
     public function __construct($data = NULL) {
@@ -77,6 +82,28 @@ class OverrideParams extends \Google\Protobuf\Internal\Message
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Volc\Service\Imp\Models\Business\OutputOverrideParams::class);
         $this->Output = $arr;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>repeated .Volcengine.Imp.Models.Business.SmartEmoticonOverrideParams SmartEmoticon = 3;</code>
+     * @return \Google\Protobuf\Internal\RepeatedField
+     */
+    public function getSmartEmoticon()
+    {
+        return $this->SmartEmoticon;
+    }
+
+    /**
+     * Generated from protobuf field <code>repeated .Volcengine.Imp.Models.Business.SmartEmoticonOverrideParams SmartEmoticon = 3;</code>
+     * @param \Volc\Service\Imp\Models\Business\SmartEmoticonOverrideParams[]|\Google\Protobuf\Internal\RepeatedField $var
+     * @return $this
+     */
+    public function setSmartEmoticon($var)
+    {
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Volc\Service\Imp\Models\Business\SmartEmoticonOverrideParams::class);
+        $this->SmartEmoticon = $arr;
 
         return $this;
     }

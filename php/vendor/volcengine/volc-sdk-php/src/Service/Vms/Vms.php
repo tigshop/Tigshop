@@ -380,6 +380,83 @@ class Vms extends V4Curl
             ]
         ],
 
+        'BindAXG' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'BindAXG',
+                    'Version' => DefaultVersion,
+                ],
+            ]
+        ],
+
+        'UnbindAXG' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'UnbindAXG',
+                    'Version' => DefaultVersion,
+                ],
+            ]
+        ],
+
+        'UpdateAXG' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'UpdateAXG',
+                    'Version' => DefaultVersion,
+                ],
+            ]
+        ],
+
+        'CreateAXGGroup' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'CreateAXGGroup',
+                    'Version' => DefaultVersion,
+                ],
+            ]
+        ],
+
+        'UpdateAXGGroup' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'UpdateAXGGroup',
+                    'Version' => DefaultVersion,
+                ],
+            ]
+        ],
+
+        'DeleteAXGGroup' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'DeleteAXGGroup',
+                    'Version' => DefaultVersion,
+                ],
+            ]
+        ],
+
+        'RouteAAuth' => [
+            'url' => '/',
+            'method' => 'post',
+            'config' => [
+                'query' => [
+                    'Action' => 'RouteAAuth',
+                    'Version' => DefaultVersion,
+                ],
+            ]
+        ],
+
         'CreateTask' => [
             'url' => '/',
             'method' => 'post',
@@ -829,6 +906,62 @@ class Vms extends V4Curl
             $data = new ArrayObject();
         }
         return $this->requestWithRetry("UnbindAXYB", ['form_params' => $data]);
+    }
+
+    public function BindAXG(array $data = []): string
+    {
+        if (empty($data)){
+            $data = new ArrayObject();
+        }
+        return $this->requestWithRetry("BindAXG", ['json' => $data]);
+    }
+
+    public function UnbindAXG(array $data = []): string
+    {
+        if (empty($data)){
+            $data = new ArrayObject();
+        }
+        return $this->requestWithRetry("UnbindAXG", ['json' => $data]);
+    }
+
+    public function UpdateAXG(array $data = []): string
+    {
+        if (empty($data)){
+            $data = new ArrayObject();
+        }
+        return $this->requestWithRetry("UpdateAXG", ['json' => $data]);
+    }
+
+    public function CreateAXGGroup(array $data = []): string
+    {
+        if (empty($data)){
+            $data = new ArrayObject();
+        }
+        return $this->requestWithRetry("CreateAXGGroup", ['json' => $data]);
+    }
+
+    public function UpdateAXGGroup(array $data = []): string
+    {
+        if (empty($data)){
+            $data = new ArrayObject();
+        }
+        return $this->requestWithRetry("UpdateAXGGroup", ['json' => $data]);
+    }
+
+    public function DeleteAXGGroup(array $data = []): string
+    {
+        if (empty($data)){
+            $data = new ArrayObject();
+        }
+        return $this->requestWithRetry("DeleteAXGGroup", ['json' => $data]);
+    }
+
+    public function RouteAAuth(array $data = []): string
+    {
+        if (empty($data)){
+            $data = new ArrayObject();
+        }
+        return $this->requestWithRetry("RouteAAuth", ['form_params' => $data]);
     }
 
     public function CreateTask(array $data = []): string

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.antiflood.rule.create request
  *
  * @author auto create
- * @since 1.0, 2023-09-14 17:46:45
+ * @since 1.0, 2024-11-22 14:41:37
  */
 class AlipayCloudCloudbaseAntifloodRuleCreateRequest
 {

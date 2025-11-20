@@ -3,7 +3,7 @@
  * ALIPAY API: koubei.trade.kbdelivery.delivery.cancel request
  *
  * @author auto create
- * @since 1.0, 2023-05-31 09:26:00
+ * @since 1.0, 2025-08-18 13:57:34
  */
 class KoubeiTradeKbdeliveryDeliveryCancelRequest
 {

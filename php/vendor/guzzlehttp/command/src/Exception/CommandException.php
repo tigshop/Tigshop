@@ -63,9 +63,9 @@ class CommandException extends \RuntimeException implements GuzzleException
     public function __construct(
         $message,
         CommandInterface $command,
-        \Exception $previous = null,
-        RequestInterface $request = null,
-        ResponseInterface $response = null
+        ?\Exception $previous = null,
+        ?RequestInterface $request = null,
+        ?ResponseInterface $response = null
     ) {
         $this->command = $command;
         $this->request = $request;

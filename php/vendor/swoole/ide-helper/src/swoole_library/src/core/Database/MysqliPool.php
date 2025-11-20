@@ -15,19 +15,15 @@ use mysqli;
 use Swoole\ConnectionPool;
 
 /**
- * @method mysqli|MysqliProxy get()
+ * @method \mysqli|MysqliProxy get()
  * @method void put(mysqli|MysqliProxy $connection)
  */
 class MysqliPool extends ConnectionPool
 {
-    /** @var MysqliConfig */
-    protected $config;
-
-    public function __construct(MysqliConfig $config, int $size = self::DEFAULT_SIZE)
+    public function __construct(protected MysqliConfig $config, int $size = self::DEFAULT_SIZE)
     {
-        $this->config = $config;
         parent::__construct(function () {
-            $mysqli = new mysqli();
+            $mysqli = new \mysqli();
             foreach ($this->config->getOptions() as $option => $value) {
                 $mysqli->set_opt($option, $value);
             }
@@ -42,6 +38,7 @@ class MysqliPool extends ConnectionPool
             if ($mysqli->connect_errno) {
                 throw new MysqliException($mysqli->connect_error, $mysqli->connect_errno);
             }
+            $mysqli->set_charset($this->config->getCharset());
             return $mysqli;
         }, $size, MysqliProxy::class);
     }

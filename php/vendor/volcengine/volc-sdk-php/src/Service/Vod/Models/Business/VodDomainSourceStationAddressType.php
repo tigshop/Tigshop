@@ -31,11 +31,18 @@ class VodDomainSourceStationAddressType
      * Generated from protobuf enum <code>IPVodDomainSourceStationAddressType = 2;</code>
      */
     const IPVodDomainSourceStationAddressType = 2;
+    /**
+     * TOS类型
+     *
+     * Generated from protobuf enum <code>TOSVodDomainSourceStationAddressType = 3;</code>
+     */
+    const TOSVodDomainSourceStationAddressType = 3;
 
     private static $valueToName = [
         self::UndefinedVodDomainSourceStationAddressType => 'UndefinedVodDomainSourceStationAddressType',
         self::DomainVodDomainSourceStationAddressType => 'DomainVodDomainSourceStationAddressType',
         self::IPVodDomainSourceStationAddressType => 'IPVodDomainSourceStationAddressType',
+        self::TOSVodDomainSourceStationAddressType => 'TOSVodDomainSourceStationAddressType',
     ];
 
     public static function name($value)

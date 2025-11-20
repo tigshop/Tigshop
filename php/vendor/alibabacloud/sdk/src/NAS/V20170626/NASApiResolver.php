@@ -11,21 +11,28 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ApplyDataFlowAutoRefresh applyDataFlowAutoRefresh(array $options = [])
  * @method CancelAutoSnapshotPolicy cancelAutoSnapshotPolicy(array $options = [])
  * @method CancelDataFlowAutoRefresh cancelDataFlowAutoRefresh(array $options = [])
+ * @method CancelDataFlowSubTask cancelDataFlowSubTask(array $options = [])
  * @method CancelDataFlowTask cancelDataFlowTask(array $options = [])
  * @method CancelDirQuota cancelDirQuota(array $options = [])
+ * @method CancelFilesetQuota cancelFilesetQuota(array $options = [])
  * @method CancelLifecycleRetrieveJob cancelLifecycleRetrieveJob(array $options = [])
  * @method CancelRecycleBinJob cancelRecycleBinJob(array $options = [])
+ * @method ChangeResourceGroup changeResourceGroup(array $options = [])
  * @method CreateAccessGroup createAccessGroup(array $options = [])
+ * @method CreateAccessPoint createAccessPoint(array $options = [])
  * @method CreateAccessRule createAccessRule(array $options = [])
  * @method CreateAutoSnapshotPolicy createAutoSnapshotPolicy(array $options = [])
  * @method CreateDataFlow createDataFlow(array $options = [])
+ * @method CreateDataFlowSubTask createDataFlowSubTask(array $options = [])
  * @method CreateDataFlowTask createDataFlowTask(array $options = [])
+ * @method CreateDir createDir(array $options = [])
  * @method CreateFile createFile(array $options = [])
  * @method CreateFileset createFileset(array $options = [])
  * @method CreateFileSystem createFileSystem(array $options = [])
  * @method CreateLDAPConfig createLDAPConfig(array $options = [])
  * @method CreateLifecyclePolicy createLifecyclePolicy(array $options = [])
  * @method CreateLifecycleRetrieveJob createLifecycleRetrieveJob(array $options = [])
+ * @method CreateLogAnalysis createLogAnalysis(array $options = [])
  * @method CreateMountTarget createMountTarget(array $options = [])
  * @method CreateProtocolMountTarget createProtocolMountTarget(array $options = [])
  * @method CreateProtocolService createProtocolService(array $options = [])
@@ -33,6 +40,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method CreateRecycleBinRestoreJob createRecycleBinRestoreJob(array $options = [])
  * @method CreateSnapshot createSnapshot(array $options = [])
  * @method DeleteAccessGroup deleteAccessGroup(array $options = [])
+ * @method DeleteAccessPoint deleteAccessPoint(array $options = [])
  * @method DeleteAccessRule deleteAccessRule(array $options = [])
  * @method DeleteAutoSnapshotPolicy deleteAutoSnapshotPolicy(array $options = [])
  * @method DeleteDataFlow deleteDataFlow(array $options = [])
@@ -40,36 +48,41 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method DeleteFileSystem deleteFileSystem(array $options = [])
  * @method DeleteLDAPConfig deleteLDAPConfig(array $options = [])
  * @method DeleteLifecyclePolicy deleteLifecyclePolicy(array $options = [])
+ * @method DeleteLogAnalysis deleteLogAnalysis(array $options = [])
  * @method DeleteMountTarget deleteMountTarget(array $options = [])
  * @method DeleteProtocolMountTarget deleteProtocolMountTarget(array $options = [])
  * @method DeleteProtocolService deleteProtocolService(array $options = [])
  * @method DeleteSnapshot deleteSnapshot(array $options = [])
  * @method DescribeAccessGroups describeAccessGroups(array $options = [])
+ * @method DescribeAccessPoint describeAccessPoint(array $options = [])
+ * @method DescribeAccessPoints describeAccessPoints(array $options = [])
  * @method DescribeAccessRules describeAccessRules(array $options = [])
  * @method DescribeAutoSnapshotPolicies describeAutoSnapshotPolicies(array $options = [])
  * @method DescribeAutoSnapshotTasks describeAutoSnapshotTasks(array $options = [])
  * @method DescribeBlackListClients describeBlackListClients(array $options = [])
  * @method DescribeDataFlows describeDataFlows(array $options = [])
+ * @method DescribeDataFlowSubTasks describeDataFlowSubTasks(array $options = [])
  * @method DescribeDataFlowTasks describeDataFlowTasks(array $options = [])
  * @method DescribeDirQuotas describeDirQuotas(array $options = [])
  * @method DescribeFilesets describeFilesets(array $options = [])
  * @method DescribeFileSystems describeFileSystems(array $options = [])
  * @method DescribeFileSystemStatistics describeFileSystemStatistics(array $options = [])
- * @method DescribeLDAPConfig describeLDAPConfig(array $options = [])
  * @method DescribeLifecyclePolicies describeLifecyclePolicies(array $options = [])
  * @method DescribeLogAnalysis describeLogAnalysis(array $options = [])
  * @method DescribeMountedClients describeMountedClients(array $options = [])
  * @method DescribeMountTargets describeMountTargets(array $options = [])
+ * @method DescribeNfsAcl describeNfsAcl(array $options = [])
  * @method DescribeProtocolMountTarget describeProtocolMountTarget(array $options = [])
  * @method DescribeProtocolService describeProtocolService(array $options = [])
  * @method DescribeRegions describeRegions(array $options = [])
  * @method DescribeSmbAcl describeSmbAcl(array $options = [])
  * @method DescribeSnapshots describeSnapshots(array $options = [])
  * @method DescribeStoragePackages describeStoragePackages(array $options = [])
- * @method DescribeTags describeTags(array $options = [])
  * @method DescribeZones describeZones(array $options = [])
  * @method DisableAndCleanRecycleBin disableAndCleanRecycleBin(array $options = [])
+ * @method DisableNfsAcl disableNfsAcl(array $options = [])
  * @method DisableSmbAcl disableSmbAcl(array $options = [])
+ * @method EnableNfsAcl enableNfsAcl(array $options = [])
  * @method EnableRecycleBin enableRecycleBin(array $options = [])
  * @method EnableSmbAcl enableSmbAcl(array $options = [])
  * @method GetDirectoryOrFileProperties getDirectoryOrFileProperties(array $options = [])
@@ -81,6 +94,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ListRecycledDirectoriesAndFiles listRecycledDirectoriesAndFiles(array $options = [])
  * @method ListTagResources listTagResources(array $options = [])
  * @method ModifyAccessGroup modifyAccessGroup(array $options = [])
+ * @method ModifyAccessPoint modifyAccessPoint(array $options = [])
  * @method ModifyAccessRule modifyAccessRule(array $options = [])
  * @method ModifyAutoSnapshotPolicy modifyAutoSnapshotPolicy(array $options = [])
  * @method ModifyDataFlow modifyDataFlow(array $options = [])
@@ -99,6 +113,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ResetFileSystem resetFileSystem(array $options = [])
  * @method RetryLifecycleRetrieveJob retryLifecycleRetrieveJob(array $options = [])
  * @method SetDirQuota setDirQuota(array $options = [])
+ * @method SetFilesetQuota setFilesetQuota(array $options = [])
  * @method StartDataFlow startDataFlow(array $options = [])
  * @method StopDataFlow stopDataFlow(array $options = [])
  * @method TagResources tagResources(array $options = [])
@@ -122,7 +137,7 @@ class Rpc extends \AlibabaCloud\Client\Resolver\Rpc
     public $method = 'POST';
 
     /** @var string */
-    public $serviceCode = 'NAS';
+    public $serviceCode = 'nas';
 }
 
 /**
@@ -239,6 +254,24 @@ class CancelDataFlowAutoRefresh extends Rpc
 /**
  * @method string getClientToken()
  * @method $this withClientToken($value)
+ * @method string getDataFlowTaskId()
+ * @method $this withDataFlowTaskId($value)
+ * @method string getDataFlowSubTaskId()
+ * @method $this withDataFlowSubTaskId($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method string getDryRun()
+ * @method $this withDryRun($value)
+ * @method string getDataFlowId()
+ * @method $this withDataFlowId($value)
+ */
+class CancelDataFlowSubTask extends Rpc
+{
+}
+
+/**
+ * @method string getClientToken()
+ * @method $this withClientToken($value)
  * @method string getTaskId()
  * @method $this withTaskId($value)
  * @method string getFileSystemId()
@@ -267,6 +300,23 @@ class CancelDirQuota extends Rpc
 }
 
 /**
+ * @method string getFsetId()
+ * @method $this withFsetId($value)
+ * @method string getClientToken()
+ * @method $this withClientToken($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method string getDryRun()
+ * @method $this withDryRun($value)
+ */
+class CancelFilesetQuota extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
  * @method string getJobId()
  * @method $this withJobId($value)
  */
@@ -286,6 +336,18 @@ class CancelRecycleBinJob extends Rpc
 }
 
 /**
+ * @method string getResourceId()
+ * @method $this withResourceId($value)
+ * @method string getResourceType()
+ * @method $this withResourceType($value)
+ * @method string getNewResourceGroupId()
+ * @method $this withNewResourceGroupId($value)
+ */
+class ChangeResourceGroup extends Rpc
+{
+}
+
+/**
  * @method string getDescription()
  * @method $this withDescription($value)
  * @method string getFileSystemType()
@@ -296,6 +358,40 @@ class CancelRecycleBinJob extends Rpc
  * @method $this withAccessGroupName($value)
  */
 class CreateAccessGroup extends Rpc
+{
+}
+
+/**
+ * @method string getVswId()
+ * @method $this withVswId($value)
+ * @method string getAccessPointName()
+ * @method $this withAccessPointName($value)
+ * @method string getPosixGroupId()
+ * @method $this withPosixGroupId($value)
+ * @method string getPosixSecondaryGroupIds()
+ * @method $this withPosixSecondaryGroupIds($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method string getOwnerGroupId()
+ * @method $this withOwnerGroupId($value)
+ * @method string getEnabledRam()
+ * @method $this withEnabledRam($value)
+ * @method string getOwnerUserId()
+ * @method $this withOwnerUserId($value)
+ * @method string getPermission()
+ * @method $this withPermission($value)
+ * @method string getVpcId()
+ * @method $this withVpcId($value)
+ * @method string getProtocolType()
+ * @method $this withProtocolType($value)
+ * @method string getRootDirectory()
+ * @method $this withRootDirectory($value)
+ * @method string getAccessGroup()
+ * @method $this withAccessGroup($value)
+ * @method string getPosixUserId()
+ * @method $this withPosixUserId($value)
+ */
+class CreateAccessPoint extends Rpc
 {
 }
 
@@ -357,6 +453,10 @@ class CreateAutoSnapshotPolicy extends Rpc
  * @method $this withDryRun($value)
  * @method string getAutoRefreshInterval()
  * @method $this withAutoRefreshInterval($value)
+ * @method string getSourceStoragePath()
+ * @method $this withSourceStoragePath($value)
+ * @method string getFileSystemPath()
+ * @method $this withFileSystemPath($value)
  */
 class CreateDataFlow extends Rpc
 {
@@ -382,12 +482,38 @@ class CreateDataFlow extends Rpc
 /**
  * @method string getClientToken()
  * @method $this withClientToken($value)
+ * @method string getDataFlowTaskId()
+ * @method $this withDataFlowTaskId($value)
+ * @method string getSrcFilePath()
+ * @method $this withSrcFilePath($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method string getDryRun()
+ * @method $this withDryRun($value)
+ * @method string getDataFlowId()
+ * @method $this withDataFlowId($value)
+ * @method string getDstFilePath()
+ * @method $this withDstFilePath($value)
+ * @method string getCondition()
+ * @method $this withCondition($value)
+ */
+class CreateDataFlowSubTask extends Rpc
+{
+}
+
+/**
+ * @method string getDstDirectory()
+ * @method $this withDstDirectory($value)
+ * @method string getClientToken()
+ * @method $this withClientToken($value)
  * @method string getDirectory()
  * @method $this withDirectory($value)
  * @method string getSrcTaskId()
  * @method $this withSrcTaskId($value)
  * @method string getDataType()
  * @method $this withDataType($value)
+ * @method string getCreateDirIfNotExist()
+ * @method $this withCreateDirIfNotExist($value)
  * @method string getFileSystemId()
  * @method $this withFileSystemId($value)
  * @method string getDryRun()
@@ -396,10 +522,30 @@ class CreateDataFlow extends Rpc
  * @method $this withDataFlowId($value)
  * @method string getEntryList()
  * @method $this withEntryList($value)
+ * @method string getConflictPolicy()
+ * @method $this withConflictPolicy($value)
  * @method string getTaskAction()
  * @method $this withTaskAction($value)
  */
 class CreateDataFlowTask extends Rpc
+{
+}
+
+/**
+ * @method string getRecursion()
+ * @method $this withRecursion($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method string getOwnerGroupId()
+ * @method $this withOwnerGroupId($value)
+ * @method string getOwnerUserId()
+ * @method $this withOwnerUserId($value)
+ * @method string getPermission()
+ * @method $this withPermission($value)
+ * @method string getRootDirectory()
+ * @method $this withRootDirectory($value)
+ */
+class CreateDir extends Rpc
 {
 }
 
@@ -424,6 +570,10 @@ class CreateFile extends Rpc
  * @method $this withClientToken($value)
  * @method string getDescription()
  * @method $this withDescription($value)
+ * @method string getDeletionProtection()
+ * @method $this withDeletionProtection($value)
+ * @method string getQuota()
+ * @method $this withQuota($value)
  * @method string getFileSystemId()
  * @method $this withFileSystemId($value)
  * @method string getDryRun()
@@ -452,6 +602,8 @@ class CreateFileset extends Rpc
  * @method $this withEncryptType($value)
  * @method string getDuration()
  * @method $this withDuration($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
  * @method string getDryRun()
  * @method $this withDryRun($value)
  * @method string getBandwidth()
@@ -498,6 +650,8 @@ class CreateLDAPConfig extends Rpc
  * @method $this withFileSystemId($value)
  * @method string getLifecycleRuleName()
  * @method $this withLifecycleRuleName($value)
+ * @method string getLifecycleRuleInactiveDays()
+ * @method $this withLifecycleRuleInactiveDays($value)
  * @method array getPaths()
  */
 class CreateLifecyclePolicy extends Rpc
@@ -520,6 +674,8 @@ class CreateLifecyclePolicy extends Rpc
 }
 
 /**
+ * @method string getStorageType()
+ * @method $this withStorageType($value)
  * @method string getFileSystemId()
  * @method $this withFileSystemId($value)
  * @method array getPaths()
@@ -541,6 +697,14 @@ class CreateLifecycleRetrieveJob extends Rpc
 
 		return $this;
     }
+}
+
+/**
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ */
+class CreateLogAnalysis extends Rpc
+{
 }
 
 /**
@@ -684,6 +848,16 @@ class DeleteAccessGroup extends Rpc
 }
 
 /**
+ * @method string getAccessPointId()
+ * @method $this withAccessPointId($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ */
+class DeleteAccessPoint extends Rpc
+{
+}
+
+/**
  * @method string getFileSystemType()
  * @method $this withFileSystemType($value)
  * @method string getAccessRuleId()
@@ -760,6 +934,14 @@ class DeleteLifecyclePolicy extends Rpc
 /**
  * @method string getFileSystemId()
  * @method $this withFileSystemId($value)
+ */
+class DeleteLogAnalysis extends Rpc
+{
+}
+
+/**
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
  * @method string getMountTargetDomain()
  * @method $this withMountTargetDomain($value)
  */
@@ -818,6 +1000,30 @@ class DeleteSnapshot extends Rpc
  * @method $this withAccessGroupName($value)
  */
 class DescribeAccessGroups extends Rpc
+{
+}
+
+/**
+ * @method string getAccessPointId()
+ * @method $this withAccessPointId($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ */
+class DescribeAccessPoint extends Rpc
+{
+}
+
+/**
+ * @method string getNextToken()
+ * @method $this withNextToken($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method string getMaxResults()
+ * @method $this withMaxResults($value)
+ * @method string getAccessGroup()
+ * @method $this withAccessGroup($value)
+ */
+class DescribeAccessPoints extends Rpc
 {
 }
 
@@ -891,6 +1097,39 @@ class DescribeBlackListClients extends Rpc
  * @method $this withMaxResults($value)
  */
 class DescribeDataFlows extends Rpc
+{
+
+    /**
+     * @param array $filters
+     *
+     * @return $this
+     */
+	public function withFilters(array $filters)
+	{
+	    $this->data['Filters'] = $filters;
+		foreach ($filters as $depth1 => $depth1Value) {
+			if(isset($depth1Value['Value'])){
+				$this->options['query']['Filters.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
+			}
+			if(isset($depth1Value['Key'])){
+				$this->options['query']['Filters.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
+			}
+		}
+
+		return $this;
+    }
+}
+
+/**
+ * @method string getNextToken()
+ * @method $this withNextToken($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method array getFilters()
+ * @method string getMaxResults()
+ * @method $this withMaxResults($value)
+ */
+class DescribeDataFlowSubTasks extends Rpc
 {
 
     /**
@@ -1009,6 +1248,8 @@ class DescribeFilesets extends Rpc
  * @method $this withPageNumber($value)
  * @method string getStorageType()
  * @method $this withStorageType($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
  * @method string getPageSize()
  * @method $this withPageSize($value)
  * @method string getSortOrder()
@@ -1058,16 +1299,12 @@ class DescribeFileSystemStatistics extends Rpc
 }
 
 /**
- * @method string getFileSystemId()
- * @method $this withFileSystemId($value)
- */
-class DescribeLDAPConfig extends Rpc
-{
-}
-
-/**
  * @method string getPageNumber()
  * @method $this withPageNumber($value)
+ * @method string getStorageType()
+ * @method $this withStorageType($value)
+ * @method string getLifecyclePolicyName()
+ * @method $this withLifecyclePolicyName($value)
  * @method string getPageSize()
  * @method $this withPageSize($value)
  * @method string getFileSystemId()
@@ -1081,6 +1318,8 @@ class DescribeLifecyclePolicies extends Rpc
 }
 
 /**
+ * @method string getFileSystemType()
+ * @method $this withFileSystemType($value)
  * @method string getPageNumber()
  * @method $this withPageNumber($value)
  * @method string getPageSize()
@@ -1119,6 +1358,14 @@ class DescribeMountedClients extends Rpc
  * @method $this withDualStackMountTargetDomain($value)
  */
 class DescribeMountTargets extends Rpc
+{
+}
+
+/**
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ */
+class DescribeNfsAcl extends Rpc
 {
 }
 
@@ -1232,39 +1479,6 @@ class DescribeStoragePackages extends Rpc
 }
 
 /**
- * @method string getPageNumber()
- * @method $this withPageNumber($value)
- * @method string getPageSize()
- * @method $this withPageSize($value)
- * @method array getTag()
- * @method string getFileSystemId()
- * @method $this withFileSystemId($value)
- */
-class DescribeTags extends Rpc
-{
-
-    /**
-     * @param array $tag
-     *
-     * @return $this
-     */
-	public function withTag(array $tag)
-	{
-	    $this->data['Tag'] = $tag;
-		foreach ($tag as $depth1 => $depth1Value) {
-			if(isset($depth1Value['Value'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
-			}
-			if(isset($depth1Value['Key'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
-			}
-		}
-
-		return $this;
-    }
-}
-
-/**
  * @method string getFileSystemType()
  * @method $this withFileSystemType($value)
  */
@@ -1287,7 +1501,23 @@ class DisableAndCleanRecycleBin extends Rpc
  * @method string getFileSystemId()
  * @method $this withFileSystemId($value)
  */
+class DisableNfsAcl extends Rpc
+{
+}
+
+/**
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ */
 class DisableSmbAcl extends Rpc
+{
+}
+
+/**
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ */
+class EnableNfsAcl extends Rpc
 {
 }
 
@@ -1359,6 +1589,8 @@ class ListDirectoriesAndFiles extends Rpc
 /**
  * @method string getPageNumber()
  * @method $this withPageNumber($value)
+ * @method string getStorageType()
+ * @method $this withStorageType($value)
  * @method string getPageSize()
  * @method $this withPageSize($value)
  * @method string getFileSystemId()
@@ -1481,6 +1713,22 @@ class ModifyAccessGroup extends Rpc
 }
 
 /**
+ * @method string getAccessPointId()
+ * @method $this withAccessPointId($value)
+ * @method string getAccessPointName()
+ * @method $this withAccessPointName($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method string getEnabledRam()
+ * @method $this withEnabledRam($value)
+ * @method string getAccessGroup()
+ * @method $this withAccessGroup($value)
+ */
+class ModifyAccessPoint extends Rpc
+{
+}
+
+/**
  * @method string getRWAccessType()
  * @method $this withRWAccessType($value)
  * @method string getUserAccessType()
@@ -1561,6 +1809,8 @@ class ModifyDataFlowAutoRefresh extends Rpc
  * @method $this withClientToken($value)
  * @method string getDescription()
  * @method $this withDescription($value)
+ * @method string getDeletionProtection()
+ * @method $this withDeletionProtection($value)
  * @method string getFileSystemId()
  * @method $this withFileSystemId($value)
  * @method string getDryRun()
@@ -1573,6 +1823,8 @@ class ModifyFileset extends Rpc
 /**
  * @method string getDescription()
  * @method $this withDescription($value)
+ * @method string getOptions()
+ * @method $this withOptions($value)
  * @method string getFileSystemId()
  * @method $this withFileSystemId($value)
  */
@@ -1773,6 +2025,27 @@ class RetryLifecycleRetrieveJob extends Rpc
  */
 class SetDirQuota extends Rpc
 {
+}
+
+/**
+ * @method string getFsetId()
+ * @method $this withFsetId($value)
+ * @method string getClientToken()
+ * @method $this withClientToken($value)
+ * @method string getFileCountLimit()
+ * @method $this withFileCountLimit($value)
+ * @method string getSizeLimit()
+ * @method $this withSizeLimit($value)
+ * @method string getFileSystemId()
+ * @method $this withFileSystemId($value)
+ * @method string getDryRun()
+ * @method $this withDryRun($value)
+ */
+class SetFilesetQuota extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**

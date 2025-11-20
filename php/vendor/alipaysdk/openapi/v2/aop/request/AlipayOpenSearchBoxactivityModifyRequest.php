@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.search.boxactivity.modify request
  *
  * @author auto create
- * @since 1.0, 2024-07-23 14:58:46
+ * @since 1.0, 2025-08-13 14:27:44
  */
 class AlipayOpenSearchBoxactivityModifyRequest
 {

@@ -28,17 +28,17 @@ class Nacos extends NameResolver
      */
     public function join(string $name, string $ip, int $port, array $options = []): bool
     {
-        $params['port'] = $port;
-        $params['ip'] = $ip;
-        $params['healthy'] = 'true';
-        $params['weight'] = $options['weight'] ?? 100;
-        $params['encoding'] = $options['encoding'] ?? 'utf-8';
+        $params['port']        = $port;
+        $params['ip']          = $ip;
+        $params['healthy']     = 'true';
+        $params['weight']      = $options['weight'] ?? 100;
+        $params['encoding']    = $options['encoding'] ?? 'utf-8';
         $params['namespaceId'] = $options['namespaceId'] ?? 'public';
         $params['serviceName'] = $this->prefix . $name;
 
         $url = $this->baseUrl . '/nacos/v1/ns/instance?' . http_build_query($params);
-        $r = Coroutine\Http\post($url, []);
-        return $this->checkResponse($r, $url);
+        $r   = Coroutine\Http\post($url, []);
+        return $this->checkResponse($r);
     }
 
     /**
@@ -46,13 +46,13 @@ class Nacos extends NameResolver
      */
     public function leave(string $name, string $ip, int $port): bool
     {
-        $params['port'] = $port;
-        $params['ip'] = $ip;
+        $params['port']        = $port;
+        $params['ip']          = $ip;
         $params['serviceName'] = $this->prefix . $name;
 
         $url = $this->baseUrl . '/nacos/v1/ns/instance?' . http_build_query($params);
-        $r = Coroutine\Http\request($this->baseUrl . '/nacos/v1/ns/instance?' . http_build_query($params), 'DELETE');
-        return $this->checkResponse($r, $url);
+        $r   = Coroutine\Http\request($this->baseUrl . '/nacos/v1/ns/instance?' . http_build_query($params), 'DELETE');
+        return $this->checkResponse($r);
     }
 
     /**
@@ -63,11 +63,11 @@ class Nacos extends NameResolver
         $params['serviceName'] = $this->prefix . $name;
 
         $url = $this->baseUrl . '/nacos/v1/ns/instance/list?' . http_build_query($params);
-        $r = Coroutine\Http\get($url);
-        if (!$this->checkResponse($r, $url)) {
+        $r   = Coroutine\Http\get($url);
+        if (!$this->checkResponse($r)) {
             return null;
         }
-        $result = json_decode($r->getBody());
+        $result = json_decode($r->getBody(), null, 512, JSON_THROW_ON_ERROR);
         if (empty($result)) {
             return null;
         }

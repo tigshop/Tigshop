@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.resourcepackage.topostpaid.refund request
  *
  * @author auto create
- * @since 1.0, 2024-08-19 10:37:06
+ * @since 1.0, 2024-10-22 15:22:20
  */
 class AlipayCloudCloudbaseResourcepackageTopostpaidRefundRequest
 {

@@ -53,6 +53,9 @@ class Signature {
         if ( startWith( $header, 'x-cos-' ) ) {
             return true;
         }
+        if ( startWith( $header, 'x-ci-' ) ) {
+            return true;
+        }
         if ( in_array( $header, $this->signHeader ) ) {
             return true;
         }

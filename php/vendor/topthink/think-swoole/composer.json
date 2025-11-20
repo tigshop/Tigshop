@@ -11,19 +11,20 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "ext-swoole": ">=4.6",
+        "ext-swoole": "^4.0|^5.0|^6.0",
+        "topthink/framework": "^6.0|^8.0",
         "nette/php-generator": "^4.0",
         "open-smf/connection-pool": ">=1.0",
         "stechstudio/backoff": "^1.2",
-        "swoole/ide-helper": "^4.3",
-        "symfony/finder": "^4.3.2|^5.1",
-        "topthink/framework": "^6.0|^8.0"
+        "symfony/finder": ">=4.3",
+        "symfony/process": ">=4.2",
+        "swoole/ide-helper": "^5.0"
     },
     "require-dev": {
-        "symfony/var-dumper": "^4.3|^5.1",
         "topthink/think-tracing": "^1.0",
         "topthink/think-queue": "^3.0",
-        "phpunit/phpunit": "^9.5"
+        "phpstan/phpstan": "^2.0",
+        "pestphp/pest": "^3.7"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +36,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "think\\tests\\swoole\\": "tests/"
+            "app\\": "tests/stub/app"
         }
     },
     "extra": {
@@ -53,8 +54,15 @@
         "sort-packages": true,
         "platform-check": false,
         "platform": {
-            "ext-swoole": "4.6.1",
+            "ext-swoole": "5.0.0",
             "ext-fileinfo": "1.0.4"
+        },
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "analyze": "phpstan --memory-limit=1G",
+        "test": "pest --colors=always"
     }
 }

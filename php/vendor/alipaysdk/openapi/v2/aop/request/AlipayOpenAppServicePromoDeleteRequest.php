@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.app.service.promo.delete request
  *
  * @author auto create
- * @since 1.0, 2023-09-04 01:01:18
+ * @since 1.0, 2025-08-13 15:27:42
  */
 class AlipayOpenAppServicePromoDeleteRequest
 {

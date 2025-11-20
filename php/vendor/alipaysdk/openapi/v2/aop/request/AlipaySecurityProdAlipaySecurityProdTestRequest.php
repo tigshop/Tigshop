@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.security.prod.alipay.security.prod.test request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 19:33:09
+ * @since 1.0, 2025-09-08 10:23:17
  */
 class AlipaySecurityProdAlipaySecurityProdTestRequest
 {

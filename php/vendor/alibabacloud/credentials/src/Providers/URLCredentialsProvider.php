@@ -8,6 +8,7 @@ use AlibabaCloud\Credentials\Request\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use RuntimeException;
+use AlibabaCloud\Credentials\Credential\RefreshResult;
 
 /**
  * @internal This class is intended for internal use within the package. 
@@ -74,7 +75,7 @@ class URLCredentialsProvider extends SessionCredentialsProvider
     /**
      * Get credentials by request.
      *
-     * @return array
+     * @return RefreshResult
      * @throws InvalidArgumentException
      * @throws RuntimeException
      * @throws GuzzleException
@@ -97,7 +98,13 @@ class URLCredentialsProvider extends SessionCredentialsProvider
             throw new RuntimeException('Error retrieving credentials from credentialsURI result:' . $result->toJson());
         }
 
-        return $credentials;
+        return new RefreshResult(new Credentials([
+            'accessKeyId' => $credentials['AccessKeyId'],
+            'accessKeySecret' => $credentials['AccessKeySecret'],
+            'securityToken' => $credentials['SecurityToken'],
+            'expiration' => \strtotime($credentials['Expiration']),
+            'providerName' => $this->getProviderName(),
+        ]), $this->getStaleTime(strtotime($credentials['Expiration'])));
     }
 
 

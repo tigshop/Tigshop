@@ -55,7 +55,7 @@ class HttpClient implements HttpClientInterface
             $response  = curl_exec($this->handle);
             $error     = curl_error($this->handle);
             $info      = $this->getInfo();
-            if (empty($error)) {
+            if (empty($error) && is_string($response)) {
                 $header_size = $info['header_size'];
                 $httpCode    = (int)$info['http_code'];
                 $headers     = $this->parseHeaders(substr($response, 0, $header_size));
@@ -107,7 +107,6 @@ class HttpClient implements HttpClientInterface
         }
         return $multipartParameters;
     }
-
     protected function setCurlOptions($handle, RequestInterface $request): void
     {
         $queryUrl = $request->getQueryUrl();
@@ -115,15 +114,15 @@ class HttpClient implements HttpClientInterface
         if ($request->getHttpMethod() !== RequestMethod::GET) {
             if ($request->getHttpMethod() === RequestMethod::POST) {
                 curl_setopt($handle, CURLOPT_POST, true);
+                curl_setopt($handle, CURLOPT_POSTFIELDS, is_null($body) ? [] : $body);
             } else {
                 if ($request->getHttpMethod() === RequestMethod::HEAD) {
                     curl_setopt($handle, CURLOPT_NOBODY, true);
                 }
                 curl_setopt($handle, CURLOPT_CUSTOMREQUEST, strtoupper($request->getHttpMethod()));
-            }
-
-            if (!is_null($body)) {
-                curl_setopt($handle, CURLOPT_POSTFIELDS, $body);
+                if (!is_null($body)) {
+                    curl_setopt($handle, CURLOPT_POSTFIELDS, $body);
+                }
             }
         } elseif (is_array($body)) {
             if (strpos($queryUrl, '?') !== false) {
@@ -171,8 +170,8 @@ class HttpClient implements HttpClientInterface
             ]);
         }
 
-        if ($this->config->getProxy()['address'] !== false) {
-            $proxy = $this->config->getProxy();
+        $proxy = $this->config->getProxy();
+        if (!empty($proxy['address'])) {
             curl_setopt_array($handle, [
                 CURLOPT_PROXYTYPE       => $proxy['type'],
                 CURLOPT_PROXY           => $proxy['address'],

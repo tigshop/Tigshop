@@ -9,6 +9,9 @@ class Config implements ArrayAccess, JsonSerializable
 {
     protected array $config;
 
+    /**
+     * @param  array  $config
+     */
     public function __construct(array $config)
     {
         $this->config = $config;

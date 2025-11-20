@@ -11,7 +11,7 @@
 
 ![AlibabaCloud](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
-Alibaba Cloud SDK for PHP 是支持产品快捷访问的开发包，由 [Alibaba Cloud Client for PHP][client] 提供底层支持。
+阿里云 V1.0 SDK 即将进入基础安全维护阶段，不再建议使用，建议使用 V2.0 SDK。
 
 ## 发行说明
 

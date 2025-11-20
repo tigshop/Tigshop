@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.abntask.modify request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 16:55:06
+ * @since 1.0, 2025-10-14 16:38:08
  */
 class AlipayCommerceAbntaskModifyRequest
 {

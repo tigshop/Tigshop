@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.mda.leftticket.query request
  *
  * @author auto create
- * @since 1.0, 2024-08-08 22:12:45
+ * @since 1.0, 2025-08-13 14:32:39
  */
 class AlipayDataMdaLeftticketQueryRequest
 {

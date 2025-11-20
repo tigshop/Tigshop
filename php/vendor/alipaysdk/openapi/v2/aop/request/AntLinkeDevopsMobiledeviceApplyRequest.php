@@ -3,7 +3,7 @@
  * ALIPAY API: ant.linke.devops.mobiledevice.apply request
  *
  * @author auto create
- * @since 1.0, 2024-08-23 11:01:27
+ * @since 1.0, 2025-08-14 05:42:40
  */
 class AntLinkeDevopsMobiledeviceApplyRequest
 {

@@ -51,7 +51,7 @@ class Operation implements ToArrayInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $config = [], DescriptionInterface $description = null)
+    public function __construct(array $config = [], ?DescriptionInterface $description = null)
     {
         static $defaults = [
             'name' => '',

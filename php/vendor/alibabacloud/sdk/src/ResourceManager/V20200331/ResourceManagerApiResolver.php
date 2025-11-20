@@ -15,6 +15,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method CancelPromoteResourceAccount cancelPromoteResourceAccount(array $options = [])
  * @method ChangeAccountEmail changeAccountEmail(array $options = [])
  * @method CheckAccountDelete checkAccountDelete(array $options = [])
+ * @method CreateAutoGroupingRule createAutoGroupingRule(array $options = [])
  * @method CreateCloudAccount createCloudAccount(array $options = [])
  * @method CreateControlPolicy createControlPolicy(array $options = [])
  * @method CreateFolder createFolder(array $options = [])
@@ -26,6 +27,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method CreateServiceLinkedRole createServiceLinkedRole(array $options = [])
  * @method DeclineHandshake declineHandshake(array $options = [])
  * @method DeleteAccount deleteAccount(array $options = [])
+ * @method DeleteAutoGroupingRule deleteAutoGroupingRule(array $options = [])
  * @method DeleteControlPolicy deleteControlPolicy(array $options = [])
  * @method DeleteFolder deleteFolder(array $options = [])
  * @method DeletePolicy deletePolicy(array $options = [])
@@ -37,12 +39,18 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method DestroyResourceDirectory destroyResourceDirectory(array $options = [])
  * @method DetachControlPolicy detachControlPolicy(array $options = [])
  * @method DetachPolicy detachPolicy(array $options = [])
+ * @method DisableAssociatedTransfer disableAssociatedTransfer(array $options = [])
+ * @method DisableAutoGrouping disableAutoGrouping(array $options = [])
  * @method DisableControlPolicy disableControlPolicy(array $options = [])
+ * @method EnableAssociatedTransfer enableAssociatedTransfer(array $options = [])
+ * @method EnableAutoGrouping enableAutoGrouping(array $options = [])
  * @method EnableControlPolicy enableControlPolicy(array $options = [])
  * @method EnableResourceDirectory enableResourceDirectory(array $options = [])
  * @method GetAccount getAccount(array $options = [])
  * @method GetAccountDeletionCheckResult getAccountDeletionCheckResult(array $options = [])
  * @method GetAccountDeletionStatus getAccountDeletionStatus(array $options = [])
+ * @method GetAutoGroupingRule getAutoGroupingRule(array $options = [])
+ * @method GetAutoGroupingStatus getAutoGroupingStatus(array $options = [])
  * @method GetControlPolicy getControlPolicy(array $options = [])
  * @method GetControlPolicyEnablementStatus getControlPolicyEnablementStatus(array $options = [])
  * @method GetFolder getFolder(array $options = [])
@@ -59,6 +67,8 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ListAccounts listAccounts(array $options = [])
  * @method ListAccountsForParent listAccountsForParent(array $options = [])
  * @method ListAncestors listAncestors(array $options = [])
+ * @method ListAssociatedTransferSetting listAssociatedTransferSetting(array $options = [])
+ * @method ListAutoGroupingRules listAutoGroupingRules(array $options = [])
  * @method ListControlPolicies listControlPolicies(array $options = [])
  * @method ListControlPolicyAttachmentsForTarget listControlPolicyAttachmentsForTarget(array $options = [])
  * @method ListDelegatedAdministrators listDelegatedAdministrators(array $options = [])
@@ -92,6 +102,9 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method TagResources tagResources(array $options = [])
  * @method UntagResources untagResources(array $options = [])
  * @method UpdateAccount updateAccount(array $options = [])
+ * @method UpdateAssociatedTransferSetting updateAssociatedTransferSetting(array $options = [])
+ * @method UpdateAutoGroupingConfig updateAutoGroupingConfig(array $options = [])
+ * @method UpdateAutoGroupingRule updateAutoGroupingRule(array $options = [])
  * @method UpdateControlPolicy updateControlPolicy(array $options = [])
  * @method UpdateFolder updateFolder(array $options = [])
  * @method UpdateResourceGroup updateResourceGroup(array $options = [])
@@ -114,6 +127,9 @@ class Rpc extends \AlibabaCloud\Client\Resolver\Rpc
 
     /** @var string */
     protected $scheme = 'https';
+
+    /** @var string */
+    public $serviceCode = 'resourcemanager';
 }
 
 /**
@@ -135,12 +151,12 @@ class AttachControlPolicy extends Rpc
 }
 
 /**
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
  * @method string getPolicyType()
  * @method $this withPolicyType($value)
  * @method string getPrincipalType()
  * @method $this withPrincipalType($value)
- * @method string getResourceGroupId()
- * @method $this withResourceGroupId($value)
  * @method string getPolicyName()
  * @method $this withPolicyName($value)
  * @method string getPrincipalName()
@@ -210,6 +226,55 @@ class ChangeAccountEmail extends Rpc
  */
 class CheckAccountDelete extends Rpc
 {
+}
+
+/**
+ * @method string getRuleDesc()
+ * @method $this withRuleDesc($value)
+ * @method string getResourceTypesScope()
+ * @method $this withResourceTypesScope($value)
+ * @method string getRuleName()
+ * @method $this withRuleName($value)
+ * @method string getExcludeResourceGroupIdsScope()
+ * @method $this withExcludeResourceGroupIdsScope($value)
+ * @method string getRegionIdsScope()
+ * @method $this withRegionIdsScope($value)
+ * @method string getResourceIdsScope()
+ * @method $this withResourceIdsScope($value)
+ * @method array getRuleContents()
+ * @method string getExcludeResourceTypesScope()
+ * @method $this withExcludeResourceTypesScope($value)
+ * @method string getRuleType()
+ * @method $this withRuleType($value)
+ * @method string getResourceGroupIdsScope()
+ * @method $this withResourceGroupIdsScope($value)
+ * @method string getExcludeRegionIdsScope()
+ * @method $this withExcludeRegionIdsScope($value)
+ * @method string getExcludeResourceIdsScope()
+ * @method $this withExcludeResourceIdsScope($value)
+ */
+class CreateAutoGroupingRule extends Rpc
+{
+
+    /**
+     * @param array $ruleContents
+     *
+     * @return $this
+     */
+	public function withRuleContents(array $ruleContents)
+	{
+	    $this->data['RuleContents'] = $ruleContents;
+		foreach ($ruleContents as $depth1 => $depth1Value) {
+			if(isset($depth1Value['TargetResourceGroupCondition'])){
+				$this->options['query']['RuleContents.' . ($depth1 + 1) . '.TargetResourceGroupCondition'] = $depth1Value['TargetResourceGroupCondition'];
+			}
+			if(isset($depth1Value['AutoGroupingScopeCondition'])){
+				$this->options['query']['RuleContents.' . ($depth1 + 1) . '.AutoGroupingScopeCondition'] = $depth1Value['AutoGroupingScopeCondition'];
+			}
+		}
+
+		return $this;
+    }
 }
 
 /**
@@ -297,6 +362,8 @@ class CreateResourceAccount extends Rpc
  * @method $this withDisplayName($value)
  * @method string getName()
  * @method $this withName($value)
+ * @method string getTag()
+ * @method $this withTag($value)
  */
 class CreateResourceGroup extends Rpc
 {
@@ -343,6 +410,14 @@ class DeclineHandshake extends Rpc
  * @method $this withAccountId($value)
  */
 class DeleteAccount extends Rpc
+{
+}
+
+/**
+ * @method string getRuleId()
+ * @method $this withRuleId($value)
+ */
+class DeleteAutoGroupingRule extends Rpc
 {
 }
 
@@ -435,12 +510,12 @@ class DetachControlPolicy extends Rpc
 }
 
 /**
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
  * @method string getPolicyType()
  * @method $this withPolicyType($value)
  * @method string getPrincipalType()
  * @method $this withPrincipalType($value)
- * @method string getResourceGroupId()
- * @method $this withResourceGroupId($value)
  * @method string getPolicyName()
  * @method $this withPolicyName($value)
  * @method string getPrincipalName()
@@ -450,7 +525,23 @@ class DetachPolicy extends Rpc
 {
 }
 
+class DisableAssociatedTransfer extends Rpc
+{
+}
+
+class DisableAutoGrouping extends Rpc
+{
+}
+
 class DisableControlPolicy extends Rpc
+{
+}
+
+class EnableAssociatedTransfer extends Rpc
+{
+}
+
+class EnableAutoGrouping extends Rpc
 {
 }
 
@@ -495,6 +586,18 @@ class GetAccountDeletionCheckResult extends Rpc
  * @method $this withAccountId($value)
  */
 class GetAccountDeletionStatus extends Rpc
+{
+}
+
+/**
+ * @method string getRuleId()
+ * @method $this withRuleId($value)
+ */
+class GetAutoGroupingRule extends Rpc
+{
+}
+
+class GetAutoGroupingStatus extends Rpc
 {
 }
 
@@ -628,18 +731,18 @@ class ListAccounts extends Rpc
 }
 
 /**
- * @method string getQueryKeyword()
- * @method $this withQueryKeyword($value)
  * @method string getPageNumber()
  * @method $this withPageNumber($value)
- * @method string getParentFolderId()
- * @method $this withParentFolderId($value)
- * @method string getIncludeTags()
- * @method $this withIncludeTags($value)
  * @method string getPageSize()
  * @method $this withPageSize($value)
  * @method string getTag()
  * @method $this withTag($value)
+ * @method string getQueryKeyword()
+ * @method $this withQueryKeyword($value)
+ * @method string getParentFolderId()
+ * @method $this withParentFolderId($value)
+ * @method string getIncludeTags()
+ * @method $this withIncludeTags($value)
  */
 class ListAccountsForParent extends Rpc
 {
@@ -650,6 +753,26 @@ class ListAccountsForParent extends Rpc
  * @method $this withChildId($value)
  */
 class ListAncestors extends Rpc
+{
+}
+
+class ListAssociatedTransferSetting extends Rpc
+{
+}
+
+/**
+ * @method string getRuleName()
+ * @method $this withRuleName($value)
+ * @method string getNextToken()
+ * @method $this withNextToken($value)
+ * @method string getRuleType()
+ * @method $this withRuleType($value)
+ * @method string getMaxResults()
+ * @method $this withMaxResults($value)
+ * @method string getRuleId()
+ * @method $this withRuleId($value)
+ */
+class ListAutoGroupingRules extends Rpc
 {
 }
 
@@ -858,16 +981,16 @@ class ListTagKeys extends Rpc
 }
 
 /**
+ * @method string getNextToken()
+ * @method $this withNextToken($value)
+ * @method string getTag()
+ * @method $this withTag($value)
  * @method string getResourceId()
  * @method $this withResourceId($value)
  * @method string getResourceType()
  * @method $this withResourceType($value)
- * @method string getNextToken()
- * @method $this withNextToken($value)
  * @method string getMaxResults()
  * @method $this withMaxResults($value)
- * @method string getTag()
- * @method $this withTag($value)
  */
 class ListTagResources extends Rpc
 {
@@ -1063,6 +1186,76 @@ class UntagResources extends Rpc
  */
 class UpdateAccount extends Rpc
 {
+}
+
+/**
+ * @method string getRuleSettings()
+ * @method $this withRuleSettings($value)
+ * @method string getEnableExistingResourcesTransfer()
+ * @method $this withEnableExistingResourcesTransfer($value)
+ */
+class UpdateAssociatedTransferSetting extends Rpc
+{
+}
+
+/**
+ * @method string getEnableExistingResourcesTransfer()
+ * @method $this withEnableExistingResourcesTransfer($value)
+ */
+class UpdateAutoGroupingConfig extends Rpc
+{
+}
+
+/**
+ * @method string getRuleDesc()
+ * @method $this withRuleDesc($value)
+ * @method string getResourceTypesScope()
+ * @method $this withResourceTypesScope($value)
+ * @method string getRuleName()
+ * @method $this withRuleName($value)
+ * @method string getExcludeResourceGroupIdsScope()
+ * @method $this withExcludeResourceGroupIdsScope($value)
+ * @method string getRegionIdsScope()
+ * @method $this withRegionIdsScope($value)
+ * @method string getResourceIdsScope()
+ * @method $this withResourceIdsScope($value)
+ * @method array getRuleContents()
+ * @method string getExcludeResourceTypesScope()
+ * @method $this withExcludeResourceTypesScope($value)
+ * @method string getResourceGroupIdsScope()
+ * @method $this withResourceGroupIdsScope($value)
+ * @method string getExcludeRegionIdsScope()
+ * @method $this withExcludeRegionIdsScope($value)
+ * @method string getExcludeResourceIdsScope()
+ * @method $this withExcludeResourceIdsScope($value)
+ * @method string getRuleId()
+ * @method $this withRuleId($value)
+ */
+class UpdateAutoGroupingRule extends Rpc
+{
+
+    /**
+     * @param array $ruleContents
+     *
+     * @return $this
+     */
+	public function withRuleContents(array $ruleContents)
+	{
+	    $this->data['RuleContents'] = $ruleContents;
+		foreach ($ruleContents as $depth1 => $depth1Value) {
+			if(isset($depth1Value['RuleContentId'])){
+				$this->options['query']['RuleContents.' . ($depth1 + 1) . '.RuleContentId'] = $depth1Value['RuleContentId'];
+			}
+			if(isset($depth1Value['TargetResourceGroupCondition'])){
+				$this->options['query']['RuleContents.' . ($depth1 + 1) . '.TargetResourceGroupCondition'] = $depth1Value['TargetResourceGroupCondition'];
+			}
+			if(isset($depth1Value['AutoGroupingScopeCondition'])){
+				$this->options['query']['RuleContents.' . ($depth1 + 1) . '.AutoGroupingScopeCondition'] = $depth1Value['AutoGroupingScopeCondition'];
+			}
+		}
+
+		return $this;
+    }
 }
 
 /**

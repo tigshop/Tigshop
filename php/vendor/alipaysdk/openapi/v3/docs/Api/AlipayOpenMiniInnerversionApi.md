@@ -6,7 +6,6 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**online()**](AlipayOpenMiniInnerversionApi.md#online) | **POST** /v3/alipay/open/mini/innerversion/online | 内部小程序-上架
 [**sync()**](AlipayOpenMiniInnerversionApi.md#sync) | **POST** /v3/alipay/open/mini/innerversion/sync | 小程序包信息推送
-[**upgrade()**](AlipayOpenMiniInnerversionApi.md#upgrade) | **POST** /v3/alipay/open/mini/innerversion/upgrade | 升级模板实例化小程序
 [**upload()**](AlipayOpenMiniInnerversionApi.md#upload) | **POST** /v3/alipay/open/mini/innerversion/upload | 内部小程序-打包构建
 
 
@@ -133,76 +132,6 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **alipayOpenMiniInnerversionSyncModel** | **\Alipay\OpenAPISDK\Model\AlipayOpenMiniInnerversionSyncModel**|  | [optional]
-
-### Return type
-
-**object**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-[[Back to top]](#) [[Back to API list]](../../README.md#api-endpoints)
-[[Back to README]](../../README.md)
-
-## `upgrade()`
-
-```php
-upgrade($alipayOpenMiniInnerversionUpgradeModel): object
-```
-
-升级模板实例化小程序
-
-升级基于模板实例化的小程序，升级后不需要重新提交审核；同步接口。
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-
-$apiInstance = new Alipay\OpenAPISDK\Api\AlipayOpenMiniInnerversionApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
-);
-
-// 初始化alipay参数
-$alipayConfig = new \Alipay\OpenAPISDK\Util\Model\AlipayConfig();
-$alipayConfig->setAppId('app_id');
-$alipayConfig->setPrivateKey('private_key');
-// 密钥模式
-$alipayConfig->setAlipayPublicKey('alipay_public_key');
-// 证书模式
-// $alipayConfig->setAppCertPath('../appCertPublicKey.crt');
-// $alipayConfig->setAlipayPublicCertPath('../alipayCertPublicKey_RSA2.crt');
-// $alipayConfig->setRootCertPath('../alipayRootCert.crt');
-$alipayConfig->setEncryptKey('encrypt_key');
-$alipayConfigUtil = new \Alipay\OpenAPISDK\Util\AlipayConfigUtil($alipayConfig);
-$apiInstance->setAlipayConfigUtil($alipayConfigUtil);
-
-$alipayOpenMiniInnerversionUpgradeModel = new \Alipay\OpenAPISDK\Model\AlipayOpenMiniInnerversionUpgradeModel(); // \Alipay\OpenAPISDK\Model\AlipayOpenMiniInnerversionUpgradeModel
-
-try {
-    $result = $apiInstance->upgrade($alipayOpenMiniInnerversionUpgradeModel);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling AlipayOpenMiniInnerversionApi->upgrade: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **alipayOpenMiniInnerversionUpgradeModel** | **\Alipay\OpenAPISDK\Model\AlipayOpenMiniInnerversionUpgradeModel**|  | [optional]
 
 ### Return type
 

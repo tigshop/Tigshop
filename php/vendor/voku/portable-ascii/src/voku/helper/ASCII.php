@@ -775,14 +775,14 @@ final class ASCII
      * @param string    $str                       <p>The input string.</p>
      * @param string    $language                  [optional] <p>Language of the source string.
      *                                             (default is 'en') | ASCII::*_LANGUAGE_CODE</p>
-     * @param bool      $remove_unsupported_chars  [optional] <p>Whether or not to remove the
+     * @param bool      $remove_unsupported_chars  [optional] <p>Whether to remove the
      *                                             unsupported characters.</p>
      * @param bool      $replace_extra_symbols     [optional]  <p>Add some more replacements e.g. "£" with " pound
      *                                             ".</p>
      * @param bool      $use_transliterate         [optional]  <p>Use ASCII::to_transliterate() for unknown chars.</p>
-     * @param bool|null $replace_single_chars_only [optional]  <p>Single char replacement is better for the
-     *                                             performance, but some languages need to replace more then one char
-     *                                             at the same time. | NULL === auto-setting, depended on the
+     * @param bool      $replace_single_chars_only [optional]  <p>Single char replacement is better for the
+     *                                             performance, but some languages need to replace more than one char
+     *                                             at the same time. If FALSE === auto-setting, depended on the
      *                                             language</p>
      *
      * @psalm-pure
@@ -798,7 +798,7 @@ final class ASCII
         bool $remove_unsupported_chars = true,
         bool $replace_extra_symbols = false,
         bool $use_transliterate = false,
-        bool $replace_single_chars_only = null
+        bool $replace_single_chars_only = false
     ): string {
         if ($str === '') {
             return '';
@@ -1192,7 +1192,6 @@ final class ASCII
             $str_tmp = \transliterator_transliterate($TRANSLITERATOR, $str);
 
             if ($str_tmp !== false) {
-
                 // check again, if we only have ASCII, now ...
                 if (
                     $str_tmp !== $str
@@ -1285,7 +1284,6 @@ final class ASCII
             $new_char = $ord & 255;
 
             if (isset($UTF8_TO_TRANSLIT[$bank][$new_char])) {
-
                 // keep for debugging
                 /*
                 echo "file: " . sprintf('x%02x', $bank) . "\n";
@@ -1313,7 +1311,6 @@ final class ASCII
                     $c = $new_char;
                 }
             } else {
-
                 // keep for debugging missing chars
                 /*
                 echo "file: " . sprintf('x%02x', $bank) . "\n";

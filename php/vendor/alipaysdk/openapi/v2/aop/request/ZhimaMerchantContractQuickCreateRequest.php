@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.merchant.contract.quick.create request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 19:39:14
+ * @since 1.0, 2025-08-14 11:42:37
  */
 class ZhimaMerchantContractQuickCreateRequest
 {

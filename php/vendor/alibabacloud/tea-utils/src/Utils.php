@@ -597,4 +597,14 @@ class Utils
 
         throw new \InvalidArgumentException('It is not a stream value.');
     }
+
+    /**
+     * Get hostname of current machine.
+     *
+     * @return string the string value
+     */
+    public static function getHostName()
+    {
+        return gethostname() ?: '';
+    }
 }

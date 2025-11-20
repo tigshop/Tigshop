@@ -3,7 +3,6 @@
 namespace think\swoole\pool;
 
 use Closure;
-use Exception;
 use RuntimeException;
 use Smf\ConnectionPool\ConnectionPool;
 use Smf\ConnectionPool\Connectors\ConnectorInterface;
@@ -39,9 +38,11 @@ abstract class Proxy
             $connector = new Connector($connector);
         }
 
-        $connector->setChecker(function ($connection) {
-            return !isset($this->disconnected[$connection]);
-        });
+        if ($connector instanceof Connector) {
+            $connector->setChecker(function ($connection) {
+                return !isset($this->disconnected[$connection]);
+            });
+        }
 
         $this->pool = new ConnectionPool(
             Pool::pullPoolConfig($config),
@@ -92,7 +93,7 @@ abstract class Proxy
 
         try {
             return $connection->{$method}(...$arguments);
-        } catch (Exception|Throwable $e) {
+        } catch (Throwable $e) {
             $this->disconnected[$connection] = true;
             throw $e;
         }

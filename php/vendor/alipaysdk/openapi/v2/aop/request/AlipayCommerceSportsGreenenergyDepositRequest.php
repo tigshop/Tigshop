@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.sports.greenenergy.deposit request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:27:38
+ * @since 1.0, 2025-08-14 11:52:36
  */
 class AlipayCommerceSportsGreenenergyDepositRequest
 {

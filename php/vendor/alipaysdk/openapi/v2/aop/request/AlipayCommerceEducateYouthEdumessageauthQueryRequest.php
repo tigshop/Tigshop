@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.educate.youth.edumessageauth.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:26:17
+ * @since 1.0, 2025-01-02 15:07:52
  */
 class AlipayCommerceEducateYouthEdumessageauthQueryRequest
 {

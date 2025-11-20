@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016, Google Inc.
+ * Copyright 2016 Google LLC
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Google\GAX;
+namespace Google\ApiCore;
+
+use Google\LongRunning\CancelOperationRequest;
+use Google\LongRunning\Client\OperationsClient;
+use Google\LongRunning\DeleteOperationRequest;
+use Google\LongRunning\GetOperationRequest;
+use Google\LongRunning\Operation;
+use Google\LongRunning\OperationsClient as LegacyOperationsClient;
+use Google\Protobuf\Any;
+use Google\Protobuf\Internal\Message;
+use Google\Rpc\Status;
+use LogicException;
 
 /**
  * Response object from a long running API method.
@@ -44,44 +55,117 @@ namespace Google\GAX;
  * Operations API, which is used by the OperationResponse object. If
  * more control is required, it is possible to make calls against the
  * Operations API directly instead of via the OperationResponse object
- * using an OperationsClient instance.
+ * using an Operations Client instance.
  */
 class OperationResponse
 {
-    const DEFAULT_POLLING_INTERVAL = 1.0;
+    use PollingTrait;
 
-    private $operationName;
-    private $operationsClient;
-    private $operationReturnType;
-    private $metadataReturnType;
-    private $lastProtoResponse;
-    private $deleted = false;
+    const DEFAULT_POLLING_INTERVAL = 1000;
+    const DEFAULT_POLLING_MULTIPLIER = 2;
+    const DEFAULT_MAX_POLLING_INTERVAL = 60000;
+    const DEFAULT_MAX_POLLING_DURATION = 0;
+    private const NEW_CLIENT_NAMESPACE = '\\Client\\';
+
+    private string $operationName;
+    private ?object $operationsClient;
+
+    private ?string $operationReturnType;
+    private ?string $metadataReturnType;
+    private array $defaultPollSettings = [
+        'initialPollDelayMillis' => self::DEFAULT_POLLING_INTERVAL,
+        'pollDelayMultiplier' => self::DEFAULT_POLLING_MULTIPLIER,
+        'maxPollDelayMillis' => self::DEFAULT_MAX_POLLING_INTERVAL,
+        'totalPollTimeoutMillis' => self::DEFAULT_MAX_POLLING_DURATION,
+    ];
+
+    private ?object $lastProtoResponse;
+    private bool $deleted = false;
+
+    private array $additionalArgs;
+    private string $getOperationMethod;
+    private ?string $cancelOperationMethod;
+    private ?string $deleteOperationMethod;
+    private string $getOperationRequest;
+    private ?string $cancelOperationRequest;
+    private ?string $deleteOperationRequest;
+    private string $operationStatusMethod;
+    /** @var mixed */
+    private $operationStatusDoneValue;
+    private ?string $operationErrorCodeMethod;
+    private ?string $operationErrorMessageMethod;
 
     /**
      * OperationResponse constructor.
      *
      * @param string $operationName
-     * @param \Google\GAX\LongRunning\OperationsClient $operationsClient
+     * @param object $operationsClient
      * @param array $options {
-     *                       Optional. Options for configuring the Operation response object.
+     *                       Optional. Options for configuring the operation response object.
      *
      *     @type string $operationReturnType The return type of the longrunning operation.
-     *     @type string $metadataReturnType The type of the metadata returned in the Operation response.
-     *     @type \google\longrunning\Operation $lastProtoResponse A response already received from the server.
+     *     @type string $metadataReturnType The type of the metadata returned in the operation response.
+     *     @type int $initialPollDelayMillis    The initial polling interval to use, in milliseconds.
+     *     @type int $pollDelayMultiplier Multiplier applied to the polling interval on each retry.
+     *     @type int $maxPollDelayMillis The maximum polling interval to use, in milliseconds.
+     *     @type int $totalPollTimeoutMillis The maximum amount of time to continue polling.
+     *     @type object $lastProtoResponse A response already received from the server.
+     *     @type string $getOperationMethod The method on $operationsClient to get the operation.
+     *     @type string $cancelOperationMethod The method on $operationsClient to cancel the operation.
+     *     @type string $deleteOperationMethod The method on $operationsClient to delete the operation.
+     *     @type string $operationStatusMethod The method on the operation to get the status.
+     *     @type string $operationStatusDoneValue The method on the operation to determine if the status is done.
+     *     @type array $additionalOperationArguments Additional arguments to pass to $operationsClient methods.
+     *     @type string $operationErrorCodeMethod The method on the operation to get the error code
+     *     @type string $operationErrorMessageMethod The method on the operation to get the error status
      * }
      */
-    public function __construct($operationName, $operationsClient, $options = [])
+    public function __construct(string $operationName, $operationsClient, array $options = [])
     {
         $this->operationName = $operationName;
         $this->operationsClient = $operationsClient;
-        if (isset($options['operationReturnType'])) {
-            $this->operationReturnType = $options['operationReturnType'];
+        $options += [
+            'operationReturnType' => null,
+            'metadataReturnType' => null,
+            'lastProtoResponse' => null,
+            'getOperationMethod' => 'getOperation',
+            'cancelOperationMethod' => 'cancelOperation',
+            'deleteOperationMethod' => 'deleteOperation',
+            'operationStatusMethod' => 'getDone',
+            'operationStatusDoneValue' => true,
+            'additionalOperationArguments' => [],
+            'operationErrorCodeMethod' => null,
+            'operationErrorMessageMethod' => null,
+            'getOperationRequest' => GetOperationRequest::class,
+            'cancelOperationRequest' => CancelOperationRequest::class,
+            'deleteOperationRequest' => DeleteOperationRequest::class,
+        ];
+        $this->operationReturnType = $options['operationReturnType'];
+        $this->metadataReturnType = $options['metadataReturnType'];
+        $this->lastProtoResponse = $options['lastProtoResponse'];
+        $this->getOperationMethod = $options['getOperationMethod'];
+        $this->cancelOperationMethod = $options['cancelOperationMethod'];
+        $this->deleteOperationMethod = $options['deleteOperationMethod'];
+        $this->additionalArgs = $options['additionalOperationArguments'];
+        $this->operationStatusMethod = $options['operationStatusMethod'];
+        $this->operationStatusDoneValue = $options['operationStatusDoneValue'];
+        $this->operationErrorCodeMethod = $options['operationErrorCodeMethod'];
+        $this->operationErrorMessageMethod = $options['operationErrorMessageMethod'];
+        $this->getOperationRequest = $options['getOperationRequest'];
+        $this->cancelOperationRequest = $options['cancelOperationRequest'];
+        $this->deleteOperationRequest = $options['deleteOperationRequest'];
+
+        if (isset($options['initialPollDelayMillis'])) {
+            $this->defaultPollSettings['initialPollDelayMillis'] = $options['initialPollDelayMillis'];
         }
-        if (isset($options['metadataReturnType'])) {
-            $this->metadataReturnType = $options['metadataReturnType'];
+        if (isset($options['pollDelayMultiplier'])) {
+            $this->defaultPollSettings['pollDelayMultiplier'] = $options['pollDelayMultiplier'];
         }
-        if (isset($options['lastProtoResponse'])) {
-            $this->lastProtoResponse = $options['lastProtoResponse'];
+        if (isset($options['maxPollDelayMillis'])) {
+            $this->defaultPollSettings['maxPollDelayMillis'] = $options['maxPollDelayMillis'];
+        }
+        if (isset($options['totalPollTimeoutMillis'])) {
+            $this->defaultPollSettings['totalPollTimeoutMillis'] = $options['totalPollTimeoutMillis'];
         }
     }
 
@@ -92,9 +176,16 @@ class OperationResponse
      */
     public function isDone()
     {
-        return (is_null($this->lastProtoResponse) || is_null($this->lastProtoResponse->getDone()))
-            ? false
-            : $this->lastProtoResponse->getDone();
+        if (!$this->hasProtoResponse()) {
+            return false;
+        }
+
+        $status = call_user_func([$this->lastProtoResponse, $this->operationStatusMethod]);
+        if (is_null($status)) {
+            return false;
+        }
+
+        return $status === $this->operationStatusDoneValue;
     }
 
     /**
@@ -105,6 +196,16 @@ class OperationResponse
      */
     public function operationSucceeded()
     {
+        if (!$this->hasProtoResponse()) {
+            return false;
+        }
+
+        if (!$this->canHaveResult()) {
+            // For Operations which do not have a result, we consider a successful
+            // operation when the operation has completed without errors.
+            return $this->isDone() && !$this->hasErrors();
+        }
+
         return !is_null($this->getResult());
     }
 
@@ -116,7 +217,7 @@ class OperationResponse
      */
     public function operationFailed()
     {
-        return !is_null($this->getError());
+        return $this->hasErrors();
     }
 
     /**
@@ -133,40 +234,33 @@ class OperationResponse
      * Poll the server in a loop until the operation is complete.
      *
      * Return true if the operation completed, otherwise return false. If the
-     * $options['maxPollingDuration'] setting is not set (or set <= 0.0) then
+     * $options['totalPollTimeoutMillis'] setting is not set (or set <= 0) then
      * pollUntilComplete will continue polling until the operation completes,
      * and therefore will always return true.
      *
      * @param array $options {
      *                       Options for configuring the polling behaviour.
      *
-     *     @type float $pollingIntervalSeconds The polling interval to use, in seconds.
-     *                                          Default: 1.0
-     *     @type float $maxPollingDurationSeconds The maximum amount of time to continue polling.
-     *                                            Default: 0.0 (no maximum)
+     *     @type int $initialPollDelayMillis The initial polling interval to use, in milliseconds.
+     *     @type int $pollDelayMultiplier    Multiplier applied to the polling interval on each retry.
+     *     @type int $maxPollDelayMillis     The maximum polling interval to use, in milliseconds.
+     *     @type int $totalPollTimeoutMillis The maximum amount of time to continue polling, in milliseconds.
      * }
-     * @return bool Indicates if the operation completed.
      * @throws ApiException If an API call fails.
+     * @throws ValidationException
+     * @return bool Indicates if the operation completed.
      */
-    public function pollUntilComplete($options = [])
+    public function pollUntilComplete(array $options = [])
     {
-        $defaultPollSettings = [
-            'pollingIntervalSeconds' => $this::DEFAULT_POLLING_INTERVAL,
-            'maxPollingDurationSeconds' => 0.0,
-        ];
-        $pollSettings = array_merge($defaultPollSettings, $options);
-
-        $pollingIntervalMicros = $pollSettings['pollingIntervalSeconds'] * 1000000;
-        $maxPollingDuration = $pollSettings['maxPollingDurationSeconds'];
-
-        $hasMaxPollingDuration = $maxPollingDuration > 0.0;
-        $endTime = microtime(true) + $maxPollingDuration;
-        while (!$this->isDone() && (!$hasMaxPollingDuration || microtime(true) < $endTime)) {
-            usleep($pollingIntervalMicros);
-            $this->reload();
+        if ($this->isDone()) {
+            return true;
         }
 
-        return $this->isDone();
+        $pollSettings = array_merge($this->defaultPollSettings, $options);
+        return $this->poll(function () {
+            $this->reload();
+            return $this->isDone();
+        }, $pollSettings);
     }
 
     /**
@@ -178,10 +272,11 @@ class OperationResponse
     public function reload()
     {
         if ($this->deleted) {
-            throw new ValidationException("Cannot call reload() on a deleted operation");
+            throw new ValidationException('Cannot call reload() on a deleted operation');
         }
-        $name = $this->getName();
-        $this->lastProtoResponse = $this->operationsClient->getOperation($name);
+
+        $requestClass = $this->isNewSurfaceOperationsClient() ? $this->getOperationRequest : null;
+        $this->lastProtoResponse = $this->operationsCall($this->getOperationMethod, $requestClass);
     }
 
     /**
@@ -191,51 +286,82 @@ class OperationResponse
      */
     public function getResult()
     {
-        if (!$this->isDone() || !$this->lastProtoResponse->hasResponse()) {
+        if (!$this->hasProtoResponse()) {
             return null;
         }
 
+        if (!$this->canHaveResult()) {
+            return null;
+        }
+
+        if (!$this->isDone()) {
+            return null;
+        }
+
+        /** @var Any|null $anyResponse */
         $anyResponse = $this->lastProtoResponse->getResponse();
+        if (is_null($anyResponse)) {
+            return null;
+        }
         if (is_null($this->operationReturnType)) {
             return $anyResponse;
         }
         $operationReturnType = $this->operationReturnType;
+        /** @var Message $response */
         $response = new $operationReturnType();
-        $response->parse($anyResponse->getValue());
+        $response->mergeFromString($anyResponse->getValue());
         return $response;
     }
 
     /**
      * If the operation failed, return the status. If operationFailed() is false, return null.
      *
-     * @return \google\rpc\Status|null The status of the operation in case of failure, or null if
+     * @return Status|null The status of the operation in case of failure, or null if
      *                                 operationFailed() is false.
      */
     public function getError()
     {
-        if (!$this->isDone() || !$this->lastProtoResponse->hasError()) {
+        if (!$this->hasProtoResponse() || !$this->isDone()) {
             return null;
         }
-        return $this->lastProtoResponse->getError();
+
+        if ($this->operationErrorCodeMethod || $this->operationErrorMessageMethod) {
+            $errorCode = $this->operationErrorCodeMethod
+                ? call_user_func([$this->lastProtoResponse, $this->operationErrorCodeMethod])
+                : null;
+            $errorMessage = $this->operationErrorMessageMethod
+                ? call_user_func([$this->lastProtoResponse, $this->operationErrorMessageMethod])
+                : null;
+            return (new Status())
+                ->setCode(ApiStatus::rpcCodeFromHttpStatusCode($errorCode))
+                ->setMessage($errorMessage);
+        }
+
+        if (method_exists($this->lastProtoResponse, 'getError')) {
+            return $this->lastProtoResponse->getError();
+        }
+
+        return null;
     }
 
     /**
-     * Get an array containing the values of 'operationReturnType' and 'metadataReturnType' (which
-     * may be null). The array can be passed as the $options argument to the constructor when
-     * creating another OperationResponse object.
+     * Get an array containing the values of 'operationReturnType', 'metadataReturnType', and
+     * the polling options `initialPollDelayMillis`, `pollDelayMultiplier`, `maxPollDelayMillis`,
+     * and `totalPollTimeoutMillis`. The array can be passed as the $options argument to the
+     * constructor when creating another OperationResponse object.
      *
      * @return array
      */
-    public function getReturnTypeOptions()
+    public function getDescriptorOptions()
     {
         return [
             'operationReturnType' => $this->operationReturnType,
             'metadataReturnType' => $this->metadataReturnType,
-        ];
+        ] + $this->defaultPollSettings;
     }
 
     /**
-     * @return \google\longrunning\Operation|null The last Operation object received from the server.
+     * @return Operation|mixed|null The last Operation object received from the server.
      */
     public function getLastProtoResponse()
     {
@@ -243,7 +369,7 @@ class OperationResponse
     }
 
     /**
-     * @return \Google\GAX\LongRunning\OperationsClient The OperationsClient object used to make
+     * @return object The OperationsClient object used to make
      * requests to the operations API.
      */
     public function getOperationsClient()
@@ -252,34 +378,51 @@ class OperationResponse
     }
 
     /**
-     * Starts asynchronous cancellation on a long-running operation. The server
+     * Cancel the long-running operation.
+     *
+     * For operations of type Google\LongRunning\Operation, this method starts
+     * asynchronous cancellation on a long-running operation. The server
      * makes a best effort to cancel the operation, but success is not
      * guaranteed. If the server doesn't support this method, it will throw an
-     * ApiException with code \google\rpc\Code::UNIMPLEMENTED. Clients can continue
+     * ApiException with code \Google\Rpc\Code::UNIMPLEMENTED. Clients can continue
      * to use reload and pollUntilComplete methods to check whether the cancellation
      * succeeded or whether the operation completed despite cancellation.
      * On successful cancellation, the operation is not deleted; instead, it becomes
-     * an operation with a getError() value with a \google\rpc\Status code of 1,
-     * corresponding to \google\rpc\Code::CANCELLED.
+     * an operation with a getError() value with a \Google\Rpc\Status code of 1,
+     * corresponding to \Google\Rpc\Code::CANCELLED.
      *
      * @throws ApiException If the API call fails.
+     * @throws LogicException If the API call method has not been configured
      */
     public function cancel()
     {
-        $this->operationsClient->cancelOperation($this->getName());
+        if (is_null($this->cancelOperationMethod)) {
+            throw new LogicException('The cancel operation is not supported by this API');
+        }
+
+        $requestClass = $this->isNewSurfaceOperationsClient() ? $this->cancelOperationRequest : null;
+        $this->operationsCall($this->cancelOperationMethod, $requestClass);
     }
 
     /**
-     * Delete the long-running operation. This method indicates that the client is
-     * no longer interested in the operation result. It does not cancel the operation.
-     * If the server doesn't support this method, it will throw an ApiException with
-     * code google\rpc\Code::UNIMPLEMENTED.
+     * Delete the long-running operation.
+     *
+     * For operations of type Google\LongRunning\Operation, this method
+     * indicates that the client is no longer interested in the operation result.
+     * It does not cancel the operation. If the server doesn't support this method,
+     * it will throw an ApiException with code \Google\Rpc\Code::UNIMPLEMENTED.
      *
      * @throws ApiException If the API call fails.
+     * @throws LogicException If the API call method has not been configured
      */
     public function delete()
     {
-        $this->operationsClient->deleteOperation($this->getName());
+        if (is_null($this->deleteOperationMethod)) {
+            throw new LogicException('The delete operation is not supported by this API');
+        }
+
+        $requestClass = $this->isNewSurfaceOperationsClient() ? $this->deleteOperationRequest : null;
+        $this->operationsCall($this->deleteOperationMethod, $requestClass);
         $this->deleted = true;
     }
 
@@ -292,19 +435,90 @@ class OperationResponse
      */
     public function getMetadata()
     {
-        if (is_null($this->lastProtoResponse)) {
+        if (!$this->hasProtoResponse()) {
             return null;
         }
+
+        if (!method_exists($this->lastProtoResponse, 'getMetadata')) {
+            // The call to getMetadata is only for OnePlatform LROs, and is not
+            // supported by other LRO GAPIC clients (e.g. Compute)
+            return null;
+        }
+
+        /** @var Any|null $any */
         $any = $this->lastProtoResponse->getMetadata();
         if (is_null($this->metadataReturnType)) {
             return $any;
         }
-        if (is_null($any) || is_null($any->getValue())) {
+        if (is_null($any)) {
+            return null;
+        }
+        // @TODO: This is probably not doing anything and can be removed in the next release.
+        if (is_null($any->getValue())) {
             return null;
         }
         $metadataReturnType = $this->metadataReturnType;
+        /** @var Message $metadata */
         $metadata = new $metadataReturnType();
-        $metadata->parse($any->getValue());
+        $metadata->mergeFromString($any->getValue());
         return $metadata;
+    }
+
+    /**
+     * Call the operations client to perform an operation.
+     *
+     * @param string $method The method to call on the operations client.
+     * @param string|null $requestClass The request class to use for the call.
+     *                                  Will be null for legacy operations clients.
+     */
+    private function operationsCall(string $method, ?string $requestClass)
+    {
+        $args = array_merge([$this->getName()], array_values($this->additionalArgs));
+        if ($requestClass) {
+            if (!method_exists($requestClass, 'build')) {
+                throw new LogicException('Request class must support the static build method');
+            }
+            $request = call_user_func_array($requestClass . '::build', $args);
+            $args = [$request];
+        }
+
+        return call_user_func_array([$this->operationsClient, $method], $args);
+    }
+
+    private function canHaveResult()
+    {
+        // The call to getResponse is only for OnePlatform LROs, and is not
+        // supported by other LRO GAPIC clients (e.g. Compute)
+        return method_exists($this->lastProtoResponse, 'getResponse');
+    }
+
+    private function hasErrors()
+    {
+        if (!$this->hasProtoResponse()) {
+            return false;
+        }
+
+        if (method_exists($this->lastProtoResponse, 'getError')) {
+            return !empty($this->lastProtoResponse->getError());
+        }
+
+        if ($this->operationErrorCodeMethod) {
+            $errorCode = call_user_func([$this->lastProtoResponse, $this->operationErrorCodeMethod]);
+            return !empty($errorCode);
+        }
+
+        // This should never happen unless an API is misconfigured
+        throw new LogicException('Unable to determine operation error status for this service');
+    }
+
+    private function hasProtoResponse()
+    {
+        return !is_null($this->lastProtoResponse);
+    }
+
+    private function isNewSurfaceOperationsClient(): bool
+    {
+        return !$this->operationsClient instanceof LegacyOperationsClient
+            && false !== strpos(get_class($this->operationsClient), self::NEW_CLIENT_NAMESPACE);
     }
 }

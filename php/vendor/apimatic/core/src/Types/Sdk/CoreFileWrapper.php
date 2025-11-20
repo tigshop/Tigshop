@@ -65,6 +65,23 @@ class CoreFileWrapper
     }
 
     /**
+     * Converts the CoreFileWrapper object to a human-readable string representation.
+     *
+     * @return string The string representation of the CoreFileWrapper object.
+     */
+    public function __toString(): string
+    {
+        return CoreHelper::stringify(
+            'CoreFileWrapper',
+            [
+                'realFilePath' => $this->realFilePath,
+                'mimeType' => $this->mimeType,
+                'filename' => $this->filename
+            ]
+        );
+    }
+
+    /**
      * Internal method: Do not use directly!
      */
     public function createCurlFileInstance(string $defaultMimeType = 'application/octet-stream'): CURLFile

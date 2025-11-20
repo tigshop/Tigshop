@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.transport.carsale.vehicle.add request
  *
  * @author auto create
- * @since 1.0, 2024-09-19 16:49:22
+ * @since 1.0, 2025-04-02 10:17:26
  */
 class AlipayCommerceTransportCarsaleVehicleAddRequest
 {

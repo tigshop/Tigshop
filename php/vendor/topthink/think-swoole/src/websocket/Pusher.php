@@ -4,7 +4,7 @@ namespace think\swoole\websocket;
 
 use think\swoole\contract\websocket\HandlerInterface;
 use think\swoole\Manager;
-use think\swoole\websocket\message\PushMessage;
+use think\swoole\message\PushMessage;
 
 /**
  * Class Pusher

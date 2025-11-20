@@ -21,7 +21,7 @@ use Swoole\FastCGI\Record;
  */
 class Stderr extends Record
 {
-    public function __construct(string $contentData = '')
+    public function __construct(string $contentData)
     {
         $this->type = FastCGI::STDERR;
         $this->setContentData($contentData);

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.medical.iotfm.checkbind.query request
  *
  * @author auto create
- * @since 1.0, 2023-10-24 14:01:47
+ * @since 1.0, 2025-01-07 20:07:24
  */
 class AlipayCommerceMedicalIotfmCheckbindQueryRequest
 {

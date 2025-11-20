@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.marketing.campaign.playsignin.config.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-26 21:52:03
+ * @since 1.0, 2025-03-13 16:32:04
  */
 class AlipayMarketingCampaignPlaysigninConfigQueryRequest
 {

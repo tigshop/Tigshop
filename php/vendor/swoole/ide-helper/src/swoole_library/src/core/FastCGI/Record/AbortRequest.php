@@ -19,7 +19,7 @@ use Swoole\FastCGI\Record;
  */
 class AbortRequest extends Record
 {
-    public function __construct(int $requestId = 0)
+    public function __construct(int $requestId)
     {
         $this->type = FastCGI::ABORT_REQUEST;
         $this->setRequestId($requestId);

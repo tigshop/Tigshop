@@ -3,7 +3,7 @@
  * ALIPAY API: ant.prodpaas.product.sku.list.query request
  *
  * @author auto create
- * @since 1.0, 2024-10-11 13:50:17
+ * @since 1.0, 2025-08-07 14:45:10
  */
 class AntProdpaasProductSkuListQueryRequest
 {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.jointaccount.fund.withdraw request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:31:58
+ * @since 1.0, 2025-06-30 21:57:30
  */
 class AlipayFundJointaccountFundWithdrawRequest
 {

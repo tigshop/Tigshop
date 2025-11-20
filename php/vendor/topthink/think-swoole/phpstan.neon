@@ -1,0 +1,24 @@
+parameters:
+	level: 5
+	paths:
+		- src
+		- tests
+	scanFiles:
+	    - vendor/topthink/framework/src/helper.php
+	scanDirectories:
+		- vendor/swoole/ide-helper/src/swoole_library/src
+	treatPhpDocTypesAsCertain: false
+	universalObjectCratesClasses:
+		- PHPUnit\Framework\TestCase
+	ignoreErrors:
+		-
+			identifier: while.alwaysTrue
+			path: src\concerns\InteractsWithQueue.php
+		-
+			identifier: if.alwaysFalse
+			path: src\concerns\InteractsWithWebsocket.php
+		-
+			identifier: trait.unused
+		-
+			identifier: argument.type
+			path: src\config\swoole.php

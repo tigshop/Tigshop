@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * Global function.
+ * Definition of a global function.
  */
 final class GlobalFunction
 {

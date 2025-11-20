@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.iservice.isresource.enterpriseuser.auth request
  *
  * @author auto create
- * @since 1.0, 2024-10-15 14:17:15
+ * @since 1.0, 2025-08-04 15:43:46
  */
 class AlipayIserviceIsresourceEnterpriseuserAuthRequest
 {

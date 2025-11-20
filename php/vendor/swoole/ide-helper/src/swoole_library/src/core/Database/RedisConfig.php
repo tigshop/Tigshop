@@ -13,36 +13,33 @@ namespace Swoole\Database;
 
 class RedisConfig
 {
-    /** @var string */
-    protected $host = '127.0.0.1';
+    protected string $host = '127.0.0.1';
 
-    /** @var int */
-    protected $port = 6379;
+    protected int $port = 6379;
 
-    /** @var float */
-    protected $timeout = 0.0;
+    protected float $timeout = 0.0;
 
-    /** @var string */
-    protected $reserved = '';
+    protected string $reserved = '';
 
-    /** @var int */
-    protected $retry_interval = 0;
+    protected int $retry_interval = 0;
 
-    /** @var float */
-    protected $read_timeout = 0.0;
+    protected float $read_timeout = 0.0;
 
-    /** @var string */
-    protected $auth = '';
+    protected string $auth = '';
 
-    /** @var int */
-    protected $dbIndex = 0;
+    protected int $dbIndex = 0;
 
-    public function getHost()
+    /**
+     * @var array<int, mixed>
+     */
+    protected array $options = [];
+
+    public function getHost(): string
     {
         return $this->host;
     }
 
-    public function withHost($host): self
+    public function withHost(string $host): self
     {
         $this->host = $host;
         return $this;
@@ -123,5 +120,35 @@ class RedisConfig
     {
         $this->dbIndex = $dbIndex;
         return $this;
+    }
+
+    /**
+     * Add a configurable option.
+     */
+    public function withOption(int $option, mixed $value): self
+    {
+        $this->options[$option] = $value;
+        return $this;
+    }
+
+    /**
+     * Add/override configurable options.
+     *
+     * @param array<int, mixed> $options
+     */
+    public function setOptions(array $options): self
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+    /**
+     * Get configurable options.
+     *
+     * @return array<int, mixed>
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

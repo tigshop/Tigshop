@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.accountbook.card.create request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:26:18
+ * @since 1.0, 2025-08-13 15:57:41
  */
 class AlipayFundAccountbookCardCreateRequest
 {

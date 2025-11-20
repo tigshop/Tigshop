@@ -81,7 +81,7 @@ class LoggerTest extends TestCase
 
     private function logAndGetEntry(
         string $level,
-        LoggerInterface $logger = null,
+        ?LoggerInterface $logger = null,
         string $message = 'someMessage',
         array $context = []
     ): LogEntry {

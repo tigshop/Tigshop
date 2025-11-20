@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.apidefaultparam.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-31 17:05:15
+ * @since 1.0, 2025-10-31 11:52:41
  */
 class AlipayOpenApidefaultparamQueryRequest
 {

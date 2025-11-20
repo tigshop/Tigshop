@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.app.test.qinyu.query request
  *
  * @author auto create
- * @since 1.0, 2022-12-27 10:31:40
+ * @since 1.0, 2024-10-23 10:28:57
  */
 class AlipayOpenAppTestQinyuQueryRequest
 {

@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.credit.contract.borrow.cancel request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 19:39:12
+ * @since 1.0, 2025-08-18 14:32:36
  */
 class ZhimaCreditContractBorrowCancelRequest
 {

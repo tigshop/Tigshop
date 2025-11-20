@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.logistics.invoice.istdwaybill.create request
  *
  * @author auto create
- * @since 1.0, 2024-09-02 10:39:37
+ * @since 1.0, 2025-08-14 02:37:40
  */
 class AlipayCommerceLogisticsInvoiceIstdwaybillCreateRequest
 {

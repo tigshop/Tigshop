@@ -48,7 +48,7 @@ class Iam
      * @param callable $httpHandler [optional] The HTTP Handler to send requests.
      */
     public function __construct(
-        callable $httpHandler = null,
+        ?callable $httpHandler = null,
         string $universeDomain = GetUniverseDomainInterface::DEFAULT_UNIVERSE_DOMAIN
     ) {
         $this->httpHandler = $httpHandler

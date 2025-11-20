@@ -11,7 +11,7 @@ namespace Nette\PhpGenerator;
 
 
 /**
- * Closure.
+ * Definition of a closure.
  */
 final class Closure
 {

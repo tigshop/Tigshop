@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-if (SWOOLE_USE_SHORTNAME) {
+if (SWOOLE_USE_SHORTNAME) { // @phpstan-ignore if.alwaysTrue
     class_alias(Swoole\Coroutine\WaitGroup::class, Co\WaitGroup::class, true);
     class_alias(Swoole\Coroutine\Server::class, Co\Server::class, true);
     class_alias(Swoole\Coroutine\Server\Connection::class, Co\Server\Connection::class, true);

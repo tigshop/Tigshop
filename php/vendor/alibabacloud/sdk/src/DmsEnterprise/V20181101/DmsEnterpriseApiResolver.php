@@ -5,7 +5,9 @@ namespace AlibabaCloud\DmsEnterprise\V20181101;
 use AlibabaCloud\Client\Resolver\ApiResolver;
 
 /**
+ * @method AddAuthorityTemplateItems addAuthorityTemplateItems(array $options = [])
  * @method AddDesensitizationRule addDesensitizationRule(array $options = [])
+ * @method AddInstance addInstance(array $options = [])
  * @method AddLhMembers addLhMembers(array $options = [])
  * @method AddLogicTableRouteConfig addLogicTableRouteConfig(array $options = [])
  * @method AddTaskFlowEdges addTaskFlowEdges(array $options = [])
@@ -17,6 +19,8 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ChangeColumnSecurityLevel changeColumnSecurityLevel(array $options = [])
  * @method ChangeLhDagOwner changeLhDagOwner(array $options = [])
  * @method CloseOrder closeOrder(array $options = [])
+ * @method CreateAbacAuthorization createAbacAuthorization(array $options = [])
+ * @method CreateAbacPolicy createAbacPolicy(array $options = [])
  * @method CreateAuthorityTemplate createAuthorityTemplate(array $options = [])
  * @method CreateDataArchiveOrder createDataArchiveOrder(array $options = [])
  * @method CreateDatabaseExportOrder createDatabaseExportOrder(array $options = [])
@@ -41,6 +45,8 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method CreateTaskFlow createTaskFlow(array $options = [])
  * @method CreateUploadFileJob createUploadFileJob(array $options = [])
  * @method CreateUploadOSSFileJob createUploadOSSFileJob(array $options = [])
+ * @method DeleteAbacAuthorization deleteAbacAuthorization(array $options = [])
+ * @method DeleteAbacPolicy deleteAbacPolicy(array $options = [])
  * @method DeleteAuthorityTemplate deleteAuthorityTemplate(array $options = [])
  * @method DeleteInstance deleteInstance(array $options = [])
  * @method DeleteLakeHouseSpace deleteLakeHouseSpace(array $options = [])
@@ -50,6 +56,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method DeleteProxy deleteProxy(array $options = [])
  * @method DeleteProxyAccess deleteProxyAccess(array $options = [])
  * @method DeleteScenario deleteScenario(array $options = [])
+ * @method DeleteStandardGroup deleteStandardGroup(array $options = [])
  * @method DeleteTask deleteTask(array $options = [])
  * @method DeleteTaskFlow deleteTaskFlow(array $options = [])
  * @method DeleteTaskFlowEdgesByCondition deleteTaskFlowEdgesByCondition(array $options = [])
@@ -62,6 +69,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ExecuteDataExport executeDataExport(array $options = [])
  * @method ExecuteScript executeScript(array $options = [])
  * @method ExecuteStructSync executeStructSync(array $options = [])
+ * @method GetAbacPolicy getAbacPolicy(array $options = [])
  * @method GetApprovalDetail getApprovalDetail(array $options = [])
  * @method GetAuthorityTemplate getAuthorityTemplate(array $options = [])
  * @method GetAuthorityTemplateItem getAuthorityTemplateItem(array $options = [])
@@ -81,6 +89,9 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method GetDataExportOrderDetail getDataExportOrderDetail(array $options = [])
  * @method GetDataExportPreCheckDetail getDataExportPreCheckDetail(array $options = [])
  * @method GetDataImportSQL getDataImportSQL(array $options = [])
+ * @method GetDataLakeCatalog getDataLakeCatalog(array $options = [])
+ * @method GetDataLakeDatabase getDataLakeDatabase(array $options = [])
+ * @method GetDataLakeTable getDataLakeTable(array $options = [])
  * @method GetDataTrackJobDegree getDataTrackJobDegree(array $options = [])
  * @method GetDataTrackJobTableMeta getDataTrackJobTableMeta(array $options = [])
  * @method GetDataTrackOrderDetail getDataTrackOrderDetail(array $options = [])
@@ -106,11 +117,14 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method GetRuleNumLimitOfSLA getRuleNumLimitOfSLA(array $options = [])
  * @method GetSQLReviewCheckResultStatus getSQLReviewCheckResultStatus(array $options = [])
  * @method GetSQLReviewOptimizeDetail getSQLReviewOptimizeDetail(array $options = [])
+ * @method GetStandardGroup getStandardGroup(array $options = [])
  * @method GetStructSyncExecSqlDetail getStructSyncExecSqlDetail(array $options = [])
  * @method GetStructSyncJobAnalyzeResult getStructSyncJobAnalyzeResult(array $options = [])
  * @method GetStructSyncJobDetail getStructSyncJobDetail(array $options = [])
  * @method GetStructSyncOrderDetail getStructSyncOrderDetail(array $options = [])
  * @method GetTableDBTopology getTableDBTopology(array $options = [])
+ * @method GetTableDesignProjectFlow getTableDesignProjectFlow(array $options = [])
+ * @method GetTableDesignProjectInfo getTableDesignProjectInfo(array $options = [])
  * @method GetTableTopology getTableTopology(array $options = [])
  * @method GetTask getTask(array $options = [])
  * @method GetTaskFlowGraph getTaskFlowGraph(array $options = [])
@@ -122,7 +136,13 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method GrantTemplateAuthority grantTemplateAuthority(array $options = [])
  * @method GrantUserPermission grantUserPermission(array $options = [])
  * @method InspectProxyAccessSecret inspectProxyAccessSecret(array $options = [])
+ * @method ListAbacAuthorizations listAbacAuthorizations(array $options = [])
+ * @method ListAbacPolicies listAbacPolicies(array $options = [])
  * @method ListAuthorityTemplate listAuthorityTemplate(array $options = [])
+ * @method ListAuthorizedDatabasesForUser listAuthorizedDatabasesForUser(array $options = [])
+ * @method ListAuthorizedInstancesForUser listAuthorizedInstancesForUser(array $options = [])
+ * @method ListAuthorizedUsersForDatabase listAuthorizedUsersForDatabase(array $options = [])
+ * @method ListAuthorizedUsersForInstance listAuthorizedUsersForInstance(array $options = [])
  * @method ListClassificationTemplates listClassificationTemplates(array $options = [])
  * @method ListColumns listColumns(array $options = [])
  * @method ListDAGVersions listDAGVersions(array $options = [])
@@ -132,6 +152,9 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ListDataCorrectPreCheckSQL listDataCorrectPreCheckSQL(array $options = [])
  * @method ListDataImportSQLPreCheckDetail listDataImportSQLPreCheckDetail(array $options = [])
  * @method ListDataImportSQLType listDataImportSQLType(array $options = [])
+ * @method ListDataLakeCatalog listDataLakeCatalog(array $options = [])
+ * @method ListDataLakeDatabase listDataLakeDatabase(array $options = [])
+ * @method ListDataLakeTablebaseInfo listDataLakeTablebaseInfo(array $options = [])
  * @method ListDBTaskSQLJob listDBTaskSQLJob(array $options = [])
  * @method ListDBTaskSQLJobDetail listDBTaskSQLJobDetail(array $options = [])
  * @method ListDDLPublishRecords listDDLPublishRecords(array $options = [])
@@ -151,6 +174,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ListProxyAccesses listProxyAccesses(array $options = [])
  * @method ListProxySQLExecAuditLog listProxySQLExecAuditLog(array $options = [])
  * @method ListScenarios listScenarios(array $options = [])
+ * @method ListSensitiveColumnInfo listSensitiveColumnInfo(array $options = [])
  * @method ListSensitiveColumns listSensitiveColumns(array $options = [])
  * @method ListSensitiveColumnsDetail listSensitiveColumnsDetail(array $options = [])
  * @method ListSensitiveDataAuditLog listSensitiveDataAuditLog(array $options = [])
@@ -176,9 +200,11 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method MakeTaskFlowInstanceSuccess makeTaskFlowInstanceSuccess(array $options = [])
  * @method ModifyDataCorrectExecSQL modifyDataCorrectExecSQL(array $options = [])
  * @method ModifyDesensitizationStrategy modifyDesensitizationStrategy(array $options = [])
+ * @method ModifyInstance modifyInstance(array $options = [])
  * @method MoveTaskFlowToScenario moveTaskFlowToScenario(array $options = [])
  * @method OfflineTaskFlow offlineTaskFlow(array $options = [])
  * @method PauseDataCorrectSQLJob pauseDataCorrectSQLJob(array $options = [])
+ * @method PauseDataExportJob pauseDataExportJob(array $options = [])
  * @method PreviewWorkflow previewWorkflow(array $options = [])
  * @method PublishAndDeployTaskFlow publishAndDeployTaskFlow(array $options = [])
  * @method QueryDataTrackResultDownloadStatus queryDataTrackResultDownloadStatus(array $options = [])
@@ -186,8 +212,10 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method RefundPayAsYouGoOrder refundPayAsYouGoOrder(array $options = [])
  * @method RegisterInstance registerInstance(array $options = [])
  * @method RegisterUser registerUser(array $options = [])
+ * @method RemoveDataExportJob removeDataExportJob(array $options = [])
  * @method ReRunTaskFlowInstance reRunTaskFlowInstance(array $options = [])
  * @method RestartDataCorrectSQLJob restartDataCorrectSQLJob(array $options = [])
+ * @method RestartDataExportJob restartDataExportJob(array $options = [])
  * @method ResumeTaskFlowInstance resumeTaskFlowInstance(array $options = [])
  * @method RetryDataCorrectPreCheck retryDataCorrectPreCheck(array $options = [])
  * @method RevokeTemplateAuthority revokeTemplateAuthority(array $options = [])
@@ -196,17 +224,21 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method SearchDataTrackResult searchDataTrackResult(array $options = [])
  * @method SearchTable searchTable(array $options = [])
  * @method SetOwners setOwners(array $options = [])
+ * @method SetWorkflowExtraInfo setWorkflowExtraInfo(array $options = [])
  * @method SkipDataCorrectRowCheck skipDataCorrectRowCheck(array $options = [])
  * @method StopTaskFlowInstance stopTaskFlowInstance(array $options = [])
  * @method SubmitOrderApproval submitOrderApproval(array $options = [])
  * @method SubmitStructSyncOrderApproval submitStructSyncOrderApproval(array $options = [])
+ * @method SuspendDataExportJob suspendDataExportJob(array $options = [])
  * @method SuspendTaskFlowInstance suspendTaskFlowInstance(array $options = [])
  * @method SyncDatabaseMeta syncDatabaseMeta(array $options = [])
  * @method SyncInstanceMeta syncInstanceMeta(array $options = [])
+ * @method UpdateAbacPolicy updateAbacPolicy(array $options = [])
  * @method UpdateAuthorityTemplate updateAuthorityTemplate(array $options = [])
  * @method UpdateInstance updateInstance(array $options = [])
  * @method UpdateScenario updateScenario(array $options = [])
  * @method UpdateSLARules updateSLARules(array $options = [])
+ * @method UpdateStandardGroup updateStandardGroup(array $options = [])
  * @method UpdateTaskConfig updateTaskConfig(array $options = [])
  * @method UpdateTaskContent updateTaskContent(array $options = [])
  * @method UpdateTaskFlowConstants updateTaskFlowConstants(array $options = [])
@@ -243,6 +275,21 @@ class Rpc extends \AlibabaCloud\Client\Resolver\Rpc
 }
 
 /**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getTemplateId()
+ * @method $this withTemplateId($value)
+ * @method string getItems()
+ * @method $this withItems($value)
+ */
+class AddAuthorityTemplateItems extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
  * @method string getFunctionParams()
  * @method string getRuleName()
  * @method $this withRuleName($value)
@@ -270,6 +317,70 @@ class AddDesensitizationRule extends Rpc
 
         return $this;
     }
+}
+
+/**
+ * @method string getEcsRegion()
+ * @method $this withEcsRegion($value)
+ * @method string getNetworkType()
+ * @method $this withNetworkType($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getUseSsl()
+ * @method $this withUseSsl($value)
+ * @method string getEnableSellCommon()
+ * @method $this withEnableSellCommon($value)
+ * @method string getEnableSellSitd()
+ * @method $this withEnableSellSitd($value)
+ * @method string getInstanceSource()
+ * @method $this withInstanceSource($value)
+ * @method string getEnvType()
+ * @method $this withEnvType($value)
+ * @method string getHost()
+ * @method $this withHost($value)
+ * @method string getQueryTimeout()
+ * @method $this withQueryTimeout($value)
+ * @method string getEcsInstanceId()
+ * @method $this withEcsInstanceId($value)
+ * @method string getExportTimeout()
+ * @method $this withExportTimeout($value)
+ * @method string getTemplateId()
+ * @method $this withTemplateId($value)
+ * @method string getEnableSellTrust()
+ * @method $this withEnableSellTrust($value)
+ * @method string getPort()
+ * @method $this withPort($value)
+ * @method string getSafeRule()
+ * @method $this withSafeRule($value)
+ * @method string getDdlOnline()
+ * @method $this withDdlOnline($value)
+ * @method string getUseDsql()
+ * @method $this withUseDsql($value)
+ * @method string getEnableSellStable()
+ * @method $this withEnableSellStable($value)
+ * @method string getSid()
+ * @method $this withSid($value)
+ * @method string getDbaId()
+ * @method $this withDbaId($value)
+ * @method string getDataLinkName()
+ * @method $this withDataLinkName($value)
+ * @method string getTemplateType()
+ * @method $this withTemplateType($value)
+ * @method string getInstanceType()
+ * @method $this withInstanceType($value)
+ * @method string getDatabasePassword()
+ * @method $this withDatabasePassword($value)
+ * @method string getInstanceAlias()
+ * @method $this withInstanceAlias($value)
+ * @method string getDatabaseUser()
+ * @method $this withDatabaseUser($value)
+ * @method string getVpcId()
+ * @method $this withVpcId($value)
+ * @method string getSkipTest()
+ * @method $this withSkipTest($value)
+ */
+class AddInstance extends Rpc
+{
 }
 
 /**
@@ -337,10 +448,14 @@ class AnalyzeSQLLineage extends Rpc
  * @method $this withApprovalNodeId($value)
  * @method string getOldApprover()
  * @method $this withOldApprover($value)
+ * @method string getRealLoginUserUid()
+ * @method $this withRealLoginUserUid($value)
  * @method string getComment()
  * @method $this withComment($value)
  * @method string getApprovalNodePos()
  * @method $this withApprovalNodePos($value)
+ * @method string getNewApproverList()
+ * @method $this withNewApproverList($value)
  */
 class ApproveOrder extends Rpc
 {
@@ -456,6 +571,42 @@ class CloseOrder extends Rpc
 }
 
 /**
+ * @method string getRoleId()
+ * @method $this withRoleId($value)
+ * @method string getUserId()
+ * @method $this withUserId($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getPolicyId()
+ * @method $this withPolicyId($value)
+ * @method string getIdentityType()
+ * @method $this withIdentityType($value)
+ */
+class CreateAbacAuthorization extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getAbacPolicyContent()
+ * @method $this withAbacPolicyContent($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getAbacPolicyDesc()
+ * @method $this withAbacPolicyDesc($value)
+ * @method string getAbacPolicyName()
+ * @method $this withAbacPolicyName($value)
+ */
+class CreateAbacPolicy extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
  * @method string getDescription()
  * @method $this withDescription($value)
  * @method string getTid()
@@ -510,6 +661,8 @@ class CreateDatabaseExportOrder extends Rpc
  * @method $this withParam($value)
  * @method string getRelatedUserList()
  * @method $this withRelatedUserList($value)
+ * @method string getRealLoginUserUid()
+ * @method $this withRealLoginUserUid($value)
  * @method string getAttachmentKey()
  * @method $this withAttachmentKey($value)
  * @method string getComment()
@@ -544,6 +697,8 @@ class CreateDataCronClearOrder extends Rpc
  * @method $this withRelatedUserList($value)
  * @method string getPluginParam()
  * @method $this withPluginParam($value)
+ * @method string getRealLoginUserUid()
+ * @method $this withRealLoginUserUid($value)
  * @method string getAttachmentKey()
  * @method $this withAttachmentKey($value)
  * @method string getComment()
@@ -854,6 +1009,34 @@ class CreateUploadOSSFileJob extends Rpc
 /**
  * @method string getTid()
  * @method $this withTid($value)
+ * @method string getIdentityType()
+ * @method $this withIdentityType($value)
+ * @method string getAuthorizationId()
+ * @method $this withAuthorizationId($value)
+ */
+class DeleteAbacAuthorization extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getAbacPolicyId()
+ * @method $this withAbacPolicyId($value)
+ */
+class DeleteAbacPolicy extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
  * @method string getTemplateId()
  * @method $this withTemplateId($value)
  */
@@ -948,6 +1131,16 @@ class DeleteProxyAccess extends Rpc
  * @method $this withScenarioId($value)
  */
 class DeleteScenario extends Rpc
+{
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getGroupId()
+ * @method $this withGroupId($value)
+ */
+class DeleteStandardGroup extends Rpc
 {
 }
 
@@ -1064,6 +1257,8 @@ class EnableUser extends Rpc
  * @method $this withOrderId($value)
  * @method string getActionName()
  * @method $this withActionName($value)
+ * @method string getRealLoginUserUid()
+ * @method $this withRealLoginUserUid($value)
  */
 class ExecuteDataCorrect extends Rpc
 {
@@ -1078,6 +1273,8 @@ class ExecuteDataCorrect extends Rpc
  * @method $this withOrderId($value)
  * @method string getActionName()
  * @method $this withActionName($value)
+ * @method string getRealLoginUserUid()
+ * @method $this withRealLoginUserUid($value)
  */
 class ExecuteDataExport extends Rpc
 {
@@ -1105,6 +1302,21 @@ class ExecuteScript extends Rpc
  */
 class ExecuteStructSync extends Rpc
 {
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getAbacPolicyId()
+ * @method $this withAbacPolicyId($value)
+ * @method string getAbacPolicyName()
+ * @method $this withAbacPolicyName($value)
+ */
+class GetAbacPolicy extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -1296,6 +1508,8 @@ class GetDataCronClearTaskDetailList extends Rpc
  * @method $this withOrderId($value)
  * @method string getActionName()
  * @method $this withActionName($value)
+ * @method string getRealLoginUserUid()
+ * @method $this withRealLoginUserUid($value)
  */
 class GetDataExportDownloadURL extends Rpc
 {
@@ -1343,6 +1557,57 @@ class GetDataExportPreCheckDetail extends Rpc
  */
 class GetDataImportSQL extends Rpc
 {
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getCatalogName()
+ * @method $this withCatalogName($value)
+ * @method string getDataRegion()
+ * @method $this withDataRegion($value)
+ */
+class GetDataLakeCatalog extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getCatalogName()
+ * @method $this withCatalogName($value)
+ * @method string getDataRegion()
+ * @method $this withDataRegion($value)
+ * @method string getName()
+ * @method $this withName($value)
+ */
+class GetDataLakeDatabase extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getCatalogName()
+ * @method $this withCatalogName($value)
+ * @method string getDbName()
+ * @method $this withDbName($value)
+ * @method string getDataRegion()
+ * @method $this withDataRegion($value)
+ * @method string getName()
+ * @method $this withName($value)
+ */
+class GetDataLakeTable extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -1619,6 +1884,16 @@ class GetSQLReviewOptimizeDetail extends Rpc
 }
 
 /**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getGroupId()
+ * @method $this withGroupId($value)
+ */
+class GetStandardGroup extends Rpc
+{
+}
+
+/**
  * @method string getPageNumber()
  * @method $this withPageNumber($value)
  * @method string getTid()
@@ -1675,6 +1950,26 @@ class GetStructSyncOrderDetail extends Rpc
  * @method $this withTableGuid($value)
  */
 class GetTableDBTopology extends Rpc
+{
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getOrderId()
+ * @method $this withOrderId($value)
+ */
+class GetTableDesignProjectFlow extends Rpc
+{
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getOrderId()
+ * @method $this withOrderId($value)
+ */
+class GetTableDesignProjectInfo extends Rpc
 {
 }
 
@@ -1813,6 +2108,42 @@ class InspectProxyAccessSecret extends Rpc
 }
 
 /**
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getPolicyId()
+ * @method $this withPolicyId($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ * @method string getPolicySource()
+ * @method $this withPolicySource($value)
+ */
+class ListAbacAuthorizations extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ */
+class ListAbacPolicies extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
  * @method string getSearchKey()
  * @method $this withSearchKey($value)
  * @method string getPageNumber()
@@ -1824,6 +2155,94 @@ class InspectProxyAccessSecret extends Rpc
  */
 class ListAuthorityTemplate extends Rpc
 {
+}
+
+/**
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getUserId()
+ * @method $this withUserId($value)
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getEnvType()
+ * @method $this withEnvType($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ * @method string getDbType()
+ * @method $this withDbType($value)
+ * @method string getLogic()
+ * @method $this withLogic($value)
+ */
+class ListAuthorizedDatabasesForUser extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getUserId()
+ * @method $this withUserId($value)
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getEnvType()
+ * @method $this withEnvType($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ * @method string getDbType()
+ * @method $this withDbType($value)
+ */
+class ListAuthorizedInstancesForUser extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ * @method string getDbId()
+ * @method $this withDbId($value)
+ * @method string getLogic()
+ * @method $this withLogic($value)
+ */
+class ListAuthorizedUsersForDatabase extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class ListAuthorizedUsersForInstance extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -1950,6 +2369,65 @@ class ListDataImportSQLPreCheckDetail extends Rpc
  */
 class ListDataImportSQLType extends Rpc
 {
+}
+
+/**
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getDataRegion()
+ * @method $this withDataRegion($value)
+ */
+class ListDataLakeCatalog extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getNextToken()
+ * @method $this withNextToken($value)
+ * @method string getCatalogName()
+ * @method $this withCatalogName($value)
+ * @method string getDataRegion()
+ * @method $this withDataRegion($value)
+ * @method string getMaxResults()
+ * @method $this withMaxResults($value)
+ */
+class ListDataLakeDatabase extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getCatalogName()
+ * @method $this withCatalogName($value)
+ * @method string getRows()
+ * @method $this withRows($value)
+ * @method string getDbName()
+ * @method $this withDbName($value)
+ * @method string getDataRegion()
+ * @method $this withDataRegion($value)
+ * @method string getPage()
+ * @method $this withPage($value)
+ */
+class ListDataLakeTablebaseInfo extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -2225,6 +2703,26 @@ class ListProxySQLExecAuditLog extends Rpc
  * @method $this withTid($value)
  */
 class ListScenarios extends Rpc
+{
+}
+
+/**
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ * @method string getTableName()
+ * @method $this withTableName($value)
+ * @method string getSchemaName()
+ * @method $this withSchemaName($value)
+ * @method string getColumnName()
+ * @method $this withColumnName($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class ListSensitiveColumnInfo extends Rpc
 {
 }
 
@@ -2617,6 +3115,72 @@ class ModifyDesensitizationStrategy extends Rpc
 }
 
 /**
+ * @method string getEcsRegion()
+ * @method $this withEcsRegion($value)
+ * @method string getNetworkType()
+ * @method $this withNetworkType($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getUseSsl()
+ * @method $this withUseSsl($value)
+ * @method string getEnableSellCommon()
+ * @method $this withEnableSellCommon($value)
+ * @method string getEnableSellSitd()
+ * @method $this withEnableSellSitd($value)
+ * @method string getInstanceSource()
+ * @method $this withInstanceSource($value)
+ * @method string getEnvType()
+ * @method $this withEnvType($value)
+ * @method string getHost()
+ * @method $this withHost($value)
+ * @method string getQueryTimeout()
+ * @method $this withQueryTimeout($value)
+ * @method string getEcsInstanceId()
+ * @method $this withEcsInstanceId($value)
+ * @method string getExportTimeout()
+ * @method $this withExportTimeout($value)
+ * @method string getTemplateId()
+ * @method $this withTemplateId($value)
+ * @method string getEnableSellTrust()
+ * @method $this withEnableSellTrust($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ * @method string getPort()
+ * @method $this withPort($value)
+ * @method string getSafeRule()
+ * @method $this withSafeRule($value)
+ * @method string getDdlOnline()
+ * @method $this withDdlOnline($value)
+ * @method string getUseDsql()
+ * @method $this withUseDsql($value)
+ * @method string getEnableSellStable()
+ * @method $this withEnableSellStable($value)
+ * @method string getSid()
+ * @method $this withSid($value)
+ * @method string getDbaId()
+ * @method $this withDbaId($value)
+ * @method string getDataLinkName()
+ * @method $this withDataLinkName($value)
+ * @method string getTemplateType()
+ * @method $this withTemplateType($value)
+ * @method string getInstanceType()
+ * @method $this withInstanceType($value)
+ * @method string getDatabasePassword()
+ * @method $this withDatabasePassword($value)
+ * @method string getInstanceAlias()
+ * @method $this withInstanceAlias($value)
+ * @method string getDatabaseUser()
+ * @method $this withDatabaseUser($value)
+ * @method string getVpcId()
+ * @method $this withVpcId($value)
+ * @method string getSkipTest()
+ * @method $this withSkipTest($value)
+ */
+class ModifyInstance extends Rpc
+{
+}
+
+/**
  * @method string getDagId()
  * @method $this withDagId($value)
  * @method string getTid()
@@ -2650,6 +3214,21 @@ class OfflineTaskFlow extends Rpc
  */
 class PauseDataCorrectSQLJob extends Rpc
 {
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getJobId()
+ * @method $this withJobId($value)
+ * @method string getOrderId()
+ * @method $this withOrderId($value)
+ */
+class PauseDataExportJob extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -2785,6 +3364,21 @@ class RegisterUser extends Rpc
 }
 
 /**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getJobId()
+ * @method $this withJobId($value)
+ * @method string getOrderId()
+ * @method $this withOrderId($value)
+ */
+class RemoveDataExportJob extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
  * @method string getDagId()
  * @method $this withDagId($value)
  * @method string getTid()
@@ -2810,6 +3404,21 @@ class ReRunTaskFlowInstance extends Rpc
  */
 class RestartDataCorrectSQLJob extends Rpc
 {
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getJobId()
+ * @method $this withJobId($value)
+ * @method string getOrderId()
+ * @method $this withOrderId($value)
+ */
+class RestartDataExportJob extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -2955,6 +3564,33 @@ class SetOwners extends Rpc
 }
 
 /**
+ * @method string getThirdpartyWorkflowComment()
+ * @method $this withThirdpartyWorkflowComment($value)
+ * @method string getRenderAgree()
+ * @method $this withRenderAgree($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getWorkflowInstanceId()
+ * @method $this withWorkflowInstanceId($value)
+ * @method string getRenderCancel()
+ * @method $this withRenderCancel($value)
+ * @method string getRenderAddApprovalNode()
+ * @method $this withRenderAddApprovalNode($value)
+ * @method string getRenderTransfer()
+ * @method $this withRenderTransfer($value)
+ * @method string getRenderReject()
+ * @method $this withRenderReject($value)
+ * @method string getThirdpartyWorkflowUrl()
+ * @method $this withThirdpartyWorkflowUrl($value)
+ */
+class SetWorkflowExtraInfo extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
  * @method string getReason()
  * @method $this withReason($value)
  * @method string getTid()
@@ -2983,6 +3619,8 @@ class StopTaskFlowInstance extends Rpc
  * @method $this withTid($value)
  * @method string getOrderId()
  * @method $this withOrderId($value)
+ * @method string getRealLoginUserUid()
+ * @method $this withRealLoginUserUid($value)
  */
 class SubmitOrderApproval extends Rpc
 {
@@ -2996,6 +3634,21 @@ class SubmitOrderApproval extends Rpc
  */
 class SubmitStructSyncOrderApproval extends Rpc
 {
+}
+
+/**
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getJobId()
+ * @method $this withJobId($value)
+ * @method string getOrderId()
+ * @method $this withOrderId($value)
+ */
+class SuspendDataExportJob extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -3032,6 +3685,25 @@ class SyncDatabaseMeta extends Rpc
  */
 class SyncInstanceMeta extends Rpc
 {
+}
+
+/**
+ * @method string getAbacPolicyContent()
+ * @method $this withAbacPolicyContent($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getAbacPolicyId()
+ * @method $this withAbacPolicyId($value)
+ * @method string getAbacPolicyDesc()
+ * @method $this withAbacPolicyDesc($value)
+ * @method string getAbacPolicyName()
+ * @method $this withAbacPolicyName($value)
+ */
+class UpdateAbacPolicy extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -3127,6 +3799,20 @@ class UpdateScenario extends Rpc
  * @method $this withSlaRuleList($value)
  */
 class UpdateSLARules extends Rpc
+{
+}
+
+/**
+ * @method string getDescription()
+ * @method $this withDescription($value)
+ * @method string getTid()
+ * @method $this withTid($value)
+ * @method string getGroupId()
+ * @method $this withGroupId($value)
+ * @method string getGroupName()
+ * @method $this withGroupName($value)
+ */
+class UpdateStandardGroup extends Rpc
 {
 }
 

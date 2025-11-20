@@ -185,6 +185,9 @@ class MassPush extends Rpc
 			if(isset($depth1Value['AndroidNotificationBarType'])){
 				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.AndroidNotificationBarType'] = $depth1Value['AndroidNotificationBarType'];
 			}
+			if(isset($depth1Value['AndroidMessageOppoNotifyLevel'])){
+				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.AndroidMessageOppoNotifyLevel'] = $depth1Value['AndroidMessageOppoNotifyLevel'];
+			}
 			if(isset($depth1Value['Body'])){
 				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.Body'] = $depth1Value['Body'];
 			}
@@ -244,6 +247,9 @@ class MassPush extends Rpc
 			}
 			if(isset($depth1Value['AndroidImageUrl'])){
 				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.AndroidImageUrl'] = $depth1Value['AndroidImageUrl'];
+			}
+			if(isset($depth1Value['AndroidNotificationThreadId'])){
+				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.AndroidNotificationThreadId'] = $depth1Value['AndroidNotificationThreadId'];
 			}
 			if(isset($depth1Value['AndroidHonorTargetUserType'])){
 				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.AndroidHonorTargetUserType'] = $depth1Value['AndroidHonorTargetUserType'];
@@ -434,6 +440,9 @@ class MassPush extends Rpc
 			if(isset($depth1Value['AndroidActivity'])){
 				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.AndroidActivity'] = $depth1Value['AndroidActivity'];
 			}
+			if(isset($depth1Value['AndroidMessageOppoCategory'])){
+				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.AndroidMessageOppoCategory'] = $depth1Value['AndroidMessageOppoCategory'];
+			}
 			if(isset($depth1Value['AndroidNotificationNotifyId'])){
 				$this->options['form_params']['PushTask.' . ($depth1 + 1) . '.AndroidNotificationNotifyId'] = $depth1Value['AndroidNotificationNotifyId'];
 			}
@@ -458,6 +467,8 @@ class MassPush extends Rpc
 /**
  * @method string getAndroidNotificationBarType()
  * @method $this withAndroidNotificationBarType($value)
+ * @method string getAndroidMessageOppoNotifyLevel()
+ * @method $this withAndroidMessageOppoNotifyLevel($value)
  * @method string getDeviceType()
  * @method $this withDeviceType($value)
  * @method string getPushTime()
@@ -507,10 +518,10 @@ class MassPush extends Rpc
  * @method string getIOSExtParameters()
  * @method string getAndroidXiaomiImageUrl()
  * @method $this withAndroidXiaomiImageUrl($value)
- * @method string getSmsTemplateName()
- * @method $this withSmsTemplateName($value)
  * @method string getHarmonyUri()
  * @method $this withHarmonyUri($value)
+ * @method string getSmsTemplateName()
+ * @method $this withSmsTemplateName($value)
  * @method string getHarmonyExtParameters()
  * @method $this withHarmonyExtParameters($value)
  * @method string getAndroidBigPictureUrl()
@@ -558,6 +569,8 @@ class MassPush extends Rpc
  * @method $this withAndroidMessageHuaweiCategory($value)
  * @method string getIOSMusic()
  * @method string getIOSMutableContent()
+ * @method string getAndroidNotificationThreadId()
+ * @method $this withAndroidNotificationThreadId($value)
  * @method string getAndroidHonorTargetUserType()
  * @method $this withAndroidHonorTargetUserType($value)
  * @method string getHarmonyRemindBody()
@@ -629,6 +642,8 @@ class MassPush extends Rpc
  * @method $this withTarget($value)
  * @method string getHarmonyInboxContent()
  * @method $this withHarmonyInboxContent($value)
+ * @method string getAndroidMessageOppoCategory()
+ * @method $this withAndroidMessageOppoCategory($value)
  * @method string getAndroidXiaoMiActivity()
  * @method $this withAndroidXiaoMiActivity($value)
  */

@@ -3,14 +3,14 @@
  * ALIPAY API: alipay.merchant.trade.file.upload request
  *
  * @author auto create
- * @since 1.0, 2024-10-15 13:52:14
+ * @since 1.0, 2024-12-19 16:42:21
  */
 class AlipayMerchantTradeFileUploadRequest
 {
 	/** 
 	 * 数据聚合维度，用于指定当前上传数据的统计维度。
-● merchant：服务商侧商户（商编）维度
-● cashier：收银员维度
+merchant：服务商侧商户（商编）维度
+cashier：收银员维度
 	 **/
 	private $dataDim;
 	
@@ -20,7 +20,7 @@ class AlipayMerchantTradeFileUploadRequest
 	private $fileContent;
 	
 	/** 
-	 * 文件名(用于幂等)，格式规范见说明
+	 * 文件名(用于幂等)
 	 **/
 	private $fileName;
 	

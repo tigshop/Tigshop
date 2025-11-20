@@ -37,7 +37,7 @@ class HttpClientCache
      * @param ClientInterface|null $client
      * @return void
      */
-    public static function setHttpClient(ClientInterface $client = null)
+    public static function setHttpClient(?ClientInterface $client = null)
     {
         self::$httpClient = $client;
     }

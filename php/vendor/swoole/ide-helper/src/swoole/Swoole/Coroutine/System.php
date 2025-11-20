@@ -4,144 +4,148 @@ declare(strict_types=1);
 
 namespace Swoole\Coroutine;
 
+/**
+ * @alias This class has an alias of "\Co\System" when directive "swoole.use_shortname" is not explicitly turned off.
+ * @see \Co\System
+ */
 class System
 {
     /**
-     * @param mixed $domain_name
-     * @param mixed|null $family
-     * @param mixed|null $timeout
-     * @return mixed
+     * Get the IPv4/IPv6 address corresponding to a given Internet host name.
+     *
+     * Please check documentation of method \Swoole\Coroutine::gethostbyname() for more details.
+     *
+     * @alias This method is an alias of method \Swoole\Coroutine::gethostbyname().
+     * @see \Swoole\Coroutine::gethostbyname()
      */
-    public static function gethostbyname($domain_name, $family = null, $timeout = null)
+    public static function gethostbyname(string $domain_name, int $type = AF_INET, float $timeout = -1): string|false
     {
     }
 
     /**
-     * @param mixed $domain_name
-     * @param mixed|null $timeout
-     * @param mixed|null $type
-     * @return mixed
+     * Lookup the IPv4/IPv6 address corresponding to a given Internet host name.
+     *
+     * Please check documentation of method \Swoole\Coroutine::dnsLookup() for more details.
+     *
+     * @alias This method is an alias of function \swoole_async_dns_lookup_coro().
+     * @see \swoole_async_dns_lookup_coro()
+     * @see \Swoole\Coroutine::dnsLookup()
      */
-    public static function dnsLookup($domain_name, $timeout = null, $type = null)
+    public static function dnsLookup(string $domain_name, float $timeout = 60, int $type = AF_INET): string|false
     {
     }
 
     /**
-     * @param mixed $command
-     * @param mixed|null $get_error_stream
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::exec().
+     * @see \Swoole\Coroutine::exec()
      */
-    public static function exec($command, $get_error_stream = null)
+    public static function exec(string $command, bool $get_error_stream = false): array|false
     {
     }
 
     /**
-     * @param mixed $seconds
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::sleep().
+     * @see \Swoole\Coroutine::sleep()
      */
-    public static function sleep($seconds)
+    public static function sleep(float $seconds): bool
     {
     }
 
     /**
-     * @param mixed $hostname
-     * @param mixed|null $family
-     * @param mixed|null $socktype
-     * @param mixed|null $protocol
-     * @param mixed|null $service
-     * @param mixed|null $timeout
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::getaddrinfo().
+     * @see \Swoole\Coroutine::getaddrinfo()
      */
-    public static function getaddrinfo($hostname, $family = null, $socktype = null, $protocol = null, $service = null, $timeout = null)
+    public static function getaddrinfo(string $domain, int $family = AF_INET, int $socktype = SOCK_STREAM, int $protocol = STREAM_IPPROTO_TCP, ?string $service = null, float $timeout = -1): array|false
     {
     }
 
     /**
-     * @param mixed $path
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::statvfs().
+     * @see \Swoole\Coroutine::statvfs()
      */
-    public static function statvfs($path)
+    public static function statvfs(string $path): array
     {
     }
 
     /**
-     * @param mixed $filename
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::readFile().
+     * @see \Swoole\Coroutine::readFile()
      */
-    public static function readFile($filename)
+    public static function readFile(string $filename, int $flag = 0): string|false
     {
     }
 
     /**
-     * @param mixed $filename
-     * @param mixed $data
-     * @param mixed|null $flags
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::writeFile().
+     * @see \Swoole\Coroutine::writeFile()
      */
-    public static function writeFile($filename, $data, $flags = null)
+    public static function writeFile(string $filename, string $fileContent, int $flags = 0): int|false
     {
     }
 
     /**
-     * @param mixed|null $timeout
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::wait().
+     * @see \Swoole\Coroutine::wait()
+     * @since 4.5.0
      */
-    public static function wait($timeout = null)
+    public static function wait(float $timeout = -1): array|false
     {
     }
 
     /**
-     * @param mixed $pid
-     * @param mixed|null $timeout
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::waitPid().
+     * @see \Swoole\Coroutine::waitPid()
+     * @since 4.5.0
      */
-    public static function waitPid($pid, $timeout = null)
+    public static function waitPid(int $pid, float $timeout = -1): array|false
     {
     }
 
     /**
-     * @param mixed $signo
-     * @param mixed|null $timeout
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::waitSignal().
+     * @see \Swoole\Coroutine::waitSignal()
+     * @since 4.5.0
      */
-    public static function waitSignal($signo, $timeout = null)
+    public static function waitSignal(int $signo, float $timeout = -1): bool
     {
     }
 
     /**
-     * @param mixed $fd
-     * @param mixed|null $events
-     * @param mixed|null $timeout
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Coroutine::waitEvent().
+     * @see \Swoole\Coroutine::waitEvent()
+     * @since 4.5.0
      */
-    public static function waitEvent($fd, $events = null, $timeout = null)
+    public static function waitEvent(mixed $socket, int $events = SWOOLE_EVENT_READ, float $timeout = -1): int|false
     {
     }
 
     /**
+     * @alias This method has an alias method \Swoole\Coroutine::fread().
+     * @see \Swoole\Coroutine::fread()
+     * @deprecated 4.5.1 Turn on runtime hook SWOOLE_HOOK_FILE or SWOOLE_HOOK_ALL, and use the built-in PHP function fread() directly.
      * @param mixed $handle
-     * @param mixed|null $length
-     * @return mixed
      */
-    public static function fread($handle, $length = null)
+    public static function fread($handle, int $length = 0): string|false
     {
     }
 
     /**
+     * @alias This method has an alias method \Swoole\Coroutine::fwrite().
+     * @see \Swoole\Coroutine::fwrite()
+     * @deprecated 4.5.1 Turn on runtime hook SWOOLE_HOOK_FILE or SWOOLE_HOOK_ALL, and use the built-in PHP function fwrite() directly.
      * @param mixed $handle
-     * @param mixed $string
-     * @param mixed|null $length
-     * @return mixed
      */
-    public static function fwrite($handle, $string, $length = null)
+    public static function fwrite($handle, string $data, int $length = 0): int|false
     {
     }
 
     /**
+     * @alias This method has an alias method \Swoole\Coroutine::fgets().
+     * @see \Swoole\Coroutine::fgets()
+     * @deprecated 4.5.1 Turn on runtime hook SWOOLE_HOOK_FILE or SWOOLE_HOOK_ALL, and use the built-in PHP function fgets() directly.
      * @param mixed $handle
-     * @return mixed
      */
-    public static function fgets($handle)
+    public static function fgets($handle): string|false
     {
     }
 }

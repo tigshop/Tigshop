@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.iotvsp.group.clear request
  *
  * @author auto create
- * @since 1.0, 2024-07-19 15:17:04
+ * @since 1.0, 2025-08-08 14:32:36
  */
 class AlipayOpenIotvspGroupClearRequest
 {

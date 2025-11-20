@@ -18,6 +18,9 @@ use Symfony\Component\Cache\Marshaller\MarshallerInterface;
  */
 class IdentityMarshaller implements MarshallerInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function marshall(array $values, ?array &$failed): array
     {
         foreach ($values as $key => $value) {
@@ -29,6 +32,9 @@ class IdentityMarshaller implements MarshallerInterface
         return $values;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function unmarshall(string $value): string
     {
         return $value;

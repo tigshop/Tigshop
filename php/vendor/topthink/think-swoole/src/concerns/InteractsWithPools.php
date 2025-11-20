@@ -26,7 +26,6 @@ trait InteractsWithPools
     protected function preparePools()
     {
         $createPools = function () {
-            /** @var Pool $pool */
             $pools = $this->getPools();
 
             foreach ($this->getConfig('pool', []) as $name => $config) {

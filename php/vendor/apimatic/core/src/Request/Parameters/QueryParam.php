@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Request\Parameters;
 
+use Core\Utils\CoreHelper;
 use CoreInterfaces\Core\Request\RequestArraySerialization;
 use CoreInterfaces\Core\Request\RequestSetterInterface;
 
@@ -77,7 +78,7 @@ class QueryParam extends EncodedParam
         if (!$this->validated) {
             return;
         }
-        $value = $this->prepareValue($this->value);
+        $value = CoreHelper::prepareValue($this->value);
         $query = $this->httpBuildQuery([$this->key => $value], $this->format);
         if (empty($query)) {
             return;

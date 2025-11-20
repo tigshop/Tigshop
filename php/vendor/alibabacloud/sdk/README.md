@@ -11,7 +11,7 @@ English | [简体中文](/README-zh-CN.md)
 
 ![AlibabaCloud](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
-Alibaba Cloud SDK for PHP is a development kit that supports quick access to products, dependency on [Alibaba Cloud Client for PHP][client].
+The Alibaba Cloud V1.0 SDK will soon enter the Basic Security Maintenance phase and is no longer recommended for use. It is suggested to use the V2.0 SDK instead.
 
 ## Release Notes
 

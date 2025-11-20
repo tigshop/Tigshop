@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.user.card.instance.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 19:33:14
+ * @since 1.0, 2025-10-13 12:23:24
  */
 class AlipayUserCardInstanceQueryRequest
 {

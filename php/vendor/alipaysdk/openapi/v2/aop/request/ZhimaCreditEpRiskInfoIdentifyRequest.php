@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.credit.ep.risk.info.identify request
  *
  * @author auto create
- * @since 1.0, 2024-04-12 14:56:40
+ * @since 1.0, 2024-12-05 14:02:19
  */
 class ZhimaCreditEpRiskInfoIdentifyRequest
 {

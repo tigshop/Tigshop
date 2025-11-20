@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.mda.greenagoffline.query request
  *
  * @author auto create
- * @since 1.0, 2024-08-08 22:15:36
+ * @since 1.0, 2025-08-14 11:02:36
  */
 class AlipayDataMdaGreenagofflineQueryRequest
 {

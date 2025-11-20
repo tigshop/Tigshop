@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.micropay.order.confirmpayurl.get request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:41:17
+ * @since 1.0, 2025-09-08 10:13:32
  */
 class AlipayMicropayOrderConfirmpayurlGetRequest
 {

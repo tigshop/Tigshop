@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.resourcepackage.topostpaid.consult request
  *
  * @author auto create
- * @since 1.0, 2024-08-19 10:37:07
+ * @since 1.0, 2025-03-12 16:07:28
  */
 class AlipayCloudCloudbaseResourcepackageTopostpaidConsultRequest
 {

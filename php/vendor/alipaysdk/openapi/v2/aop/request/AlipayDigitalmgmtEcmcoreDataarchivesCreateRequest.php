@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.digitalmgmt.ecmcore.dataarchives.create request
  *
  * @author auto create
- * @since 1.0, 2023-08-24 21:37:09
+ * @since 1.0, 2025-08-18 15:02:37
  */
 class AlipayDigitalmgmtEcmcoreDataarchivesCreateRequest
 {

@@ -7,9 +7,7 @@ use AlibabaCloud\Tea\Model;
 
 class GlobalParameters extends Model
 {
-    public function validate()
-    {
-    }
+    public function validate() {}
     public function toMap()
     {
         $res = [];
@@ -39,5 +37,4 @@ class GlobalParameters extends Model
     public $headers;
 
     public $queries;
-
 }

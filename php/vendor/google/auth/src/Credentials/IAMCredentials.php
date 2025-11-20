@@ -80,7 +80,7 @@ class IAMCredentials
     public function updateMetadata(
         $metadata,
         $unusedAuthUri = null,
-        callable $httpHandler = null
+        ?callable $httpHandler = null
     ) {
         $metadata_copy = $metadata;
         $metadata_copy[self::SELECTOR_KEY] = $this->selector;

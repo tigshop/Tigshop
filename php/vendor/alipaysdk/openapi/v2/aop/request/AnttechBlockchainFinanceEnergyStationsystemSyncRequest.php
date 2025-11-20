@@ -3,7 +3,7 @@
  * ALIPAY API: anttech.blockchain.finance.energy.stationsystem.sync request
  *
  * @author auto create
- * @since 1.0, 2024-09-02 22:02:08
+ * @since 1.0, 2025-03-03 13:42:39
  */
 class AnttechBlockchainFinanceEnergyStationsystemSyncRequest
 {

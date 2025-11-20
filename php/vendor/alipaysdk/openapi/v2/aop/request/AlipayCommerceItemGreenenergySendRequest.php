@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.item.greenenergy.send request
  *
  * @author auto create
- * @since 1.0, 2024-10-08 10:09:50
+ * @since 1.0, 2025-01-07 00:28:47
  */
 class AlipayCommerceItemGreenenergySendRequest
 {

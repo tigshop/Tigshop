@@ -182,6 +182,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ListBaselineStatuses listBaselineStatuses(array $options = [])
  * @method ListBusiness listBusiness(array $options = [])
  * @method ListCalcEngines listCalcEngines(array $options = [])
+ * @method ListCheckProcesses listCheckProcesses(array $options = [])
  * @method ListClusterConfigs listClusterConfigs(array $options = [])
  * @method ListClusters listClusters(array $options = [])
  * @method ListConnections listConnections(array $options = [])
@@ -242,7 +243,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ListTables listTables(array $options = [])
  * @method ListTableTheme listTableTheme(array $options = [])
  * @method ListTopics listTopics(array $options = [])
- * @method MountDirectory mountDirectory(array $options = [])
  * @method OfflineNode offlineNode(array $options = [])
  * @method PublishDataServiceApi publishDataServiceApi(array $options = [])
  * @method QueryDefaultTemplate queryDefaultTemplate(array $options = [])
@@ -259,7 +259,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method RemoveProjectMemberFromRole removeProjectMemberFromRole(array $options = [])
  * @method RestartInstance restartInstance(array $options = [])
  * @method ResumeInstance resumeInstance(array $options = [])
- * @method RevokeColumnPermission revokeColumnPermission(array $options = [])
  * @method RevokeTablePermission revokeTablePermission(array $options = [])
  * @method RunCycleDagNodes runCycleDagNodes(array $options = [])
  * @method RunManualDagNodes runManualDagNodes(array $options = [])
@@ -286,7 +285,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method TestNetworkConnection testNetworkConnection(array $options = [])
  * @method TopTenElapsedTimeInstance topTenElapsedTimeInstance(array $options = [])
  * @method TopTenErrorTimesInstance topTenErrorTimesInstance(array $options = [])
- * @method UmountDirectory umountDirectory(array $options = [])
  * @method UpdateBaseline updateBaseline(array $options = [])
  * @method UpdateBusiness updateBusiness(array $options = [])
  * @method UpdateClusterConfigs updateClusterConfigs(array $options = [])
@@ -2228,9 +2226,11 @@ class CreateExportMigration extends Rpc
 
 /**
  * @method string getFileType()
+ * @method string getImageId()
  * @method string getDependentNodeIdList()
  * @method string getContent()
  * @method string getProjectIdentifier()
+ * @method string getTimeout()
  * @method string getResourceGroupId()
  * @method string getStartImmediately()
  * @method string getProjectId()
@@ -2281,6 +2281,19 @@ class CreateFile extends Rpc
      *
      * @return $this
      */
+    public function withImageId($value)
+    {
+        $this->data['ImageId'] = $value;
+        $this->options['form_params']['ImageId'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
     public function withDependentNodeIdList($value)
     {
         $this->data['DependentNodeIdList'] = $value;
@@ -2311,6 +2324,19 @@ class CreateFile extends Rpc
     {
         $this->data['ProjectIdentifier'] = $value;
         $this->options['form_params']['ProjectIdentifier'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withTimeout($value)
+    {
+        $this->data['Timeout'] = $value;
+        $this->options['form_params']['Timeout'] = $value;
 
         return $this;
     }
@@ -3041,21 +3067,25 @@ class CreateMetaCollection extends Rpc
 }
 
 /**
+ * @method string getApplyUserIds()
+ * @method $this withApplyUserIds($value)
+ * @method string getDeadline()
+ * @method $this withDeadline($value)
+ * @method string getEngineType()
+ * @method $this withEngineType($value)
  * @method string getApplyReason()
  * @method $this withApplyReason($value)
  * @method string getMaxComputeProjectName()
  * @method $this withMaxComputeProjectName($value)
  * @method array getApplyObject()
- * @method string getApplyUserIds()
- * @method $this withApplyUserIds($value)
- * @method string getDeadline()
- * @method $this withDeadline($value)
+ * @method string getCatalogName()
+ * @method $this withCatalogName($value)
+ * @method string getApplyType()
+ * @method $this withApplyType($value)
  * @method string getWorkspaceId()
  * @method $this withWorkspaceId($value)
  * @method string getOrderType()
  * @method $this withOrderType($value)
- * @method string getEngineType()
- * @method $this withEngineType($value)
  */
 class CreatePermissionApplyOrder extends Rpc
 {
@@ -3072,6 +3102,9 @@ class CreatePermissionApplyOrder extends Rpc
 			foreach ($depth1Value['ColumnMetaList'] as $depth2 => $depth2Value) {
 				if(isset($depth2Value['Name'])){
 					$this->options['query']['ApplyObject.' . ($depth1 + 1) . '.ColumnMetaList.' . ($depth2 + 1) . '.Name'] = $depth2Value['Name'];
+				}
+				if(isset($depth2Value['Actions'])){
+					$this->options['query']['ApplyObject.' . ($depth1 + 1) . '.ColumnMetaList.' . ($depth2 + 1) . '.Actions'] = $depth2Value['Actions'];
 				}
 			}
 			if(isset($depth1Value['Name'])){
@@ -9256,6 +9289,113 @@ class ListCalcEngines extends Rpc
 }
 
 /**
+ * @method string getMessageId()
+ * @method string getOperator()
+ * @method string getPageNumber()
+ * @method string getPageSize()
+ * @method string getProjectId()
+ * @method string getEventCode()
+ * @method string getStatus()
+ */
+class ListCheckProcesses extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withMessageId($value)
+    {
+        $this->data['MessageId'] = $value;
+        $this->options['form_params']['MessageId'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withOperator($value)
+    {
+        $this->data['Operator'] = $value;
+        $this->options['form_params']['Operator'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withPageNumber($value)
+    {
+        $this->data['PageNumber'] = $value;
+        $this->options['form_params']['PageNumber'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withPageSize($value)
+    {
+        $this->data['PageSize'] = $value;
+        $this->options['form_params']['PageSize'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withProjectId($value)
+    {
+        $this->data['ProjectId'] = $value;
+        $this->options['form_params']['ProjectId'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withEventCode($value)
+    {
+        $this->data['EventCode'] = $value;
+        $this->options['form_params']['EventCode'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withStatus($value)
+    {
+        $this->data['Status'] = $value;
+        $this->options['form_params']['Status'] = $value;
+
+        return $this;
+    }
+}
+
+/**
  * @method string getConfigType()
  * @method $this withConfigType($value)
  * @method string getClusterId()
@@ -10314,10 +10454,12 @@ class ListExtensions extends Rpc
  * @method string getOwner()
  * @method string getFileTypes()
  * @method string getNeedContent()
+ * @method string getCommitStatus()
  * @method string getNeedAbsoluteFolderPath()
  * @method string getProjectIdentifier()
  * @method string getPageNumber()
  * @method string getFileIdIn()
+ * @method string getLastEditUser()
  * @method string getFileFolderPath()
  * @method string getPageSize()
  * @method string getExactFileName()
@@ -10373,6 +10515,19 @@ class ListFiles extends Rpc
      *
      * @return $this
      */
+    public function withCommitStatus($value)
+    {
+        $this->data['CommitStatus'] = $value;
+        $this->options['form_params']['CommitStatus'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
     public function withNeedAbsoluteFolderPath($value)
     {
         $this->data['NeedAbsoluteFolderPath'] = $value;
@@ -10416,6 +10571,19 @@ class ListFiles extends Rpc
     {
         $this->data['FileIdIn'] = $value;
         $this->options['form_params']['FileIdIn'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withLastEditUser($value)
+    {
+        $this->data['LastEditUser'] = $value;
+        $this->options['form_params']['LastEditUser'] = $value;
 
         return $this;
     }
@@ -11680,10 +11848,14 @@ class ListNodesByOutput extends Rpc
  * @method $this withEngineType($value)
  * @method string getMaxComputeProjectName()
  * @method $this withMaxComputeProjectName($value)
+ * @method string getCatalogName()
+ * @method $this withCatalogName($value)
  * @method string getEndTime()
  * @method $this withEndTime($value)
  * @method string getFlowStatus()
  * @method $this withFlowStatus($value)
+ * @method string getApplyType()
+ * @method $this withApplyType($value)
  * @method string getWorkspaceId()
  * @method $this withWorkspaceId($value)
  * @method string getOrderType()
@@ -12533,54 +12705,6 @@ class ListTopics extends Rpc
 }
 
 /**
- * @method string getTargetType()
- * @method string getTargetId()
- * @method string getTargetUserId()
- */
-class MountDirectory extends Rpc
-{
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withTargetType($value)
-    {
-        $this->data['TargetType'] = $value;
-        $this->options['form_params']['TargetType'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withTargetId($value)
-    {
-        $this->data['TargetId'] = $value;
-        $this->options['form_params']['TargetId'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withTargetUserId($value)
-    {
-        $this->data['TargetUserId'] = $value;
-        $this->options['form_params']['TargetUserId'] = $value;
-
-        return $this;
-    }
-}
-
-/**
  * @method string getNodeId()
  * @method string getProjectId()
  */
@@ -13113,24 +13237,6 @@ class ResumeInstance extends Rpc
 
         return $this;
     }
-}
-
-/**
- * @method string getRevokeUserName()
- * @method $this withRevokeUserName($value)
- * @method string getMaxComputeProjectName()
- * @method $this withMaxComputeProjectName($value)
- * @method string getColumns()
- * @method $this withColumns($value)
- * @method string getRevokeUserId()
- * @method $this withRevokeUserId($value)
- * @method string getTableName()
- * @method $this withTableName($value)
- * @method string getWorkspaceId()
- * @method $this withWorkspaceId($value)
- */
-class RevokeColumnPermission extends Rpc
-{
 }
 
 /**
@@ -14373,54 +14479,6 @@ class TopTenErrorTimesInstance extends Rpc
 }
 
 /**
- * @method string getTargetType()
- * @method string getTargetId()
- * @method string getTargetUserId()
- */
-class UmountDirectory extends Rpc
-{
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withTargetType($value)
-    {
-        $this->data['TargetType'] = $value;
-        $this->options['form_params']['TargetType'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withTargetId($value)
-    {
-        $this->data['TargetId'] = $value;
-        $this->options['form_params']['TargetId'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withTargetUserId($value)
-    {
-        $this->data['TargetUserId'] = $value;
-        $this->options['form_params']['TargetUserId'] = $value;
-
-        return $this;
-    }
-}
-
-/**
  * @method string getOwner()
  * @method string getRemoveNodeIds()
  * @method string getAlertMarginThreshold()
@@ -15179,9 +15237,11 @@ class UpdateDISyncTask extends Rpc
 
 /**
  * @method string getOutputList()
+ * @method string getImageId()
  * @method string getDependentNodeIdList()
  * @method string getContent()
  * @method string getProjectIdentifier()
+ * @method string getTimeout()
  * @method string getStartImmediately()
  * @method string getProjectId()
  * @method string getAdvancedSettings()
@@ -15231,6 +15291,19 @@ class UpdateFile extends Rpc
      *
      * @return $this
      */
+    public function withImageId($value)
+    {
+        $this->data['ImageId'] = $value;
+        $this->options['form_params']['ImageId'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
     public function withDependentNodeIdList($value)
     {
         $this->data['DependentNodeIdList'] = $value;
@@ -15261,6 +15334,19 @@ class UpdateFile extends Rpc
     {
         $this->data['ProjectIdentifier'] = $value;
         $this->options['form_params']['ProjectIdentifier'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function withTimeout($value)
+    {
+        $this->data['Timeout'] = $value;
+        $this->options['form_params']['Timeout'] = $value;
 
         return $this;
     }

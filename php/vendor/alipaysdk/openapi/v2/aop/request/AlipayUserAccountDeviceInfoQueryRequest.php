@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.user.account.device.info.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:29:00
+ * @since 1.0, 2025-08-13 14:37:40
  */
 class AlipayUserAccountDeviceInfoQueryRequest
 {

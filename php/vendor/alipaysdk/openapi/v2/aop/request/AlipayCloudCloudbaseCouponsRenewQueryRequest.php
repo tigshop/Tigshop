@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.coupons.renew.query request
  *
  * @author auto create
- * @since 1.0, 2024-05-22 17:27:03
+ * @since 1.0, 2025-08-04 11:10:24
  */
 class AlipayCloudCloudbaseCouponsRenewQueryRequest
 {

@@ -27,6 +27,12 @@ class VodSubmitBlockTasksRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string Operation = 2;</code>
      */
     protected $Operation = '';
+    /**
+     * 点播空间名，非必填
+     *
+     * Generated from protobuf field <code>string SpaceName = 3;</code>
+     */
+    protected $SpaceName = '';
 
     /**
      * Constructor.
@@ -40,6 +46,8 @@ class VodSubmitBlockTasksRequest extends \Google\Protobuf\Internal\Message
      *          用\n分隔。 每次最多可提交 100 条。
      *     @type string $Operation
      *           forbid：禁播，recover：解禁。
+     *     @type string $SpaceName
+     *           点播空间名，非必填
      * }
      */
     public function __construct($data = NULL) {
@@ -99,6 +107,32 @@ class VodSubmitBlockTasksRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->Operation = $var;
+
+        return $this;
+    }
+
+    /**
+     * 点播空间名，非必填
+     *
+     * Generated from protobuf field <code>string SpaceName = 3;</code>
+     * @return string
+     */
+    public function getSpaceName()
+    {
+        return $this->SpaceName;
+    }
+
+    /**
+     * 点播空间名，非必填
+     *
+     * Generated from protobuf field <code>string SpaceName = 3;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setSpaceName($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->SpaceName = $var;
 
         return $this;
     }

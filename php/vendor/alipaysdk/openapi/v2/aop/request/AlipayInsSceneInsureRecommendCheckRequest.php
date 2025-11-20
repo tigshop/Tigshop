@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ins.scene.insure.recommend.check request
  *
  * @author auto create
- * @since 1.0, 2024-01-15 14:31:58
+ * @since 1.0, 2024-10-30 14:40:11
  */
 class AlipayInsSceneInsureRecommendCheckRequest
 {

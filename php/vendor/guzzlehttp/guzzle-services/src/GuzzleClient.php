@@ -41,9 +41,9 @@ class GuzzleClient extends ServiceClient
     public function __construct(
         ClientInterface $client,
         DescriptionInterface $description,
-        callable $commandToRequestTransformer = null,
-        callable $responseToResultTransformer = null,
-        HandlerStack $commandHandlerStack = null,
+        ?callable $commandToRequestTransformer = null,
+        ?callable $responseToResultTransformer = null,
+        ?HandlerStack $commandHandlerStack = null,
         array $config = []
     ) {
         $this->config = $config;
@@ -96,7 +96,7 @@ class GuzzleClient extends ServiceClient
      *
      * @param callable|null $commandToRequestTransformer
      *
-     * @return \GuzzleHttp\Command\Guzzle\Serializer
+     * @return Serializer
      */
     private function getSerializer($commandToRequestTransformer)
     {
@@ -110,7 +110,7 @@ class GuzzleClient extends ServiceClient
      *
      * @param callable|null $responseToResultTransformer
      *
-     * @return \GuzzleHttp\Command\Guzzle\Deserializer
+     * @return Deserializer
      */
     private function getDeserializer($responseToResultTransformer)
     {

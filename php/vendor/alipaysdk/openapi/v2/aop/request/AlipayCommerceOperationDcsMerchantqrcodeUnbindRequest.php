@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.operation.dcs.merchantqrcode.unbind request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 16:38:06
+ * @since 1.0, 2025-04-09 16:10:02
  */
 class AlipayCommerceOperationDcsMerchantqrcodeUnbindRequest
 {

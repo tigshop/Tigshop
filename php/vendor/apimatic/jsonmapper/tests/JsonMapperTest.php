@@ -52,6 +52,8 @@ use apimatic\jsonmapper\JsonMapperException;
  * @covers \apimatic\jsonmapper\JsonMapper
  * @covers \apimatic\jsonmapper\TypeCombination
  * @covers \apimatic\jsonmapper\JsonMapperException
+ * @covers \apimatic\jsonmapper\OneOfValidationException
+ * @covers \apimatic\jsonmapper\AnyOfValidationException
  */
 class JsonMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -1224,6 +1226,77 @@ class JsonMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("yes", $fm->publicProp);
     }
 
+    public function testAdditionalPropertiesTypedNative()
+    {
+        $jm = new JsonMapper();
+        $jm->sAdditionalPropertiesCollectionMethod = 'addTypedAdditionalProperty';
+        $fm = $jm->map(
+            json_decode('{"random11":"hello","random22":123123}'),
+            new JsonMapperTest_Simple()
+        );
+        $this->assertEquals(1, count($fm->additional));
+        $this->assertEquals(123123, $fm->additional['random22']);
+    }
+
+    public function testAdditionalPropertiesTypedCustom()
+    {
+        $jm = new JsonMapper();
+        $jm->sAdditionalPropertiesCollectionMethod = 'addCustomTypedAdditionalProperty';
+        $fm = $jm->map(
+            json_decode('{"random11":"hello","random22":123123,"random33":{"under_score":"abc","random11":"hello","random33":{"fl":1.214}}}'),
+            new JsonMapperTest_Simple()
+        );
+        $this->assertEquals(1, count($fm->additional));
+        $expected = new JsonMapperTest_Simple();
+        $expected->under_score = "abc";
+        $innerClass = new JsonMapperTest_Simple();
+        $innerClass->fl = 1.214;
+        $expected->addCustomTypedAdditionalProperty('random33', $innerClass);
+        $this->assertEquals($expected, $fm->additional['random33']);
+    }
+
+    public function testAdditionalPropertiesFactory()
+    {
+        $jm = new JsonMapper();
+        $jm->sAdditionalPropertiesCollectionMethod = 'addFactoryAdditionalProperty';
+        $fm = $jm->map(
+            json_decode('{"random11":"hello","random22":123123,"random23":1,"random33":true}'),
+            new JsonMapperTest_Simple()
+        );
+        $this->assertEquals(4, count($fm->additional));
+        $this->assertEquals(false, $fm->additional['random11']);
+        $this->assertEquals(false, $fm->additional['random22']);
+        $this->assertEquals(true, $fm->additional['random23']);
+        $this->assertEquals(false, $fm->additional['random33']);
+    }
+
+    public function testAdditionalPropertiesMapsBy()
+    {
+        $jm = new JsonMapper();
+        $jm->sAdditionalPropertiesCollectionMethod = 'addMapsByAdditionalProperty';
+        $fm = $jm->map(
+            json_decode('{"random11":"hello","random22":123.123,"random23":1.0,"random33":true}'),
+            new JsonMapperTest_Simple()
+        );
+        $this->assertEquals(2, count($fm->additional));
+        $this->assertEquals('hello', $fm->additional['random11']);
+        $this->assertEquals(true, $fm->additional['random33']);
+    }
+
+    public function testAdditionalPropertiesMapsByFactory()
+    {
+        $jm = new JsonMapper();
+        $jm->sAdditionalPropertiesCollectionMethod = 'addMapsByFactoryAdditionalProperty';
+        $fm = $jm->map(
+            json_decode('{"random11":"hello","random22":123123,"random23":1,"random33":true}'),
+            new JsonMapperTest_Simple()
+        );
+        $this->assertEquals(3, count($fm->additional));
+        $this->assertEquals(false, $fm->additional['random22']);
+        $this->assertEquals(true, $fm->additional['random23']);
+        $this->assertEquals('value is 1', $fm->additional['random33']);
+    }
+
     public function testAdditionalProperties()
     {
         $jm = new JsonMapper();
@@ -1232,9 +1305,20 @@ class JsonMapperTest extends \PHPUnit\Framework\TestCase
             json_decode('{"random11":"hello","random22":123123}'),
             new JsonMapperTest_Simple()
         );
+        $this->assertEquals(2, count($fm->additional));
         $this->assertEquals("hello", $fm->additional['random11']);
         $this->assertEquals(123123, $fm->additional['random22']);
-        $this->assertEquals(2, count($fm->additional));
+    }
+
+    public function testAdditionalPropertiesWithMissingMethod()
+    {
+        $jm = new JsonMapper();
+        $jm->sAdditionalPropertiesCollectionMethod = 'missingMethod';
+        $fm = $jm->map(
+            json_decode('{"random11":"hello","random22":123123}'),
+            new JsonMapperTest_Simple()
+        );
+        $this->assertEquals(0, count($fm->additional));
     }
 
     public function testAdditionalPropertiesWithPrivateMethod()
@@ -1243,7 +1327,7 @@ class JsonMapperTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('privateAddAdditionalProperty method is not public on the given class.');
         $jm = new JsonMapper();
         $jm->sAdditionalPropertiesCollectionMethod = 'privateAddAdditionalProperty';
-        $fm = $jm->map(new stdClass, new JsonMapperTest_Simple());
+        $jm->map(new stdClass, new JsonMapperTest_Simple());
     }
 
     public function testAdditionalPropertiesWithBrokenMethod()
@@ -1252,16 +1336,7 @@ class JsonMapperTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('brokenAddAdditionalProperty method does not receive two args, $key and $value.');
         $jm = new JsonMapper();
         $jm->sAdditionalPropertiesCollectionMethod = 'brokenAddAdditionalProperty';
-        $fm = $jm->map(new stdClass, new JsonMapperTest_Simple());
-    }
-
-    public function testAdditionalPropertiesWithMissingMethod()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('missingMethod method is not available on the given class.');
-        $jm = new JsonMapper();
-        $jm->sAdditionalPropertiesCollectionMethod = 'missingMethod';
-        $fm = $jm->map(new stdClass, new JsonMapperTest_Simple());
+        $jm->map(new stdClass, new JsonMapperTest_Simple());
     }
     
     public function testMapTypeWithCtor()

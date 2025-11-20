@@ -3,7 +3,7 @@
  * ALIPAY API: ssdata.dataservice.risk.offlinevars.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 19:39:10
+ * @since 1.0, 2025-06-05 15:48:38
  */
 class SsdataDataserviceRiskOfflinevarsQueryRequest
 {

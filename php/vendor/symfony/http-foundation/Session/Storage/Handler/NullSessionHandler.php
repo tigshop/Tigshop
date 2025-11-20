@@ -23,27 +23,36 @@ class NullSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    public function validateId(#[\SensitiveParameter] string $sessionId): bool
+    public function validateId(string $sessionId): bool
     {
         return true;
     }
 
-    protected function doRead(#[\SensitiveParameter] string $sessionId): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function doRead(string $sessionId): string
     {
         return '';
     }
 
-    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data): bool
+    public function updateTimestamp(string $sessionId, string $data): bool
     {
         return true;
     }
 
-    protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool
+    /**
+     * {@inheritdoc}
+     */
+    protected function doWrite(string $sessionId, string $data): bool
     {
         return true;
     }
 
-    protected function doDestroy(#[\SensitiveParameter] string $sessionId): bool
+    /**
+     * {@inheritdoc}
+     */
+    protected function doDestroy(string $sessionId): bool
     {
         return true;
     }

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.merchant.complain.reconciliation.submit request
  *
  * @author auto create
- * @since 1.0, 2024-08-20 19:06:48
+ * @since 1.0, 2025-10-24 10:37:40
  */
 class AlipayMerchantComplainReconciliationSubmitRequest
 {

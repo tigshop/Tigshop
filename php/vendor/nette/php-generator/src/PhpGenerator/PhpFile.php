@@ -11,7 +11,7 @@ namespace Nette\PhpGenerator;
 
 
 /**
- * Instance of PHP file.
+ * Definition of a PHP file.
  *
  * Generates:
  * - opening tag (<?php)

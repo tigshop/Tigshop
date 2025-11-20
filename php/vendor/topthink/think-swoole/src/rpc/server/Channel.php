@@ -3,8 +3,8 @@
 namespace think\swoole\rpc\server;
 
 use Swoole\Coroutine;
-use think\swoole\rpc\packer\Buffer;
-use think\swoole\rpc\packer\File;
+use think\swoole\packet\Buffer;
+use think\swoole\packet\File;
 
 class Channel
 {

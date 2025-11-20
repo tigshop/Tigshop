@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Swoole\Coroutine;
 
+/**
+ * @deprecated 5.0.0 Use phpredis (the PHP extension for Redis) instead, with runtime hook SWOOLE_HOOK_TCP or SWOOLE_HOOK_ALL turned on.
+ * @not-serializable Objects of this class cannot be serialized.
+ * @alias This class has an alias of "\Co\Redis" when directive "swoole.use_shortname" is not explicitly turned off.
+ * @see \Co\Redis
+ */
 class Redis
 {
     public $host = '';
@@ -23,10 +29,6 @@ class Redis
     public $errMsg = '';
 
     public function __construct($config = null)
-    {
-    }
-
-    public function __destruct()
     {
     }
 

@@ -83,7 +83,8 @@ class OpenApiClientTest extends TestCase
             "maxIdleConns" => 128,
             "signatureVersion" => "config.signatureVersion",
             "signatureAlgorithm" => "ACS3-HMAC-SHA256",
-            "globalParameters" => $globalParameters
+            "globalParameters" => $globalParameters,
+            "tlsMinVersion" => "TLSv1.2"
         ]);
         return $config;
     }

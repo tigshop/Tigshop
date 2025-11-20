@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fincore.compliance.apccenter.algorithmbaseinfo.modify request
  *
  * @author auto create
- * @since 1.0, 2024-10-09 10:32:49
+ * @since 1.0, 2025-08-13 16:42:41
  */
 class AlipayFincoreComplianceApccenterAlgorithmbaseinfoModifyRequest
 {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.security.prod.openapi.v.batchquery request
  *
  * @author auto create
- * @since 1.0, 2024-08-19 13:35:53
+ * @since 1.0, 2025-08-14 06:27:40
  */
 class AlipaySecurityProdOpenapiVBatchqueryRequest
 {

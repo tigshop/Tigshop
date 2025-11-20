@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.iotvsp.business.notify request
  *
  * @author auto create
- * @since 1.0, 2024-05-21 14:27:01
+ * @since 1.0, 2025-08-08 14:31:31
  */
 class AlipayOpenIotvspBusinessNotifyRequest
 {

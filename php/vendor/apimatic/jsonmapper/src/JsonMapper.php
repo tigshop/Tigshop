@@ -233,7 +233,6 @@ class JsonMapper
 
         $strClassName = get_class($object);
         $rc = new ReflectionClass($object);
-        $strNs = $rc->getNamespaceName();
         $providedProperties = array();
         $additionalPropertiesMethod = $this->getAdditionalPropertiesMethod($rc);
 
@@ -296,9 +295,12 @@ class JsonMapper
             }
 
             if ($isAdditional) {
-                if ($additionalPropertiesMethod !== null) {
-                    $additionalPropertiesMethod->invoke($object, $key, $jvalue);
-                }
+                $this->addAdditionalProperty(
+                    $additionalPropertiesMethod,
+                    $object,
+                    $key,
+                    $jvalue
+                );
                 continue;
             }
             $value = $this->getMappedValue(
@@ -310,7 +312,7 @@ class JsonMapper
                 $rc->getName(),
                 $strict
             );
-            $this->setProperty($object, $accessor, $value, $strNs);
+            $this->setProperty($object, $accessor, $value);
         }
 
         if ($this->bExceptionOnMissingData) {
@@ -318,6 +320,47 @@ class JsonMapper
         }
 
         return $object;
+    }
+
+    /**
+     * Add additional properties by invoking the specified method.
+     *
+     * @param ReflectionMethod|null $method Method to be called to add
+     *                                      additional properties to the class.
+     * @param object                $object Class instance on which the method
+     *                                      is invoked.
+     * @param int|string            $key    The name of additional property.
+     * @param mixed                 $value  The value of additional property.
+     *
+     * @return void
+     */
+    protected function addAdditionalProperty($method, $object, $key, $value)
+    {
+        if (is_null($method)) {
+            return;
+        }
+        $annotations = $this->parseAnnotations($method->getDocComment());
+        try {
+            $type = $this->getDocTypeForArrayOrMixed(
+                $this->getParameterType($method->getParameters()[1]),
+                $annotations,
+                1
+            );
+            $mapsBy = $this->getMapByAnnotationFromParsed($annotations);
+            $factoryMethods = $this->getFactoryMethods($annotations);
+            $value = $this->getMappedValue(
+                $value,
+                $type,
+                $mapsBy,
+                $factoryMethods,
+                $method->getDeclaringClass()->getNamespaceName(),
+                $method->getDeclaringClass()->getName(),
+                true
+            );
+            $method->invoke($object, $key, $value);
+        } catch (Exception $_) {
+            // Ignore the thrown error to skip this additional property
+        }
     }
 
     /**
@@ -455,9 +498,13 @@ class JsonMapper
         if ($type === null || $type === 'mixed' || $type === '') {
             //no given type - simply return the json data
             return $jvalue;
-        } else if ($this->isObjectOfSameType($type, $jvalue)) {
+        }
+
+        if ($this->isObjectOfSameType($type, $jvalue)) {
             return $jvalue;
-        } else if ($this->isSimpleType($type)) {
+        }
+
+        if ($this->isSimpleType($type)) {
             if ($strict && !$this->isSimpleValue($jvalue, $type)) {
                 // if mapping strictly for multipleTypes
                 throw JsonMapperException::unableToSetTypeException(
@@ -469,67 +516,91 @@ class JsonMapper
             return $jvalue;
         }
 
-        $array = null;
+        list($array, $innerArrayType, $dimension) = $this->getArrayInfo(
+            $type,
+            $namespace
+        );
+
+        $fullTypeName = $this->getFullNamespace($type, $namespace);
+        if (is_null($array)) {
+            // Handling non array types
+            if ($this->isFlatType(gettype($jvalue)) && !$strict) {
+                // use constructor parameter if we have a class
+                // but only a flat type (i.e. string, int)
+                if ($jvalue === null) {
+                    return null;
+                }
+
+                return new $fullTypeName($jvalue);
+            }
+
+            return $this->mapClass($jvalue, $fullTypeName, $strict);
+        }
+
+        // Handling array types
+        if ($jvalue === null) {
+            return null;
+        }
+
+        if ($this->isNullable($innerArrayType)) {
+            $innerArrayType = $this->removeNullable($innerArrayType);
+        }
+
+        $fullTypeName = $this->getFullNamespace($innerArrayType, $namespace);
+        if (!$this->isSimpleType($innerArrayType)) {
+            $innerArrayType = $fullTypeName;
+        }
+
+        if ($this->isRegisteredType($fullTypeName)) {
+            return $this->mapClassArray(
+                $jvalue,
+                $innerArrayType,
+                $dimension,
+                $strict
+            );
+        }
+
+        return $this->mapArray(
+            $jvalue,
+            $array,
+            $innerArrayType,
+            $dimension,
+            $strict
+        );
+    }
+
+    /**
+     * Returns the complete array info with array instance, its subType and
+     * its dimensions.
+     *
+     * @param string $type      Type to be checked for array info
+     * @param string $namespace Models namespace in case the type is a model
+     *
+     * @return array An array where 1st element is array's instance, 2nd is
+     *               inner type info, and 3rd is dimensions of array.
+     * @throws ReflectionException
+     */
+    protected function getArrayInfo($type, $namespace)
+    {
         list($subtype, $dimension) = $this->getArrayTypeAndDimensions($type);
+
         if ($dimension > 0) {
-            // array with some dimensions
-            $array = array();
-        } else if (substr($type, -1) == ']') {
-            list($proptype, $subtype) = explode('[', substr($type, 0, -1));
-            if (!$this->isSimpleType($proptype)) {
-                $proptype = $this->getFullNamespace($proptype, $namespace);
-            }
-            $array = $this->createInstance($proptype);
-        } else if ($type == 'ArrayObject'
-            || is_subclass_of($type, 'ArrayObject')
-        ) {
-            $subtype = null;
-            $array = $this->createInstance($type);
+            return array(array(), $subtype, $dimension);
         }
 
-        if ($array !== null) {
-            if ($this->isNullable($subtype)) {
-                $subtype = $this->removeNullable($subtype);
+        if (substr($type, -1) == ']') {
+            list($propType, $subtype) = explode('[', substr($type, 0, -1));
+            if (!$this->isSimpleType($propType)) {
+                $propType = $this->getFullNamespace($propType, $namespace);
             }
-            if (!$this->isSimpleType($subtype)) {
-                $subtype = $this->getFullNamespace($subtype, $namespace);
-            }
-            if ($jvalue === null) {
-                $child = null;
-            } else if ($this->isRegisteredType(
-                $this->getFullNamespace($subtype, $namespace)
-            )
-            ) {
-                $child = $this->mapClassArray(
-                    $jvalue,
-                    $subtype,
-                    $dimension,
-                    $strict
-                );
-            } else {
-                $child = $this->mapArray(
-                    $jvalue,
-                    $array,
-                    $subtype,
-                    $dimension,
-                    $strict
-                );
-            }
-        } else if ($this->isFlatType(gettype($jvalue))) {
-            //use constructor parameter if we have a class
-            // but only a flat type (i.e. string, int)
-            if ($jvalue === null) {
-                $child = null;
-            } else {
-                $type = $this->getFullNamespace($type, $namespace);
-                $child = new $type($jvalue);
-            }
-        } else {
-            $type = $this->getFullNamespace($type, $namespace);
-            $child = $this->mapClass($jvalue, $type, $strict);
+            return array($this->createInstance($propType), $subtype, $dimension);
         }
 
-        return $child;
+        if ($type == 'ArrayObject' || is_subclass_of($type, 'ArrayObject')) {
+            return array($this->createInstance($type), null, $dimension);
+        }
+
+        return array(null, $subtype, $dimension);
     }
 
     /**
@@ -1107,7 +1178,18 @@ class JsonMapper
             return true;
         }
         // if discriminator field is set then decide w.r.t its value
-        return $value->{$discriminatorField} == $discriminatorValue;
+        $discriminatorFieldValue = $value->{$discriminatorField};
+        if (is_array($discriminatorValue)) {
+            return !empty(
+                array_filter(
+                    $discriminatorValue,
+                    function ($v) use ($discriminatorFieldValue) {
+                        return $discriminatorFieldValue == $v;
+                    }
+                )
+            );
+        }
+        return $discriminatorFieldValue == $discriminatorValue;
     }
 
     /**
@@ -1334,35 +1416,31 @@ class JsonMapper
      */
     protected function getAdditionalPropertiesMethod(ReflectionClass $rc)
     {
-        if ($this->bExceptionOnUndefinedProperty === false
-            && $this->sAdditionalPropertiesCollectionMethod !== null
+        if ($this->bExceptionOnUndefinedProperty !== false
+            || $this->sAdditionalPropertiesCollectionMethod === null
         ) {
-            $additionalPropertiesMethod = null;
-            try {
-                $additionalPropertiesMethod
-                    = $rc->getMethod($this->sAdditionalPropertiesCollectionMethod);
-                if (!$additionalPropertiesMethod->isPublic()) {
-                    throw new  \InvalidArgumentException(
-                        $this->sAdditionalPropertiesCollectionMethod .
-                        " method is not public on the given class."
-                    );
-                }
-                if ($additionalPropertiesMethod->getNumberOfParameters() < 2) {
-                    throw new  \InvalidArgumentException(
-                        $this->sAdditionalPropertiesCollectionMethod .
-                        ' method does not receive two args, $key and $value.'
-                    );
-                }
-            } catch (\ReflectionException $e) {
-                throw new  \InvalidArgumentException(
-                    $this->sAdditionalPropertiesCollectionMethod .
-                    " method is not available on the given class."
-                );
-            }
-            return $additionalPropertiesMethod;
-        } else {
             return null;
         }
+        $additionalPropertiesMethod = null;
+        try {
+            $additionalPropertiesMethod
+                = $rc->getMethod($this->sAdditionalPropertiesCollectionMethod);
+            if (!$additionalPropertiesMethod->isPublic()) {
+                throw new  \InvalidArgumentException(
+                    $this->sAdditionalPropertiesCollectionMethod .
+                    " method is not public on the given class."
+                );
+            }
+            if ($additionalPropertiesMethod->getNumberOfParameters() < 2) {
+                throw new  \InvalidArgumentException(
+                    $this->sAdditionalPropertiesCollectionMethod .
+                    ' method does not receive two args, $key and $value.'
+                );
+            }
+        } catch (\ReflectionException $_) {
+            // Ignore if the method is not available on the given class
+        }
+        return $additionalPropertiesMethod;
     }
 
     /**
@@ -1507,24 +1585,15 @@ class JsonMapper
             }
         }
         if ($rmeth !== null && $rmeth->isPublic()) {
-            $type = null;
-            $factoryMethod = null;
+            $factoryMethod = $this->getFactoryMethods($annotations);
             $namespace = $rmeth->getDeclaringClass()->getNamespaceName();
+
+            $type = null;
             $rparams = $rmeth->getParameters();
             if (count($rparams) > 0) {
                 $type = $this->getParameterType($rparams[0]);
             }
-
-            if (($type === null || $type === 'array' || $type === 'array|null')
-                && isset($annotations['param'][0])
-            ) {
-                list($type) = explode(' ', trim($annotations['param'][0]));
-            }
-
-            //support "@factory method_name"
-            if (isset($annotations['factory'])) {
-                $factoryMethod = $annotations['factory'];
-            }
+            $type = $this->getDocTypeForArrayOrMixed($type, $annotations);
 
             return array(true, $rmeth, $type, $factoryMethod, $mapsBy, $namespace);
         }
@@ -1565,16 +1634,11 @@ class JsonMapper
                 $annotations   = $this->parseAnnotations($docblock);
                 $namespace = $rprop->getDeclaringClass()->getNamespaceName();
                 $type          = null;
-                $factoryMethod = null;
+                $factoryMethod = $this->getFactoryMethods($annotations);
 
                 //support "@var type description"
                 if (isset($annotations['var'][0])) {
                     list($type) = explode(' ', $annotations['var'][0]);
-                }
-
-                //support "@factory method_name"
-                if (isset($annotations['factory'])) {
-                    $factoryMethod = $annotations['factory'];
                 }
 
                 return array(true, $rprop, $type, $factoryMethod, $mapsBy,
@@ -1631,6 +1695,44 @@ class JsonMapper
         } else {
             return (string)$type;
         }
+    }
+
+    /**
+     * If the actual type is array or mixed, use the annotations to extract
+     * the type.
+     *
+     * @param string|null $type        The actual type of the parameter.
+     * @param array       $annotations The annotations to search the type.
+     * @param int         $index       The position of parameter in the function.
+     *
+     * @return string|null
+     */
+    public function getDocTypeForArrayOrMixed($type, $annotations, $index = 0)
+    {
+        if (($type === null || $type === 'array' || $type === 'array|null')
+            && isset($annotations['param'][$index])
+        ) {
+            list($type) = explode(' ', trim($annotations['param'][$index]));
+        }
+
+        return $type;
+    }
+
+    /**
+     * Get all factory methods from the list of annotations.
+     *
+     * @param array $annotations The annotations list.
+     *
+     * @return string[]
+     */
+    public function getFactoryMethods(array $annotations)
+    {
+        $factoryMethod = null;
+        if (isset($annotations['factory'])) {
+            //support "@factory method_name"
+            $factoryMethod = $annotations['factory'];
+        }
+        return $factoryMethod;
     }
 
     /**
@@ -1702,7 +1804,9 @@ class JsonMapper
      * @return void
      */
     protected function setProperty(
-        $object, $accessor, $value
+        $object,
+        $accessor,
+        $value
     ) {
         if ($accessor instanceof \ReflectionProperty) {
             $object->{$accessor->getName()} = $value;

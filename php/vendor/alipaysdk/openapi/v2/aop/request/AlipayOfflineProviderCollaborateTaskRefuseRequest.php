@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.offline.provider.collaborate.task.refuse request
  *
  * @author auto create
- * @since 1.0, 2024-10-08 15:43:20
+ * @since 1.0, 2024-11-19 16:47:17
  */
 class AlipayOfflineProviderCollaborateTaskRefuseRequest
 {

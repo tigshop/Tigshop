@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.operation.isv.qrcode.unbind request
  *
  * @author auto create
- * @since 1.0, 2024-10-11 14:03:56
+ * @since 1.0, 2025-08-13 16:32:42
  */
 class AlipayCommerceOperationIsvQrcodeUnbindRequest
 {

@@ -15,19 +15,15 @@ use Redis;
 use Swoole\ConnectionPool;
 
 /**
- * @method Redis get()
+ * @method \Redis get()
  * @method void put(Redis $connection)
  */
 class RedisPool extends ConnectionPool
 {
-    /** @var RedisConfig */
-    protected $config;
-
-    public function __construct(RedisConfig $config, int $size = self::DEFAULT_SIZE)
+    public function __construct(protected RedisConfig $config, int $size = self::DEFAULT_SIZE)
     {
-        $this->config = $config;
         parent::__construct(function () {
-            $redis = new Redis();
+            $redis = new \Redis();
             /* Compatible with different versions of Redis extension as much as possible */
             $arguments = [
                 $this->config->getHost(),
@@ -51,6 +47,12 @@ class RedisPool extends ConnectionPool
             if ($this->config->getDbIndex() !== 0) {
                 $redis->select($this->config->getDbIndex());
             }
+
+            /* Set Redis options. */
+            foreach ($this->config->getOptions() as $key => $value) {
+                $redis->setOption($key, $value);
+            }
+
             return $redis;
         }, $size);
     }

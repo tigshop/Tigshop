@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.flexiblestaffing.attendance.apply request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:34:29
+ * @since 1.0, 2024-11-15 10:30:50
  */
 class AlipayFundFlexiblestaffingAttendanceApplyRequest
 {

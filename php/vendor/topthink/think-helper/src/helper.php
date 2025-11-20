@@ -288,3 +288,30 @@ if (!function_exists('class_uses_recursive')) {
         return array_unique($results);
     }
 }
+
+if (!function_exists('array_is_list')) {
+    /**
+     * 判断数组是否为list
+     *
+     * @param array $array 数据
+     * @return bool
+     */    
+    function array_is_list(array $array): bool
+    {
+        return array_values($array) === $array;
+    }
+}
+
+if (!function_exists('json_validate')) {
+    /**
+     * 判断是否为有效json数据
+     *
+     * @param string $string 数据
+     * @return bool
+     */     
+    function json_validate(string $string): bool 
+    {
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+}

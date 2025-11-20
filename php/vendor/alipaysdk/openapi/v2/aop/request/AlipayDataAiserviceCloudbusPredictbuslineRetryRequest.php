@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.aiservice.cloudbus.predictbusline.retry request
  *
  * @author auto create
- * @since 1.0, 2023-05-31 07:14:26
+ * @since 1.0, 2025-08-13 14:57:44
  */
 class AlipayDataAiserviceCloudbusPredictbuslineRetryRequest
 {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.iotvsp.userwithvid.create request
  *
  * @author auto create
- * @since 1.0, 2024-05-21 14:35:09
+ * @since 1.0, 2025-08-13 14:27:38
  */
 class AlipayOpenIotvspUserwithvidCreateRequest
 {

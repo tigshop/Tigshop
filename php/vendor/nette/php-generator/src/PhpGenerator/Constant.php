@@ -11,7 +11,7 @@ namespace Nette\PhpGenerator;
 
 
 /**
- * Class constant.
+ * Definition of a class constant.
  */
 final class Constant
 {
@@ -53,7 +53,8 @@ final class Constant
 
 	public function setType(?string $type): static
 	{
-		$this->type = Helpers::validateType($type);
+		Helpers::validateType($type);
+		$this->type = $type;
 		return $this;
 	}
 

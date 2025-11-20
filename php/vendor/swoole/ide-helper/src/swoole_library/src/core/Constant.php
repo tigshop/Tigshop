@@ -58,6 +58,8 @@ class Constant
 
     public const EVENT_HANDSHAKE = 'handshake';
 
+    public const EVENT_BEFORE_HANDSHAKE_RESPONSE = 'beforeHandshakeResponse';
+
     public const EVENT_OPEN = 'open';
 
     public const EVENT_MESSAGE = 'message';
@@ -215,20 +217,6 @@ class Constant
 
     public const OPTION_HTTP_PROXY_PASSWORD = 'http_proxy_password';
 
-    public const OPTION_TIMEOUT = 'timeout';
-
-    public const OPTION_CONNECT_TIMEOUT = 'connect_timeout';
-
-    public const OPTION_READ_TIMEOUT = 'read_timeout';
-
-    public const OPTION_WRITE_TIMEOUT = 'write_timeout';
-
-    public const OPTION_SSL_DISABLE_COMPRESSION = 'ssl_disable_compression';
-
-    public const OPTION_SSL_ECDH_CURVE = 'ssl_ecdh_curve';
-
-    public const OPTION_SSL_GREASE = 'ssl_grease';
-
     public const OPTION_MAX_CORO_NUM = 'max_coro_num';
 
     public const OPTION_MAX_COROUTINE = 'max_coroutine';
@@ -243,13 +231,17 @@ class Constant
 
     public const OPTION_STACK_SIZE = 'stack_size';
 
+    public const OPTION_NAME_RESOLVER = 'name_resolver';
+
     public const OPTION_DNS_CACHE_EXPIRE = 'dns_cache_expire';
 
     public const OPTION_DNS_CACHE_CAPACITY = 'dns_cache_capacity';
 
-    public const OPTION_MAX_CONCURRENCY = 'max_concurrency';
+    public const OPTION_CONNECT_TIMEOUT = 'connect_timeout';
 
-    public const OPTION_RECONNECT = 'reconnect';
+    public const OPTION_TIMEOUT = 'timeout';
+
+    public const OPTION_MAX_RETRIES = 'max_retries';
 
     public const OPTION_DEFER = 'defer';
 
@@ -265,6 +257,8 @@ class Constant
 
     public const OPTION_WEBSOCKET_COMPRESSION = 'websocket_compression';
 
+    public const OPTION_WRITE_FUNC = 'write_func';
+
     public const OPTION_HTTP_PARSE_COOKIE = 'http_parse_cookie';
 
     public const OPTION_HTTP_PARSE_POST = 'http_parse_post';
@@ -273,9 +267,17 @@ class Constant
 
     public const OPTION_HTTP_COMPRESSION_LEVEL = 'http_compression_level';
 
+    public const OPTION_COMPRESSION_LEVEL = 'compression_level';
+
     public const OPTION_HTTP_GZIP_LEVEL = 'http_gzip_level';
 
+    public const OPTION_HTTP_COMPRESSION_MIN_LENGTH = 'http_compression_min_length';
+
     public const OPTION_COMPRESSION_MIN_LENGTH = 'compression_min_length';
+
+    public const OPTION_HTTP_COMPRESSION_TYPES = 'http_compression_types';
+
+    public const OPTION_COMPRESSION_TYPES = 'compression_types';
 
     public const OPTION_UPLOAD_TMP_DIR = 'upload_tmp_dir';
 
@@ -297,7 +299,13 @@ class Constant
 
     public const OPTION_FETCH_MODE = 'fetch_mode';
 
+    public const OPTION_ENABLE_MESSAGE_BUS = 'enable_message_bus';
+
+    public const OPTION_MAX_PACKAGE_SIZE = 'max_package_size';
+
     public const OPTION_SERIALIZE = 'serialize';
+
+    public const OPTION_RECONNECT = 'reconnect';
 
     public const OPTION_COMPATIBILITY_MODE = 'compatibility_mode';
 
@@ -318,6 +326,10 @@ class Constant
     public const OPTION_MAX_WAIT_TIME = 'max_wait_time';
 
     public const OPTION_MAX_QUEUED_BYTES = 'max_queued_bytes';
+
+    public const OPTION_MAX_CONCURRENCY = 'max_concurrency';
+
+    public const OPTION_WORKER_MAX_CONCURRENCY = 'worker_max_concurrency';
 
     public const OPTION_SEND_TIMEOUT = 'send_timeout';
 
@@ -372,6 +384,8 @@ class Constant
     public const OPTION_OPEN_CPU_AFFINITY = 'open_cpu_affinity';
 
     public const OPTION_CPU_AFFINITY_IGNORE = 'cpu_affinity_ignore';
+
+    public const OPTION_UPLOAD_MAX_FILESIZE = 'upload_max_filesize';
 
     public const OPTION_ENABLE_STATIC_HANDLER = 'enable_static_handler';
 
@@ -437,6 +451,8 @@ class Constant
 
     public const OPTION_SSL_PREFER_SERVER_CIPHERS = 'ssl_prefer_server_ciphers';
 
+    public const OPTION_SSL_ECDH_CURVE = 'ssl_ecdh_curve';
+
     public const OPTION_SSL_DHPARAM = 'ssl_dhparam';
 
     public const OPTION_SSL_SNI_CERTS = 'ssl_sni_certs';
@@ -444,6 +460,14 @@ class Constant
     public const OPTION_OPEN_SSL = 'open_ssl';
 
     public const OPTION_OPEN_FASTCGI_PROTOCOL = 'open_fastcgi_protocol';
+
+    public const OPTION_READ_TIMEOUT = 'read_timeout';
+
+    public const OPTION_WRITE_TIMEOUT = 'write_timeout';
+
+    public const OPTION_SSL_DISABLE_COMPRESSION = 'ssl_disable_compression';
+
+    public const OPTION_SSL_GREASE = 'ssl_grease';
 
     public const OPTION_EXIT_CONDITION = 'exit_condition';
 

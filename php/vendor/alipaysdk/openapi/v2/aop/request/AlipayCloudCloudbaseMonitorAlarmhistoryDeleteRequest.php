@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.monitor.alarmhistory.delete request
  *
  * @author auto create
- * @since 1.0, 2024-05-08 14:35:20
+ * @since 1.0, 2024-11-22 09:21:26
  */
 class AlipayCloudCloudbaseMonitorAlarmhistoryDeleteRequest
 {

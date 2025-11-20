@@ -1,0 +1,43 @@
+{
+    "name": "alibabacloud/schedulerx3",
+    "homepage": "https://www.alibabacloud.com/",
+    "description": "Alibaba Cloud SchedulerX3 SDK for PHP",
+    "keywords": [
+        "schedulerx3",
+        "sdk",
+        "cloud",
+        "aliyun",
+        "alibaba",
+        "library",
+        "alibabacloud"
+    ],
+    "type": "library",
+    "license": "Apache-2.0",
+    "support": {
+        "source": "https://github.com/alibabacloud-sdk-php/schedulerx3",
+        "issues": "https://github.com/alibabacloud-sdk-php/schedulerx3/issues"
+    },
+    "authors": [
+        {
+            "name": "Alibaba Cloud SDK",
+            "email": "sdk-team@alibabacloud.com",
+            "homepage": "http://www.alibabacloud.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "alibabacloud/client": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "AlibabaCloud\\SchedulerX3\\": ""
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}

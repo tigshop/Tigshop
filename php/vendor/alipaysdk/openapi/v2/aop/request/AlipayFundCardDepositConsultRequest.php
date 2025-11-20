@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.card.deposit.consult request
  *
  * @author auto create
- * @since 1.0, 2024-07-02 10:32:04
+ * @since 1.0, 2025-05-08 15:52:27
  */
 class AlipayFundCardDepositConsultRequest
 {

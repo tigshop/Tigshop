@@ -75,10 +75,12 @@ final class CurlClientState extends ClientState
         $multi->handlesActivity = &$this->handlesActivity;
         $multi->openHandles = &$this->openHandles;
 
-        curl_multi_setopt($this->handle, \CURLMOPT_PUSHFUNCTION, static fn ($parent, $pushed, array $requestHeaders) => $multi->handlePush($parent, $pushed, $requestHeaders, $maxPendingPushes));
+        curl_multi_setopt($this->handle, \CURLMOPT_PUSHFUNCTION, static function ($parent, $pushed, array $requestHeaders) use ($multi, $maxPendingPushes) {
+            return $multi->handlePush($parent, $pushed, $requestHeaders, $maxPendingPushes);
+        });
     }
 
-    public function reset(): void
+    public function reset()
     {
         foreach ($this->pushedResponses as $url => $response) {
             $this->logger?->debug(sprintf('Unused pushed response: "%s"', $url));
@@ -95,7 +97,7 @@ final class CurlClientState extends ClientState
         curl_share_setopt($this->share, \CURLSHOPT_SHARE, \CURL_LOCK_DATA_DNS);
         curl_share_setopt($this->share, \CURLSHOPT_SHARE, \CURL_LOCK_DATA_SSL_SESSION);
 
-        if (\defined('CURL_LOCK_DATA_CONNECT')) {
+        if (\defined('CURL_LOCK_DATA_CONNECT') && \PHP_VERSION_ID >= 80000) {
             curl_share_setopt($this->share, \CURLSHOPT_SHARE, \CURL_LOCK_DATA_CONNECT);
         }
     }

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.user.gamecenter.metric.submit request
  *
  * @author auto create
- * @since 1.0, 2023-09-04 01:07:10
+ * @since 1.0, 2025-08-14 12:07:37
  */
 class AlipayUserGamecenterMetricSubmitRequest
 {

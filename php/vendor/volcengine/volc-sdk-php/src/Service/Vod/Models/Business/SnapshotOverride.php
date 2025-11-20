@@ -49,6 +49,18 @@ class SnapshotOverride extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>repeated float SampleOffsets = 6;</code>
      */
     private $SampleOffsets;
+    /**
+     * 截图宽度，单位：px；目前仅支持采样截图
+     *
+     * Generated from protobuf field <code>optional int32 Width = 7;</code>
+     */
+    protected $Width = null;
+    /**
+     * 截图高度，单位：px；目前仅支持采样截图
+     *
+     * Generated from protobuf field <code>optional int32 Height = 8;</code>
+     */
+    protected $Height = null;
 
     /**
      * Constructor.
@@ -68,6 +80,10 @@ class SnapshotOverride extends \Google\Protobuf\Internal\Message
      *           index文件自定义路径
      *     @type float[]|\Google\Protobuf\Internal\RepeatedField $SampleOffsets
      *          采样截图自定义采样时间点
+     *     @type int $Width
+     *           截图宽度，单位：px；目前仅支持采样截图
+     *     @type int $Height
+     *           截图高度，单位：px；目前仅支持采样截图
      * }
      */
     public function __construct($data = NULL) {
@@ -227,6 +243,78 @@ class SnapshotOverride extends \Google\Protobuf\Internal\Message
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::FLOAT);
         $this->SampleOffsets = $arr;
+
+        return $this;
+    }
+
+    /**
+     * 截图宽度，单位：px；目前仅支持采样截图
+     *
+     * Generated from protobuf field <code>optional int32 Width = 7;</code>
+     * @return int
+     */
+    public function getWidth()
+    {
+        return isset($this->Width) ? $this->Width : 0;
+    }
+
+    public function hasWidth()
+    {
+        return isset($this->Width);
+    }
+
+    public function clearWidth()
+    {
+        unset($this->Width);
+    }
+
+    /**
+     * 截图宽度，单位：px；目前仅支持采样截图
+     *
+     * Generated from protobuf field <code>optional int32 Width = 7;</code>
+     * @param int $var
+     * @return $this
+     */
+    public function setWidth($var)
+    {
+        GPBUtil::checkInt32($var);
+        $this->Width = $var;
+
+        return $this;
+    }
+
+    /**
+     * 截图高度，单位：px；目前仅支持采样截图
+     *
+     * Generated from protobuf field <code>optional int32 Height = 8;</code>
+     * @return int
+     */
+    public function getHeight()
+    {
+        return isset($this->Height) ? $this->Height : 0;
+    }
+
+    public function hasHeight()
+    {
+        return isset($this->Height);
+    }
+
+    public function clearHeight()
+    {
+        unset($this->Height);
+    }
+
+    /**
+     * 截图高度，单位：px；目前仅支持采样截图
+     *
+     * Generated from protobuf field <code>optional int32 Height = 8;</code>
+     * @param int $var
+     * @return $this
+     */
+    public function setHeight($var)
+    {
+        GPBUtil::checkInt32($var);
+        $this->Height = $var;
 
         return $this;
     }

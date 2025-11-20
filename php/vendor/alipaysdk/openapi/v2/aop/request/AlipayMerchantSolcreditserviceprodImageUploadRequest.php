@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.merchant.solcreditserviceprod.image.upload request
  *
  * @author auto create
- * @since 1.0, 2024-10-11 09:12:13
+ * @since 1.0, 2024-11-14 20:02:20
  */
 class AlipayMerchantSolcreditserviceprodImageUploadRequest
 {

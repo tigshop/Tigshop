@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.merchantcard.smid.bind request
  *
  * @author auto create
- * @since 1.0, 2024-08-13 11:17:07
+ * @since 1.0, 2025-01-17 11:28:52
  */
 class AlipayCommerceMerchantcardSmidBindRequest
 {

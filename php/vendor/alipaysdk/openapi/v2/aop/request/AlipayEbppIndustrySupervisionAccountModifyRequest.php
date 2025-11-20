@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ebpp.industry.supervision.account.modify request
  *
  * @author auto create
- * @since 1.0, 2024-07-19 16:12:03
+ * @since 1.0, 2025-03-13 14:42:34
  */
 class AlipayEbppIndustrySupervisionAccountModifyRequest
 {

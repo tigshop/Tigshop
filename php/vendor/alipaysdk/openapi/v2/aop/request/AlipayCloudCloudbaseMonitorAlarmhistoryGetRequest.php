@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.monitor.alarmhistory.get request
  *
  * @author auto create
- * @since 1.0, 2024-06-06 18:22:04
+ * @since 1.0, 2025-08-08 10:16:46
  */
 class AlipayCloudCloudbaseMonitorAlarmhistoryGetRequest
 {

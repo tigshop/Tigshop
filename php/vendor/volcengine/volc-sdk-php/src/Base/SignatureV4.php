@@ -143,13 +143,22 @@ class SignatureV4
         }
 
         if (!$request->getBody()->isSeekable()) {
-            throw new CouldNotCreateChecksumException('sha256');
+            throw new \Exception(
+                'A sha256 checksum could not be calculated for the provided upload body, because it was not '
+                . 'seekable. To prevent this error you can either 1) include the ContentSHA256 parameter with '
+                . 'your request, 2) use a seekable stream for the body, or 3) wrap the non-seekable stream in '
+                . 'a GuzzleHttp\\Psr7\\CachingStream object.'
+            );
         }
 
         try {
             return Utils::hash($request->getBody(), 'sha256');
         } catch (\Exception $e) {
-            throw new CouldNotCreateChecksumException('sha256', $e);
+            throw new \Exception(
+                'A sha256 checksum could not be calculated. Verify that the hash extension is installed.',
+                0,
+                $e
+            );
         }
     }
 

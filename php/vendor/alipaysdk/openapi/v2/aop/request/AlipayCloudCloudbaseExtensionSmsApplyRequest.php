@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.extension.sms.apply request
  *
  * @author auto create
- * @since 1.0, 2023-10-18 15:01:46
+ * @since 1.0, 2024-11-22 14:41:43
  */
 class AlipayCloudCloudbaseExtensionSmsApplyRequest
 {

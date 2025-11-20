@@ -37,6 +37,16 @@ class VodListCdnAccessLogRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string SpaceName = 4;</code>
      */
     protected $SpaceName = '';
+    /**
+     * 分页 
+     *
+     * Generated from protobuf field <code>optional int64 PageNum = 5;</code>
+     */
+    protected $PageNum = null;
+    /**
+     * Generated from protobuf field <code>optional int64 PageSize = 6;</code>
+     */
+    protected $PageSize = null;
 
     /**
      * Constructor.
@@ -52,6 +62,9 @@ class VodListCdnAccessLogRequest extends \Google\Protobuf\Internal\Message
      *           查询结束时间戳，单位：Unix秒级时间戳 
      *     @type string $SpaceName
      *           空间名称 
+     *     @type int|string $PageNum
+     *           分页 
+     *     @type int|string $PageSize
      * }
      */
     public function __construct($data = NULL) {
@@ -159,6 +172,74 @@ class VodListCdnAccessLogRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->SpaceName = $var;
+
+        return $this;
+    }
+
+    /**
+     * 分页 
+     *
+     * Generated from protobuf field <code>optional int64 PageNum = 5;</code>
+     * @return int|string
+     */
+    public function getPageNum()
+    {
+        return isset($this->PageNum) ? $this->PageNum : 0;
+    }
+
+    public function hasPageNum()
+    {
+        return isset($this->PageNum);
+    }
+
+    public function clearPageNum()
+    {
+        unset($this->PageNum);
+    }
+
+    /**
+     * 分页 
+     *
+     * Generated from protobuf field <code>optional int64 PageNum = 5;</code>
+     * @param int|string $var
+     * @return $this
+     */
+    public function setPageNum($var)
+    {
+        GPBUtil::checkInt64($var);
+        $this->PageNum = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>optional int64 PageSize = 6;</code>
+     * @return int|string
+     */
+    public function getPageSize()
+    {
+        return isset($this->PageSize) ? $this->PageSize : 0;
+    }
+
+    public function hasPageSize()
+    {
+        return isset($this->PageSize);
+    }
+
+    public function clearPageSize()
+    {
+        unset($this->PageSize);
+    }
+
+    /**
+     * Generated from protobuf field <code>optional int64 PageSize = 6;</code>
+     * @param int|string $var
+     * @return $this
+     */
+    public function setPageSize($var)
+    {
+        GPBUtil::checkInt64($var);
+        $this->PageSize = $var;
 
         return $this;
     }

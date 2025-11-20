@@ -92,7 +92,7 @@ abstract class OneToOne extends Relation
 
         // 预载入封装
         $joinTable  = $this->query->getTable();
-        $joinAlias  = $relation;
+        $joinAlias  = Str::snake($relation);
         $joinType   = $joinType ?: $this->joinType;
 
         $query->via($joinAlias);
@@ -127,7 +127,7 @@ abstract class OneToOne extends Relation
         }
 
         $query->join([$joinTable => $joinAlias], $joinOn, $joinType)
-            ->tableField($field, $joinTable, $joinAlias, $relation . '__');
+            ->tableField($field, $joinTable, $joinAlias, $joinAlias . '__');
     }
 
     /**
@@ -275,8 +275,8 @@ abstract class OneToOne extends Relation
         foreach ($result->getData() as $key => $val) {
             if (str_contains($key, '__')) {
                 [$name, $attr] = explode('__', $key, 2);
-                if ($name == $relation) {
-                    $list[$name][$attr] = $val;
+                if ($name == Str::snake($relation)) {
+                    $list[$relation][$attr] = $val;
                     unset($result->$key);
                 }
             }

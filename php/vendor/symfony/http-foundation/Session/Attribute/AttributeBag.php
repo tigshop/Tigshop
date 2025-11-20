@@ -31,57 +31,69 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         $this->storageKey = $storageKey;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return void
-     */
     public function setName(string $name)
     {
         $this->name = $name;
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function initialize(array &$attributes)
     {
         $this->attributes = &$attributes;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getStorageKey(): string
     {
         return $this->storageKey;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function has(string $name): bool
     {
         return \array_key_exists($name, $this->attributes);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function get(string $name, mixed $default = null): mixed
     {
         return \array_key_exists($name, $this->attributes) ? $this->attributes[$name] : $default;
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function set(string $name, mixed $value)
     {
         $this->attributes[$name] = $value;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function all(): array
     {
         return $this->attributes;
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function replace(array $attributes)
     {
@@ -91,6 +103,9 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function remove(string $name): mixed
     {
         $retval = null;
@@ -102,6 +117,9 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         return $retval;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function clear(): mixed
     {
         $return = $this->attributes;

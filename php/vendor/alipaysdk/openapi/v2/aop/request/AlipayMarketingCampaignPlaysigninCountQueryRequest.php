@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.marketing.campaign.playsignin.count.query request
  *
  * @author auto create
- * @since 1.0, 2023-10-14 16:41:45
+ * @since 1.0, 2025-03-13 16:34:39
  */
 class AlipayMarketingCampaignPlaysigninCountQueryRequest
 {

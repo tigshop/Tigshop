@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.credit.ep.label.plateinfo.notify request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:28:48
+ * @since 1.0, 2025-08-04 11:24:04
  */
 class ZhimaCreditEpLabelPlateinfoNotifyRequest
 {

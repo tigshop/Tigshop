@@ -64,7 +64,7 @@ class AopClient
 
     private $targetServiceUrl = "";
 
-    protected $alipaySdkVersion = "alipay-sdk-PHP-4.20.296.ALL";
+    protected $alipaySdkVersion = "alipay-sdk-PHP-4.20.880.ALL";
     function __construct() {
         //根据参数个数和参数类型 来做相应的判断
         if(func_num_args()==1 && func_get_arg(0) instanceof AlipayConfig){

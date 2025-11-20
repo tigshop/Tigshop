@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.scenepay.order.cancel request
  *
  * @author auto create
- * @since 1.0, 2023-09-20 13:52:27
+ * @since 1.0, 2025-04-07 17:12:44
  */
 class AlipayFundScenepayOrderCancelRequest
 {

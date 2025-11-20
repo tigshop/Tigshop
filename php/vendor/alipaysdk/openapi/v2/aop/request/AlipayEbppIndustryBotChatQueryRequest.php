@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ebpp.industry.bot.chat.query request
  *
  * @author auto create
- * @since 1.0, 2024-08-06 10:17:06
+ * @since 1.0, 2025-03-26 22:47:27
  */
 class AlipayEbppIndustryBotChatQueryRequest
 {

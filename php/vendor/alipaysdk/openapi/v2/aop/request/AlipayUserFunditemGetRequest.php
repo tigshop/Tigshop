@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.user.funditem.get request
  *
  * @author auto create
- * @since 1.0, 2023-05-29 20:52:01
+ * @since 1.0, 2025-10-15 10:56:00
  */
 class AlipayUserFunditemGetRequest
 {

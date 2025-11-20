@@ -17,11 +17,11 @@ use Swoole\Timer;
 
 class Barrier
 {
-    private $cid = -1;
+    private int $cid = -1;
 
     private $timer = -1;
 
-    private static $cancel_list = [];
+    private static array $cancel_list = [];
 
     public function __destruct()
     {
@@ -39,9 +39,9 @@ class Barrier
         }
     }
 
-    public static function make()
+    public static function make(): self
     {
-        return new static();
+        return new self();
     }
 
     /**
@@ -52,7 +52,7 @@ class Barrier
         if ($barrier->cid !== -1) {
             throw new Exception('The barrier is waiting, cannot wait again.');
         }
-        $cid = Coroutine::getCid();
+        $cid          = Coroutine::getCid();
         $barrier->cid = $cid;
         if ($timeout > 0 && ($timeout_ms = (int) ($timeout * 1000)) > 0) {
             $barrier->timer = Timer::after($timeout_ms, function () use ($cid) {

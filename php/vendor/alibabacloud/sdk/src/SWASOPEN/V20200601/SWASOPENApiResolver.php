@@ -1263,6 +1263,8 @@ class ListInstancePlansModification extends Rpc
 }
 
 /**
+ * @method string getPlanType()
+ * @method $this withPlanType($value)
  * @method string getPageNumber()
  * @method $this withPageNumber($value)
  * @method string getResourceGroupId()
@@ -1679,6 +1681,8 @@ class ResetDisk extends Rpc
  * @method $this withImageId($value)
  * @method string getClientToken()
  * @method $this withClientToken($value)
+ * @method string getLoginCredentials()
+ * @method $this withLoginCredentials($value)
  * @method string getInstanceId()
  * @method $this withInstanceId($value)
  */

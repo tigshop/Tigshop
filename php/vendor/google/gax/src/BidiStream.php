@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016, Google Inc.
+ * Copyright 2016 Google LLC
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,11 +29,10 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-namespace Google\GAX;
+namespace Google\ApiCore;
 
-use Grpc;
-use Google\GAX\ApiException;
-use Google\GAX\ValidationException;
+use Google\Rpc\Code;
+use Grpc\BidiStreamingCall;
 
 /**
  * BidiStream is the response object from a gRPC bidirectional streaming API call.
@@ -43,34 +42,21 @@ class BidiStream
     private $call;
     private $isComplete = false;
     private $writesClosed = false;
-    private $resourcesField = null;
+    private $resourcesGetMethod = null;
     private $pendingResources = [];
 
     /**
      * BidiStream constructor.
      *
-     * @param \Grpc\BidiStreamingCall $bidiStreamingCall The gRPC bidirectional streaming call object
-     * @param array $grpcStreamingDescriptor
+     * @param BidiStreamingCall $bidiStreamingCall The gRPC bidirectional streaming call object
+     * @param array $streamingDescriptor
      */
-    public function __construct($bidiStreamingCall, $grpcStreamingDescriptor = [])
+    public function __construct(BidiStreamingCall $bidiStreamingCall, array $streamingDescriptor = [])
     {
         $this->call = $bidiStreamingCall;
-        if (array_key_exists('resourcesField', $grpcStreamingDescriptor)) {
-            $this->resourcesField = $grpcStreamingDescriptor['resourcesField'];
+        if (array_key_exists('resourcesGetMethod', $streamingDescriptor)) {
+            $this->resourcesGetMethod = $streamingDescriptor['resourcesGetMethod'];
         }
-    }
-
-    /**
-     * @param callable $callable
-     * @param mixed[] $grpcStreamingDescriptor
-     * @return callable ApiCall
-     */
-    public static function createApiCall($callable, $grpcStreamingDescriptor)
-    {
-        return function () use ($callable, $grpcStreamingDescriptor) {
-            $response = ApiCallable::callWithoutRequest($callable, func_get_args());
-            return new BidiStream($response, $grpcStreamingDescriptor);
-        };
     }
 
     /**
@@ -82,10 +68,10 @@ class BidiStream
     public function write($request)
     {
         if ($this->isComplete) {
-            throw new ValidationException("Cannot call write() after streaming call is complete.");
+            throw new ValidationException('Cannot call write() after streaming call is complete.');
         }
         if ($this->writesClosed) {
-            throw new ValidationException("Cannot call write() after calling closeWrite().");
+            throw new ValidationException('Cannot call write() after calling closeWrite().');
         }
         $this->call->write($request);
     }
@@ -93,10 +79,9 @@ class BidiStream
     /**
      * Write all requests in $requests.
      *
-     * @param mixed[] $requests An Iterable of request objects to write to the server
+     * @param iterable $requests An Iterable of request objects to write to the server
      *
      * @throws ValidationException
-     * @throws ApiException
      */
     public function writeAll($requests = [])
     {
@@ -108,12 +93,13 @@ class BidiStream
     /**
      * Inform the server that no more requests will be written. The write() function cannot be
      * called after closeWrite() is called.
+     * @throws ValidationException
      */
     public function closeWrite()
     {
         if ($this->isComplete) {
             throw new ValidationException(
-                "Cannot call closeWrite() after streaming call is complete."
+                'Cannot call closeWrite() after streaming call is complete.'
             );
         }
         if (!$this->writesClosed) {
@@ -126,21 +112,25 @@ class BidiStream
      * Read the next response from the server. Returns null if the streaming call completed
      * successfully. Throws an ApiException if the streaming call failed.
      *
-     * @return mixed
      * @throws ValidationException
      * @throws ApiException
+     * @return mixed
      */
     public function read()
     {
         if ($this->isComplete) {
-            throw new ValidationException("Cannot call read() after streaming call is complete.");
+            throw new ValidationException('Cannot call read() after streaming call is complete.');
         }
-        $resourcesField = $this->resourcesField;
-        if (!is_null($resourcesField)) {
+        $resourcesGetMethod = $this->resourcesGetMethod;
+        if (!is_null($resourcesGetMethod)) {
             if (count($this->pendingResources) === 0) {
                 $response = $this->call->read();
                 if (!is_null($response)) {
-                    $this->pendingResources = array_reverse($response->$resourcesField());
+                    $pendingResources = [];
+                    foreach ($response->$resourcesGetMethod() as $resource) {
+                        $pendingResources[] = $resource;
+                    }
+                    $this->pendingResources = array_reverse($pendingResources);
                 }
             }
             $result = array_pop($this->pendingResources);
@@ -150,7 +140,7 @@ class BidiStream
         if (is_null($result)) {
             $status = $this->call->getStatus();
             $this->isComplete = true;
-            if (!($status->code == Grpc\STATUS_OK)) {
+            if (!($status->code == Code::OK)) {
                 throw ApiException::createFromStdClass($status);
             }
         }
@@ -161,9 +151,9 @@ class BidiStream
      * Call closeWrite(), and read all responses from the server, until the streaming call is
      * completed. Throws an ApiException if the streaming call failed.
      *
-     * @return \Generator|mixed[]
      * @throws ValidationException
      * @throws ApiException
+     * @return \Generator|mixed[]
      */
     public function closeWriteAndReadAll()
     {
@@ -178,7 +168,7 @@ class BidiStream
     /**
      * Return the underlying gRPC call object
      *
-     * @return \Grpc\BidiStreamingCall
+     * @return \Grpc\BidiStreamingCall|mixed
      */
     public function getBidiStreamingCall()
     {

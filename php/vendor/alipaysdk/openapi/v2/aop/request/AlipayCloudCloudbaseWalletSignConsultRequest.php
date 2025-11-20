@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.wallet.sign.consult request
  *
  * @author auto create
- * @since 1.0, 2023-10-16 20:25:16
+ * @since 1.0, 2024-11-22 14:40:35
  */
 class AlipayCloudCloudbaseWalletSignConsultRequest
 {

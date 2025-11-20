@@ -29,6 +29,7 @@ class Descriptions {
                 'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
                 'Tag' => array( 'location' => 'xml', 'type' => 'string', ),
                 'QueueId' => array( 'location' => 'xml', 'type' => 'string', ),
+                'QueueType' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBack' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackFormat' => array( 'location' => 'xml', 'type' => 'string', ),
                 'CallBackType' => array( 'location' => 'xml', 'type' => 'string', ),
@@ -271,6 +272,33 @@ class Descriptions {
                                 'State' => array( 'type' => 'string', 'location' => 'xml', ),
                             ),
                         ),
+                        'Subtitles' => array(
+                            'type' => 'object',
+                            'location' => 'xml',
+                            'properties' => array(
+                                'Subtitle' => array(
+                                    'type' => 'array',
+                                    'location' => 'xml',
+                                    'data' => array(
+                                        'xmlFlattened' => true,
+                                    ),
+                                    'items' => array(
+                                        'type' => 'object',
+                                        'name' => 'Subtitle',
+                                        'sentAs' => 'Subtitle',
+                                        'properties' => array(
+                                            'Url' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'Embed' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'FontType' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'FontSize' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'FontColor' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'OutlineColor' => array( 'type' => 'string', 'location' => 'xml', ),
+                                            'VMargin' => array( 'type' => 'string', 'location' => 'xml', ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
                 'CallBackMqConfig' => array(
@@ -280,6 +308,15 @@ class Descriptions {
                         'MqRegion' => array( 'type' => 'string', 'location' => 'xml', ),
                         'MqMode' => array( 'type' => 'string', 'location' => 'xml', ),
                         'MqName' => array( 'type' => 'string', 'location' => 'xml', ),
+                    ),
+                ),
+                'CallBackKafkaConfig' => array(
+                    'type' => 'object',
+                    'location' => 'xml',
+                    'properties' => array(
+                        'Region' => array( 'type' => 'string', 'location' => 'xml', ),
+                        'InstanceId' => array( 'type' => 'string', 'location' => 'xml', ),
+                        'Topic' => array( 'type' => 'string', 'location' => 'xml', ),
                     ),
                 ),
             ),
@@ -2145,7 +2182,7 @@ class Descriptions {
                             'type' => 'object',
                             'properties' => array(
                                 'Mode' => array( 'type' => 'string', 'location' => 'xml', ),
-                                'Count' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Count' => array( 'type' => 'integer', 'location' => 'xml', ),
                                 'TimeInterval' => array( 'type' => 'numeric', 'location' => 'xml', ),
                             ),
                         ),
@@ -3485,39 +3522,19 @@ class Descriptions {
                             'type' => 'object',
                             'location' => 'xml',
                             'properties' => array(
-                                'SrcType' => array(
-                                    'type' => 'string',
-                                ),
-                                'TgtType' => array(
-                                    'type' => 'string',
-                                ),
-                                'SheetId' => array(
-                                    'type' => 'integer',
-                                ),
-                                'StartPage' => array(
-                                    'type' => 'integer',
-                                ),
-                                'EndPage' => array(
-                                    'type' => 'integer',
-                                ),
-                                'ImageParams' => array(
-                                    'type' => 'string',
-                                ),
-                                'DocPassword' => array(
-                                    'type' => 'string',
-                                ),
-                                'Comments' => array(
-                                    'type' => 'integer',
-                                ),
-                                'PaperDirection' => array(
-                                    'type' => 'integer',
-                                ),
-                                'Quality' => array(
-                                    'type' => 'integer',
-                                ),
-                                'Zoom' => array(
-                                    'type' => 'integer',
-                                ),
+                                'SrcType' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'TgtType' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'StartPage' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'EndPage' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'SheetId' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'PaperDirection' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'PaperSize' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'ImageParams' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Quality' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'Zoom' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'ImageDpi' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                'DocPassword' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'Comments' => array( 'type' => 'integer', 'location' => 'xml', ),
                             ),
                         ),
                     ),
@@ -4050,7 +4067,7 @@ class Descriptions {
     public static function DetectImage() {
         return array(
             'httpMethod' => 'GET',
-            'uri' => '/{Bucket}{/Key*}',
+            'uri' => '/{Bucket}{/Key*}?ci-process=sensitive-content-recognition',
             'class' => 'Qcloud\\Cos\\Command',
             'responseClass' => 'DetectImageOutput',
             'responseType' => 'model',
@@ -4069,10 +4086,67 @@ class Descriptions {
                         'Qcloud\\Cos\\Client::explodeKey'
                     )
                 ),
-                'ci-process' => array(
+                'DetectType' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                    'sentAs' => 'detect-type'
+                ),
+                'DetectUrl' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                    'sentAs' => 'detect-url'
+                ),
+                'Interval' => array(
+                    'type' => 'integer',
+                    'location' => 'query',
+                    'sentAs' => 'interval'
+                ),
+                'MaxFrames' => array(
+                    'type' => 'integer',
+                    'location' => 'query',
+                    'sentAs' => 'max-frames'
+                ),
+                'BizType' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                    'sentAs' => 'biz-type'
+                ),
+                'LargeImageDetect' => array(
+                    'type' => 'integer',
+                    'location' => 'query',
+                    'sentAs' => 'large-image-detect'
+                ),
+                'DataId' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                    'sentAs' => 'dataid'
+                ),
+                'Async' => array(
+                    'type' => 'integer',
+                    'location' => 'query',
+                    'sentAs' => 'async'
+                ),
+                'Callback' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                    'sentAs' => 'callback'
+                ),
+            ),
+        );
+    }
+
+    public static function DetectImageUrl() {
+        return array(
+            'httpMethod' => 'GET',
+            'uri' => '/{Bucket}?ci-process=sensitive-content-recognition',
+            'class' => 'Qcloud\\Cos\\Command',
+            'responseClass' => 'DetectImageOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Bucket' => array(
                     'required' => true,
                     'type' => 'string',
-                    'location' => 'query'
+                    'location' => 'uri',
                 ),
                 'DetectType' => array(
                     'type' => 'string',
@@ -12866,6 +12940,28 @@ class Descriptions {
                 'eyeEnlarging' => array( 'type' => 'integer', 'location' => 'query', ),
                 'gender' => array( 'type' => 'integer', 'location' => 'query', ),
                 'age' => array( 'type' => 'integer', 'location' => 'query', ),
+                'detectUrl' => array('type' => 'string', 'location' => 'query', 'sentAs' => 'detect-url'),
+            ),
+        );
+    }
+
+    public static function ImageUrlFaceEffect() {
+        return array(
+            'httpMethod' => 'GET',
+            'uri' => '/{Bucket}?ci-process=face-effect',
+            'class' => 'Qcloud\\Cos\\Command',
+            'responseClass' => 'ImageFaceEffectOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Bucket' => array( 'required' => true, 'type' => 'string', 'location' => 'uri', ),
+                'type' => array( 'type' => 'string', 'location' => 'query', ),
+                'whitening' => array( 'type' => 'integer', 'location' => 'query', ),
+                'smoothing' => array( 'type' => 'integer', 'location' => 'query', ),
+                'faceLifting' => array( 'type' => 'integer', 'location' => 'query', ),
+                'eyeEnlarging' => array( 'type' => 'integer', 'location' => 'query', ),
+                'gender' => array( 'type' => 'integer', 'location' => 'query', ),
+                'age' => array( 'type' => 'integer', 'location' => 'query', ),
+                'detectUrl' => array('type' => 'string', 'location' => 'query', 'sentAs' => 'detect-url'),
             ),
         );
     }
@@ -13847,6 +13943,8 @@ class Descriptions {
                             'properties' => array(
                                 'Prefix' => array( 'type' => 'string', 'location' => 'xml', ),
                                 'PrefixReplaced' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'UnCompressKey' => array( 'type' => 'string', 'location' => 'xml', ),
+                                'ListingFile' => array( 'type' => 'boolean', 'location' => 'xml', 'format' => 'boolean-string',),
                             ),
                         ),
                         'Output' => array(
@@ -14003,6 +14101,7 @@ class Descriptions {
                         'JobId' => array( 'type' => 'string', 'location' => 'xml', ),
                         'Tag' => array( 'type' => 'string', 'location' => 'xml', ),
                         'State' => array( 'type' => 'string', 'location' => 'xml', ),
+                        'Progress' => array( 'type' => 'integer', 'location' => 'xml', ),
                         'CreationTime' => array( 'type' => 'string', 'location' => 'xml', ),
                         'StartTime' => array( 'type' => 'string', 'location' => 'xml', ),
                         'EndTime' => array( 'type' => 'string', 'location' => 'xml', ),
@@ -14027,6 +14126,7 @@ class Descriptions {
                                     'properties' => array(
                                         'Region' => array( 'type' => 'string', 'location' => 'xml', ),
                                         'Bucket' => array( 'type' => 'string', 'location' => 'xml', ),
+                                        'Object' => array( 'type' => 'string', 'location' => 'xml', ),
                                     ),
                                 ),
                                 'FileUncompressConfig' => array(
@@ -14035,6 +14135,8 @@ class Descriptions {
                                     'properties' => array(
                                         'Prefix' => array( 'type' => 'string', 'location' => 'xml', ),
                                         'PrefixReplaced' => array( 'type' => 'string', 'location' => 'xml', ),
+                                        'UnCompressKey' => array( 'type' => 'string', 'location' => 'xml', ),
+                                        'ListingFile' => array( 'type' => 'boolean', 'location' => 'xml', ),
                                     ),
                                 ),
                                 'FileUncompressResult' => array(
@@ -14044,6 +14146,26 @@ class Descriptions {
                                         'Region' => array( 'type' => 'string', 'location' => 'xml', ),
                                         'Bucket' => array( 'type' => 'string', 'location' => 'xml', ),
                                         'FileCount' => array( 'type' => 'string', 'location' => 'xml', ),
+                                        'FileList' => array(
+                                            'type' => 'object',
+                                            'location' => 'xml',
+                                            'properties' => array(
+                                                'IsTruncated' => array( 'type' => 'boolean', 'location' => 'xml', ),
+                                                'Contents' => array(
+                                                    'type' => 'array',
+                                                    'location' => 'xml',
+                                                    'items' => array(
+                                                        'type' => 'object',
+                                                        'location' => 'xml',
+                                                        'properties' => array(
+                                                            'Key' => array( 'type' => 'string', 'location' => 'xml', ),
+                                                            'LastModified' => array( 'type' => 'string', 'location' => 'xml', ),
+                                                            'FileSize' => array( 'type' => 'integer', 'location' => 'xml', ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
                                     ),
                                 ),
                             ),
@@ -19205,6 +19327,11 @@ class Descriptions {
                 'DatasetName' => array( 'location' => 'json', 'type' => 'string', ),
                 'Description' => array( 'location' => 'json', 'type' => 'string', ),
                 'TemplateId' => array( 'location' => 'json', 'type' => 'string', ),
+                'Version' => array( 'location' => 'json', 'type' => 'string', ),
+                'Volume' => array( 'location' => 'json', 'type' => 'integer', ),
+                'TrainingMode' => array( 'location' => 'json', 'type' => 'integer', ),
+                'TrainingDataset' => array( 'location' => 'json', 'type' => 'string', ),
+                'TrainingURI' => array( 'location' => 'json', 'type' => 'string', ),
             ),
 
         );
@@ -20278,7 +20405,7 @@ class Descriptions {
     public static function ZipFilePreview() {
         return array(
             'httpMethod' => 'GET',
-            'uri' => '/{Bucket}{/Key*}?ci-process=',
+            'uri' => '/{Bucket}{/Key*}?ci-process=zippreview',
             'class' => 'Qcloud\\Cos\\Command',
             'responseClass' => 'ZipFilePreviewOutput',
             'responseType' => 'model',

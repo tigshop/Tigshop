@@ -97,6 +97,13 @@ class VodPlayInfoModel extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>.Volcengine.Vod.Models.Business.BarrageMaskInfo BarrageMaskInfo = 14;</code>
      */
     protected $BarrageMaskInfo = null;
+    /**
+     *不下发abr流时，为null。json里没有这个key
+     *下发abr流时，用于填充主文件信息。
+     *
+     * Generated from protobuf field <code>.Volcengine.Vod.Models.Business.AdaptiveBitrateStreamingInfo AdaptiveBitrateStreamingInfo = 15;</code>
+     */
+    protected $AdaptiveBitrateStreamingInfo = null;
 
     /**
      * Constructor.
@@ -132,6 +139,9 @@ class VodPlayInfoModel extends \Google\Protobuf\Internal\Message
      *           字幕信息列表
      *     @type \Volc\Service\Vod\Models\Business\BarrageMaskInfo $BarrageMaskInfo
      *          蒙板弹幕
+     *     @type \Volc\Service\Vod\Models\Business\AdaptiveBitrateStreamingInfo $AdaptiveBitrateStreamingInfo
+     *          不下发abr流时，为null。json里没有这个key
+     *          下发abr流时，用于填充主文件信息。
      * }
      */
     public function __construct($data = NULL) {
@@ -519,6 +529,44 @@ class VodPlayInfoModel extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkMessage($var, \Volc\Service\Vod\Models\Business\BarrageMaskInfo::class);
         $this->BarrageMaskInfo = $var;
+
+        return $this;
+    }
+
+    /**
+     *不下发abr流时，为null。json里没有这个key
+     *下发abr流时，用于填充主文件信息。
+     *
+     * Generated from protobuf field <code>.Volcengine.Vod.Models.Business.AdaptiveBitrateStreamingInfo AdaptiveBitrateStreamingInfo = 15;</code>
+     * @return \Volc\Service\Vod\Models\Business\AdaptiveBitrateStreamingInfo|null
+     */
+    public function getAdaptiveBitrateStreamingInfo()
+    {
+        return $this->AdaptiveBitrateStreamingInfo;
+    }
+
+    public function hasAdaptiveBitrateStreamingInfo()
+    {
+        return isset($this->AdaptiveBitrateStreamingInfo);
+    }
+
+    public function clearAdaptiveBitrateStreamingInfo()
+    {
+        unset($this->AdaptiveBitrateStreamingInfo);
+    }
+
+    /**
+     *不下发abr流时，为null。json里没有这个key
+     *下发abr流时，用于填充主文件信息。
+     *
+     * Generated from protobuf field <code>.Volcengine.Vod.Models.Business.AdaptiveBitrateStreamingInfo AdaptiveBitrateStreamingInfo = 15;</code>
+     * @param \Volc\Service\Vod\Models\Business\AdaptiveBitrateStreamingInfo $var
+     * @return $this
+     */
+    public function setAdaptiveBitrateStreamingInfo($var)
+    {
+        GPBUtil::checkMessage($var, \Volc\Service\Vod\Models\Business\AdaptiveBitrateStreamingInfo::class);
+        $this->AdaptiveBitrateStreamingInfo = $var;
 
         return $this;
     }

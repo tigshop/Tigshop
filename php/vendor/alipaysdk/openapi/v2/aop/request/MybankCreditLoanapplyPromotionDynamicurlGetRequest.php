@@ -3,7 +3,7 @@
  * ALIPAY API: mybank.credit.loanapply.promotion.dynamicurl.get request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 19:39:07
+ * @since 1.0, 2024-11-05 13:44:02
  */
 class MybankCreditLoanapplyPromotionDynamicurlGetRequest
 {

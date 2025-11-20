@@ -36,6 +36,6 @@ interface UpdateMetadataInterface
     public function updateMetadata(
         $metadata,
         $authUri = null,
-        callable $httpHandler = null
+        ?callable $httpHandler = null
     );
 }

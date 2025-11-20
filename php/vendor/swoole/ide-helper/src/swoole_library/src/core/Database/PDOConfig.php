@@ -15,32 +15,23 @@ class PDOConfig
 {
     public const DRIVER_MYSQL = 'mysql';
 
-    /** @var string */
-    protected $driver = self::DRIVER_MYSQL;
+    protected string $driver = self::DRIVER_MYSQL;
 
-    /** @var string */
-    protected $host = '127.0.0.1';
+    protected string $host = '127.0.0.1';
 
-    /** @var int */
-    protected $port = 3306;
+    protected int $port = 3306;
 
-    /** @var null|string */
-    protected $unixSocket;
+    protected ?string $unixSocket;
 
-    /** @var string */
-    protected $dbname = 'test';
+    protected string $dbname = 'test';
 
-    /** @var string */
-    protected $charset = 'utf8mb4';
+    protected string $charset = 'utf8mb4';
 
-    /** @var string */
-    protected $username = 'root';
+    protected string $username = 'root';
 
-    /** @var string */
-    protected $password = 'root';
+    protected string $password = 'root';
 
-    /** @var array */
-    protected $options = [];
+    protected array $options = [];
 
     public function getDriver(): string
     {
@@ -58,7 +49,7 @@ class PDOConfig
         return $this->host;
     }
 
-    public function withHost($host): self
+    public function withHost(string $host): self
     {
         $this->host = $host;
         return $this;
@@ -71,12 +62,12 @@ class PDOConfig
 
     public function hasUnixSocket(): bool
     {
-        return isset($this->unixSocket);
+        return !empty($this->unixSocket);
     }
 
-    public function getUnixSocket(): string
+    public function getUnixSocket(): ?string
     {
-        return $this->unixSocket;
+        return $this->unixSocket ?? null;
     }
 
     public function withUnixSocket(?string $unixSocket): self
@@ -151,7 +142,7 @@ class PDOConfig
      *
      * @return string[]
      */
-    public static function getAvailableDrivers()
+    public static function getAvailableDrivers(): array
     {
         return [
             self::DRIVER_MYSQL,

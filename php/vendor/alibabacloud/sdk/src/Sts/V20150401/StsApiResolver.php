@@ -27,11 +27,16 @@ class Rpc extends \AlibabaCloud\Client\Resolver\Rpc
 
     /** @var string */
     protected $scheme = 'https';
+
+    /** @var string */
+    public $serviceCode = 'sts';
 }
 
 /**
  * @method string getExternalId()
  * @method $this withExternalId($value)
+ * @method string getSourceIdentity()
+ * @method $this withSourceIdentity($value)
  * @method string getRoleSessionName()
  * @method $this withRoleSessionName($value)
  * @method string getPolicy()

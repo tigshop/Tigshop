@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.database.slowsql.query request
  *
  * @author auto create
- * @since 1.0, 2024-05-28 11:37:04
+ * @since 1.0, 2025-08-04 11:09:50
  */
 class AlipayCloudCloudbaseDatabaseSlowsqlQueryRequest
 {

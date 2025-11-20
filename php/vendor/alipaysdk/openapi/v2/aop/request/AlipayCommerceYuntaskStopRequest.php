@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.yuntask.stop request
  *
  * @author auto create
- * @since 1.0, 2023-09-04 02:26:47
+ * @since 1.0, 2024-12-17 17:26:12
  */
 class AlipayCommerceYuntaskStopRequest
 {

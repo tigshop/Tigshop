@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace Swoole\NameResolver;
 
 use Swoole\NameResolver;
+
 use function Swoole\Coroutine\Http\get;
 use function Swoole\Coroutine\Http\request;
 
@@ -27,20 +28,20 @@ class Consul extends NameResolver
     public function join(string $name, string $ip, int $port, array $options = []): bool
     {
         $weight = $options['weight'] ?? 100;
-        $data = [
-            'ID' => $this->getServiceId($name, $ip, $port),
-            'Name' => $this->prefix . $name,
-            'Address' => $ip,
-            'Port' => $port,
+        $data   = [
+            'ID'                => $this->getServiceId($name, $ip, $port),
+            'Name'              => $this->prefix . $name,
+            'Address'           => $ip,
+            'Port'              => $port,
             'EnableTagOverride' => false,
-            'Weights' => [
+            'Weights'           => [
                 'Passing' => $weight,
                 'Warning' => 1,
             ],
         ];
         $url = $this->baseUrl . '/v1/agent/service/register';
-        $r = request($url, 'PUT', json_encode($data));
-        return $this->checkResponse($r, $url);
+        $r   = request($url, 'PUT', json_encode($data, JSON_THROW_ON_ERROR));
+        return $this->checkResponse($r);
     }
 
     public function leave(string $name, string $ip, int $port): bool
@@ -51,7 +52,7 @@ class Consul extends NameResolver
             $port
         );
         $r = request($url, 'PUT');
-        return $this->checkResponse($r, $url);
+        return $this->checkResponse($r);
     }
 
     public function enableMaintenanceMode(string $name, string $ip, int $port): bool
@@ -62,17 +63,17 @@ class Consul extends NameResolver
             $port
         );
         $r = request($url, 'PUT');
-        return $this->checkResponse($r, $url);
+        return $this->checkResponse($r);
     }
 
     public function getCluster(string $name): ?Cluster
     {
         $url = $this->baseUrl . '/v1/catalog/service/' . $this->prefix . $name;
-        $r = get($url);
-        if (!$this->checkResponse($r, $url)) {
+        $r   = get($url);
+        if (!$this->checkResponse($r)) {
             return null;
         }
-        $list = json_decode($r->getBody());
+        $list = json_decode($r->getBody(), null, 512, JSON_THROW_ON_ERROR);
         if (empty($list)) {
             return null;
         }

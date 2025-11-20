@@ -3,7 +3,7 @@
  * ALIPAY API: antfortune.stock.linkfund.query request
  *
  * @author auto create
- * @since 1.0, 2023-08-21 01:12:06
+ * @since 1.0, 2025-08-18 15:02:36
  */
 class AntfortuneStockLinkfundQueryRequest
 {

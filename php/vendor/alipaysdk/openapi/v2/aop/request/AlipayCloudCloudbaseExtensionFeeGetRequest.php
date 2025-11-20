@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.extension.fee.get request
  *
  * @author auto create
- * @since 1.0, 2023-10-16 13:51:45
+ * @since 1.0, 2024-11-22 14:41:44
  */
 class AlipayCloudCloudbaseExtensionFeeGetRequest
 {

@@ -1,0 +1,1 @@
+{"endpoint_map":{},"endpoint_regional":"regional","standard":{"cn-wulanchabu":"gwlb.cn-wulanchabu.aliyuncs.com","cn-hangzhou":"gwlb.cn-hangzhou.aliyuncs.com","eu-central-1":"gwlb.eu-central-1.aliyuncs.com"},"regions":["cn-wulanchabu","cn-hangzhou","eu-central-1"],"endpoint_health":{"eu-central-1":"DomainNotFound"}}

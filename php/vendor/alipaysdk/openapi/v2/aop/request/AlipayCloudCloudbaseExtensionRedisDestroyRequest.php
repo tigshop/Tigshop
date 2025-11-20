@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.extension.redis.destroy request
  *
  * @author auto create
- * @since 1.0, 2023-10-17 19:01:45
+ * @since 1.0, 2024-11-22 14:41:43
  */
 class AlipayCloudCloudbaseExtensionRedisDestroyRequest
 {

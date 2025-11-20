@@ -3,7 +3,7 @@
  * ALIPAY API: anttech.oceanbase.passport.create request
  *
  * @author auto create
- * @since 1.0, 2024-04-17 13:52:00
+ * @since 1.0, 2024-12-20 15:12:22
  */
 class AnttechOceanbasePassportCreateRequest
 {

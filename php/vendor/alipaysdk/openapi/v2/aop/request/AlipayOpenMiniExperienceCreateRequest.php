@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.mini.experience.create request
  *
  * @author auto create
- * @since 1.0, 2024-09-14 11:17:43
+ * @since 1.0, 2025-05-22 10:07:06
  */
 class AlipayOpenMiniExperienceCreateRequest
 {

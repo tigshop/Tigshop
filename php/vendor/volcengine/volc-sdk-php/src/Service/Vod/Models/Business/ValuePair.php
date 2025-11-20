@@ -25,6 +25,12 @@ class ValuePair extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string SourceUrl = 2;</code>
      */
     protected $SourceUrl = '';
+    /**
+     * 图集url 
+     *
+     * Generated from protobuf field <code>repeated string ImageUrls = 3;</code>
+     */
+    private $ImageUrls;
 
     /**
      * Constructor.
@@ -36,6 +42,8 @@ class ValuePair extends \Google\Protobuf\Internal\Message
      *           Url对应的JobId 
      *     @type string $SourceUrl
      *           用户上传的Url 
+     *     @type string[]|\Google\Protobuf\Internal\RepeatedField $ImageUrls
+     *           图集url 
      * }
      */
     public function __construct($data = NULL) {
@@ -91,6 +99,32 @@ class ValuePair extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->SourceUrl = $var;
+
+        return $this;
+    }
+
+    /**
+     * 图集url 
+     *
+     * Generated from protobuf field <code>repeated string ImageUrls = 3;</code>
+     * @return \Google\Protobuf\Internal\RepeatedField
+     */
+    public function getImageUrls()
+    {
+        return $this->ImageUrls;
+    }
+
+    /**
+     * 图集url 
+     *
+     * Generated from protobuf field <code>repeated string ImageUrls = 3;</code>
+     * @param string[]|\Google\Protobuf\Internal\RepeatedField $var
+     * @return $this
+     */
+    public function setImageUrls($var)
+    {
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::STRING);
+        $this->ImageUrls = $arr;
 
         return $this;
     }

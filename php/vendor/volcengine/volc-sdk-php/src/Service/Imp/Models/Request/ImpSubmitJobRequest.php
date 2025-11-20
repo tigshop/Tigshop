@@ -43,6 +43,28 @@ class ImpSubmitJobRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.Params Params = 5;</code>
      */
     protected $Params = null;
+    /**
+     * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.OutputPath OutputPath = 6;</code>
+     */
+    protected $OutputPath = null;
+    /**
+     * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.Job Job = 7;</code>
+     */
+    protected $Job = null;
+    /**
+     * Generated from protobuf field <code>optional string CallbackUri = 8;</code>
+     */
+    protected $CallbackUri = null;
+    /**
+     * Generated from protobuf field <code>optional string CallbackContentType = 9;</code>
+     */
+    protected $CallbackContentType = null;
+    /**
+     * 多输入
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Imp.Models.Business.Input MultiInputs = 10;</code>
+     */
+    private $MultiInputs;
 
     /**
      * Constructor.
@@ -60,6 +82,12 @@ class ImpSubmitJobRequest extends \Google\Protobuf\Internal\Message
      *           是否开启闲时任务, "true"/"false"
      *     @type \Volc\Service\Imp\Models\Business\Params $Params
      *           任务执行参数
+     *     @type \Volc\Service\Imp\Models\Business\OutputPath $OutputPath
+     *     @type \Volc\Service\Imp\Models\Business\Job $Job
+     *     @type string $CallbackUri
+     *     @type string $CallbackContentType
+     *     @type \Volc\Service\Imp\Models\Business\Input[]|\Google\Protobuf\Internal\RepeatedField $MultiInputs
+     *           多输入
      * }
      */
     public function __construct($data = NULL) {
@@ -71,11 +99,21 @@ class ImpSubmitJobRequest extends \Google\Protobuf\Internal\Message
      * 输入文件info
      *
      * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.InputPath InputPath = 1;</code>
-     * @return \Volc\Service\Imp\Models\Business\InputPath
+     * @return \Volc\Service\Imp\Models\Business\InputPath|null
      */
     public function getInputPath()
     {
         return $this->InputPath;
+    }
+
+    public function hasInputPath()
+    {
+        return isset($this->InputPath);
+    }
+
+    public function clearInputPath()
+    {
+        unset($this->InputPath);
     }
 
     /**
@@ -175,11 +213,21 @@ class ImpSubmitJobRequest extends \Google\Protobuf\Internal\Message
      * 任务执行参数
      *
      * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.Params Params = 5;</code>
-     * @return \Volc\Service\Imp\Models\Business\Params
+     * @return \Volc\Service\Imp\Models\Business\Params|null
      */
     public function getParams()
     {
         return $this->Params;
+    }
+
+    public function hasParams()
+    {
+        return isset($this->Params);
+    }
+
+    public function clearParams()
+    {
+        unset($this->Params);
     }
 
     /**
@@ -193,6 +241,160 @@ class ImpSubmitJobRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkMessage($var, \Volc\Service\Imp\Models\Business\Params::class);
         $this->Params = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.OutputPath OutputPath = 6;</code>
+     * @return \Volc\Service\Imp\Models\Business\OutputPath|null
+     */
+    public function getOutputPath()
+    {
+        return $this->OutputPath;
+    }
+
+    public function hasOutputPath()
+    {
+        return isset($this->OutputPath);
+    }
+
+    public function clearOutputPath()
+    {
+        unset($this->OutputPath);
+    }
+
+    /**
+     * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.OutputPath OutputPath = 6;</code>
+     * @param \Volc\Service\Imp\Models\Business\OutputPath $var
+     * @return $this
+     */
+    public function setOutputPath($var)
+    {
+        GPBUtil::checkMessage($var, \Volc\Service\Imp\Models\Business\OutputPath::class);
+        $this->OutputPath = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.Job Job = 7;</code>
+     * @return \Volc\Service\Imp\Models\Business\Job|null
+     */
+    public function getJob()
+    {
+        return $this->Job;
+    }
+
+    public function hasJob()
+    {
+        return isset($this->Job);
+    }
+
+    public function clearJob()
+    {
+        unset($this->Job);
+    }
+
+    /**
+     * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.Job Job = 7;</code>
+     * @param \Volc\Service\Imp\Models\Business\Job $var
+     * @return $this
+     */
+    public function setJob($var)
+    {
+        GPBUtil::checkMessage($var, \Volc\Service\Imp\Models\Business\Job::class);
+        $this->Job = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>optional string CallbackUri = 8;</code>
+     * @return string
+     */
+    public function getCallbackUri()
+    {
+        return isset($this->CallbackUri) ? $this->CallbackUri : '';
+    }
+
+    public function hasCallbackUri()
+    {
+        return isset($this->CallbackUri);
+    }
+
+    public function clearCallbackUri()
+    {
+        unset($this->CallbackUri);
+    }
+
+    /**
+     * Generated from protobuf field <code>optional string CallbackUri = 8;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setCallbackUri($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->CallbackUri = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>optional string CallbackContentType = 9;</code>
+     * @return string
+     */
+    public function getCallbackContentType()
+    {
+        return isset($this->CallbackContentType) ? $this->CallbackContentType : '';
+    }
+
+    public function hasCallbackContentType()
+    {
+        return isset($this->CallbackContentType);
+    }
+
+    public function clearCallbackContentType()
+    {
+        unset($this->CallbackContentType);
+    }
+
+    /**
+     * Generated from protobuf field <code>optional string CallbackContentType = 9;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setCallbackContentType($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->CallbackContentType = $var;
+
+        return $this;
+    }
+
+    /**
+     * 多输入
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Imp.Models.Business.Input MultiInputs = 10;</code>
+     * @return \Google\Protobuf\Internal\RepeatedField
+     */
+    public function getMultiInputs()
+    {
+        return $this->MultiInputs;
+    }
+
+    /**
+     * 多输入
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Imp.Models.Business.Input MultiInputs = 10;</code>
+     * @param \Volc\Service\Imp\Models\Business\Input[]|\Google\Protobuf\Internal\RepeatedField $var
+     * @return $this
+     */
+    public function setMultiInputs($var)
+    {
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Volc\Service\Imp\Models\Business\Input::class);
+        $this->MultiInputs = $arr;
 
         return $this;
     }

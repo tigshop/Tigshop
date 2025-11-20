@@ -105,6 +105,16 @@ trait ResultOperation
         if (!empty($this->options['with_attr'])) {
             $this->getResultAttr($result, $this->options['with_attr']);
         }
+
+        // 检查字段映射
+        if (!empty($this->options['mapping'])) {
+            foreach ($this->options['mapping'] as $name => $alias) {
+                if (isset($result[$name])) {
+                    $result[$alias] = $result[$name];
+                    unset($result[$name]);
+                }
+            }
+        }        
     }
 
     /**

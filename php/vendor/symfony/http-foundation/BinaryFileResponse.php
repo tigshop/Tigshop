@@ -34,18 +34,18 @@ class BinaryFileResponse extends Response
     protected $offset = 0;
     protected $maxlen = -1;
     protected $deleteFileAfterSend = false;
-    protected $chunkSize = 16 * 1024;
+    protected $chunkSize = 8 * 1024;
 
     /**
      * @param \SplFileInfo|string $file               The file to stream
-     * @param int                 $status             The response status code (200 "OK" by default)
+     * @param int                 $status             The response status code
      * @param array               $headers            An array of response headers
      * @param bool                $public             Files are public by default
      * @param string|null         $contentDisposition The type of Content-Disposition to set automatically with the filename
      * @param bool                $autoEtag           Whether the ETag header should be automatically set
      * @param bool                $autoLastModified   Whether the Last-Modified header should be automatically set
      */
-    public function __construct(\SplFileInfo|string $file, int $status = 200, array $headers = [], bool $public = true, ?string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true)
+    public function __construct(\SplFileInfo|string $file, int $status = 200, array $headers = [], bool $public = true, string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true)
     {
         parent::__construct(null, $status, $headers);
 
@@ -63,7 +63,7 @@ class BinaryFileResponse extends Response
      *
      * @throws FileException
      */
-    public function setFile(\SplFileInfo|string $file, ?string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true): static
+    public function setFile(\SplFileInfo|string $file, string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true): static
     {
         if (!$file instanceof File) {
             if ($file instanceof \SplFileInfo) {
@@ -125,7 +125,7 @@ class BinaryFileResponse extends Response
      */
     public function setAutoLastModified(): static
     {
-        $this->setLastModified(\DateTimeImmutable::createFromFormat('U', $this->file->getMTime()));
+        $this->setLastModified(\DateTime::createFromFormat('U', $this->file->getMTime()));
 
         return $this;
     }
@@ -177,6 +177,9 @@ class BinaryFileResponse extends Response
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function prepare(Request $request): static
     {
         if ($this->isInformational() || $this->isEmpty()) {
@@ -240,7 +243,7 @@ class BinaryFileResponse extends Response
                 $range = $request->headers->get('Range');
 
                 if (str_starts_with($range, 'bytes=')) {
-                    [$start, $end] = explode('-', substr($range, 6), 2) + [1 => 0];
+                    [$start, $end] = explode('-', substr($range, 6), 2) + [0];
 
                     $end = ('' === $end) ? $fileSize - 1 : (int) $end;
 
@@ -289,11 +292,14 @@ class BinaryFileResponse extends Response
         return $lastModified->format('D, d M Y H:i:s').' GMT' === $header;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function sendContent(): static
     {
         try {
             if (!$this->isSuccessful()) {
-                return $this;
+                return parent::sendContent();
             }
 
             if (0 === $this->maxlen) {
@@ -311,20 +317,13 @@ class BinaryFileResponse extends Response
 
             $length = $this->maxlen;
             while ($length && !feof($file)) {
-                $read = $length > $this->chunkSize || 0 > $length ? $this->chunkSize : $length;
+                $read = ($length > $this->chunkSize) ? $this->chunkSize : $length;
+                $length -= $read;
 
-                if (false === $data = fread($file, $read)) {
+                stream_copy_to_stream($file, $out, $read);
+
+                if (connection_aborted()) {
                     break;
-                }
-                while ('' !== $data) {
-                    $read = fwrite($out, $data);
-                    if (false === $read || connection_aborted()) {
-                        break 2;
-                    }
-                    if (0 < $length) {
-                        $length -= $read;
-                    }
-                    $data = substr($data, $read);
                 }
             }
 
@@ -340,6 +339,8 @@ class BinaryFileResponse extends Response
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @throws \LogicException when the content is not null
      */
     public function setContent(?string $content): static
@@ -351,6 +352,9 @@ class BinaryFileResponse extends Response
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getContent(): string|false
     {
         return false;
@@ -358,8 +362,6 @@ class BinaryFileResponse extends Response
 
     /**
      * Trust X-Sendfile-Type header.
-     *
-     * @return void
      */
     public static function trustXSendfileTypeHeader()
     {

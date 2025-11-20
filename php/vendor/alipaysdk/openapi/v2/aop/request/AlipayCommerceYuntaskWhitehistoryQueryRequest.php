@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.yuntask.whitehistory.query request
  *
  * @author auto create
- * @since 1.0, 2024-08-08 16:34:45
+ * @since 1.0, 2025-08-07 12:52:37
  */
 class AlipayCommerceYuntaskWhitehistoryQueryRequest
 {

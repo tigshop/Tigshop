@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.redis.instance.get request
  *
  * @author auto create
- * @since 1.0, 2023-10-16 13:51:45
+ * @since 1.0, 2025-06-13 14:17:28
  */
 class AlipayCloudCloudbaseRedisInstanceGetRequest
 {

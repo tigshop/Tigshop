@@ -11,3 +11,5 @@ updates:
     groups:
       github-actions:
         applies-to: version-updates
+        patterns:
+          - "*"

@@ -547,4 +547,14 @@ class RequestTestShrinkQuery extends Model
 
         return $res;
     }
+
+    public function testGetHostName()
+    {
+        $hostname = Utils::getHostName();
+        $this->assertNotNull($hostname);
+        // hostname should not be empty in most cases
+        if ($hostname !== '') {
+            $this->assertTrue(strlen($hostname) > 0);
+        }
+    }
 }

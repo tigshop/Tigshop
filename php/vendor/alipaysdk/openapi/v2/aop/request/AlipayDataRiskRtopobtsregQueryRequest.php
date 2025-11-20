@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.risk.rtopobtsreg.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:31:50
+ * @since 1.0, 2025-08-13 16:22:42
  */
 class AlipayDataRiskRtopobtsregQueryRequest
 {

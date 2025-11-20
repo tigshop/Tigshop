@@ -39,8 +39,10 @@ class GetValues extends Params
      * Constructs a request
      *
      * @param array $keys List of keys to receive
+     *
+     * @phpstan-param list<string> $keys
      */
-    public function __construct(array $keys = [])
+    public function __construct(array $keys)
     {
         parent::__construct(array_fill_keys($keys, ''));
         $this->type = FastCGI::GET_VALUES;

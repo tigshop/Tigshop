@@ -133,6 +133,11 @@ class Common
         return OssClient::OSS_SIGNATURE_VERSION_V1;
     }
 
+    public static function getPathStyleBucket()
+    {
+        return getenv('OSS_TEST_PATHSTYLE_BUCKET');
+    }
+
     /**
      * Tool method, create a bucket
      */

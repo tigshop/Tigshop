@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Swoole\Server;
 
+/**
+ * @not-serializable Objects of this class cannot be serialized.
+ */
 class Port
 {
-    public $host;
+    public string $host;
 
     public $port = 0;
 
@@ -14,67 +17,94 @@ class Port
 
     public $sock = -1;
 
+    public $ssl = false;
+
     public $setting;
 
-    public $connections;
+    public Iterator $connections;
 
+    /**
+     * @var callable
+     */
     private $onConnect;
 
+    /**
+     * @var callable
+     */
     private $onReceive;
 
+    /**
+     * @var callable
+     */
     private $onClose;
 
+    /**
+     * @var callable
+     */
     private $onPacket;
 
+    /**
+     * @var callable
+     */
     private $onBufferFull;
 
+    /**
+     * @var callable
+     */
     private $onBufferEmpty;
 
+    /**
+     * @var callable
+     */
     private $onRequest;
 
+    /**
+     * @var callable
+     */
     private $onHandshake;
 
+    /**
+     * @var callable
+     */
     private $onOpen;
 
+    /**
+     * @var callable
+     */
     private $onMessage;
 
+    /**
+     * @var callable
+     * @since 4.7.0
+     */
     private $onDisconnect;
 
-    private function __construct()
+    /**
+     * @var callable
+     * @since 5.0.3
+     */
+    private $onBeforeHandshakeResponse;
+
+    public function set(array $settings): void
     {
     }
 
-    public function __destruct()
+    public function on(string $event_name, callable $callback): bool
+    {
+    }
+
+    public function getCallback(string $event_name): ?callable
     {
     }
 
     /**
-     * @return mixed
+     * Get the socket handle bound to the port.
+     *
+     * This method is available only when Swoole is installed with option "--enable-sockets" included.
+     *
+     * @return \Socket|false Returns a Socket object on success; otherwise FALSE.
      */
-    public function set(array $settings)
-    {
-    }
-
-    /**
-     * @param mixed $event_name
-     * @return mixed
-     */
-    public function on($event_name, callable $callback)
-    {
-    }
-
-    /**
-     * @param mixed $event_name
-     * @return mixed
-     */
-    public function getCallback($event_name)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSocket()
+    public function getSocket(): \Socket|false
     {
     }
 }

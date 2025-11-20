@@ -85,6 +85,10 @@ class VodGetMediaListRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string VodUploadSources = 12;</code>
      */
     protected $VodUploadSources = '';
+    /**
+     * Generated from protobuf field <code>string Title = 13;</code>
+     */
+    protected $Title = '';
 
     /**
      * Constructor.
@@ -116,6 +120,7 @@ class VodGetMediaListRequest extends \Google\Protobuf\Internal\Message
      *           tos存储类型(Standard, Archive)，多个用","隔开
      *     @type string $VodUploadSources
      *           音视频上传来源，多个用","隔开
+     *     @type string $Title
      * }
      */
     public function __construct($data = NULL) {
@@ -431,6 +436,28 @@ class VodGetMediaListRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->VodUploadSources = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>string Title = 13;</code>
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->Title;
+    }
+
+    /**
+     * Generated from protobuf field <code>string Title = 13;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setTitle($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->Title = $var;
 
         return $this;
     }

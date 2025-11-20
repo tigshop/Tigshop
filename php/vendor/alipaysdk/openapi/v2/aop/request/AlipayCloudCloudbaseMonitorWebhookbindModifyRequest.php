@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.monitor.webhookbind.modify request
  *
  * @author auto create
- * @since 1.0, 2024-05-08 14:33:45
+ * @since 1.0, 2024-11-22 09:20:14
  */
 class AlipayCloudCloudbaseMonitorWebhookbindModifyRequest
 {

@@ -6,7 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-For a full diff see [`1.6.0...main`][1.6.0...main].
+For a full diff see [`1.9.0...main`][1.9.0...main].
+
+## [`1.9.0`][1.9.0]
+
+For a full diff see [`1.8.0...1.9.0`][1.8.0...1.9.0].
+
+### Added
+
+- Added support for PHP 8.5 ([#1075]), by [@localheinz]
+
+## [`1.8.0`][1.8.0]
+
+For a full diff see [`1.7.0...1.8.0`][1.7.0...1.8.0].
+
+### Changed
+
+- Allowed installation on PHP 8.5 ([#1068]), by [@localheinz]
+
+## [`1.7.0`][1.7.0]
+
+For a full diff see [`1.6.0...1.7.0`][1.6.0...1.7.0].
+
+### Added
+
+- Added support for PHP 8.0 ([#926]), by [@localheinz]
+- Added support for PHP 7.4 ([#929]), by [@localheinz]
+- Added support for PHP 8.4 ([#987]), by [@tacman]
 
 ## [`1.6.0`][1.6.0]
 
@@ -151,6 +177,9 @@ For a full diff see [`0.4.0...0.5.0`][0.4.0...0.5.0].
 [1.4.0]: https://github.com/localheinz/ergebnis/classy/releases/tag/1.4.0
 [1.5.0]: https://github.com/localheinz/ergebnis/classy/releases/tag/1.5.0
 [1.6.0]: https://github.com/localheinz/ergebnis/classy/releases/tag/1.6.0
+[1.7.0]: https://github.com/localheinz/ergebnis/classy/releases/tag/1.7.0
+[1.8.0]: https://github.com/localheinz/ergebnis/classy/releases/tag/1.8.0
+[1.9.0]: https://github.com/localheinz/ergebnis/classy/releases/tag/1.9.0
 
 [0.4.0...0.5.0]: https://github.com/ergebnis/classy/compare/0.4.0...0.5.0
 [0.5.0...0.5.1]: https://github.com/ergebnis/classy/compare/0.5.0...0.5.1
@@ -164,7 +193,10 @@ For a full diff see [`0.4.0...0.5.0`][0.4.0...0.5.0].
 [1.3.0...1.4.0]: https://github.com/ergebnis/classy/compare/1.3.0...1.4.0
 [1.4.0...1.5.0]: https://github.com/ergebnis/classy/compare/1.4.0...1.5.0
 [1.5.0...1.6.0]: https://github.com/ergebnis/classy/compare/1.5.0...1.6.0
-[1.6.0...main]: https://github.com/ergebnis/classy/compare/1.6.0...main
+[1.6.0...1.7.0]: https://github.com/ergebnis/classy/compare/1.6.0...1.7.0
+[1.7.0...1.8.0]: https://github.com/ergebnis/classy/compare/1.7.0...1.8.0
+[1.8.0...1.9.0]: https://github.com/ergebnis/classy/compare/1.8.0...1.9.0
+[1.9.0...main]: https://github.com/ergebnis/classy/compare/1.9.0...main
 
 [#77]: https://github.com/ergebnis/classy/pull/77
 [#88]: https://github.com/ergebnis/classy/pull/88
@@ -180,6 +212,13 @@ For a full diff see [`0.4.0...0.5.0`][0.4.0...0.5.0].
 [#619]: https://github.com/ergebnis/classy/pull/619
 [#702]: https://github.com/ergebnis/classy/pull/702
 [#795]: https://github.com/ergebnis/classy/pull/795
+[#926]: https://github.com/ergebnis/classy/pull/926
+[#929]: https://github.com/ergebnis/classy/pull/929
+[#930]: https://github.com/ergebnis/classy/pull/930
+[#987]: https://github.com/ergebnis/classy/pull/987
+[#1068]: https://github.com/ergebnis/classy/pull/1068
+[#1075]: https://github.com/ergebnis/classy/pull/1075
 
 [@ergebnis]: https://github.com/ergebnis
 [@localheinz]: https://github.com/localheinz
+[@tacman]: https://github.com/tacman

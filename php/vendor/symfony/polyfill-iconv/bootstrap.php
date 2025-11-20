@@ -66,11 +66,7 @@ if (extension_loaded('mbstring')) {
     }
 } else {
     if (!function_exists('iconv_strlen')) {
-        if (extension_loaded('xml')) {
-            function iconv_strlen($string, $encoding = null) { return p\Iconv::strlen1($string, $encoding); }
-        } else {
-            function iconv_strlen($string, $encoding = null) { return p\Iconv::strlen2($string, $encoding); }
-        }
+        function iconv_strlen($string, $encoding = null) { return p\Iconv::iconv_strlen($string, $encoding); }
     }
 
     if (!function_exists('iconv_strpos')) {

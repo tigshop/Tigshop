@@ -115,7 +115,7 @@ class Gateway
 
             /**
              *  constructor.
-             * @param [] $config
+             * @param array $config
              */
             public function __construct($config)
             {

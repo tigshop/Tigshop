@@ -163,6 +163,22 @@ class VodPlayInfo extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string BackupUrlExpire = 25;</code>
      */
     protected $BackupUrlExpire = '';
+    /**
+     *Drm加密类型
+     *- "private_encrypt":表示存量加密方式 不会使用传入的DrmKEK
+     *- "private_encrypt_upgrade":代表私有加密 使用请求参数中的DrmKEK进行加密
+     *需要使用客户端保存的DEK进行解密
+     *- "standard_encrypt":表示标准加密方式 不会使用传入的DrmKEK
+     *
+     * Generated from protobuf field <code>string DrmType = 26;</code>
+     */
+    protected $DrmType = '';
+    /**
+     *播放场景
+     *
+     * Generated from protobuf field <code>string PlayScene = 27;</code>
+     */
+    protected $PlayScene = '';
 
     /**
      * Constructor.
@@ -220,6 +236,14 @@ class VodPlayInfo extends \Google\Protobuf\Internal\Message
      *           MainPlayUrl的过期时间
      *     @type string $BackupUrlExpire
      *           BackupPlayUrl的过期时间
+     *     @type string $DrmType
+     *          Drm加密类型
+     *          - "private_encrypt":表示存量加密方式 不会使用传入的DrmKEK
+     *          - "private_encrypt_upgrade":代表私有加密 使用请求参数中的DrmKEK进行加密
+     *          需要使用客户端保存的DEK进行解密
+     *          - "standard_encrypt":表示标准加密方式 不会使用传入的DrmKEK
+     *     @type string $PlayScene
+     *          播放场景
      * }
      */
     public function __construct($data = NULL) {
@@ -883,6 +907,66 @@ class VodPlayInfo extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->BackupUrlExpire = $var;
+
+        return $this;
+    }
+
+    /**
+     *Drm加密类型
+     *- "private_encrypt":表示存量加密方式 不会使用传入的DrmKEK
+     *- "private_encrypt_upgrade":代表私有加密 使用请求参数中的DrmKEK进行加密
+     *需要使用客户端保存的DEK进行解密
+     *- "standard_encrypt":表示标准加密方式 不会使用传入的DrmKEK
+     *
+     * Generated from protobuf field <code>string DrmType = 26;</code>
+     * @return string
+     */
+    public function getDrmType()
+    {
+        return $this->DrmType;
+    }
+
+    /**
+     *Drm加密类型
+     *- "private_encrypt":表示存量加密方式 不会使用传入的DrmKEK
+     *- "private_encrypt_upgrade":代表私有加密 使用请求参数中的DrmKEK进行加密
+     *需要使用客户端保存的DEK进行解密
+     *- "standard_encrypt":表示标准加密方式 不会使用传入的DrmKEK
+     *
+     * Generated from protobuf field <code>string DrmType = 26;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setDrmType($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->DrmType = $var;
+
+        return $this;
+    }
+
+    /**
+     *播放场景
+     *
+     * Generated from protobuf field <code>string PlayScene = 27;</code>
+     * @return string
+     */
+    public function getPlayScene()
+    {
+        return $this->PlayScene;
+    }
+
+    /**
+     *播放场景
+     *
+     * Generated from protobuf field <code>string PlayScene = 27;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setPlayScene($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->PlayScene = $var;
 
         return $this;
     }

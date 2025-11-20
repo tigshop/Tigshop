@@ -3,7 +3,7 @@
  * ALIPAY API: anttech.blockchain.finance.asset.repayment.prove request
  *
  * @author auto create
- * @since 1.0, 2023-08-24 22:12:06
+ * @since 1.0, 2025-08-13 15:37:41
  */
 class AnttechBlockchainFinanceAssetRepaymentProveRequest
 {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.trans.common.query request
  *
  * @author auto create
- * @since 1.0, 2024-10-12 17:02:14
+ * @since 1.0, 2025-03-24 21:37:25
  */
 class AlipayFundTransCommonQueryRequest
 {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.isponetest.computertest.quickcreate request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:41:15
+ * @since 1.0, 2025-09-08 10:13:31
  */
 class AlipayIsponetestComputertestQuickcreateRequest
 {

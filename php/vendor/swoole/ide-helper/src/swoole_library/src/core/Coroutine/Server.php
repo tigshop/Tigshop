@@ -11,12 +11,10 @@ declare(strict_types=1);
 
 namespace Swoole\Coroutine;
 
+use Swoole\Constant;
 use Swoole\Coroutine;
 use Swoole\Coroutine\Server\Connection;
 use Swoole\Exception;
-
-/* compatibility constant */
-define('SWOOLE_COROUTINE_SOCKET_HAVE_SSL_HANDSHAKE', method_exists(Socket::class, 'sslHandshake'));
 
 class Server
 {
@@ -41,7 +39,7 @@ class Server
     /** @var bool */
     protected $running = false;
 
-    /** @var null|callable */
+    /** @var callable|null */
     protected $fn;
 
     /** @var Socket */
@@ -57,7 +55,7 @@ class Server
         if ($_host->contains('::')) {
             $this->type = AF_INET6;
         } elseif ($_host->startsWith('unix:/')) {
-            $host = $_host->substr(5)->__toString();
+            $host       = $_host->substr(5)->__toString();
             $this->type = AF_UNIX;
         } else {
             $this->type = AF_INET;
@@ -74,9 +72,9 @@ class Server
         if (!$socket->listen()) {
             throw new Exception('listen() failed', $socket->errCode);
         }
-        $this->port = $socket->getsockname()['port'] ?? 0;
-        $this->fd = $socket->fd;
-        $this->socket = $socket;
+        $this->port                = $socket->getsockname()['port'] ?? 0;
+        $this->fd                  = $socket->fd;
+        $this->socket              = $socket;
         $this->setting['open_ssl'] = $ssl;
     }
 
@@ -115,7 +113,7 @@ class Server
             $conn = $socket->accept();
             if ($conn) {
                 $conn->setProtocol($this->setting);
-                if (SWOOLE_COROUTINE_SOCKET_HAVE_SSL_HANDSHAKE && $this->setting['open_ssl'] ?? false) {
+                if (!empty($this->setting[Constant::OPTION_OPEN_SSL])) {
                     $fn = static function ($fn, $connection) {
                         /* @var $connection Connection */
                         if (!$connection->exportSocket()->sslHandshake()) {
@@ -125,7 +123,7 @@ class Server
                     };
                     $arguments = [$this->fn, new Connection($conn)];
                 } else {
-                    $fn = $this->fn;
+                    $fn        = $this->fn;
                     $arguments = [new Connection($conn)];
                 }
                 if (Coroutine::create($fn, ...$arguments) < 0) {

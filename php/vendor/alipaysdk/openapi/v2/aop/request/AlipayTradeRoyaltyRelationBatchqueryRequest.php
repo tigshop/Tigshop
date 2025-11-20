@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.trade.royalty.relation.batchquery request
  *
  * @author auto create
- * @since 1.0, 2023-11-07 19:02:26
+ * @since 1.0, 2025-02-25 10:22:25
  */
 class AlipayTradeRoyaltyRelationBatchqueryRequest
 {

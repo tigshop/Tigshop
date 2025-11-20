@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.social.antsports.currentpath.query request
  *
  * @author auto create
- * @since 1.0, 2023-08-21 01:46:45
+ * @since 1.0, 2025-09-17 10:07:03
  */
 class AlipaySocialAntsportsCurrentpathQueryRequest
 {

@@ -25,7 +25,7 @@ class QueryLocation extends AbstractLocation
      *
      * @param string $locationName
      */
-    public function __construct($locationName = 'query', QuerySerializerInterface $querySerializer = null)
+    public function __construct($locationName = 'query', ?QuerySerializerInterface $querySerializer = null)
     {
         parent::__construct($locationName);
 

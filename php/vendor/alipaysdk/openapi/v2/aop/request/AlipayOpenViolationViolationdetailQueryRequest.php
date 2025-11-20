@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.violation.violationdetail.query request
  *
  * @author auto create
- * @since 1.0, 2024-04-23 21:50:59
+ * @since 1.0, 2025-06-04 17:17:03
  */
 class AlipayOpenViolationViolationdetailQueryRequest
 {

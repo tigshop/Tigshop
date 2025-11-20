@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.security.prod.se.applet.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 19:33:19
+ * @since 1.0, 2025-04-29 15:07:39
  */
 class AlipaySecurityProdSeAppletQueryRequest
 {

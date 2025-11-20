@@ -37,8 +37,10 @@ class GetValuesResult extends Params
 {
     /**
      * Constructs a param request
+     *
+     * @phpstan-param array<string, string> $values
      */
-    public function __construct(array $values = [])
+    public function __construct(array $values)
     {
         parent::__construct($values);
         $this->type = FastCGI::GET_VALUES_RESULT;

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.educate.youth.servicemessage.send request
  *
  * @author auto create
- * @since 1.0, 2023-11-03 15:26:49
+ * @since 1.0, 2025-01-02 15:08:35
  */
 class AlipayCommerceEducateYouthServicemessageSendRequest
 {

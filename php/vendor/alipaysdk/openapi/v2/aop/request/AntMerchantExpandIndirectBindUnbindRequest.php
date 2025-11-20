@@ -3,7 +3,7 @@
  * ALIPAY API: ant.merchant.expand.indirect.bind.unbind request
  *
  * @author auto create
- * @since 1.0, 2023-08-21 05:51:25
+ * @since 1.0, 2025-08-18 15:02:37
  */
 class AntMerchantExpandIndirectBindUnbindRequest
 {

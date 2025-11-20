@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.resourceusage.monthly.query request
  *
  * @author auto create
- * @since 1.0, 2024-05-11 11:49:33
+ * @since 1.0, 2024-11-22 14:40:36
  */
 class AlipayCloudCloudbaseResourceusageMonthlyQueryRequest
 {

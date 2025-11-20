@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016, Google Inc.
+ * Copyright 2016 Google LLC
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,21 +30,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Google\GAX\Testing;
+namespace Google\ApiCore\Testing;
 
-use Google\GAX\ApiException;
-use google\rpc\Code;
-use google\rpc\Status;
+use Google\ApiCore\ApiException;
+use Google\Protobuf\Internal\Message;
+use Google\Rpc\Code;
 use Grpc;
+use stdClass;
 
 /**
  * The MockBidiStreamingCall class is used to mock out the \Grpc\BidiStreamingCall class
  * (https://github.com/grpc/grpc/blob/master/src/php/lib/Grpc/BidiStreamingCall.php)
+ *
+ * @internal
  */
-class MockBidiStreamingCall
+class MockBidiStreamingCall extends Grpc\BidiStreamingCall
 {
+    use SerializationTrait;
+
     private $responses;
-    private $deserialize;
     private $status;
     private $writesDone = false;
     private $receivedWrites = [];
@@ -52,25 +56,23 @@ class MockBidiStreamingCall
     /**
      * MockBidiStreamingCall constructor.
      * @param mixed[] $responses A list of response objects.
-     * @param callable|null $deserialize An optional deserialize method for the response object.
-     * @param Status|null $status An optional status object. If set to null, a status of OK is used.
+     * @param mixed|null $deserialize An optional deserialize method for the response object.
+     * @param stdClass|null $status An optional status object. If set to null, a status of OK is used.
      */
-    public function __construct($responses, $deserialize = null, $status = null)
+    public function __construct(array $responses, $deserialize = null, ?stdClass $status = null)
     {
         $this->responses = $responses;
-        if (is_null($deserialize)) {
-            $deserialize = function ($resp) {
-                return $resp;
-            };
-        }
         $this->deserialize = $deserialize;
         if (is_null($status)) {
-            $status = new Status();
-            $status->setCode(Code::OK);
+            $status = new MockStatus(Code::OK);
         }
         $this->status = $status;
     }
 
+    /**
+     * @return mixed|null
+     * @throws ApiException
+     */
     public function read()
     {
         if (count($this->responses) > 0) {
@@ -83,27 +85,38 @@ class MockBidiStreamingCall
                 $this->writesDone();
                 return null;
             }
-            return call_user_func($this->deserialize, $resp);
+            $obj = $this->deserializeMessage($resp, $this->deserialize);
+            return $obj;
         } elseif ($this->writesDone) {
             return null;
         } else {
-            throw new ApiException("No more responses to read, but closeWrite() not called - "
-                . "this would be blocking", Grpc\STATUS_INTERNAL);
+            throw new ApiException(
+                'No more responses to read, but closeWrite() not called - '
+                . 'this would be blocking',
+                Grpc\STATUS_INTERNAL,
+                null
+            );
         }
     }
 
+    /**
+     * @return stdClass|null
+     * @throws ApiException
+     */
     public function getStatus()
     {
         if (count($this->responses) > 0) {
             throw new ApiException(
-                "Calls to getStatus() will block if all responses are not read",
-                Grpc\STATUS_INTERNAL
+                'Calls to getStatus() will block if all responses are not read',
+                Grpc\STATUS_INTERNAL,
+                null
             );
         }
         if (!$this->writesDone) {
             throw new ApiException(
-                "Calls to getStatus() will block if closeWrite() not called",
-                Grpc\STATUS_INTERNAL
+                'Calls to getStatus() will block if closeWrite() not called',
+                Grpc\STATUS_INTERNAL,
+                null
             );
         }
         return $this->status;
@@ -111,16 +124,24 @@ class MockBidiStreamingCall
 
     /**
      * Save the request object, to be retrieved via getReceivedCalls()
-     * @param $request The request object
+     * @param Message|mixed $request The request object
+     * @param array $options An array of options.
      * @throws ApiException
      */
-    public function write($request)
+    public function write($request, array $options = [])
     {
         if ($this->writesDone) {
-            throw new ApiException("Cannot call write() after writesDone()", Grpc\STATUS_INTERNAL);
+            throw new ApiException(
+                'Cannot call write() after writesDone()',
+                Grpc\STATUS_INTERNAL,
+                null
+            );
         }
-        if (is_a($request, 'DrSlump\Protobuf\Message')) {
-            $request = $request::deserialize($request->serialize());
+        if (is_a($request, '\Google\Protobuf\Internal\Message')) {
+            /** @var Message $newRequest */
+            $newRequest = new $request();
+            $newRequest->mergeFromString($request->serializeToString());
+            $request = $newRequest;
         }
         $this->receivedWrites[] = $request;
     }

@@ -63,6 +63,10 @@ class VodStartWorkflowRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string TaskListId = 8;</code>
      */
     protected $TaskListId = '';
+    /**
+     * Generated from protobuf field <code>string ClientToken = 9;</code>
+     */
+    protected $ClientToken = '';
 
     /**
      * Constructor.
@@ -85,6 +89,7 @@ class VodStartWorkflowRequest extends \Google\Protobuf\Internal\Message
      *     @type \Volc\Service\Vod\Models\Business\DirectUrl $DirectUrl
      *           DirectUrl输入
      *     @type string $TaskListId
+     *     @type string $ClientToken
      * }
      */
     public function __construct($data = NULL) {
@@ -312,6 +317,28 @@ class VodStartWorkflowRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->TaskListId = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>string ClientToken = 9;</code>
+     * @return string
+     */
+    public function getClientToken()
+    {
+        return $this->ClientToken;
+    }
+
+    /**
+     * Generated from protobuf field <code>string ClientToken = 9;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setClientToken($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->ClientToken = $var;
 
         return $this;
     }

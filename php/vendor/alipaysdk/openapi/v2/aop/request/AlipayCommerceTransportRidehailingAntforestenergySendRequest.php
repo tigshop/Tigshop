@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.transport.ridehailing.antforestenergy.send request
  *
  * @author auto create
- * @since 1.0, 2024-06-28 13:49:23
+ * @since 1.0, 2024-11-12 16:34:28
  */
 class AlipayCommerceTransportRidehailingAntforestenergySendRequest
 {

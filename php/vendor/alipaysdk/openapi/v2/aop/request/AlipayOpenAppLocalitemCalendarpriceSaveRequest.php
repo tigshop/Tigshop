@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.app.localitem.calendarprice.save request
  *
  * @author auto create
- * @since 1.0, 2024-04-23 21:50:59
+ * @since 1.0, 2024-12-26 14:22:21
  */
 class AlipayOpenAppLocalitemCalendarpriceSaveRequest
 {

@@ -5,7 +5,6 @@ namespace think\swoole;
 /**
  * Class Http
  * @package think\swoole
- * @property $request
  */
 class Http extends \think\Http
 {

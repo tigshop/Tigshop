@@ -4,224 +4,221 @@ declare(strict_types=1);
 
 namespace Swoole\Http;
 
+use Swoole\WebSocket\Frame;
+
+/**
+ * The HTTP Response class.
+ *
+ * @not-serializable Objects of this class cannot be serialized.
+ */
 class Response
 {
-    public $fd = 0;
+    /**
+     * File descriptor of the underlying socket connection.
+     */
+    public int $fd = 0;
 
-    public $socket;
+    /**
+     * @see \Swoole\Http\Response::create()
+     * @since 4.4.0
+     */
+    public Socket $socket;
 
-    public $header;
+    /**
+     * HTTP headers.
+     */
+    public array $header;
 
-    public $cookie;
+    /**
+     * HTTP cookies.
+     */
+    public array $cookie;
 
-    public $trailer;
+    /**
+     * Trailer fields.
+     *
+     * Trailer fields can be useful for supplying message integrity checks, digital signatures, delivery metrics, or
+     * post-processing status information. They are included at the end of the response message.
+     *
+     * @see https://httpwg.org/specs/rfc9110.html#trailer.fields HTTP Semantics (#trailer.fields)
+     * @see https://httpwg.org/specs/rfc9112.html#chunked.trailer.section HTTP/1.1 (#chunked.trailer.section)
+     */
+    public array $trailer;
 
-    public function __destruct()
+    /**
+     * Update property $header, $cookie and $trailer to the latest values.
+     *
+     * This method provides a way to access headers, cookies, and trailers of the HTTP response. When needed, call
+     * this method first before accessing property $header, $cookie, and/or $trailer.
+     *
+     * This method won't work if
+     *   - the server has finished processing the request and sending the response, or
+     *   - the underlying HTTP connection has been detached.
+     *
+     * @return bool Return TRUE on success; return FALSE on failure.
+     */
+    public function initHeader(): bool
+    {
+    }
+
+    public function isWritable(): bool
     {
     }
 
     /**
-     * @return mixed
+     * @alias This method has an alias of \Swoole\Http\Response::setCookie().
+     * @see \Swoole\Http\Response::setCookie()
      */
-    public function initHeader()
+    public function cookie(string $name, string $value = '', int $expires = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false, string $samesite = '', string $priority = ''): bool
     {
     }
 
     /**
-     * @return mixed
+     * @alias Alias of method \Swoole\Http\Response::cookie().
+     * @see \Swoole\Http\Response::cookie()
+     * @since 4.4.0
      */
-    public function isWritable()
+    public function setCookie(string $name, string $value = '', int $expires = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false, string $samesite = '', string $priority = ''): bool
+    {
+    }
+
+    public function rawcookie(string $name, string $value = '', int $expires = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false, string $samesite = '', string $priority = ''): bool
     {
     }
 
     /**
-     * @param mixed $name
-     * @param mixed|null $value
-     * @param mixed|null $expires
-     * @param mixed|null $path
-     * @param mixed|null $domain
-     * @param mixed|null $secure
-     * @param mixed|null $httponly
-     * @param mixed|null $samesite
-     * @param mixed|null $priority
-     * @return mixed
+     * Set HTTP status code.
+     *
+     * @param int $http_code HTTP status code.
+     * @param string $reason The reason phrase to be used with the provided status code. Optional.
+     * @return bool Return TRUE on success, or FALSE when failed (e.g., if the HTTP connection has been closed or detached).
+     * @alias This method has an alias of \Swoole\Http\Response::setStatusCode().
+     * @see \Swoole\Http\Response::setStatusCode()
      */
-    public function cookie($name, $value = null, $expires = null, $path = null, $domain = null, $secure = null, $httponly = null, $samesite = null, $priority = null)
+    public function status(int $http_code, string $reason = ''): bool
     {
     }
 
     /**
-     * @param mixed $name
-     * @param mixed|null $value
-     * @param mixed|null $expires
-     * @param mixed|null $path
-     * @param mixed|null $domain
-     * @param mixed|null $secure
-     * @param mixed|null $httponly
-     * @param mixed|null $samesite
-     * @param mixed|null $priority
-     * @return mixed
+     * Set HTTP status code.
+     *
+     * @param int $http_code HTTP status code.
+     * @param string $reason The reason phrase to be used with the provided status code. Optional.
+     * @return bool Return TRUE on success, or FALSE when failed (e.g., if the HTTP connection has been closed or detached).
+     * @alias Alias of method \Swoole\Http\Response::status().
+     * @see \Swoole\Http\Response::status()
+     * @since 4.4.0
      */
-    public function setCookie($name, $value = null, $expires = null, $path = null, $domain = null, $secure = null, $httponly = null, $samesite = null, $priority = null)
+    public function setStatusCode(int $http_code, string $reason = ''): bool
     {
     }
 
     /**
-     * @param mixed $name
-     * @param mixed|null $value
-     * @param mixed|null $expires
-     * @param mixed|null $path
-     * @param mixed|null $domain
-     * @param mixed|null $secure
-     * @param mixed|null $httponly
-     * @param mixed|null $samesite
-     * @param mixed|null $priority
-     * @return mixed
+     * Set an HTTP header.
+     *
+     * @param bool $format Format (capitalize) the header name or leave it as is.
+     *                     For example, HTTP header name "cOntent-tYpe" is converted to "Content-Type" by default.
+     * @return bool Return TRUE on success, or FALSE when failed.
+     * @alias This method has an alias of \Swoole\Http\Response::setHeader().
+     * @see \Swoole\Http\Response::setHeader()
      */
-    public function rawcookie($name, $value = null, $expires = null, $path = null, $domain = null, $secure = null, $httponly = null, $samesite = null, $priority = null)
+    public function header(string $key, string|array $value, bool $format = true): bool
     {
     }
 
     /**
-     * @param mixed $http_code
-     * @param mixed|null $reason
-     * @return mixed
+     * Set an HTTP header.
+     *
+     * @param bool $format Format (capitalize) the header name or leave it as is.
+     *                     For example, HTTP header name "cOntent-tYpe" is converted to "Content-Type" by default.
+     * @return bool Return TRUE on success, or FALSE when failed.
+     * @alias Alias of method \Swoole\Http\Response::header().
+     * @see \Swoole\Http\Response::header()
+     * @since 4.4.0
      */
-    public function status($http_code, $reason = null)
+    public function setHeader(string $key, string|array $value, bool $format = true): bool
     {
     }
 
     /**
-     * @param mixed $http_code
-     * @param mixed|null $reason
-     * @return mixed
+     * Add a trailer to the HTTP response.
+     *
+     * @param string $key Name of the trailer field. It must be less than 128 bytes in length.
+     * @return bool TRUE on success, or FALSE when failed. Typically, it fails because of one of the following reasons:
+     *              - Name of the trailer field is too long.
+     *              - The server has finished processing the request and sending the response.
+     *              - The underlying HTTP connection has been detached.
      */
-    public function setStatusCode($http_code, $reason = null)
+    public function trailer(string $key, string $value): bool
+    {
+    }
+
+    public function ping(): bool
     {
     }
 
     /**
-     * @param mixed $key
-     * @param mixed $value
-     * @param mixed|null $format
-     * @return mixed
+     * Send a GOAWAY frame to the remote peer.
+     *
+     * This method works only when the HTTP/2 protocol is used.
+     *
+     * @param int $error_code An HTTP2 error code that contains the reason for closing the connection. HTTP2 error codes are defined as SWOOLE_HTTP2_ERROR_* constants.
+     * @param string $debug_data Additional debug data to send to the remote peer.
+     * @return bool TRUE on success or FALSE on failure.
+     * @see \Swoole\Coroutine\Http2\Client::goaway()
      */
-    public function header($key, $value, $format = null)
+    public function goaway(int $error_code = SWOOLE_HTTP2_ERROR_NO_ERROR, string $debug_data = ''): bool
+    {
+    }
+
+    public function write(string $content): bool
+    {
+    }
+
+    public function end(?string $content = null): bool
+    {
+    }
+
+    public function sendfile(string $filename, int $offset = 0, int $length = 0): bool
+    {
+    }
+
+    public function redirect(string $location, int $http_code = 302): bool
+    {
+    }
+
+    public function detach(): bool
+    {
+    }
+
+    public static function create(int|array|object $server = -1, int $fd = -1): Response|false
     {
     }
 
     /**
-     * @param mixed $key
-     * @param mixed $value
-     * @param mixed|null $format
-     * @return mixed
+     * Upgrade the HTTP server connection to the WebSocket protocol by performing a handshake with the server.
+     *
+     * @return bool Returns true on success or false on failure.
+     * @since 4.4.0
      */
-    public function setHeader($key, $value, $format = null)
+    public function upgrade(): bool
+    {
+    }
+
+    public function push(Frame|string $data, int $opcode = SWOOLE_WEBSOCKET_OPCODE_TEXT, int $flags = SWOOLE_WEBSOCKET_FLAG_FIN): bool
+    {
+    }
+
+    public function recv(float $timeout = 0): Frame|string|false
     {
     }
 
     /**
-     * @param mixed $key
-     * @param mixed $value
-     * @return mixed
+     * Close a WebSocket connection.
+     *
+     * @return bool Returns true on success or false on failure.
      */
-    public function trailer($key, $value)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function ping()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function goaway()
-    {
-    }
-
-    /**
-     * @param mixed $content
-     * @return mixed
-     */
-    public function write($content)
-    {
-    }
-
-    /**
-     * @param mixed|null $content
-     * @return mixed
-     */
-    public function end($content = null)
-    {
-    }
-
-    /**
-     * @param mixed $filename
-     * @param mixed|null $offset
-     * @param mixed|null $length
-     * @return mixed
-     */
-    public function sendfile($filename, $offset = null, $length = null)
-    {
-    }
-
-    /**
-     * @param mixed $location
-     * @param mixed|null $http_code
-     * @return mixed
-     */
-    public function redirect($location, $http_code = null)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function detach()
-    {
-    }
-
-    /**
-     * @param mixed $server
-     * @param mixed|null $fd
-     * @return mixed
-     */
-    public static function create($server, $fd = null)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function upgrade()
-    {
-    }
-
-    /**
-     * @param mixed $data
-     * @param mixed|null $opcode
-     * @param mixed|null $flags
-     * @return mixed
-     */
-    public function push($data, $opcode = null, $flags = null)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function recv()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function close()
+    public function close(): bool
     {
     }
 }

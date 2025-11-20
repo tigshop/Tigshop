@@ -60,7 +60,7 @@ $credential->getSecurityToken();
 <?php
 
 use AlibabaCloud\Credentials\Credential;
-namespace AlibabaCloud\Credentials\Credential\Config;
+use AlibabaCloud\Credentials\Credential\Config;
 
 // Access Key
 $config = new Config([
@@ -83,7 +83,7 @@ $credential->getAccessKeySecret();
 <?php
 
 use AlibabaCloud\Credentials\Credential;
-namespace AlibabaCloud\Credentials\Credential\Config;
+use AlibabaCloud\Credentials\Credential\Config;
 
 $config = new Config([
     'type'            => 'sts',
@@ -107,7 +107,7 @@ $credential->getSecurityToken();
 <?php
 
 use AlibabaCloud\Credentials\Credential;
-namespace AlibabaCloud\Credentials\Credential\Config;
+use AlibabaCloud\Credentials\Credential\Config;
 
 $config = new Config([
     'type'                  => 'ram_role_arn',
@@ -119,7 +119,7 @@ $config = new Config([
     'roleSessionName'       => '<role_session_name>',
     // 设置更小的权限策略，非必填。示例值：{"Statement": [{"Action": ["*"],"Effect": "Allow","Resource": ["*"]}],"Version":"1"}
     'policy'                => '',
-    # 设置session过期时间
+    // 设置session过期时间，非必填。
     'roleSessionExpiration' => 3600,
 ]);
 $client = new Credential($config);
@@ -132,18 +132,28 @@ $credential->getSecurityToken();
 
 #### EcsRamRole
 
-Credentials工具会自动获取ECS实例绑定的RAM角色，调用ECS的元数据服务（Meta Data Server）换取STS Token，完成凭据客户端初始化。ECI实例，容器服务 Kubernetes 版的Worker节点均支持绑定实例RAM角色。
+ECS和ECI实例均支持绑定实例RAM角色，当在实例中使用Credentials工具时，将自动获取实例绑定的RAM角色，并通过访问元数据服务获取RAM角色的STS Token，以完成凭据客户端的初始化。
+
+实例元数据服务器支持加固模式和普通模式两种访问方式，Credentials工具默认使用加固模式（IMDSv2）获取访问凭据。若使用加固模式时发生异常，您可以通过设置disableIMDSv1来执行不同的异常处理逻辑：
+
+- 当值为false（默认值）时，会使用普通模式继续获取访问凭据。
+
+- 当值为true时，表示只能使用加固模式获取访问凭据，会抛出异常。
+
+服务端是否支持IMDSv2，取决于您在服务器的配置。
 
 ```php
 <?php
 
 use AlibabaCloud\Credentials\Credential;
-namespace AlibabaCloud\Credentials\Credential\Config;
+use AlibabaCloud\Credentials\Credential\Config;
 
 $config = new Config([
-    'type'         => 'ecs_ram_role',
+    'type'          => 'ecs_ram_role',
     // 选填，该ECS角色的角色名称，不填会自动获取，但是建议加上以减少请求次数，可以通过环境变量ALIBABA_CLOUD_ECS_METADATA设置role_name
-    'roleName'     => '<role_name>',
+    'roleName'      => '<role_name>',
+    // 选填，是否强制关闭IMDSv1，即必须使用IMDSv2加固模式，可以通过环境变量ALIBABA_CLOUD_IMDSV1_DISABLED设置
+    'disableIMDSv1' => true,
 ]);
 $client = new Credential($config);
 
@@ -161,7 +171,7 @@ $credential->getSecurityToken();
 <?php
 
 use AlibabaCloud\Credentials\Credential;
-namespace AlibabaCloud\Credentials\Credential\Config;
+use AlibabaCloud\Credentials\Credential\Config;
 
 $config = new Config([
     'type'                  => 'oidc_role_arn',
@@ -194,7 +204,7 @@ $credential->getSecurityToken();
 <?php
 
 use AlibabaCloud\Credentials\Credential;
-namespace AlibabaCloud\Credentials\Credential\Config;
+use AlibabaCloud\Credentials\Credential\Config;
 
 $config = new Config([
     'type'               => 'credentials_uri',
@@ -204,7 +214,9 @@ $config = new Config([
 $client = new Credential($config);
 
 $credential = $client->getCredential();
-$credential->getBearerToken();
+$credential->getAccessKeyId();
+$credential->getAccessKeySecret();
+$credential->getSecurityToken();
 ```
 
 #### Bearer Token
@@ -215,7 +227,7 @@ $credential->getBearerToken();
 <?php
 
 use AlibabaCloud\Credentials\Credential;
-namespace AlibabaCloud\Credentials\Credential\Config;
+use AlibabaCloud\Credentials\Credential\Config;
 
 $config = new Config([
     'type'            => 'bearer',
@@ -349,7 +361,13 @@ role_session_name=session_name
 
 ### 5. 使用 ECS 实例RAM角色
 
-如果定义了环境变量 `ALIBABA_CLOUD_ECS_METADATA` 且不为空，程序会将该环境变量的值作为角色名称，请求 `http://100.100.100.200/latest/meta-data/ram/security-credentials/` 获取临时安全凭证作为默认凭证。
+若不存在优先级更高的凭据信息，Credentials工具将通过环境变量获取ALIBABA_CLOUD_ECS_METADATA（ECS实例RAM角色名称）的值。若该变量的值存在，程序将采用加固模式（IMDSv2）访问ECS的元数据服务（Meta Data Server），以获取ECS实例RAM角色的STS Token作为默认凭据信息。在使用加固模式时若发生异常，将使用普通模式兜底来获取访问凭据。您也可以通过设置环境变量ALIBABA_CLOUD_IMDSV1_DISABLED，执行不同的异常处理逻辑：
+
+- 当值为false时，会使用普通模式继续获取访问凭据。
+
+- 当值为true时，表示只能使用加固模式获取访问凭据，会抛出异常。
+
+服务端是否支持IMDSv2，取决于您在服务器的配置。
 
 ### 6. 使用外部服务 Credentials URI
 

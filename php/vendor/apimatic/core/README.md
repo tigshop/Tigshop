@@ -17,6 +17,8 @@ Core logic and the utilities for the Apimatic's PHP SDK.
 - PHP 8.0
 - PHP 8.1
 - PHP 8.2
+- PHP 8.3
+- PHP 8.4
 
 ## Install the Package
 

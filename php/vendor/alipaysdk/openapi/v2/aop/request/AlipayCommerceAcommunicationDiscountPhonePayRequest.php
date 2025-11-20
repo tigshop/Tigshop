@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.acommunication.discount.phone.pay request
  *
  * @author auto create
- * @since 1.0, 2024-06-13 09:57:04
+ * @since 1.0, 2025-09-01 16:37:39
  */
 class AlipayCommerceAcommunicationDiscountPhonePayRequest
 {

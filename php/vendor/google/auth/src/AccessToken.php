@@ -69,8 +69,8 @@ class AccessToken
      * @param CacheItemPoolInterface $cache [optional] A PSR-6 compatible cache implementation.
      */
     public function __construct(
-        callable $httpHandler = null,
-        CacheItemPoolInterface $cache = null
+        ?callable $httpHandler = null,
+        ?CacheItemPoolInterface $cache = null
     ) {
         $this->httpHandler = $httpHandler
             ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());

@@ -47,10 +47,6 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
     use HttpClientTrait;
     use LoggerAwareTrait;
 
-    public const OPTIONS_DEFAULTS = HttpClientInterface::OPTIONS_DEFAULTS + [
-        'crypto_method' => \STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
-    ];
-
     private array $defaultOptions = self::OPTIONS_DEFAULTS;
     private static array $emptyDefaults = self::OPTIONS_DEFAULTS;
     private AmpClientState $multi;
@@ -64,7 +60,7 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
      *
      * @see HttpClientInterface::OPTIONS_DEFAULTS for available options
      */
-    public function __construct(array $defaultOptions = [], ?callable $clientConfigurator = null, int $maxHostConnections = 6, int $maxPendingPushes = 50)
+    public function __construct(array $defaultOptions = [], callable $clientConfigurator = null, int $maxHostConnections = 6, int $maxPendingPushes = 50)
     {
         $this->defaultOptions['buffer'] ??= self::shouldBuffer(...);
 
@@ -102,7 +98,7 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
         }
 
         if (!isset($options['normalized_headers']['user-agent'])) {
-            $options['headers'][] = 'User-Agent: Symfony HttpClient (Amp)';
+            $options['headers'][] = 'User-Agent: Symfony HttpClient/Amp';
         }
 
         if (0 < $options['max_duration']) {
@@ -122,7 +118,7 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
         if ($options['http_version']) {
             $request->setProtocolVersions(match ((float) $options['http_version']) {
                 1.0 => ['1.0'],
-                1.1 => ['1.1', '1.0'],
+                1.1 => $request->setProtocolVersions(['1.1', '1.0']),
                 default => ['2', '1.1', '1.0'],
             });
         }
@@ -148,7 +144,7 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
         return new AmpResponse($this->multi, $request, $options, $this->logger);
     }
 
-    public function stream(ResponseInterface|iterable $responses, ?float $timeout = null): ResponseStreamInterface
+    public function stream(ResponseInterface|iterable $responses, float $timeout = null): ResponseStreamInterface
     {
         if ($responses instanceof AmpResponse) {
             $responses = [$responses];
@@ -157,7 +153,7 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
         return new ResponseStream(AmpResponse::stream($responses, $timeout));
     }
 
-    public function reset(): void
+    public function reset()
     {
         $this->multi->dnsCache = [];
 

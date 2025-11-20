@@ -81,7 +81,7 @@ No authorization required
 ## `query()`
 
 ```php
-query($enterpriseId, $employeeId, $openId, $userId, $mobile): \Alipay\OpenAPISDK\Model\AlipayCommerceEcEmployeeInfoQueryResponseModel
+query($enterpriseId, $openId, $userId, $employeeId, $mobile, $alipayLogonId, $employeeCertType, $employeeCertNo, $employeeEmail): \Alipay\OpenAPISDK\Model\AlipayCommerceEcEmployeeInfoQueryResponseModel
 ```
 
 查询员工详情
@@ -117,13 +117,17 @@ $alipayConfigUtil = new \Alipay\OpenAPISDK\Util\AlipayConfigUtil($alipayConfig);
 $apiInstance->setAlipayConfigUtil($alipayConfigUtil);
 
 $enterpriseId = 2088441363102941; // string | 企业id
-$employeeId = 228420000000057942506; // string | 员工id
 $openId = 074a1CcTG1LelxKe4xQC0zgNdId0nxi95b5lsNpazWYoCo5; // string | 蚂蚁统一会员ID
-$userId = 2088501304519332; // string | 蚂蚁统一会员ID
+$userId = 2088501304519332; // string | 支付宝用户ID
+$employeeId = 2284200000000000; // string | 员工id
 $mobile = 134XXXX2526; // string | 员工手机号码
+$alipayLogonId = 134xxxx2526; // string | 支付宝登录号（手机号或邮箱）
+$employeeCertType = IDENTITY_CARD; // string | 员工证件类型
+$employeeCertNo = 220000000000000000; // string | 员工证件号码
+$employeeEmail = 123@xxx.com; // string | 员工邮箱
 
 try {
-    $result = $apiInstance->query($enterpriseId, $employeeId, $openId, $userId, $mobile);
+    $result = $apiInstance->query($enterpriseId, $openId, $userId, $employeeId, $mobile, $alipayLogonId, $employeeCertType, $employeeCertNo, $employeeEmail);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AlipayCommerceEcEmployeeInfoApi->query: ', $e->getMessage(), PHP_EOL;
@@ -135,10 +139,14 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enterpriseId** | **string**| 企业id | [optional]
- **employeeId** | **string**| 员工id | [optional]
  **openId** | **string**| 蚂蚁统一会员ID | [optional]
- **userId** | **string**| 蚂蚁统一会员ID | [optional]
+ **userId** | **string**| 支付宝用户ID | [optional]
+ **employeeId** | **string**| 员工id | [optional]
  **mobile** | **string**| 员工手机号码 | [optional]
+ **alipayLogonId** | **string**| 支付宝登录号（手机号或邮箱） | [optional]
+ **employeeCertType** | **string**| 员工证件类型 | [optional]
+ **employeeCertNo** | **string**| 员工证件号码 | [optional]
+ **employeeEmail** | **string**| 员工邮箱 | [optional]
 
 ### Return type
 

@@ -51,27 +51,27 @@ class EnginePacket
 
     public static function open($payload)
     {
-        return new static(self::OPEN, $payload);
+        return new self(self::OPEN, $payload);
     }
 
     public static function pong($payload = '')
     {
-        return new static(self::PONG, $payload);
+        return new self(self::PONG, $payload);
     }
 
     public static function ping()
     {
-        return new static(self::PING);
+        return new self(self::PING);
     }
 
     public static function message($payload)
     {
-        return new static(self::MESSAGE, $payload);
+        return new self(self::MESSAGE, $payload);
     }
 
     public static function fromString(string $packet)
     {
-        return new static(substr($packet, 0, 1), substr($packet, 1) ?? '');
+        return new self(substr($packet, 0, 1), substr($packet, 1) ?: '');
     }
 
     public function toString()

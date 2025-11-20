@@ -18,8 +18,10 @@ namespace Symfony\Component\VarExporter\Internal;
  */
 class Values
 {
-    public function __construct(
-        public readonly array $values,
-    ) {
+    public $values;
+
+    public function __construct(array $values)
+    {
+        $this->values = $values;
     }
 }

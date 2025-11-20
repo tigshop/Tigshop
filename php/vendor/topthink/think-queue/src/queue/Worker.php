@@ -52,7 +52,7 @@ class Worker
      */
     public $paused = false;
 
-    public function __construct(Queue $queue, Event $event, Handle $handle, Cache $cache = null)
+    public function __construct(Queue $queue, Event $event, Handle $handle, ?Cache $cache = null)
     {
         $this->queue  = $queue;
         $this->event  = $event;

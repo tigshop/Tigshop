@@ -138,16 +138,6 @@ class HttpOptions
     /**
      * @return $this
      */
-    public function setVars(array $vars): static
-    {
-        $this->options['vars'] = $vars;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
     public function buffer(bool $buffer): static
     {
         $this->options['buffer'] = $buffer;

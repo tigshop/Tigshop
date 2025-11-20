@@ -8,7 +8,7 @@ Are you looking for a tool to generate PHP code for [classes](#classes), [functi
 
 <h3>
 
-✅ Supports all the latest PHP features like [enums](#enums), [attributes](#attributes), etc.<br>
+✅ Supports all the latest PHP features like [property hooks](#property-hooks), [enums](#enums), [attributes](#attributes), etc.<br>
 ✅ Allows you to easily modify [existing classes](#generating-from-existing-ones)<br>
 ✅ Output compliant with [PSR-12 / PER coding style](#printer-and-psr-compliance)<br>
 ✅ Highly mature, stable, and widely used library
@@ -387,11 +387,11 @@ $method->addParameter('items', []) // $items = []
 // function count(&$items = [])
 ```
 
-To define the so-called variadics parameters (or also the splat, spread, ellipsis, unpacking or three dots operator), use `setVariadics()`:
+To define the so-called variadics parameters (or also the splat, spread, ellipsis, unpacking or three dots operator), use `setVariadic()`:
 
 ```php
 $method = $class->addMethod('count');
-$method->setVariadics(true);
+$method->setVariadic(true);
 $method->addParameter('items');
 ```
 
@@ -665,6 +665,89 @@ class Demo
 
  <!---->
 
+Property Hooks
+--------------
+
+You can also define property hooks (represented by the class [PropertyHook](https://api.nette.org/php-generator/master/Nette/PhpGenerator/PropertyHook.html)) for get and set operations, a feature introduced in PHP 8.4:
+
+```php
+$class = new Nette\PhpGenerator\ClassType('Demo');
+$prop = $class->addProperty('firstName')
+    ->setType('string');
+
+$prop->addHook('set', 'strtolower($value)')
+    ->addParameter('value')
+	    ->setType('string');
+
+$prop->addHook('get')
+	->setBody('return ucfirst($this->firstName);');
+
+echo $class;
+```
+
+This generates:
+
+```php
+class Demo
+{
+    public string $firstName {
+        set(string $value) => strtolower($value);
+        get {
+            return ucfirst($this->firstName);
+        }
+    }
+}
+```
+
+Properties and property hooks can be abstract or final:
+
+```php
+$class->addProperty('id')
+    ->setType('int')
+    ->addHook('get')
+        ->setAbstract();
+
+$class->addProperty('role')
+    ->setType('string')
+    ->addHook('set', 'strtolower($value)')
+        ->setFinal();
+```
+
+ <!---->
+
+Asymmetric Visibility
+---------------------
+
+PHP 8.4 introduces asymmetric visibility for properties. You can set different access levels for reading and writing.
+The visibility can be set using either the `setVisibility()` method with two parameters, or by using `setPublic()`, `setProtected()`, or `setPrivate()` with the `mode` parameter that specifies whether the visibility applies to getting or setting the property. The default mode is 'get'.
+
+```php
+$class = new Nette\PhpGenerator\ClassType('Demo');
+
+$class->addProperty('name')
+    ->setType('string')
+    ->setVisibility('public', 'private'); // public for read, private for write
+
+$class->addProperty('id')
+    ->setType('int')
+    ->setProtected('set'); // protected for write
+
+echo $class;
+```
+
+This generates:
+
+```php
+class Demo
+{
+    public private(set) string $name;
+
+    protected(set) int $id;
+}
+```
+
+ <!---->
+
 Namespace
 ---------
 
@@ -875,6 +958,39 @@ The file's initial comment and `strict_types` declaration are also loaded. Howev
 It requires `nikic/php-parser` to be installed.
 
 *(If you need to manipulate global code in files or individual statements in method bodies, it's better to use the `nikic/php-parser` library directly.)*
+
+ <!---->
+
+Class Manipulator
+-----------------
+
+The [ClassManipulator](https://api.nette.org/php-generator/master/Nette/PhpGenerator/ClassManipulator.html) class provides tools for manipulating classes.
+
+```php
+$class = new Nette\PhpGenerator\ClassType('Demo');
+$manipulator = new Nette\PhpGenerator\ClassManipulator($class);
+```
+
+The `inheritMethod()` method copies a method from a parent class or implemented interface into your class. This allows you to override the method or extend its signature:
+
+```php
+$method = $manipulator->inheritMethod('bar');
+$method->setBody('...');
+```
+
+The `inheritProperty()` method copies a property from a parent class into your class. This is useful when you want to have the same property in your class, but possibly with a different default value:
+
+```php
+$property = $manipulator->inheritProperty('foo');
+$property->setValue('new value');
+```
+
+The `implement()` method automatically implements all methods and properties from the given interface or abstract class:
+
+```php
+$manipulator->implement(SomeInterface::class);
+// Now your class implements SomeInterface and includes all its methods
+```
 
  <!---->
 

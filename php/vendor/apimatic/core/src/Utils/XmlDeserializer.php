@@ -22,7 +22,7 @@ class XmlDeserializer
     /**
      * @param int|null $loadOptions  A bit field of LIBXML_* constants
      */
-    public function __construct(int $loadOptions = null)
+    public function __construct(?int $loadOptions = null)
     {
         $this->dom = new DOMDocument();
         $this->loadOptions = $loadOptions ?? (LIBXML_NONET | LIBXML_NOBLANKS);
@@ -81,7 +81,7 @@ class XmlDeserializer
         \DOMNode $parent,
         string $itemName,
         string $clazz,
-        string $wrappingElementName = null
+        ?string $wrappingElementName = null
     ) {
         if ($wrappingElementName === null) {
             $elements = static::getChildNodesByTagName($parent, $itemName);

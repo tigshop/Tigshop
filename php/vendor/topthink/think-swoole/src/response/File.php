@@ -22,7 +22,7 @@ class File extends Response
      */
     protected $file;
 
-    public function __construct($file, string $contentDisposition = null, bool $autoEtag = true, bool $autoLastModified = true, bool $autoContentType = true)
+    public function __construct($file, ?string $contentDisposition = null, bool $autoEtag = true, bool $autoLastModified = true, bool $autoContentType = true)
     {
         $this->setFile($file, $contentDisposition, $autoEtag, $autoLastModified, $autoContentType);
     }
@@ -32,7 +32,7 @@ class File extends Response
         return $this->file;
     }
 
-    public function setFile($file, string $contentDisposition = null, bool $autoEtag = true, bool $autoLastModified = true, bool $autoContentType = true)
+    public function setFile($file, ?string $contentDisposition = null, bool $autoEtag = true, bool $autoLastModified = true, bool $autoContentType = true)
     {
         if (!$file instanceof SplFileInfo) {
             $file = new SplFileInfo((string) $file);
@@ -88,8 +88,12 @@ class File extends Response
 
     public function setAutoLastModified()
     {
-        $date = DateTime::createFromFormat('U', $this->file->getMTime());
-        return $this->lastModified($date->format('D, d M Y H:i:s') . ' GMT');
+        $mTime = $this->file->getMTime();
+        if ($mTime) {
+            $date = DateTime::createFromFormat('U', (string) $mTime);
+            $this->lastModified($date->format('D, d M Y H:i:s') . ' GMT');
+        }
+        return $this;
     }
 
     public function setAutoEtag()

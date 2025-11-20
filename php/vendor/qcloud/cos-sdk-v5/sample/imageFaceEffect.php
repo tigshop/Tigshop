@@ -13,10 +13,11 @@ $cosClient = new Qcloud\Cos\Client(
             'secretId' => $secretId,
             'secretKey' => $secretKey)));
 try {
-    // 人脸特效 https://cloud.tencent.com/document/product/460/47197
+    // 人脸特效
+    // 桶文件
     $result = $cosClient->imageFaceEffect(array(
         'Bucket' => 'examplebucket-125000000', //存储桶名称，由BucketName-Appid 组成，可以在COS控制台查看 https://console.cloud.tencent.com/cos5/bucket
-        'Key' => '', // ObjectKey
+        'Key' => 'xxx.jpg', // ObjectKey
         'type' => 'face-beautify', // 人脸特效类型。人脸美颜：face-beautify；人脸性别转换：face-gender-transformation；人脸年龄变化：face-age-transformation；人像分割：face-segmentation
         'whitening' => 30,
         'smoothing' => 10,
@@ -24,6 +25,20 @@ try {
         'eyeEnlarging' => 70,
         'gender' => 1,
         'age' => 18,
+    ));
+    print_r($result);
+
+    // 第三方URL
+    $result = $cosClient->imageUrlFaceEffect(array(
+        'Bucket' => 'examplebucket-125000000', //存储桶名称，由BucketName-Appid 组成，可以在COS控制台查看 https://console.cloud.tencent.com/cos5/bucket
+        'type' => 'face-beautify', // 人脸特效类型。人脸美颜：face-beautify；人脸性别转换：face-gender-transformation；人脸年龄变化：face-age-transformation；人像分割：face-segmentation
+        'whitening' => 30,
+        'smoothing' => 10,
+        'faceLifting' => 70,
+        'eyeEnlarging' => 70,
+        'gender' => 1,
+        'age' => 18,
+        'detectUrl' => 'https://xxx.com/xxx.jpg',
     ));
     print_r($result);
 } catch (\Exception $e) {

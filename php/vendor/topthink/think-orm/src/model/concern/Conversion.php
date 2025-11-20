@@ -147,7 +147,7 @@ trait Conversion
      *
      * @return $this
      */
-    public function append(array $append = [], bool $merge = false)
+    public function append(array $append, bool $merge = false)
     {
         $this->append = $merge ? array_merge($this->append, $append) : $append;
 
@@ -162,7 +162,7 @@ trait Conversion
      *
      * @return $this
      */
-    public function hidden(array $hidden = [], bool $merge = false)
+    public function hidden(array $hidden, bool $merge = false)
     {
         $this->hidden = $merge ? array_merge($this->hidden, $hidden) : $hidden;
 
@@ -177,7 +177,7 @@ trait Conversion
      *
      * @return $this
      */
-    public function visible(array $visible = [], bool $merge = false)
+    public function visible(array $visible, bool $merge = false)
     {
         $this->visible = $merge ? array_merge($this->visible, $visible) : $visible;
 

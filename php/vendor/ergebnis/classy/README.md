@@ -6,13 +6,12 @@
 [![Renew](https://github.com/ergebnis/classy/workflows/Renew/badge.svg)](https://github.com/ergebnis/classy/actions)
 
 [![Code Coverage](https://codecov.io/gh/ergebnis/classy/branch/main/graph/badge.svg)](https://codecov.io/gh/ergebnis/classy)
-[![Type Coverage](https://shepherd.dev/github/ergebnis/classy/coverage.svg)](https://shepherd.dev/github/ergebnis/classy)
 
 [![Latest Stable Version](https://poser.pugx.org/ergebnis/classy/v/stable)](https://packagist.org/packages/ergebnis/classy)
 [![Total Downloads](https://poser.pugx.org/ergebnis/classy/downloads)](https://packagist.org/packages/ergebnis/classy)
 [![Monthly Downloads](http://poser.pugx.org/ergebnis/classy/d/monthly)](https://packagist.org/packages/ergebnis/classy)
 
-This package provides a finder for classy constructs ([classes](https://www.php.net/manual/en/language.oop5.php), [enums](https://www.php.net/manual/en/language.types.enumerations.php), [interfaces](https://www.php.net/manual/en/language.oop5.interfaces.php), and [traits](https://www.php.net/manual/en/language.oop5.traits.php)).
+This project provides a [`composer`](https://getcomposer.org) package with a finder for classy constructs ([classes](https://www.php.net/manual/en/language.oop5.php), [enums](https://www.php.net/manual/en/language.types.enumerations.php), [interfaces](https://www.php.net/manual/en/language.oop5.interfaces.php), and [traits](https://www.php.net/manual/en/language.oop5.traits.php)).
 
 ## Installation
 
@@ -80,35 +79,35 @@ var_dump($names); // ['Example\Bar', 'Example\Bar\Baz', 'Example\Foo\Bar\Baz']
 
 ## Changelog
 
-The maintainers of this package record notable changes to this project in a [changelog](CHANGELOG.md).
+The maintainers of this project record notable changes to this project in a [changelog](CHANGELOG.md).
 
 ## Contributing
 
-The maintainers of this package suggest following the [contribution guide](.github/CONTRIBUTING.md).
+The maintainers of this project suggest following the [contribution guide](.github/CONTRIBUTING.md).
 
 ## Code of Conduct
 
-The maintainers of this package ask contributors to follow the [code of conduct](https://github.com/ergebnis/.github/blob/main/CODE_OF_CONDUCT.md).
+The maintainers of this project ask contributors to follow the [code of conduct](https://github.com/ergebnis/.github/blob/main/CODE_OF_CONDUCT.md).
 
 ## General Support Policy
 
-The maintainers of this package provide limited support.
+The maintainers of this project provide limited support.
 
-You can support the maintenance of this package by [sponsoring @localheinz](https://github.com/sponsors/localheinz) or [requesting an invoice for services related to this package](mailto:am@localheinz.com?subject=ergebnis/classy:%20Requesting%20invoice%20for%20services).
+You can support the maintenance of this project by [sponsoring @ergebnis](https://github.com/sponsors/ergebnis).
 
 ## PHP Version Support Policy
 
-This package supports PHP versions with [active support](https://www.php.net/supported-versions.php).
+This project supports PHP versions with [active and security support](https://www.php.net/supported-versions.php).
 
-The maintainers of this package add support for a PHP version following its initial release and drop support for a PHP version when it has reached its end of active support.
+The maintainers of this project add support for a PHP version following its initial release and drop support for a PHP version when it has reached the end of security support.
 
 ## Security Policy
 
-This package has a [security policy](.github/SECURITY.md).
+This project has a [security policy](.github/SECURITY.md).
 
 ## License
 
-This package uses the [MIT license](LICENSE.md).
+This project uses the [MIT license](LICENSE.md).
 
 ## Credits
 

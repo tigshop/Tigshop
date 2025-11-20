@@ -199,6 +199,8 @@ class OAuthTestProviderStub extends Base
 
     /**
      * Get a fresh instance of the Guzzle HTTP client.
+     *
+     * @return \GuzzleHttp\Client
      */
     public function getHttpClient(): GuzzleHttp\Client
     {

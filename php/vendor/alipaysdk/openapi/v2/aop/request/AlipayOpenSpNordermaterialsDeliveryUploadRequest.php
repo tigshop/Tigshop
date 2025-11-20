@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.sp.nordermaterials.delivery.upload request
  *
  * @author auto create
- * @since 1.0, 2024-08-18 19:32:07
+ * @since 1.0, 2025-04-18 15:32:26
  */
 class AlipayOpenSpNordermaterialsDeliveryUploadRequest
 {

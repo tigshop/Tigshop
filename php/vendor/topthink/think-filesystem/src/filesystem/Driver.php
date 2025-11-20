@@ -12,10 +12,11 @@ declare (strict_types = 1);
 
 namespace think\filesystem;
 
+use League\Flysystem\AdapterInterface;
+use League\Flysystem\Adapter\AbstractAdapter;
+use League\Flysystem\Cached\CachedAdapter;
+use League\Flysystem\Cached\Storage\Memory as MemoryStore;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemAdapter;
-use League\Flysystem\UnableToSetVisibility;
-use League\Flysystem\UnableToWriteFile;
 use RuntimeException;
 use think\Cache;
 use think\File;
@@ -49,10 +50,27 @@ abstract class Driver
         $this->filesystem = $this->createFilesystem($adapter);
     }
 
-    abstract protected function createAdapter(): FilesystemAdapter;
-
-    protected function createFilesystem(FilesystemAdapter $adapter): Filesystem
+    protected function createCacheStore($config)
     {
+        if (true === $config) {
+            return new MemoryStore;
+        }
+
+        return new CacheStore(
+            $this->cache->store($config['store']),
+            $config['prefix'] ?? 'flysystem',
+            $config['expire'] ?? null
+        );
+    }
+
+    abstract protected function createAdapter(): AdapterInterface;
+
+    protected function createFilesystem(AdapterInterface $adapter): Filesystem
+    {
+        if (!empty($this->config['cache'])) {
+            $adapter = new CachedAdapter($adapter, $this->createCacheStore($this->config['cache']));
+        }
+
         $config = array_intersect_key($this->config, array_flip(['visibility', 'disable_asserts', 'url']));
 
         return new Filesystem($adapter, $config);
@@ -65,6 +83,12 @@ abstract class Driver
      */
     public function path(string $path): string
     {
+        $adapter = $this->filesystem->getAdapter();
+
+        if ($adapter instanceof AbstractAdapter) {
+            return $adapter->applyPathPrefix($path);
+        }
+
         return $path;
     }
 
@@ -104,23 +128,13 @@ abstract class Driver
         $stream = fopen($file->getRealPath(), 'r');
         $path   = trim($path . '/' . $name, '/');
 
-        $result = $this->put($path, $stream, $options);
+        $result = $this->putStream($path, $stream, $options);
 
         if (is_resource($stream)) {
             fclose($stream);
         }
 
         return $result ? $path : false;
-    }
-
-    protected function put(string $path, $contents, array $options = [])
-    {
-        try {
-            $this->writeStream($path, $contents, $options);
-        } catch (UnableToWriteFile|UnableToSetVisibility $e) {
-            return false;
-        }
-        return true;
     }
 
     public function __call($method, $parameters)

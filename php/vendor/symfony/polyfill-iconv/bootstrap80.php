@@ -58,11 +58,7 @@ if (extension_loaded('mbstring')) {
     }
 } else {
     if (!function_exists('iconv_strlen')) {
-        if (extension_loaded('xml')) {
-            function iconv_strlen(?string $string, ?string $encoding = null): int|false { return p\Iconv::strlen1((string) $string, $encoding); }
-        } else {
-            function iconv_strlen(?string $string, ?string $encoding = null): int|false { return p\Iconv::strlen2((string) $string, $encoding); }
-        }
+        function iconv_strlen(?string $string, ?string $encoding = null): int|false { return p\Iconv::iconv_strlen((string) $string, $encoding); }
     }
 
     if (!function_exists('iconv_strpos')) {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudpromo.mall.renfundorder.create request
  *
  * @author auto create
- * @since 1.0, 2024-07-02 17:37:05
+ * @since 1.0, 2024-11-26 10:49:46
  */
 class AlipayCloudCloudpromoMallRenfundorderCreateRequest
 {

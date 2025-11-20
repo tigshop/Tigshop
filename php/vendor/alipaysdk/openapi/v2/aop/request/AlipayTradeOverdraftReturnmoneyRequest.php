@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.trade.overdraft.returnmoney request
  *
  * @author auto create
- * @since 1.0, 2024-08-26 16:12:20
+ * @since 1.0, 2025-08-13 14:52:42
  */
 class AlipayTradeOverdraftReturnmoneyRequest
 {

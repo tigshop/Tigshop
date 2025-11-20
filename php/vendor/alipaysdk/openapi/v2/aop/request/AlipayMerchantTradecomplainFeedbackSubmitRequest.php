@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.merchant.tradecomplain.feedback.submit request
  *
  * @author auto create
- * @since 1.0, 2023-11-06 10:52:20
+ * @since 1.0, 2025-08-13 14:32:40
  */
 class AlipayMerchantTradecomplainFeedbackSubmitRequest
 {
@@ -13,13 +13,15 @@ class AlipayMerchantTradecomplainFeedbackSubmitRequest
 	private $complainEventId;
 	
 	/** 
-	 * 反馈类目ID
-00:使用体验保障金退款；
+	 * 小程序交易反馈类目ID：
 02:通过其他方式退款;
 03:已发货;
 04:其他;
 05:已完成售后服务;
-06:非我方责任范围；
+06:非我方责任范围;
+
+安心付/先享后付反馈类目ID：
+194:反馈处理结果;
 	 **/
 	private $feedbackCode;
 	

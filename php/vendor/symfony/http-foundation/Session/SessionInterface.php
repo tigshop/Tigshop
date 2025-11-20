@@ -34,8 +34,6 @@ interface SessionInterface
 
     /**
      * Sets the session ID.
-     *
-     * @return void
      */
     public function setId(string $id);
 
@@ -46,8 +44,6 @@ interface SessionInterface
 
     /**
      * Sets the session name.
-     *
-     * @return void
      */
     public function setName(string $name);
 
@@ -57,24 +53,24 @@ interface SessionInterface
      * Clears all session attributes and flashes and regenerates the
      * session and deletes the old session from persistence.
      *
-     * @param int|null $lifetime Sets the cookie lifetime for the session cookie. A null value
-     *                           will leave the system settings unchanged, 0 sets the cookie
-     *                           to expire with browser session. Time is in seconds, and is
-     *                           not a Unix timestamp.
+     * @param int $lifetime Sets the cookie lifetime for the session cookie. A null value
+     *                      will leave the system settings unchanged, 0 sets the cookie
+     *                      to expire with browser session. Time is in seconds, and is
+     *                      not a Unix timestamp.
      */
-    public function invalidate(?int $lifetime = null): bool;
+    public function invalidate(int $lifetime = null): bool;
 
     /**
      * Migrates the current session to a new session id while maintaining all
      * session attributes.
      *
-     * @param bool     $destroy  Whether to delete the old session or leave it to garbage collection
-     * @param int|null $lifetime Sets the cookie lifetime for the session cookie. A null value
-     *                           will leave the system settings unchanged, 0 sets the cookie
-     *                           to expire with browser session. Time is in seconds, and is
-     *                           not a Unix timestamp.
+     * @param bool $destroy  Whether to delete the old session or leave it to garbage collection
+     * @param int  $lifetime Sets the cookie lifetime for the session cookie. A null value
+     *                       will leave the system settings unchanged, 0 sets the cookie
+     *                       to expire with browser session. Time is in seconds, and is
+     *                       not a Unix timestamp.
      */
-    public function migrate(bool $destroy = false, ?int $lifetime = null): bool;
+    public function migrate(bool $destroy = false, int $lifetime = null): bool;
 
     /**
      * Force the session to be saved and closed.
@@ -82,8 +78,6 @@ interface SessionInterface
      * This method is generally not required for real sessions as
      * the session will be automatically saved at the end of
      * code execution.
-     *
-     * @return void
      */
     public function save();
 
@@ -99,8 +93,6 @@ interface SessionInterface
 
     /**
      * Sets an attribute.
-     *
-     * @return void
      */
     public function set(string $name, mixed $value);
 
@@ -111,8 +103,6 @@ interface SessionInterface
 
     /**
      * Sets attributes.
-     *
-     * @return void
      */
     public function replace(array $attributes);
 
@@ -125,8 +115,6 @@ interface SessionInterface
 
     /**
      * Clears all attributes.
-     *
-     * @return void
      */
     public function clear();
 
@@ -137,8 +125,6 @@ interface SessionInterface
 
     /**
      * Registers a SessionBagInterface with the session.
-     *
-     * @return void
      */
     public function registerBag(SessionBagInterface $bag);
 

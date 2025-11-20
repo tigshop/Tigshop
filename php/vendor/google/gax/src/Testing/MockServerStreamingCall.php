@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016, Google Inc.
+ * Copyright 2016 Google LLC
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,41 +30,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Google\GAX\Testing;
+namespace Google\ApiCore\Testing;
 
-use Google\GAX\ApiException;
-use google\rpc\Code;
-use google\rpc\Status;
-use Grpc;
+use Google\ApiCore\ApiException;
+use Google\ApiCore\ApiStatus;
+use Google\ApiCore\ServerStreamingCallInterface;
+use Google\Rpc\Code;
+use stdClass;
 
 /**
  * The MockServerStreamingCall class is used to mock out the \Grpc\ServerStreamingCall class
  * (https://github.com/grpc/grpc/blob/master/src/php/lib/Grpc/ServerStreamingCall.php)
+ *
+ * @internal
  */
-class MockServerStreamingCall
+class MockServerStreamingCall extends \Grpc\ServerStreamingCall implements ServerStreamingCallInterface
 {
+    use SerializationTrait;
+
     private $responses;
-    private $deserialize;
     private $status;
 
     /**
      * MockServerStreamingCall constructor.
      * @param mixed[] $responses A list of response objects.
-     * @param callable|null $deserialize An optional deserialize method for the response object.
-     * @param Status|null $status An optional status object. If set to null, a status of OK is used.
+     * @param callable|array|null $deserialize An optional deserialize method for the response object.
+     * @param stdClass|null $status An optional status object. If set to null, a status of OK is used.
      */
-    public function __construct($responses, $deserialize = null, $status = null)
+    public function __construct(array $responses, $deserialize = null, ?stdClass $status = null)
     {
         $this->responses = $responses;
-        if (is_null($deserialize)) {
-            $deserialize = function ($resp) {
-                return $resp;
-            };
-        }
         $this->deserialize = $deserialize;
         if (is_null($status)) {
-            $status = new Status();
-            $status->setCode(Code::OK);
+            $status = new MockStatus(Code::OK, 'OK', []);
+        } elseif ($status instanceof stdClass) {
+            if (!property_exists($status, 'metadata')) {
+                $status->metadata = [];
+            }
         }
         $this->status = $status;
     }
@@ -73,16 +75,22 @@ class MockServerStreamingCall
     {
         while (count($this->responses) > 0) {
             $resp = array_shift($this->responses);
-            yield call_user_func($this->deserialize, $resp);
+            $obj = $this->deserializeMessage($resp, $this->deserialize);
+            yield $obj;
         }
     }
 
+    /**
+     * @return stdClass|null
+     * @throws ApiException
+     */
     public function getStatus()
     {
         if (count($this->responses) > 0) {
             throw new ApiException(
-                "Calls to getStatus() will block if all responses are not read",
-                Grpc\STATUS_INTERNAL
+                'Calls to getStatus() will block if all responses are not read',
+                Code::INTERNAL,
+                ApiStatus::INTERNAL
             );
         }
         return $this->status;

@@ -28,7 +28,7 @@ class Error implements \JsonSerializable
      */
     public static function make(int $code, string $message, $data = null): self
     {
-        $instance = new static();
+        $instance = new self();
 
         $instance->code    = $code;
         $instance->message = $message;

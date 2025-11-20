@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.function.argument.delete request
  *
  * @author auto create
- * @since 1.0, 2023-08-08 22:41:38
+ * @since 1.0, 2024-11-22 14:41:41
  */
 class AlipayCloudCloudbaseFunctionArgumentDeleteRequest
 {

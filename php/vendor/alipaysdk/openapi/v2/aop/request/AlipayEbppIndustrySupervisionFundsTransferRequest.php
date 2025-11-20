@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ebpp.industry.supervision.funds.transfer request
  *
  * @author auto create
- * @since 1.0, 2024-08-21 15:27:08
+ * @since 1.0, 2025-08-18 16:37:36
  */
 class AlipayEbppIndustrySupervisionFundsTransferRequest
 {

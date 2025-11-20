@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.transport.carbon.data.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-28 00:49:26
+ * @since 1.0, 2025-08-13 16:22:42
  */
 class AlipayCommerceTransportCarbonDataQueryRequest
 {

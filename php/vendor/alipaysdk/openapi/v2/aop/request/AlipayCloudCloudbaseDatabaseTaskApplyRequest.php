@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.database.task.apply request
  *
  * @author auto create
- * @since 1.0, 2023-08-21 20:56:42
+ * @since 1.0, 2025-05-08 17:17:26
  */
 class AlipayCloudCloudbaseDatabaseTaskApplyRequest
 {

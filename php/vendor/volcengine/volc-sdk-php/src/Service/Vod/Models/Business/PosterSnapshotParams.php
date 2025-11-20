@@ -37,6 +37,12 @@ class PosterSnapshotParams extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>int32 OffsetTime = 6;</code>
      */
     protected $OffsetTime = 0;
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 7;</code>
+     */
+    protected $FillType = '';
 
     /**
      * Constructor.
@@ -50,6 +56,8 @@ class PosterSnapshotParams extends \Google\Protobuf\Internal\Message
      *     @type int $Width
      *     @type int $Height
      *     @type int $OffsetTime
+     *     @type string $FillType
+     *           填充类型 
      * }
      */
     public function __construct($data = NULL) {
@@ -185,6 +193,32 @@ class PosterSnapshotParams extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->OffsetTime = $var;
+
+        return $this;
+    }
+
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 7;</code>
+     * @return string
+     */
+    public function getFillType()
+    {
+        return $this->FillType;
+    }
+
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 7;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setFillType($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->FillType = $var;
 
         return $this;
     }

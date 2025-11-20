@@ -13,7 +13,9 @@ declare (strict_types = 1);
 
 namespace think\db;
 
+use Closure;
 use PDOStatement;
+use ReflectionFunction;
 use think\db\exception\DbException as Exception;
 
 /**
@@ -518,11 +520,29 @@ class Query extends BaseQuery
     public function getQueryGuid($data = null): string
     {
         if (null === $data) {
-            $data = $this->options;
+            $data          = $this->options;
+            $data['table'] = $this->getConfig('database') . var_export($this->getTable(), true);
             unset($data['scope'], $data['default_model']);
+            foreach (['AND', 'OR', 'XOR'] as $logic) {
+                if (isset($data['where'][$logic])) {
+                    foreach ($data['where'][$logic] as $key => $val) {
+                        if ($val instanceof Closure) {
+                            $reflection = new ReflectionFunction($val);
+                            $properties = $reflection->getStaticVariables();
+                            if (empty($properties)) {
+                                $name = $reflection->getName() . $reflection->getStartLine() . '-' . $reflection->getEndLine();
+                            } else {
+                                $name = var_export($properties, true);
+                            }
+                            $data['Closure'][] = $name;
+                            unset($data['where'][$logic][$key]);
+                        }
+                    }
+                }
+            }
         }
 
-        return md5($this->getConfig('database') . serialize(var_export($data, true)) . serialize($this->getBind(false)));
+        return md5(serialize(var_export($data, true)) . serialize($this->getBind(false)));
     }
 
     /**

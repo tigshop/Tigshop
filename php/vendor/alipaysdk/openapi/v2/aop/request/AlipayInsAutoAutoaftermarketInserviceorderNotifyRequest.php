@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ins.auto.autoaftermarket.inserviceorder.notify request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:31:55
+ * @since 1.0, 2024-10-30 14:41:40
  */
 class AlipayInsAutoAutoaftermarketInserviceorderNotifyRequest
 {

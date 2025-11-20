@@ -12,7 +12,6 @@
 namespace Symfony\Component\HttpFoundation;
 
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
-use Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
 
 /**
  * ParameterBag is a container for key/value pairs.
@@ -38,7 +37,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @param string|null $key The name of the parameter to return or null to get them all
      */
-    public function all(?string $key = null): array
+    public function all(string $key = null): array
     {
         if (null === $key) {
             return $this->parameters;
@@ -61,8 +60,6 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Replaces the current parameters by a new set.
-     *
-     * @return void
      */
     public function replace(array $parameters = [])
     {
@@ -71,8 +68,6 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Adds parameters.
-     *
-     * @return void
      */
     public function add(array $parameters = [])
     {
@@ -84,9 +79,6 @@ class ParameterBag implements \IteratorAggregate, \Countable
         return \array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
     }
 
-    /**
-     * @return void
-     */
     public function set(string $key, mixed $value)
     {
         $this->parameters[$key] = $value;
@@ -102,8 +94,6 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Removes a parameter.
-     *
-     * @return void
      */
     public function remove(string $key)
     {
@@ -115,7 +105,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      */
     public function getAlpha(string $key, string $default = ''): string
     {
-        return preg_replace('/[^[:alpha:]]/', '', $this->getString($key, $default));
+        return preg_replace('/[^[:alpha:]]/', '', $this->get($key, $default));
     }
 
     /**
@@ -123,7 +113,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      */
     public function getAlnum(string $key, string $default = ''): string
     {
-        return preg_replace('/[^[:alnum:]]/', '', $this->getString($key, $default));
+        return preg_replace('/[^[:alnum:]]/', '', $this->get($key, $default));
     }
 
     /**
@@ -131,20 +121,8 @@ class ParameterBag implements \IteratorAggregate, \Countable
      */
     public function getDigits(string $key, string $default = ''): string
     {
-        return preg_replace('/[^[:digit:]]/', '', $this->getString($key, $default));
-    }
-
-    /**
-     * Returns the parameter as string.
-     */
-    public function getString(string $key, string $default = ''): string
-    {
-        $value = $this->get($key, $default);
-        if (!\is_scalar($value) && !$value instanceof \Stringable) {
-            throw new UnexpectedValueException(sprintf('Parameter value "%s" cannot be converted to "string".', $key));
-        }
-
-        return (string) $value;
+        // we need to remove - and + because they're allowed in the filter
+        return str_replace(['-', '+'], '', $this->filter($key, $default, \FILTER_SANITIZE_NUMBER_INT));
     }
 
     /**
@@ -152,8 +130,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      */
     public function getInt(string $key, int $default = 0): int
     {
-        // In 7.0 remove the fallback to 0, in case of failure an exception will be thrown
-        return $this->filter($key, $default, \FILTER_VALIDATE_INT, ['flags' => \FILTER_REQUIRE_SCALAR]) ?: 0;
+        return (int) $this->get($key, $default);
     }
 
     /**
@@ -161,39 +138,13 @@ class ParameterBag implements \IteratorAggregate, \Countable
      */
     public function getBoolean(string $key, bool $default = false): bool
     {
-        return $this->filter($key, $default, \FILTER_VALIDATE_BOOL, ['flags' => \FILTER_REQUIRE_SCALAR]);
-    }
-
-    /**
-     * Returns the parameter value converted to an enum.
-     *
-     * @template T of \BackedEnum
-     *
-     * @param class-string<T> $class
-     * @param ?T              $default
-     *
-     * @return ?T
-     */
-    public function getEnum(string $key, string $class, ?\BackedEnum $default = null): ?\BackedEnum
-    {
-        $value = $this->get($key);
-
-        if (null === $value) {
-            return $default;
-        }
-
-        try {
-            return $class::from($value);
-        } catch (\ValueError|\TypeError $e) {
-            throw new UnexpectedValueException(sprintf('Parameter "%s" cannot be converted to enum: %s.', $key, $e->getMessage()), $e->getCode(), $e);
-        }
+        return $this->filter($key, $default, \FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
      * Filter key.
      *
-     * @param int                                     $filter  FILTER_* constant
-     * @param int|array{flags?: int, options?: array} $options Flags from FILTER_* constants
+     * @param int $filter FILTER_* constant
      *
      * @see https://php.net/filter-var
      */
@@ -211,31 +162,11 @@ class ParameterBag implements \IteratorAggregate, \Countable
             $options['flags'] = \FILTER_REQUIRE_ARRAY;
         }
 
-        if (\is_object($value) && !$value instanceof \Stringable) {
-            throw new UnexpectedValueException(sprintf('Parameter value "%s" cannot be filtered.', $key));
-        }
-
         if ((\FILTER_CALLBACK & $filter) && !(($options['options'] ?? null) instanceof \Closure)) {
             throw new \InvalidArgumentException(sprintf('A Closure must be passed to "%s()" when FILTER_CALLBACK is used, "%s" given.', __METHOD__, get_debug_type($options['options'] ?? null)));
         }
 
-        $options['flags'] ??= 0;
-        $nullOnFailure = $options['flags'] & \FILTER_NULL_ON_FAILURE;
-        $options['flags'] |= \FILTER_NULL_ON_FAILURE;
-
-        $value = filter_var($value, $filter, $options);
-
-        if (null !== $value || $nullOnFailure) {
-            return $value;
-        }
-
-        $method = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS | \DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
-        $method = ($method['object'] ?? null) === $this ? $method['function'] : 'filter';
-        $hint = 'filter' === $method ? 'pass' : 'use method "filter()" with';
-
-        trigger_deprecation('symfony/http-foundation', '6.3', 'Ignoring invalid values when using "%s::%s(\'%s\')" is deprecated and will throw an "%s" in 7.0; '.$hint.' flag "FILTER_NULL_ON_FAILURE" to keep ignoring them.', $this::class, $method, $key, UnexpectedValueException::class);
-
-        return false;
+        return filter_var($value, $filter, $options);
     }
 
     /**

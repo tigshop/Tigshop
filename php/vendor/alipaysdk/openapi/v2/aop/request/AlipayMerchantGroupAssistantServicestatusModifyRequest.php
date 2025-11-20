@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.merchant.group.assistant.servicestatus.modify request
  *
  * @author auto create
- * @since 1.0, 2024-10-08 10:27:12
+ * @since 1.0, 2025-05-27 10:31:02
  */
 class AlipayMerchantGroupAssistantServicestatusModifyRequest
 {

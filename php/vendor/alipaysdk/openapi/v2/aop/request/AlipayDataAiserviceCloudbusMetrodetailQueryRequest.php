@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.aiservice.cloudbus.metrodetail.query request
  *
  * @author auto create
- * @since 1.0, 2023-09-03 23:08:37
+ * @since 1.0, 2025-08-13 14:57:43
  */
 class AlipayDataAiserviceCloudbusMetrodetailQueryRequest
 {

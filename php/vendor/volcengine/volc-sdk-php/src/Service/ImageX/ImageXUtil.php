@@ -25,4 +25,9 @@ class ImageXUtil
             return RetryMiddleware::exponentialDelay($num);
         };
     }
+
+    static public function escapePath($originalPath): string
+    {
+        return implode('/', array_map('rawurlencode', explode('/', $originalPath)));
+    }
 }

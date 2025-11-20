@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016, Google Inc.
+ * Copyright 2016 Google LLC
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-namespace Google\GAX;
+namespace Google\ApiCore;
 
 use InvalidArgumentException;
 
@@ -38,61 +38,135 @@ use InvalidArgumentException;
  */
 class PageStreamingDescriptor
 {
-    private $requestPageTokenField;
-    private $requestPageSizeField;
-    private $responsePageTokenField;
-    private $resourceField;
+    private $descriptor;
 
     /**
      * @param array $descriptor {
+     *     Required.
+     *     @type string $requestPageTokenGetMethod the get method for the page token in the request object.
+     *     @type string $requestPageTokenSetMethod the set method for the page token in the request object.
+     *     @type string $responsePageTokenGetMethod the get method for the page token in the response object.
+     *     @type string resourcesGetMethod the get method for the resources in the response object.
+     *
+     *     Optional.
+     *     @type string $requestPageSizeGetMethod the get method for the page size in the request object.
+     * }
+     */
+    public function __construct(array $descriptor)
+    {
+        self::validate($descriptor);
+        $this->descriptor = $descriptor;
+    }
+
+    /**
+     * @param array $fields {
      *     Required.
      *
      *     @type string $requestPageTokenField the page token field in the request object.
      *     @type string $responsePageTokenField the page token field in the response object.
      *     @type string $resourceField the resource field in the response object.
+     *
+     *     Optional.
+     *     @type string $requestPageSizeField the page size field in the request object.
      * }
+     * @return PageStreamingDescriptor
      */
-    public function __construct($descriptor)
+    public static function createFromFields(array $fields)
     {
-        self::validate($descriptor);
-        $this->requestPageTokenField = $descriptor['requestPageTokenField'];
-        if (isset($descriptor['requestPageSizeField'])) {
-            $this->requestPageSizeField = $descriptor['requestPageSizeField'];
-        } else {
-            $this->requestPageSizeField = null;
+        $requestPageToken = $fields['requestPageTokenField'];
+        $responsePageToken = $fields['responsePageTokenField'];
+        $resources = $fields['resourceField'];
+
+        $descriptor = [
+            'requestPageTokenGetMethod' => PageStreamingDescriptor::getMethod($requestPageToken),
+            'requestPageTokenSetMethod' => PageStreamingDescriptor::setMethod($requestPageToken),
+            'responsePageTokenGetMethod' => PageStreamingDescriptor::getMethod($responsePageToken),
+            'resourcesGetMethod' => PageStreamingDescriptor::getMethod($resources),
+        ];
+
+        if (isset($fields['requestPageSizeField'])) {
+            $requestPageSize = $fields['requestPageSizeField'];
+            $descriptor['requestPageSizeGetMethod'] = PageStreamingDescriptor::getMethod($requestPageSize);
+            $descriptor['requestPageSizeSetMethod'] = PageStreamingDescriptor::setMethod($requestPageSize);
         }
-        $this->responsePageTokenField = $descriptor['responsePageTokenField'];
-        $this->resourceField = $descriptor['resourceField'];
+
+        return new PageStreamingDescriptor($descriptor);
     }
 
-    public function getRequestPageTokenField()
+    private static function getMethod(string $field)
     {
-        return $this->requestPageTokenField;
+        return 'get' . ucfirst($field);
     }
 
-    public function getRequestPageSizeField()
+    private static function setMethod(string $field)
     {
-        return $this->requestPageSizeField;
+        return 'set' . ucfirst($field);
     }
 
+    /**
+     * @return string The page token get method on the request object
+     */
+    public function getRequestPageTokenGetMethod()
+    {
+        return $this->descriptor['requestPageTokenGetMethod'];
+    }
+
+    /**
+     * @return string The page size get method on the request object
+     */
+    public function getRequestPageSizeGetMethod()
+    {
+        return $this->descriptor['requestPageSizeGetMethod'];
+    }
+
+    /**
+     * @return bool True if the request object has a page size field
+     */
     public function requestHasPageSizeField()
     {
-        return isset($this->requestPageSizeField);
+        return array_key_exists('requestPageSizeGetMethod', $this->descriptor);
     }
 
-    public function getResponsePageTokenField()
+    /**
+     * @return string The page token get method on the response object
+     */
+    public function getResponsePageTokenGetMethod()
     {
-        return $this->responsePageTokenField;
+        return $this->descriptor['responsePageTokenGetMethod'];
     }
 
-    public function getResourceField()
+    /**
+     * @return string The resources get method on the response object
+     */
+    public function getResourcesGetMethod()
     {
-        return $this->resourceField;
+        return $this->descriptor['resourcesGetMethod'];
     }
 
-    private static function validate($descriptor)
+    /**
+     * @return string The page token set method on the request object
+     */
+    public function getRequestPageTokenSetMethod()
     {
-        $requiredFields = ['requestPageTokenField', 'responsePageTokenField', 'resourceField'];
+        return $this->descriptor['requestPageTokenSetMethod'];
+    }
+
+    /**
+     * @return string The page size set method on the request object
+     */
+    public function getRequestPageSizeSetMethod()
+    {
+        return $this->descriptor['requestPageSizeSetMethod'];
+    }
+
+    private static function validate(array $descriptor)
+    {
+        $requiredFields = [
+            'requestPageTokenGetMethod',
+            'requestPageTokenSetMethod',
+            'responsePageTokenGetMethod',
+            'resourcesGetMethod',
+        ];
         foreach ($requiredFields as $field) {
             if (empty($descriptor[$field])) {
                 throw new InvalidArgumentException(

@@ -1,5 +1,521 @@
 # CHANGELOG
 
+## 1.8.2324 - 2025-11-3
+- Generated 2015-12-01 for `Dds`.
+
+
+## 1.8.2323 - 2025-10-30
+- Supported Custom Privacy Policy.
+
+
+## 1.8.2322 - 2025-10-29
+- Generated 2016-11-01 for `live`.
+
+
+## 1.8.2321 - 2025-10-20
+- Supported Brand.
+
+
+## 1.8.2320 - 2025-10-17
+- Generated 2017-08-01 for `polardb`.
+
+
+## 1.8.2319 - 2025-9-26
+- Publish sdk.
+
+
+## 1.8.2318 - 2025-9-22
+- Generated 2025-07-07 for `AnyTrans`.
+
+
+## 1.8.2317 - 2025-9-17
+- Generated 2022-12-30 for `marketplaceIntl`.
+
+
+## 1.8.2316 - 2025-9-15
+- Add CreateExternalCACertificate.
+- Add ListPcaCaCertificate.
+
+
+## 1.8.2315 - 2025-9-11
+- Add some APIs.
+
+
+## 1.8.2314 - 2025-9-9
+- support query rtc live rooms
+
+
+## 1.8.2313 - 2025-8-25
+- Generated 2021-12-01 for `Eiam`.
+
+
+## 1.8.2312 - 2025-8-20
+- Add Chat Session Query Support.
+- Add Chat Session Close Support.
+
+
+## 1.8.2311 - 2025-8-20
+- Generated 2025-08-12 for `IntlMarket`.
+
+
+## 1.8.2310 - 2025-8-19
+- Generated 2016-11-01 for `live`.
+
+
+## 1.8.2309 - 2025-8-13
+- Generated 2016-11-01 for `live`.
+
+
+## 1.8.2308 - 2025-8-11
+- Add QueryDashboardNl2sql, QueryLastAccelerationEngineJob APIs.
+
+
+## 1.8.2307 - 2025-8-11
+- Generated 2014-08-15 for `Rds`.
+
+
+## 1.8.2306 - 2025-8-7
+- Generated 2019-09-01 for `OceanBasePro`.
+
+
+## 1.8.2305 - 2025-8-5
+- Generated 2016-11-01 for `live`.
+
+
+## 1.8.2304 - 2025-8-1
+- Add image search api.
+
+
+## 1.8.2303 - 2025-7-31
+- Generated 2015-12-01 for `Dds`.
+
+
+## 1.8.2302 - 2025-7-30
+- Backup OpenAPI update.
+
+
+## 1.8.2301 - 2025-7-30
+- Generated 2025-07-09 for `CioMarketPop`.
+
+
+## 1.8.2300 - 2025-7-29
+- Generated 2016-11-01 for `live`.
+
+
+## 1.8.2299 - 2025-7-29
+- Generated 2016-11-01 for `live`.
+
+
+## 1.8.2298 - 2025-7-24
+- Update GetInstance and ListInstances.
+
+
+## 1.8.2297 - 2025-7-17
+- Update GetInstance and ListInstances.
+
+
+## 1.8.2296 - 2025-7-16
+- Add Support For Create Chat Session.
+
+
+## 1.8.2295 - 2025-7-14
+- Add QueryReadableResourcesListByUserIdV2 API.
+
+
+## 1.8.2294 - 2025-7-10
+- Generated 2016-04-28 for `Vpc`.
+
+
+## 1.8.2293 - 2025-7-10
+- AMP version.
+
+
+## 1.8.2292 - 2025-7-10
+- AMP version.
+
+
+## 1.8.2291 - 2025-7-10
+- AMP version.
+
+
+## 1.8.2290 - 2025-7-10
+- AMP version.
+
+
+## 1.8.2289 - 2025-7-10
+- Generated 2019-03-07 for `Cloudauth`.
+
+
+## 1.8.2288 - 2025-7-9
+- Generated 2025-04-29 for `WebsiteBuild`.
+
+
+## 1.8.2287 - 2025-7-9
+- Generated 2019-09-01 for `OceanBasePro`.
+
+
+## 1.8.2286 - 2025-7-4
+- Supported param and error code.
+
+
+## 1.8.2285 - 2025-7-3
+- QueryAuditLog API add request parameters.
+
+
+## 1.8.2284 - 2025-7-2
+- Generated 2021-03-08 for `eds-user`.
+
+
+## 1.8.2283 - 2025-6-30
+- Public AssumeRole AssumeRoleWithSAML AssumeRoleWithOIDC for supporting sourceIdentity.
+
+
+## 1.8.2282 - 2025-6-13
+- Generated 2015-05-01 for `Ram`.
+
+
+## 1.8.2281 - 2025-6-12
+- Support restart node list and re-elect zookeeper.
+
+
+## 1.8.2280 - 2025-6-11
+- Generated 2019-09-01 for `OceanBasePro`.
+
+
+## 1.8.2279 - 2025-6-11
+支持创建RTC WHIP推流地址
+
+
+## 1.8.2278 - 2025-6-10
+- Add API ReadSchedulerxDesignateInfo.
+
+
+## 1.8.2277 - 2025-6-5
+- init sdk
+
+
+## 1.8.2276 - 2025-5-30
+- Generated 2025-02-28 for `AIPodcast`.
+
+
+## 1.8.2275 - 2025-5-28
+- Add api request parameters and error code.
+
+
+## 1.8.2274 - 2025-5-22
+- Generated 2014-08-15 for `Rds`.
+
+
+## 1.8.2273 - 2025-5-21
+- Added param for ActivateLicenseResponse .
+
+
+## 1.8.2272 - 2025-5-20
+- Added param for ActivateLicenseResponse .
+
+
+## 1.8.2271 - 2025-5-15
+- Supported CreateFixedPriceSelectedOrder return block domain.
+
+
+## 1.8.2270 - 2025-5-14
+- Update water-mark params.
+
+
+## 1.8.2269 - 2025-5-13
+- Add Api ReadSchedulerxDesignateDetail.
+
+
+## 1.8.2268 - 2025-5-6
+- Generated 2021-05-17 for `Itag`.
+
+
+## 1.8.2267 - 2025-4-27
+- Generated 2021-03-08 for `eds-user`.
+
+
+## 1.8.2266 - 2025-4-25
+- Generated 2014-08-28 for `Ess`.
+
+
+## 1.8.2265 - 2025-4-23
+- Generated 2021-03-08 for `eds-user`.
+
+
+## 1.8.2264 - 2025-4-15
+- Generate SDK unified.
+
+
+## 1.8.2263 - 2025-4-14
+- Add SmartqQueryAbility api request parameters.
+
+
+## 1.8.2262 - 2025-4-8
+- Generated 2015-12-01 for `Dds`.
+
+
+## 1.8.2261 - 2025-4-7
+- Generated 2020-05-18 for `dataworks-public`.
+
+
+## 1.8.2260 - 2025-4-2
+- Generated 2025-02-28 for `AIPodcast`.
+
+
+## 1.8.2259 - 2025-3-31
+- Add parameters to control different role.
+
+
+## 1.8.2258 - 2025-3-28
+- New Version.
+
+
+## 1.8.2257 - 2025-3-27
+- Generated 2020-05-18 for `dataworks-public`.
+
+
+## 1.8.2256 - 2025-3-25
+- Generated 2020-06-01 for `SWAS-OPEN`.
+
+
+## 1.8.2255 - 2025-3-21
+- Generated 2019-03-07 for `Cloudauth`.
+
+
+## 1.8.2254 - 2025-3-21
+- Support Conditional Access Policy.
+
+
+## 1.8.2253 - 2025-3-21
+- GetDailyPlayRegionStatis
+
+
+## 1.8.2252 - 2025-3-20
+- Support Conditional Access Policy.
+
+
+## 1.8.2251 - 2025-3-18
+- Supported DescribeImageSharePermission.
+
+
+## 1.8.2250 - 2025-3-14
+- Generated 2022-07-28 for `sophonsoar`.
+
+
+## 1.8.2249 - 2025-3-14
+- Add API errors.
+- QueryUserList API add return parameter.
+
+
+## 1.8.2248 - 2025-3-12
+- Unified upgrade SDK.
+
+
+## 1.8.2247 - 2025-3-11
+- Generated 2019-01-23 for `Drds`.
+
+
+## 1.8.2246 - 2025-3-3
+- Add auto grouping apis.
+
+
+## 1.8.2245 - 2025-2-11
+- Generated 2020-06-01 for `SWAS-OPEN`.
+
+
+## 1.8.2244 - 2025-2-11
+- Generated 2019-03-07 for `Cloudauth`.
+
+
+## 1.8.2243 - 2025-2-7
+- Add ModifyInstanceProperties.
+
+
+## 1.8.2242 - 2025-2-6
+- Rebuild.
+
+
+## 1.8.2241 - 2025-1-20
+- Generated 2017-08-01 for `polardb`.
+
+
+## 1.8.2240 - 2025-1-14
+- Generated 2023-01-20 for `csas`.
+
+
+## 1.8.2239 - 2025-1-9
+- Supported GetInstanceLicense.
+
+
+## 1.8.2238 - 2025-1-8
+- Modify BatchGetMediaInfos.
+
+
+## 1.8.2237 - 2024-12-30
+- Add SmartQ APIs.
+- Add GetDataSourceConnectionInfo, QueryDatasetList APIs.
+
+
+## 1.8.2236 - 2024-12-26
+- CreateJob and UpdateJob support ExecutorBlockStrategy.
+- TimeType support fixed_delay.
+- ListJobs support return LastExecuteEndTime, LastExecuteStatus and CurrentExecuteStatus.
+
+
+## 1.8.2235 - 2024-12-25
+-- Supported DeleteEip
+
+
+## 1.8.2234 - 2024-12-24
+- Supported Jumbo for HDENI and LENI.
+
+
+## 1.8.2233 - 2024-12-23
+- Generated 2020-06-16 for `Alb`.
+
+
+## 1.8.2232 - 2024-12-19
+- Add BatchGetMediaInfos.
+- Modify UploadStreamByURL.
+
+
+## 1.8.2231 - 2024-12-18
+- Add Support Real time mock table.
+
+
+## 1.8.2230 - 2024-12-12
+- Supported Pageable of ListDataLakeDatabase API.
+
+
+## 1.8.2229 - 2024-12-11
+- Support fromData for UpdateRulesAttribute and Createrules
+
+
+## 1.8.2228 - 2024-12-6
+- Generated 2016-11-01 for `live`.
+
+
+## 1.8.2227 - 2024-12-6
+-Release GetJobDetail, ListJobInfo.
+-Modify GetTranscodeTask.
+
+
+## 1.8.2226 - 2024-12-2
+- Add LabelPriorityLevel in UpdateModelFeature API.
+
+
+## 1.8.2225 - 2024-11-28
+- SubmitTranscodeJobs Add SessionId.
+
+
+## 1.8.2224 - 2024-11-27
+- Generated 2017-11-10 for `Ens`.
+
+
+## 1.8.2223 - 2024-11-26
+- Add SmartqQueryAbility api.
+
+
+## 1.8.2222 - 2024-11-26
+- Update DescribeApiMetering API.
+
+
+## 1.8.2221 - 2024-11-22
+- Generated 2021-11-11 for `qianzhou`.
+
+
+## 1.8.2220 - 2024-11-19
+- Init.
+
+
+## 1.8.2219 - 2024-11-14
+- Generated 2016-11-01 for `live`.
+
+
+## 1.8.2218 - 2024-11-13
+- Supported AndroidMessageOppoCategory, AndroidMessageOppoNotifyLevel for Push and MassPush.
+
+
+## 1.8.2217 - 2024-11-5
+- Generated 2015-12-01 for `Dds`.
+
+
+## 1.8.2216 - 2024-11-4
+- Support Ipv4LocalAddresses and Ipv6LocalAddresses.
+
+
+## 1.8.2215 - 2024-10-31
+- DescribeInstanceTypes add CpuOptions.
+
+
+## 1.8.2214 - 2024-10-30
+- Update to support new apis.
+
+
+## 1.8.2213 - 2024-10-30
+- Update to support new apis.
+
+
+## 1.8.2212 - 2024-10-30
+- Generated 2023-01-20 for `csas`.
+
+
+## 1.8.2211 - 2024-10-30
+- Support describe and modify NVMe on instance.
+
+
+## 1.8.2210 - 2024-10-28
+- Support Fileset for BmCPFS.
+- Support Fileset Quota for BmCPFS.
+
+
+## 1.8.2209 - 2024-10-25
+- Generated 2017-11-10 for `Ens`.
+
+
+## 1.8.2208 - 2024-10-24
+- Publish sdk.
+
+
+## 1.8.2207 - 2024-10-23
+- Update Endpoint.
+
+
+## 1.8.2206 - 2024-10-23
+ListUsers，ListUserBasicInfos api新增支持status字段
+
+
+## 1.8.2205 - 2024-10-22
+- Add openapi StartEaiJupyter.
+- Add openapi StopEaiJupyter.
+
+
+## 1.8.2204 - 2024-10-18
+- Gwlb Open API released.
+
+
+## 1.8.2203 - 2024-10-17
+- 基于转移码的转出接口
+- SaveSingleTaskForTransferOutByAuthorizationCode
+- SaveBatchTaskForTransferOutByAuthorizationCode
+
+
+## 1.8.2202 - 2024-10-16
+- Gwlb Open API released.
+
+
+## 1.8.2201 - 2024-10-15
+- Add ResourcePoolOptions.Strategy for CreateAutoProvisioningGroup.
+
+
+## 1.8.2200 - 2024-10-11
+- GetPlayInfo Add EncryptMode.
+
+
+## 1.8.2199 - 2024-10-10
+- Add ManualRunMailTask, GetMailTaskStatus and GetWorksEmbedList apis.
+
+
 ## 1.8.2198 - 2024-10-10
 - Support Android badge.
 - Support Harmony badge.

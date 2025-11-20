@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.credit.payafteruse.creditbizorder.query request
  *
  * @author auto create
- * @since 1.0, 2024-05-08 13:37:02
+ * @since 1.0, 2025-04-25 15:22:28
  */
 class ZhimaCreditPayafteruseCreditbizorderQueryRequest
 {

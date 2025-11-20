@@ -1,5 +1,110 @@
 Change log
 
+2025-11-06 Bumped to version v1.0.162
+- Updated apis for Vms/Vod
+
+2025-10-23 Bumped to version v1.0.161
+- Updated apis for Vod
+
+2025-10-16 Bumped to version v1.0.160
+- Updated apis for ImageX/Vod
+
+2025-09-25 Bumped to version v1.0.159
+- Updated apis for Vod
+
+2025-09-18 Bumped to version v1.0.158
+- Updated apis for Vod
+
+2025-08-28 Bumped to version v1.0.157
+- Updated apis for Vod
+
+2025-08-21 Bumped to version v1.0.156
+- Updated apis for ImageX
+
+2025-08-14 Bumped to version v1.0.155
+- Updated apis for sdk
+
+2025-08-07 Bumped to version v1.0.154
+- Updated apis for ImageX
+
+2025-07-10 Bumped to version v1.0.153
+- Updated apis for ImageX
+
+2025-07-03 Bumped to version v1.0.152
+- Updated apis for ImageX
+
+2025-06-26 Bumped to version v1.0.151
+- Updated apis for Live
+
+2025-06-19 Bumped to version v1.0.150
+- Updated apis for sdk
+
+2025-06-17 Bumped to version v1.0.148
+- Updated apis for Vod
+
+2025-05-29 Bumped to version v1.0.147
+- Updated apis for ImageX/Vod
+
+2025-05-22 Bumped to version v1.0.146
+- Updated apis for ImageX
+
+2025-05-15 Bumped to version v1.0.145
+- Updated apis for Vod
+
+2025-05-08 Bumped to version v1.0.144
+- Updated apis for ImageX
+
+2025-04-25 Bumped to version v1.0.143
+- Updated apis for Live
+
+2025-04-24 Bumped to version v1.0.142
+- Updated apis for ImageX/Vod
+
+2025-04-17 Bumped to version v1.0.141
+- Updated apis for Vms/Vod
+
+2025-04-10 Bumped to version v1.0.140
+- Updated SignatureV4
+
+2025-03-31 Bumped to version v1.0.139
+- Updated apis for ImageX
+
+2025-03-27 Bumped to version v1.0.138
+- Updated apis for ImageX
+
+2025-03-20 Bumped to version v1.0.137
+- Updated apis for Vod
+
+2025-02-27 Bumped to version v1.0.136
+- Updated apis for ImageX/Vod
+
+2025-02-13 Bumped to version v1.0.135
+- Updated apis for imp
+
+2025-01-02 Bumped to version v1.0.134
+- Updated apis for cdn
+
+2024-12-26 Bumped to version v1.0.133
+- Updated apis for vod
+
+2024-12-16 Bumped to version v1.0.132
+- Updated apis for live
+
+2024-12-05 Bumped to version v1.0.131
+- Updated apis for cdn
+
+2024-11-28 Bumped to version v1.0.130
+- Updated apis for visual
+
+2024-11-14 Bumped to version v1.0.129
+- Updated apis for imagex/vod
+
+2024-11-07 Bumped to version v1.0.128
+- Updated apis for imagex
+
+2024-10-24 Bumped to version v1.0.127
+- Updated apis for vod
+
 2024-10-17 Bumped to version v1.0.126
 - Updated apis for vod
 

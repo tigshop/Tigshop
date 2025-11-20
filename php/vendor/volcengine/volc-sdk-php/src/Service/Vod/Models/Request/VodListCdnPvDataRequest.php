@@ -47,6 +47,12 @@ class VodListCdnPvDataRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>bool NeedDetail = 6;</code>
      */
     protected $NeedDetail = false;
+    /**
+     * http, https, quic 等协议
+     *
+     * Generated from protobuf field <code>string Protocol = 7;</code>
+     */
+    protected $Protocol = '';
 
     /**
      * Constructor.
@@ -65,6 +71,8 @@ class VodListCdnPvDataRequest extends \Google\Protobuf\Internal\Message
      *     @type string $DataType
      *           统计数据类别, 可选edge-边缘数据,origin-回源数据 
      *     @type bool $NeedDetail
+     *     @type string $Protocol
+     *           http, https, quic 等协议
      * }
      */
     public function __construct($data = NULL) {
@@ -220,6 +228,32 @@ class VodListCdnPvDataRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkBool($var);
         $this->NeedDetail = $var;
+
+        return $this;
+    }
+
+    /**
+     * http, https, quic 等协议
+     *
+     * Generated from protobuf field <code>string Protocol = 7;</code>
+     * @return string
+     */
+    public function getProtocol()
+    {
+        return $this->Protocol;
+    }
+
+    /**
+     * http, https, quic 等协议
+     *
+     * Generated from protobuf field <code>string Protocol = 7;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setProtocol($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->Protocol = $var;
 
         return $this;
     }

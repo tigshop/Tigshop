@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.mini.safedomain.delete request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 17:41:23
+ * @since 1.0, 2025-08-14 11:07:36
  */
 class AlipayOpenMiniSafedomainDeleteRequest
 {

@@ -10,6 +10,7 @@ return [
     ],
     'websocket'  => [
         'enable'        => false,
+        'route' => true,
         'handler'       => \think\swoole\websocket\Handler::class,
         'ping_interval' => 25000,
         'ping_timeout'  => 60000,
@@ -70,6 +71,17 @@ return [
         'type'  => 'unix_socket',
         'redis' => [
             'host'          => '127.0.0.1',
+            'port'          => 6379,
+            'max_active'    => 3,
+            'max_wait_time' => 5,
+        ],
+    ],
+    //锁
+    'lock'       => [
+        'enable' => false,
+        'type'   => 'table',
+        'redis'  => [
+            'host' => '127.0.0.1',
             'port'          => 6379,
             'max_active'    => 3,
             'max_wait_time' => 5,

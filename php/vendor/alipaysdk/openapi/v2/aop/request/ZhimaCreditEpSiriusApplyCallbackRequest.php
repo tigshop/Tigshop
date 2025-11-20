@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.credit.ep.sirius.apply.callback request
  *
  * @author auto create
- * @since 1.0, 2024-03-26 14:21:59
+ * @since 1.0, 2025-03-11 10:34:04
  */
 class ZhimaCreditEpSiriusApplyCallbackRequest
 {

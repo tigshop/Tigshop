@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.transport.bike.energy.query request
  *
  * @author auto create
- * @since 1.0, 2024-05-08 17:42:02
+ * @since 1.0, 2024-11-12 16:35:53
  */
 class AlipayCommerceTransportBikeEnergyQueryRequest
 {

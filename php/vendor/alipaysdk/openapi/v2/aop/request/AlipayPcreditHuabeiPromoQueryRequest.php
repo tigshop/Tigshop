@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.pcredit.huabei.promo.query request
  *
  * @author auto create
- * @since 1.0, 2024-09-12 20:01:18
+ * @since 1.0, 2025-08-13 17:47:41
  */
 class AlipayPcreditHuabeiPromoQueryRequest
 {

@@ -69,7 +69,7 @@ class Store extends Proxy implements CacheHandlerInterface
      */
     public function clearTag($keys)
     {
-        return $this->__call(__FUNCTION__, func_get_args());
+        $this->__call(__FUNCTION__, func_get_args());
     }
 
     /**

@@ -33,7 +33,8 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
      */
     protected const NS_SEPARATOR = ':';
 
-    private static bool $apcuSupported;
+    private static $apcuSupported;
+    private static $phpFilesSupported;
 
     protected function __construct(string $namespace = '', int $defaultLifetime = 0)
     {
@@ -42,20 +43,28 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         if (null !== $this->maxIdLength && \strlen($namespace) > $this->maxIdLength - 24) {
             throw new InvalidArgumentException(sprintf('Namespace must be %d chars max, %d given ("%s").', $this->maxIdLength - 24, \strlen($namespace), $namespace));
         }
-        self::$createCacheItem ??= \Closure::bind(
+        self::$createCacheItem ?? self::$createCacheItem = \Closure::bind(
             static function ($key, $value, $isHit) {
                 $item = new CacheItem();
                 $item->key = $key;
-                $item->value = $value;
+                $item->value = $v = $value;
                 $item->isHit = $isHit;
-                $item->unpack();
+                // Detect wrapped values that encode for their expiry and creation duration
+                // For compactness, these values are packed in the key of an array using
+                // magic numbers in the form 9D-..-..-..-..-00-..-..-..-5F
+                if (\is_array($v) && 1 === \count($v) && 10 === \strlen($k = (string) array_key_first($v)) && "\x9D" === $k[0] && "\0" === $k[5] && "\x5F" === $k[9]) {
+                    $item->value = $v[$k];
+                    $v = unpack('Ve/Nc', substr($k, 1, -1));
+                    $item->metadata[CacheItem::METADATA_EXPIRY] = $v['e'] + CacheItem::METADATA_EXPIRY_OFFSET;
+                    $item->metadata[CacheItem::METADATA_CTIME] = $v['c'];
+                }
 
                 return $item;
             },
             null,
             CacheItem::class
         );
-        self::$mergeByLifetime ??= \Closure::bind(
+        self::$mergeByLifetime ?? self::$mergeByLifetime = \Closure::bind(
             static function ($deferred, $namespace, &$expiredIds, $getId, $defaultLifetime) {
                 $byLifetime = [];
                 $now = microtime(true);
@@ -71,7 +80,11 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
                         $expiredIds[] = $getId($key);
                         continue;
                     }
-                    $byLifetime[$ttl][$getId($key)] = $item->pack();
+                    if (isset(($metadata = $item->newMetadata)[CacheItem::METADATA_TAGS])) {
+                        unset($metadata[CacheItem::METADATA_TAGS]);
+                    }
+                    // For compactness, expiry and creation duration are packed in the key of an array, using magic numbers as separators
+                    $byLifetime[$ttl][$getId($key)] = $metadata ? ["\x9D".pack('VN', (int) (0.1 + $metadata[self::METADATA_EXPIRY] - self::METADATA_EXPIRY_OFFSET), $metadata[self::METADATA_CTIME])."\x5F" => $item->value] : $item->value;
                 }
 
                 return $byLifetime;
@@ -85,19 +98,21 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
      * Returns the best possible adapter that your runtime supports.
      *
      * Using ApcuAdapter makes system caches compatible with read-only filesystems.
+     *
+     * @return AdapterInterface
      */
-    public static function createSystemCache(string $namespace, int $defaultLifetime, string $version, string $directory, ?LoggerInterface $logger = null): AdapterInterface
+    public static function createSystemCache(string $namespace, int $defaultLifetime, string $version, string $directory, ?LoggerInterface $logger = null)
     {
         $opcache = new PhpFilesAdapter($namespace, $defaultLifetime, $directory, true);
         if (null !== $logger) {
             $opcache->setLogger($logger);
         }
 
-        if (!self::$apcuSupported ??= ApcuAdapter::isSupported()) {
+        if (!self::$apcuSupported = self::$apcuSupported ?? ApcuAdapter::isSupported()) {
             return $opcache;
         }
 
-        if ('cli' === \PHP_SAPI && !filter_var(\ini_get('apc.enable_cli'), \FILTER_VALIDATE_BOOL)) {
+        if (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) && !filter_var(\ini_get('apc.enable_cli'), \FILTER_VALIDATE_BOOLEAN)) {
             return $opcache;
         }
 
@@ -109,7 +124,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         return new ChainAdapter([$apcu, $opcache]);
     }
 
-    public static function createConnection(#[\SensitiveParameter] string $dsn, array $options = []): mixed
+    public static function createConnection(string $dsn, array $options = [])
     {
         if (str_starts_with($dsn, 'redis:') || str_starts_with($dsn, 'rediss:')) {
             return RedisAdapter::createConnection($dsn, $options);
@@ -117,7 +132,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         if (str_starts_with($dsn, 'memcached:')) {
             return MemcachedAdapter::createConnection($dsn, $options);
         }
-        if (str_starts_with($dsn, 'couchbase:')) {
+        if (0 === strpos($dsn, 'couchbase:')) {
             if (CouchbaseBucketAdapter::isSupported()) {
                 return CouchbaseBucketAdapter::createConnection($dsn, $options);
             }
@@ -128,10 +143,15 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         throw new InvalidArgumentException('Unsupported DSN: it does not start with "redis[s]:", "memcached:" nor "couchbase:".');
     }
 
-    public function commit(): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public function commit()
     {
         $ok = true;
-        $byLifetime = (self::$mergeByLifetime)($this->deferred, $this->namespace, $expiredIds, $this->getId(...), $this->defaultLifetime);
+        $byLifetime = (self::$mergeByLifetime)($this->deferred, $this->namespace, $expiredIds, \Closure::fromCallable([$this, 'getId']), $this->defaultLifetime);
         $retry = $this->deferred = [];
 
         if ($expiredIds) {

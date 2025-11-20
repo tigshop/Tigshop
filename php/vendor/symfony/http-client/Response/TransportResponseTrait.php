@@ -38,7 +38,7 @@ trait TransportResponseTrait
         'canceled' => false,
     ];
 
-    /** @var object|resource|null */
+    /** @var object|resource */
     private $handle;
     private int|string $id;
     private ?float $timeout = 0;
@@ -139,7 +139,7 @@ trait TransportResponseTrait
      *
      * @internal
      */
-    public static function stream(iterable $responses, ?float $timeout = null): \Generator
+    public static function stream(iterable $responses, float $timeout = null): \Generator
     {
         $runningResponses = [];
 
@@ -147,7 +147,7 @@ trait TransportResponseTrait
             self::schedule($response, $runningResponses);
         }
 
-        $lastActivity = hrtime(true) / 1E9;
+        $lastActivity = microtime(true);
         $elapsedTimeout = 0;
 
         if ($fromLastTimeout = 0.0 === $timeout && '-0' === (string) $timeout) {
@@ -172,7 +172,7 @@ trait TransportResponseTrait
                     $chunk = false;
 
                     if ($fromLastTimeout && null !== $multi->lastTimeout) {
-                        $elapsedTimeout = hrtime(true) / 1E9 - $multi->lastTimeout;
+                        $elapsedTimeout = microtime(true) - $multi->lastTimeout;
                     }
 
                     if (isset($multi->handlesActivity[$j])) {
@@ -291,15 +291,15 @@ trait TransportResponseTrait
             }
 
             if ($hasActivity) {
-                $lastActivity = hrtime(true) / 1E9;
+                $lastActivity = microtime(true);
                 continue;
             }
 
             if (-1 === self::select($multi, min($timeoutMin, $timeoutMax - $elapsedTimeout))) {
-                usleep((int) min(500, 1E6 * $timeoutMin));
+                usleep(min(500, 1E6 * $timeoutMin));
             }
 
-            $elapsedTimeout = hrtime(true) / 1E9 - $lastActivity;
+            $elapsedTimeout = microtime(true) - $lastActivity;
         }
     }
 }

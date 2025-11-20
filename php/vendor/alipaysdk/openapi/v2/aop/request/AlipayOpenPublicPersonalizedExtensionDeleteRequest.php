@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.public.personalized.extension.delete request
  *
  * @author auto create
- * @since 1.0, 2024-09-10 19:39:16
+ * @since 1.0, 2025-08-13 21:17:41
  */
 class AlipayOpenPublicPersonalizedExtensionDeleteRequest
 {

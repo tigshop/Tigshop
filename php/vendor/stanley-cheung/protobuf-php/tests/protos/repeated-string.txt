@@ -1,3 +1,0 @@
-string: "one"
-string: "two"
-string: "three"

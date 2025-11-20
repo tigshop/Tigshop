@@ -36,7 +36,10 @@ class Handler implements HandlerInterface
     {
         $this->event->trigger('swoole.websocket.Message', $frame);
 
-        $this->event->trigger('swoole.websocket.Event', $this->decode($frame->data));
+        $event = $this->decode($frame->data);
+        if ($event) {
+            $this->event->trigger('swoole.websocket.Event', $event);
+        }
     }
 
     /**
@@ -50,8 +53,10 @@ class Handler implements HandlerInterface
     protected function decode($payload)
     {
         $data = json_decode($payload, true);
-
-        return new WsEvent($data['type'] ?? null, $data['data'] ?? null);
+        if (!empty($data['type'])) {
+            return new WsEvent($data['type'], $data['data'] ?? null);
+        }
+        return null;
     }
 
     public function encodeMessage($message)

@@ -21,7 +21,7 @@ use Swoole\FastCGI\Record;
  */
 class Stdout extends Record
 {
-    public function __construct(string $contentData = '')
+    public function __construct(string $contentData)
     {
         $this->type = FastCGI::STDOUT;
         $this->setContentData($contentData);

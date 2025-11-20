@@ -3,7 +3,7 @@
  * ALIPAY API: anttech.blockchain.defin.dataservice.weather.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-01 16:28:49
+ * @since 1.0, 2025-08-14 12:07:36
  */
 class AnttechBlockchainDefinDataserviceWeatherQueryRequest
 {

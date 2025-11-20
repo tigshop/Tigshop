@@ -3,7 +3,7 @@
  * ALIPAY API: anttech.blockchain.defin.fwh.sign.apply request
  *
  * @author auto create
- * @since 1.0, 2023-08-21 03:56:42
+ * @since 1.0, 2025-08-20 16:43:02
  */
 class AnttechBlockchainDefinFwhSignApplyRequest
 {

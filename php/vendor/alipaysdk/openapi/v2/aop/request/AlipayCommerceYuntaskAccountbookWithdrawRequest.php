@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.yuntask.accountbook.withdraw request
  *
  * @author auto create
- * @since 1.0, 2023-05-31 09:21:59
+ * @since 1.0, 2024-12-17 17:40:04
  */
 class AlipayCommerceYuntaskAccountbookWithdrawRequest
 {

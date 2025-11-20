@@ -10,7 +10,7 @@ Method | HTTP request | Description
 ## `query()`
 
 ```php
-query($userName, $connKey, $certNo, $userId, $openId, $backUrl, $certType, $kaVisitorId, $visitorType, $visitorName, $companyCertificate, $visitorUrl, $hasButton, $hasNumber, $hasQrCode, $hasHtml, $jobId, $industryId, $cloudResumeScene): \Alipay\OpenAPISDK\Model\ZhimaCustomerJobworthInfoQueryResponseModel
+query($connKey, $userName, $certNo, $userId, $openId, $backUrl, $certType, $kaVisitorId, $visitorType, $visitorName, $companyCertificate, $visitorUrl, $hasButton, $hasNumber, $hasQrCode, $hasHtml, $jobId, $industryId, $cloudResumeScene): \Alipay\OpenAPISDK\Model\ZhimaCustomerJobworthInfoQueryResponseModel
 ```
 
 职得工作证信息查询
@@ -45,8 +45,8 @@ $alipayConfig->setEncryptKey('encrypt_key');
 $alipayConfigUtil = new \Alipay\OpenAPISDK\Util\AlipayConfigUtil($alipayConfig);
 $apiInstance->setAlipayConfigUtil($alipayConfigUtil);
 
-$userName = 张三; // string | 姓名
 $connKey = ttest11234; // string | 外部订单号，zhima.credit.payafteruse.creditagreement.sign的入参 out_agreement_no智能简历场景支持只传该值
+$userName = 张三; // string | 姓名
 $certNo = 42011719880304XXXX; // string | 证件号 ，根据cert_type类型设置对应证件号码，选择身份证校验时必传
 $userId = 2088XXXXXXXX; // string | 蚂蚁统一会员ID ，为2088开头的唯一标识 选择支付宝uid检验时必传，支付宝uid或身份证+身份证类型 查询2选1，都设置时uid优先
 $openId = 074a1CcTG1LelxKe4xQC0zgNdId0nxi95b5lsNpazWYoCo5; // string | 蚂蚁统一会员ID ，为2088开头的唯一标识 选择支付宝uid检验时必传，支付宝uid或身份证+身份证类型 查询2选1，都设置时uid优先
@@ -66,7 +66,7 @@ $industryId = 05A21; // string | 行业描述ID
 $cloudResumeScene = GREEN_HIRE; // string | 子场景
 
 try {
-    $result = $apiInstance->query($userName, $connKey, $certNo, $userId, $openId, $backUrl, $certType, $kaVisitorId, $visitorType, $visitorName, $companyCertificate, $visitorUrl, $hasButton, $hasNumber, $hasQrCode, $hasHtml, $jobId, $industryId, $cloudResumeScene);
+    $result = $apiInstance->query($connKey, $userName, $certNo, $userId, $openId, $backUrl, $certType, $kaVisitorId, $visitorType, $visitorName, $companyCertificate, $visitorUrl, $hasButton, $hasNumber, $hasQrCode, $hasHtml, $jobId, $industryId, $cloudResumeScene);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ZhimaCustomerJobworthInfoApi->query: ', $e->getMessage(), PHP_EOL;
@@ -77,8 +77,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userName** | **string**| 姓名 | [optional]
  **connKey** | **string**| 外部订单号，zhima.credit.payafteruse.creditagreement.sign的入参 out_agreement_no智能简历场景支持只传该值 | [optional]
+ **userName** | **string**| 姓名 | [optional]
  **certNo** | **string**| 证件号 ，根据cert_type类型设置对应证件号码，选择身份证校验时必传 | [optional]
  **userId** | **string**| 蚂蚁统一会员ID ，为2088开头的唯一标识 选择支付宝uid检验时必传，支付宝uid或身份证+身份证类型 查询2选1，都设置时uid优先 | [optional]
  **openId** | **string**| 蚂蚁统一会员ID ，为2088开头的唯一标识 选择支付宝uid检验时必传，支付宝uid或身份证+身份证类型 查询2选1，都设置时uid优先 | [optional]

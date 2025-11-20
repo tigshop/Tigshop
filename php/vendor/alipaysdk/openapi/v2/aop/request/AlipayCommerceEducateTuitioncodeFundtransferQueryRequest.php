@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.educate.tuitioncode.fundtransfer.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-28 00:19:06
+ * @since 1.0, 2025-08-14 11:52:37
  */
 class AlipayCommerceEducateTuitioncodeFundtransferQueryRequest
 {

@@ -49,6 +49,12 @@ class DynpostSnapshotParams extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>float Speed = 9;</code>
      */
     protected $Speed = 0.0;
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 10;</code>
+     */
+    protected $FillType = '';
 
     /**
      * Constructor.
@@ -65,6 +71,8 @@ class DynpostSnapshotParams extends \Google\Protobuf\Internal\Message
      *     @type int $Duration
      *     @type float $CaptureFps
      *     @type float $Speed
+     *     @type string $FillType
+     *           填充类型 
      * }
      */
     public function __construct($data = NULL) {
@@ -266,6 +274,32 @@ class DynpostSnapshotParams extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkFloat($var);
         $this->Speed = $var;
+
+        return $this;
+    }
+
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 10;</code>
+     * @return string
+     */
+    public function getFillType()
+    {
+        return $this->FillType;
+    }
+
+    /**
+     * 填充类型 
+     *
+     * Generated from protobuf field <code>string FillType = 10;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setFillType($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->FillType = $var;
 
         return $this;
     }

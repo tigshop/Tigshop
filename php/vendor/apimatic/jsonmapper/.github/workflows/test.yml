@@ -1,6 +1,7 @@
 name: Tests
 on:
   pull_request:
+    branches: [master]
   push:
     branches: [master]
 jobs:
@@ -38,16 +39,24 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
       - name: Cache Composer dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache/files
           key: php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: php-${{ matrix.php }}-composer-
+  
       - name: Install dependencies
         run: composer install --prefer-source
-      - name: Run tests
-        run: |
-          cd tests
-          ../vendor/bin/phpunit --coverage-text .
+
       - name: Check code style
         run: vendor/bin/phpcs --standard=PEAR src/
+
+      - name: Run tests
+        run: composer test-ci
+
+      - name: SonarQube Scan
+        if: ${{ matrix.php == '8.1' && github.actor != 'dependabot[bot]' }}
+        uses: SonarSource/sonarqube-scan-action@v6.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

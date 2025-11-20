@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.security.prod.template.filewebofficeurl.generate request
  *
  * @author auto create
- * @since 1.0, 2024-06-11 19:47:04
+ * @since 1.0, 2025-01-10 15:55:35
  */
 class AlipaySecurityProdTemplateFilewebofficeurlGenerateRequest
 {

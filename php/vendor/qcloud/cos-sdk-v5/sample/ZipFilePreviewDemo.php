@@ -15,12 +15,11 @@ $cosClient = new Qcloud\Cos\Client(
 try {
     //该接口可以在不解压文件的情况下预览压缩包内的内容，包含文件数量、名称、文件时间等，接口为同步请求方式
     $result = $cosClient->ZipFilePreview(array(
-        'Bucket' => '###bucketName###', //存储桶名称，由BucketName-Appid 组成，可以在COS控制台查看 https://console.cloud.tencent.com/cos5/bucket
-		'ObjectKey' => 'undefined' // {ObjectKey}
-		'Headers' => array(
-			'Content-Type' => 'application/xml',
-		),
-		'ciProcess' => 'null', // 操作类型，压缩包预览计算固定为：zippreview
+        'Bucket' => 'test-1250000000', //存储桶名称，由BucketName-Appid 组成，可以在COS控制台查看 https://console.cloud.tencent.com/cos5/bucket
+        'Key' => 'for-test.zip', // 文件名称
+        'Headers' => array(
+            'Content-Type' => 'application/xml',
+        ),
 
     ));
     // 请求成功

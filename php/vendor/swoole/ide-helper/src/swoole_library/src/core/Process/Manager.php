@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Swoole\Process;
 
 use Swoole\Constant;
+
 use function Swoole\Coroutine\run;
 
 class Manager

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.digitalmgmt.linktype.query request
  *
  * @author auto create
- * @since 1.0, 2023-09-04 01:48:46
+ * @since 1.0, 2025-08-18 14:57:35
  */
 class AlipayDigitalmgmtLinktypeQueryRequest
 {

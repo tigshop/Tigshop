@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.credit.business.plan.create request
  *
  * @author auto create
- * @since 1.0, 2024-10-15 20:18:32
+ * @since 1.0, 2025-10-27 10:02:40
  */
 class ZhimaCreditBusinessPlanCreateRequest
 {

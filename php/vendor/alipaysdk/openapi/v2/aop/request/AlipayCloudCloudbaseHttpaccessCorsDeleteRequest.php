@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.httpaccess.cors.delete request
  *
  * @author auto create
- * @since 1.0, 2023-08-08 23:36:41
+ * @since 1.0, 2024-11-22 14:41:14
  */
 class AlipayCloudCloudbaseHttpaccessCorsDeleteRequest
 {

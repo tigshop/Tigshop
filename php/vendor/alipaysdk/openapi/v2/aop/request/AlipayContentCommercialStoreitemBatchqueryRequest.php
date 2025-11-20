@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.content.commercial.storeitem.batchquery request
  *
  * @author auto create
- * @since 1.0, 2024-05-31 16:52:02
+ * @since 1.0, 2024-12-17 14:41:55
  */
 class AlipayContentCommercialStoreitemBatchqueryRequest
 {

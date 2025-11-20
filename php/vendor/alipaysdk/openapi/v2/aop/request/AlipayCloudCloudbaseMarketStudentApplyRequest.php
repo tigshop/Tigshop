@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.market.student.apply request
  *
  * @author auto create
- * @since 1.0, 2024-03-25 13:52:01
+ * @since 1.0, 2025-08-08 10:14:57
  */
 class AlipayCloudCloudbaseMarketStudentApplyRequest
 {

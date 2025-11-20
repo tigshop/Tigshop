@@ -16,63 +16,47 @@ use Swoole\FastCGI;
 /**
  * FastCGI record.
  */
-class Record
+class Record implements \Stringable
 {
     /**
      * Identifies the FastCGI protocol version.
-     *
-     * @var int
      */
-    protected $version = FastCGI::VERSION_1;
+    protected int $version = FastCGI::VERSION_1;
 
     /**
      * Identifies the FastCGI record type, i.e. the general function that the record performs.
-     *
-     * @var int
      */
-    protected $type = FastCGI::UNKNOWN_TYPE;
+    protected int $type = FastCGI::UNKNOWN_TYPE;
 
     /**
      * Identifies the FastCGI request to which the record belongs.
-     *
-     * @var int
      */
-    protected $requestId = FastCGI::DEFAULT_REQUEST_ID;
+    protected int $requestId = FastCGI::DEFAULT_REQUEST_ID;
 
     /**
      * Reserved byte for future proposes
-     *
-     * @var int
      */
-    protected $reserved = 0;
+    protected int $reserved = 0;
 
     /**
      * The number of bytes in the contentData component of the record.
-     *
-     * @var int
      */
-    private $contentLength = 0;
+    private int $contentLength = 0;
 
     /**
      * The number of bytes in the paddingData component of the record.
-     *
-     * @var int
      */
-    private $paddingLength = 0;
+    private int $paddingLength = 0;
 
     /**
      * Binary data, between 0 and 65535 bytes of data, interpreted according to the record type.
-     *
-     * @var string
      */
-    private $contentData = '';
+    private string $contentData = '';
 
     /**
      * Padding data, between 0 and 255 bytes of data, which are ignored.
-     *
-     * @var string
      */
-    private $paddingData = '';
+    private string $paddingData = '';
 
     /**
      * Returns the binary message representation of record
@@ -97,14 +81,17 @@ class Record
 
     /**
      * Unpacks the message from the binary data buffer
-     *
-     * @param string $data Binary buffer with raw data
-     *
-     * @return static
      */
-    final public static function unpack(string $data): self
+    final public static function unpack(string $binaryData): static
     {
-        $self = new static();
+        /** @var static $self */
+        $self = (new \ReflectionClass(static::class))->newInstanceWithoutConstructor();
+
+        /** @phpstan-var false|array{version: int, type: int, requestId: int, contentLength: int, paddingLength: int, reserved: int} */
+        $packet = unpack(FastCGI::HEADER_FORMAT, $binaryData);
+        if ($packet === false) {
+            throw new \RuntimeException('Can not unpack data from the binary buffer');
+        }
         [
             $self->version,
             $self->type,
@@ -112,11 +99,11 @@ class Record
             $self->contentLength,
             $self->paddingLength,
             $self->reserved
-        ] = array_values(unpack(FastCGI::HEADER_FORMAT, $data));
+        ] = array_values($packet);
 
-        $payload = substr($data, FastCGI::HEADER_LEN);
+        $payload = substr($binaryData, FastCGI::HEADER_LEN);
         self::unpackPayload($self, $payload);
-        if (get_called_class() !== __CLASS__ && $self->contentLength > 0) {
+        if (static::class !== self::class && $self->contentLength > 0) {
             static::unpackPayload($self, $payload);
         }
 
@@ -133,11 +120,11 @@ class Record
         $this->contentLength = strlen($data);
         if ($this->contentLength > FastCGI::MAX_CONTENT_LENGTH) {
             $this->contentLength = FastCGI::MAX_CONTENT_LENGTH;
-            $this->contentData = substr($data, 0, FastCGI::MAX_CONTENT_LENGTH);
+            $this->contentData   = substr($data, 0, FastCGI::MAX_CONTENT_LENGTH);
         } else {
             $this->contentData = $data;
         }
-        $extraLength = $this->contentLength % 8;
+        $extraLength         = $this->contentLength % 8;
         $this->paddingLength = $extraLength ? (8 - $extraLength) : 0;
         return $this;
     }
@@ -208,18 +195,18 @@ class Record
      * Method to unpack the payload for the record.
      *
      * NB: Default implementation will be always called
-     *
-     * @param static $self Instance of current frame
-     * @param string $data Binary data
      */
-    protected static function unpackPayload($self, string $data): void
+    protected static function unpackPayload(self $self, string $binaryData): void
     {
+        /** @phpstan-var false|array{contentData: string, paddingData: string} */
+        $payload = unpack("a{$self->contentLength}contentData/a{$self->paddingLength}paddingData", $binaryData);
+        if ($payload === false) {
+            throw new \RuntimeException('Can not unpack data from the binary buffer');
+        }
         [
             $self->contentData,
             $self->paddingData
-        ] = array_values(
-            unpack("a{$self->contentLength}contentData/a{$self->paddingLength}paddingData", $data)
-        );
+        ] = array_values($payload);
     }
 
     /**

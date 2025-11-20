@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.merchant.qipan.crowd.invalid request
  *
  * @author auto create
- * @since 1.0, 2023-09-04 00:21:48
+ * @since 1.0, 2024-11-18 16:44:36
  */
 class AlipayMerchantQipanCrowdInvalidRequest
 {

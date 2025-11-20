@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.transport.taxi.driverstatus.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 16:56:03
+ * @since 1.0, 2025-08-13 14:47:43
  */
 class AlipayCommerceTransportTaxiDriverstatusQueryRequest
 {

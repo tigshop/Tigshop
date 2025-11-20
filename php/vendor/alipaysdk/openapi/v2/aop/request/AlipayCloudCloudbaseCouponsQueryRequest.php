@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.coupons.query request
  *
  * @author auto create
- * @since 1.0, 2024-05-22 16:22:02
+ * @since 1.0, 2025-08-04 11:10:16
  */
 class AlipayCloudCloudbaseCouponsQueryRequest
 {

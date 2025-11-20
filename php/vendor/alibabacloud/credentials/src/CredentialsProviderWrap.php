@@ -46,6 +46,7 @@ class CredentialsProviderWrap implements CredentialsInterface
             'accessKeySecret' => $credentials->getAccessKeySecret(),
             'securityToken' => $credentials->getSecurityToken(),
             'type' => $this->typeName,
+            'providerName' => $credentials->getProviderName(),
         ]);
     }
 

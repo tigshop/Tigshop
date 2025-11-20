@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.marketing.card.message.notify request
  *
  * @author auto create
- * @since 1.0, 2024-04-23 21:51:00
+ * @since 1.0, 2025-08-13 15:22:39
  */
 class AlipayMarketingCardMessageNotifyRequest
 {

@@ -11,6 +11,7 @@ namespace Nette\PhpGenerator;
 
 use Nette;
 use PhpParser;
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
@@ -323,7 +324,7 @@ final class Extractor
 		foreach ($node->props as $item) {
 			$prop = $class->addProperty($item->name->toString());
 			$prop->setStatic($node->isStatic());
-			$prop->setVisibility($this->toVisibility($node->flags));
+			$prop->setVisibility($this->toVisibility($node->flags), $this->toSetterVisibility($node->flags));
 			$prop->setType($node->type ? $this->toPhp($node->type) : null);
 			if ($item->default) {
 				$prop->setValue($this->toValue($item->default));
@@ -331,6 +332,29 @@ final class Extractor
 
 			$prop->setReadOnly((method_exists($node, 'isReadonly') && $node->isReadonly()) || ($class instanceof ClassType && $class->isReadOnly()));
 			$this->addCommentAndAttributes($prop, $node);
+
+			$prop->setAbstract((bool) ($node->flags & Node\Stmt\Class_::MODIFIER_ABSTRACT));
+			$prop->setFinal((bool) ($node->flags & Node\Stmt\Class_::MODIFIER_FINAL));
+			$this->addHooksToProperty($prop, $node);
+		}
+	}
+
+
+	private function addHooksToProperty(Property|PromotedParameter $prop, Node\Stmt\Property|Node\Param $node): void
+	{
+		if (!class_exists(Node\PropertyHook::class)) {
+			return;
+		}
+
+		foreach ($node->hooks as $hookNode) {
+			$hook = $prop->addHook($hookNode->name->toString());
+			$hook->setFinal((bool) ($hookNode->flags & Modifiers::FINAL));
+			$this->setupFunction($hook, $hookNode);
+			if ($hookNode->body === null) {
+				$hook->setAbstract();
+			} elseif (!is_array($hookNode->body)) {
+				$hook->setBody($this->getReformattedContents([$hookNode->body], 1), short: true);
+			}
 		}
 	}
 
@@ -380,7 +404,7 @@ final class Extractor
 
 
 	private function addCommentAndAttributes(
-		PhpFile|ClassLike|Constant|Property|GlobalFunction|Method|Parameter|EnumCase|TraitUse $element,
+		PhpFile|ClassLike|Constant|Property|GlobalFunction|Method|Parameter|EnumCase|TraitUse|PropertyHook $element,
 		Node $node,
 	): void
 	{
@@ -408,19 +432,29 @@ final class Extractor
 	}
 
 
-	private function setupFunction(GlobalFunction|Method $function, Node\FunctionLike $node): void
+	private function setupFunction(GlobalFunction|Method|PropertyHook $function, Node\FunctionLike $node): void
 	{
 		$function->setReturnReference($node->returnsByRef());
-		$function->setReturnType($node->getReturnType() ? $this->toPhp($node->getReturnType()) : null);
+		if (!$function instanceof PropertyHook) {
+			$function->setReturnType($node->getReturnType() ? $this->toPhp($node->getReturnType()) : null);
+		}
+
 		foreach ($node->getParams() as $item) {
-			$visibility = $this->toVisibility($item->flags);
-			$isReadonly = (bool) ($item->flags & Node\Stmt\Class_::MODIFIER_READONLY);
-			$param = $visibility
-				? ($function->addPromotedParameter($item->var->name))->setVisibility($visibility)->setReadonly($isReadonly)
-				: $function->addParameter($item->var->name);
+			$getVisibility = $this->toVisibility($item->flags);
+			$setVisibility = $this->toSetterVisibility($item->flags);
+			if ($getVisibility || $setVisibility) {
+				$param = $function->addPromotedParameter($item->var->name)
+					->setVisibility($getVisibility, $setVisibility)
+					->setReadonly((bool) ($item->flags & Node\Stmt\Class_::MODIFIER_READONLY));
+				$this->addHooksToProperty($param, $item);
+			} else {
+				$param = $function->addParameter($item->var->name);
+			}
 			$param->setType($item->type ? $this->toPhp($item->type) : null);
 			$param->setReference($item->byRef);
-			$function->setVariadic($item->variadic);
+			if (!$function instanceof PropertyHook) {
+				$function->setVariadic($item->variadic);
+			}
 			if ($item->default) {
 				$param->setDefaultValue($this->toValue($item->default));
 			}
@@ -483,9 +517,21 @@ final class Extractor
 	private function toVisibility(int $flags): ?string
 	{
 		return match (true) {
-			(bool) ($flags & Node\Stmt\Class_::MODIFIER_PUBLIC) => ClassType::VisibilityPublic,
-			(bool) ($flags & Node\Stmt\Class_::MODIFIER_PROTECTED) => ClassType::VisibilityProtected,
-			(bool) ($flags & Node\Stmt\Class_::MODIFIER_PRIVATE) => ClassType::VisibilityPrivate,
+			(bool) ($flags & Node\Stmt\Class_::MODIFIER_PUBLIC) => Visibility::Public,
+			(bool) ($flags & Node\Stmt\Class_::MODIFIER_PROTECTED) => Visibility::Protected,
+			(bool) ($flags & Node\Stmt\Class_::MODIFIER_PRIVATE) => Visibility::Private,
+			default => null,
+		};
+	}
+
+
+	private function toSetterVisibility(int $flags): ?string
+	{
+		return match (true) {
+			!class_exists(Node\PropertyHook::class) => null,
+			(bool) ($flags & Modifiers::PUBLIC_SET) => Visibility::Public,
+			(bool) ($flags & Modifiers::PROTECTED_SET) => Visibility::Protected,
+			(bool) ($flags & Modifiers::PRIVATE_SET) => Visibility::Private,
 			default => null,
 		};
 	}

@@ -6,12 +6,10 @@ use Closure;
 use InvalidArgumentException;
 use ReflectionObject;
 use RuntimeException;
-use think\App;
 use think\Config;
 use think\Container;
 use think\Event;
 use think\exception\Handle;
-use think\swoole\App as SwooleApp;
 use think\swoole\concerns\ModifyProperty;
 use think\swoole\contract\ResetterInterface;
 use think\swoole\coroutine\Context;
@@ -27,14 +25,10 @@ class Sandbox
 {
     use ModifyProperty;
 
-    /**
-     * The app containers in different coroutine environment.
-     *
-     * @var SwooleApp[]
-     */
+    /** @var App[] */
     protected $snapshots = [];
 
-    /** @var SwooleApp */
+    /** @var App */
     protected $app;
 
     /** @var Config */
@@ -47,13 +41,13 @@ class Sandbox
     protected $resetters = [];
     protected $services  = [];
 
-    public function __construct(Container $app)
+    public function __construct(App $app)
     {
         $this->setBaseApp($app);
         $this->initialize();
     }
 
-    public function setBaseApp(Container $app)
+    public function setBaseApp(App $app)
     {
         $this->app = $app;
 
@@ -113,7 +107,7 @@ class Sandbox
     public function getApplication($init = false)
     {
         $snapshot = $this->getSnapshot($init);
-        if ($snapshot instanceof Container) {
+        if ($snapshot instanceof App) {
             return $snapshot;
         }
 
@@ -140,14 +134,14 @@ class Sandbox
         return $this->snapshots[$this->getSnapshotId($init)] ?? null;
     }
 
-    public function setSnapshot(Container $snapshot)
+    public function setSnapshot(App $snapshot)
     {
         $this->snapshots[$this->getSnapshotId()] = $snapshot;
 
         return $this;
     }
 
-    public function setInstance(Container $app)
+    public function setInstance(App $app)
     {
         $app->instance('app', $app);
         $app->instance(Container::class, $app);

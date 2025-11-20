@@ -6,8 +6,6 @@ namespace Core\Request\Parameters;
 
 use Core\Utils\CoreHelper;
 use CoreInterfaces\Core\Request\RequestArraySerialization;
-use JsonSerializable;
-use stdClass;
 
 abstract class EncodedParam extends Parameter
 {
@@ -15,43 +13,6 @@ abstract class EncodedParam extends Parameter
     protected function __construct(string $key, $value, string $typeName)
     {
         parent::__construct($key, $value, $typeName);
-    }
-
-    /**
-     * Prepare a mixed typed value or array for form/query encoding.
-     *
-     * @param mixed $value Any mixed typed value.
-     *
-     * @return mixed  A valid instance to be sent in form/query.
-     */
-    protected function prepareValue($value)
-    {
-        if (is_null($value)) {
-            return null;
-        }
-        if (is_array($value)) {
-            // recursively calling this function to resolve all types in any array
-            return array_map([$this, 'prepareValue'], $value);
-        }
-        if (is_bool($value)) {
-            return $this->isMultipart() ? $value : var_export($value, true);
-        }
-        if ($value instanceof JsonSerializable) {
-            $modelArray = $value->jsonSerialize();
-            // recursively calling this function to resolve all types in any model
-            return array_map([$this, 'prepareValue'], $modelArray instanceof stdClass ? [] : $modelArray);
-        }
-        return $value;
-    }
-
-    /**
-     * Override this method to provide isMultipart implementation.
-     *
-     * @return bool Returning false by default
-     */
-    protected function isMultipart(): bool
-    {
-        return false;
     }
 
     /**

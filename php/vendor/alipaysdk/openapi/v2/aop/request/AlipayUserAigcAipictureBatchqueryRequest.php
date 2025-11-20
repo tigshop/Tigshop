@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.user.aigc.aipicture.batchquery request
  *
  * @author auto create
- * @since 1.0, 2023-12-15 20:26:54
+ * @since 1.0, 2025-04-17 13:53:27
  */
 class AlipayUserAigcAipictureBatchqueryRequest
 {

@@ -109,6 +109,24 @@ class VodUrlUploadURLSet extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.VodUploadTemplate Templates = 16;</code>
      */
     private $Templates;
+    /**
+     * 文件类型 
+     *
+     * Generated from protobuf field <code>string FileType = 17;</code>
+     */
+    protected $FileType = '';
+    /**
+     * 图集信息 
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.VodImageFile ImageSet = 18;</code>
+     */
+    private $ImageSet;
+    /**
+     * 处理任务信息 
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.VodExecution Executions = 19;</code>
+     */
+    private $Executions;
 
     /**
      * Constructor.
@@ -148,6 +166,12 @@ class VodUrlUploadURLSet extends \Google\Protobuf\Internal\Message
      *           自定义Header 
      *     @type \Volc\Service\Vod\Models\Business\VodUploadTemplate[]|\Google\Protobuf\Internal\RepeatedField $Templates
      *           工作流模板 
+     *     @type string $FileType
+     *           文件类型 
+     *     @type \Volc\Service\Vod\Models\Business\VodImageFile[]|\Google\Protobuf\Internal\RepeatedField $ImageSet
+     *           图集信息 
+     *     @type \Volc\Service\Vod\Models\Business\VodExecution[]|\Google\Protobuf\Internal\RepeatedField $Executions
+     *           处理任务信息 
      * }
      */
     public function __construct($data = NULL) {
@@ -567,6 +591,84 @@ class VodUrlUploadURLSet extends \Google\Protobuf\Internal\Message
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Volc\Service\Vod\Models\Business\VodUploadTemplate::class);
         $this->Templates = $arr;
+
+        return $this;
+    }
+
+    /**
+     * 文件类型 
+     *
+     * Generated from protobuf field <code>string FileType = 17;</code>
+     * @return string
+     */
+    public function getFileType()
+    {
+        return $this->FileType;
+    }
+
+    /**
+     * 文件类型 
+     *
+     * Generated from protobuf field <code>string FileType = 17;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setFileType($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->FileType = $var;
+
+        return $this;
+    }
+
+    /**
+     * 图集信息 
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.VodImageFile ImageSet = 18;</code>
+     * @return \Google\Protobuf\Internal\RepeatedField
+     */
+    public function getImageSet()
+    {
+        return $this->ImageSet;
+    }
+
+    /**
+     * 图集信息 
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.VodImageFile ImageSet = 18;</code>
+     * @param \Volc\Service\Vod\Models\Business\VodImageFile[]|\Google\Protobuf\Internal\RepeatedField $var
+     * @return $this
+     */
+    public function setImageSet($var)
+    {
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Volc\Service\Vod\Models\Business\VodImageFile::class);
+        $this->ImageSet = $arr;
+
+        return $this;
+    }
+
+    /**
+     * 处理任务信息 
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.VodExecution Executions = 19;</code>
+     * @return \Google\Protobuf\Internal\RepeatedField
+     */
+    public function getExecutions()
+    {
+        return $this->Executions;
+    }
+
+    /**
+     * 处理任务信息 
+     *
+     * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.VodExecution Executions = 19;</code>
+     * @param \Volc\Service\Vod\Models\Business\VodExecution[]|\Google\Protobuf\Internal\RepeatedField $var
+     * @return $this
+     */
+    public function setExecutions($var)
+    {
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Volc\Service\Vod\Models\Business\VodExecution::class);
+        $this->Executions = $arr;
 
         return $this;
     }

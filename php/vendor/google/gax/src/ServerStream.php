@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016, Google Inc.
+ * Copyright 2016 Google LLC
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,58 +29,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-namespace Google\GAX;
+namespace Google\ApiCore;
 
-use Grpc;
+use Google\Rpc\Code;
 
 /**
- * ServerStream is the response object from a gRPC server streaming API call.
+ * ServerStream is the response object from a server streaming API call.
  */
 class ServerStream
 {
     private $call;
-    private $resourcesField;
+    private $resourcesGetMethod;
 
     /**
      * ServerStream constructor.
      *
-     * @param \Grpc\ServerStreamingCall $serverStreamingCall The gRPC server streaming call object
-     * @param array $grpcStreamingDescriptor
+     * @param ServerStreamingCallInterface $serverStreamingCall The server streaming call object
+     * @param array $streamingDescriptor
      */
-    public function __construct($serverStreamingCall, $grpcStreamingDescriptor = [])
+    public function __construct($serverStreamingCall, array $streamingDescriptor = [])
     {
         $this->call = $serverStreamingCall;
-        if (array_key_exists('resourcesField', $grpcStreamingDescriptor)) {
-            $this->resourcesField = $grpcStreamingDescriptor['resourcesField'];
+        if (array_key_exists('resourcesGetMethod', $streamingDescriptor)) {
+            $this->resourcesGetMethod = $streamingDescriptor['resourcesGetMethod'];
         }
-    }
-
-    /**
-     * @param callable $callable
-     * @param mixed[] $grpcStreamingDescriptor
-     * @return callable ApiCall
-     */
-    public static function createApiCall($callable, $grpcStreamingDescriptor)
-    {
-        return function () use ($callable, $grpcStreamingDescriptor) {
-            $response = call_user_func_array($callable, func_get_args());
-            return new ServerStream($response, $grpcStreamingDescriptor);
-        };
     }
 
     /**
      * A generator which yields results from the server until the streaming call
      * completes. Throws an ApiException if the streaming call failed.
      *
-     * @return \Generator|mixed
      * @throws ApiException
+     * @return \Generator|mixed
      */
     public function readAll()
     {
-        $resourcesField = $this->resourcesField;
-        if (!is_null($resourcesField)) {
+        $resourcesGetMethod = $this->resourcesGetMethod;
+        if (!is_null($resourcesGetMethod)) {
             foreach ($this->call->responses() as $response) {
-                foreach ($response->$resourcesField() as $resource) {
+                foreach ($response->$resourcesGetMethod() as $resource) {
                     yield $resource;
                 }
             }
@@ -89,16 +76,19 @@ class ServerStream
                 yield $response;
             }
         }
+
+        // Errors in the REST transport will be thrown from there and not reach
+        // this handling. Successful REST server-streams will have an OK status.
         $status = $this->call->getStatus();
-        if (!($status->code == Grpc\STATUS_OK)) {
+        if ($status->code !== Code::OK) {
             throw ApiException::createFromStdClass($status);
         }
     }
 
     /**
-     * Return the underlying gRPC call object
+     * Return the underlying call object.
      *
-     * @return \Grpc\ServerStreamingCall
+     * @return ServerStreamingCallInterface
      */
     public function getServerStreamingCall()
     {

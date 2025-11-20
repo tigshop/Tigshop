@@ -8,6 +8,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method AddShardingNode addShardingNode(array $options = [])
  * @method AllocateDirectConnection allocateDirectConnection(array $options = [])
  * @method AllocateInstancePublicConnection allocateInstancePublicConnection(array $options = [])
+ * @method CancelActiveOperationTasks cancelActiveOperationTasks(array $options = [])
  * @method CheckCloudResourceAuthorized checkCloudResourceAuthorized(array $options = [])
  * @method CreateAccount createAccount(array $options = [])
  * @method CreateBackup createBackup(array $options = [])
@@ -18,7 +19,9 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method CreateInstances createInstances(array $options = [])
  * @method CreateParameterGroup createParameterGroup(array $options = [])
  * @method CreateTairInstance createTairInstance(array $options = [])
+ * @method CreateTCInstance createTCInstance(array $options = [])
  * @method DeleteAccount deleteAccount(array $options = [])
+ * @method DeleteBackup deleteBackup(array $options = [])
  * @method DeleteGlobalSecurityIPGroup deleteGlobalSecurityIPGroup(array $options = [])
  * @method DeleteInstance deleteInstance(array $options = [])
  * @method DeleteParameterGroup deleteParameterGroup(array $options = [])
@@ -71,7 +74,11 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method DescribeSecurityGroupConfiguration describeSecurityGroupConfiguration(array $options = [])
  * @method DescribeSecurityIps describeSecurityIps(array $options = [])
  * @method DescribeSlowLogRecords describeSlowLogRecords(array $options = [])
- * @method DescribeTasks describeTasks(array $options = [])
+ * @method DescribeTairKVCacheCustomInstanceAttribute describeTairKVCacheCustomInstanceAttribute(array $options = [])
+ * @method DescribeTairKVCacheCustomInstanceHistoryMonitorValues describeTairKVCacheCustomInstanceHistoryMonitorValues(array $options = [])
+ * @method DescribeTairKVCacheCustomInstances describeTairKVCacheCustomInstances(array $options = [])
+ * @method DescribeTairKVCacheInferInstanceAttribute describeTairKVCacheInferInstanceAttribute(array $options = [])
+ * @method DescribeTairKVCacheInferInstances describeTairKVCacheInferInstances(array $options = [])
  * @method DescribeZones describeZones(array $options = [])
  * @method EnableAdditionalBandwidth enableAdditionalBandwidth(array $options = [])
  * @method FlushExpireKeys flushExpireKeys(array $options = [])
@@ -81,12 +88,14 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method InitializeKvstorePermission initializeKvstorePermission(array $options = [])
  * @method ListTagResources listTagResources(array $options = [])
  * @method LockDBInstanceWrite lockDBInstanceWrite(array $options = [])
+ * @method MasterNodeShutDownFailOver masterNodeShutDownFailOver(array $options = [])
  * @method MigrateToOtherZone migrateToOtherZone(array $options = [])
  * @method ModifyAccountDescription modifyAccountDescription(array $options = [])
  * @method ModifyAccountPassword modifyAccountPassword(array $options = [])
  * @method ModifyActiveOperationTask modifyActiveOperationTask(array $options = [])
  * @method ModifyActiveOperationTasks modifyActiveOperationTasks(array $options = [])
  * @method ModifyAuditLogConfig modifyAuditLogConfig(array $options = [])
+ * @method ModifyBackupExpireTime modifyBackupExpireTime(array $options = [])
  * @method ModifyBackupPolicy modifyBackupPolicy(array $options = [])
  * @method ModifyDBInstanceAutoUpgrade modifyDBInstanceAutoUpgrade(array $options = [])
  * @method ModifyDBInstanceConnectionString modifyDBInstanceConnectionString(array $options = [])
@@ -95,6 +104,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ModifyGlobalSecurityIPGroupRelation modifyGlobalSecurityIPGroupRelation(array $options = [])
  * @method ModifyInstanceAttribute modifyInstanceAttribute(array $options = [])
  * @method ModifyInstanceAutoRenewalAttribute modifyInstanceAutoRenewalAttribute(array $options = [])
+ * @method ModifyInstanceBandwidth modifyInstanceBandwidth(array $options = [])
  * @method ModifyInstanceConfig modifyInstanceConfig(array $options = [])
  * @method ModifyInstanceMaintainTime modifyInstanceMaintainTime(array $options = [])
  * @method ModifyInstanceMajorVersion modifyInstanceMajorVersion(array $options = [])
@@ -110,16 +120,24 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method ModifyResourceGroup modifyResourceGroup(array $options = [])
  * @method ModifySecurityGroupConfiguration modifySecurityGroupConfiguration(array $options = [])
  * @method ModifySecurityIps modifySecurityIps(array $options = [])
+ * @method ModifyTairKVCacheCustomInstanceAttribute modifyTairKVCacheCustomInstanceAttribute(array $options = [])
+ * @method ModifyTaskInfo modifyTaskInfo(array $options = [])
  * @method ReleaseDirectConnection releaseDirectConnection(array $options = [])
  * @method ReleaseInstancePublicConnection releaseInstancePublicConnection(array $options = [])
  * @method RemoveSubInstance removeSubInstance(array $options = [])
  * @method RenewAdditionalBandwidth renewAdditionalBandwidth(array $options = [])
  * @method RenewInstance renewInstance(array $options = [])
  * @method ResetAccountPassword resetAccountPassword(array $options = [])
+ * @method ResetTairKVCacheCustomInstancePassword resetTairKVCacheCustomInstancePassword(array $options = [])
+ * @method ResizeTairKVCacheCustomInstanceDisk resizeTairKVCacheCustomInstanceDisk(array $options = [])
  * @method RestartInstance restartInstance(array $options = [])
+ * @method RestartTairKVCacheCustomInstance restartTairKVCacheCustomInstance(array $options = [])
  * @method RestoreInstance restoreInstance(array $options = [])
+ * @method StartTairKVCacheCustomInstance startTairKVCacheCustomInstance(array $options = [])
+ * @method StopTairKVCacheCustomInstance stopTairKVCacheCustomInstance(array $options = [])
  * @method SwitchInstanceHA switchInstanceHA(array $options = [])
  * @method SwitchInstanceProxy switchInstanceProxy(array $options = [])
+ * @method SwitchInstanceZoneFailOver switchInstanceZoneFailOver(array $options = [])
  * @method SwitchNetwork switchNetwork(array $options = [])
  * @method SyncDtsStatus syncDtsStatus(array $options = [])
  * @method TagResources tagResources(array $options = [])
@@ -242,6 +260,24 @@ class AllocateInstancePublicConnection extends Rpc
  * @method $this withOwnerAccount($value)
  * @method string getOwnerId()
  * @method $this withOwnerId($value)
+ * @method string getIds()
+ * @method $this withIds($value)
+ */
+class CancelActiveOperationTasks extends Rpc
+{
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
  * @method string getInstanceId()
  * @method $this withInstanceId($value)
  * @method string getRoleArn()
@@ -294,6 +330,8 @@ class CreateAccount extends Rpc
  * @method $this withOwnerAccount($value)
  * @method string getOwnerId()
  * @method $this withOwnerId($value)
+ * @method string getBackupRetentionPeriod()
+ * @method $this withBackupRetentionPeriod($value)
  * @method string getInstanceId()
  * @method $this withInstanceId($value)
  */
@@ -421,6 +459,8 @@ class CreateGlobalSecurityIPGroup extends Rpc
  * @method $this withPort($value)
  * @method string getZoneId()
  * @method $this withZoneId($value)
+ * @method string getReplicaCount()
+ * @method $this withReplicaCount($value)
  * @method string getAppendonly()
  * @method $this withAppendonly($value)
  * @method string getNodeType()
@@ -463,6 +503,8 @@ class CreateGlobalSecurityIPGroup extends Rpc
  * @method $this withChargeType($value)
  * @method string getConfig()
  * @method $this withConfig($value)
+ * @method string getSlaveReplicaCount()
+ * @method $this withSlaveReplicaCount($value)
  * @method string getClusterBackupId()
  * @method $this withClusterBackupId($value)
  */
@@ -561,6 +603,8 @@ class CreateParameterGroup extends Rpc
 /**
  * @method string getResourceOwnerId()
  * @method $this withResourceOwnerId($value)
+ * @method string getConnectionStringPrefix()
+ * @method $this withConnectionStringPrefix($value)
  * @method string getSecondaryZoneId()
  * @method $this withSecondaryZoneId($value)
  * @method string getSlaveReadOnlyCount()
@@ -608,6 +652,8 @@ class CreateParameterGroup extends Rpc
  * @method $this withPort($value)
  * @method string getZoneId()
  * @method $this withZoneId($value)
+ * @method string getReplicaCount()
+ * @method $this withReplicaCount($value)
  * @method string getClientToken()
  * @method $this withClientToken($value)
  * @method string getAutoUseCoupon()
@@ -640,6 +686,8 @@ class CreateParameterGroup extends Rpc
  * @method $this withReadOnlyCount($value)
  * @method string getChargeType()
  * @method $this withChargeType($value)
+ * @method string getSlaveReplicaCount()
+ * @method $this withSlaveReplicaCount($value)
  * @method string getClusterBackupId()
  * @method $this withClusterBackupId($value)
  */
@@ -670,6 +718,112 @@ class CreateTairInstance extends Rpc
 /**
  * @method string getResourceOwnerId()
  * @method $this withResourceOwnerId($value)
+ * @method string getCouponNo()
+ * @method $this withCouponNo($value)
+ * @method string getNetworkType()
+ * @method $this withNetworkType($value)
+ * @method string getNeedEni()
+ * @method $this withNeedEni($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
+ * @method string getPassword()
+ * @method $this withPassword($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method array getTag()
+ * @method string getBusinessInfo()
+ * @method $this withBusinessInfo($value)
+ * @method string getAutoRenewPeriod()
+ * @method $this withAutoRenewPeriod($value)
+ * @method string getPeriod()
+ * @method $this withPeriod($value)
+ * @method string getDryRun()
+ * @method $this withDryRun($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getVSwitchId()
+ * @method $this withVSwitchId($value)
+ * @method string getInstanceName()
+ * @method $this withInstanceName($value)
+ * @method string getAutoRenew()
+ * @method $this withAutoRenew($value)
+ * @method string getZoneId()
+ * @method $this withZoneId($value)
+ * @method string getImageId()
+ * @method $this withImageId($value)
+ * @method string getClientToken()
+ * @method $this withClientToken($value)
+ * @method string getSecurityGroupId()
+ * @method $this withSecurityGroupId($value)
+ * @method string getAutoUseCoupon()
+ * @method $this withAutoUseCoupon($value)
+ * @method string getInstanceClass()
+ * @method $this withInstanceClass($value)
+ * @method string getInstanceChargeType()
+ * @method $this withInstanceChargeType($value)
+ * @method string getDeploymentSetId()
+ * @method $this withDeploymentSetId($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method array getDataDisk()
+ * @method string getVpcId()
+ * @method $this withVpcId($value)
+ */
+class CreateTCInstance extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+
+    /**
+     * @param array $tag
+     *
+     * @return $this
+     */
+	public function withTag(array $tag)
+	{
+	    $this->data['Tag'] = $tag;
+		foreach ($tag as $depth1 => $depth1Value) {
+			if(isset($depth1Value['Value'])){
+				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
+			}
+			if(isset($depth1Value['Key'])){
+				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
+			}
+		}
+
+		return $this;
+    }
+
+    /**
+     * @param array $dataDisk
+     *
+     * @return $this
+     */
+	public function withDataDisk(array $dataDisk)
+	{
+	    $this->data['DataDisk'] = $dataDisk;
+		foreach ($dataDisk as $depth1 => $depth1Value) {
+			if(isset($depth1Value['Size'])){
+				$this->options['query']['DataDisk.' . ($depth1 + 1) . '.Size'] = $depth1Value['Size'];
+			}
+			if(isset($depth1Value['PerformanceLevel'])){
+				$this->options['query']['DataDisk.' . ($depth1 + 1) . '.PerformanceLevel'] = $depth1Value['PerformanceLevel'];
+			}
+			if(isset($depth1Value['Category'])){
+				$this->options['query']['DataDisk.' . ($depth1 + 1) . '.Category'] = $depth1Value['Category'];
+			}
+		}
+
+		return $this;
+    }
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
  * @method string getAccountName()
  * @method $this withAccountName($value)
  * @method string getSecurityToken()
@@ -686,6 +840,24 @@ class CreateTairInstance extends Rpc
  * @method $this withInstanceId($value)
  */
 class DeleteAccount extends Rpc
+{
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getBackupId()
+ * @method $this withBackupId($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class DeleteBackup extends Rpc
 {
 }
 
@@ -756,6 +928,8 @@ class DeleteParameterGroup extends Rpc
  * @method $this withResourceOwnerId($value)
  * @method string getSecurityToken()
  * @method $this withSecurityToken($value)
+ * @method string getEffectiveTime()
+ * @method $this withEffectiveTime($value)
  * @method string getNodeId()
  * @method $this withNodeId($value)
  * @method string getShardCount()
@@ -918,6 +1092,8 @@ class DescribeAuditRecords extends Rpc
 /**
  * @method string getResourceOwnerId()
  * @method $this withResourceOwnerId($value)
+ * @method string getInstanceClass()
+ * @method $this withInstanceClass($value)
  * @method string getProductType()
  * @method $this withProductType($value)
  * @method string getResourceGroupId()
@@ -926,6 +1102,8 @@ class DescribeAuditRecords extends Rpc
  * @method $this withSecurityToken($value)
  * @method string getEngine()
  * @method $this withEngine($value)
+ * @method string getExcludeZoneId()
+ * @method $this withExcludeZoneId($value)
  * @method string getInstanceChargeType()
  * @method $this withInstanceChargeType($value)
  * @method string getNodeId()
@@ -944,6 +1122,8 @@ class DescribeAuditRecords extends Rpc
  * @method $this withAcceptLanguage($value)
  * @method string getZoneId()
  * @method $this withZoneId($value)
+ * @method string getFromConsole()
+ * @method $this withFromConsole($value)
  * @method string getInstanceScene()
  * @method $this withInstanceScene($value)
  * @method string getOrderType()
@@ -1102,6 +1282,8 @@ class DescribeCacheAnalysisReportList extends Rpc
  * @method $this withOwnerId($value)
  * @method string getInstanceId()
  * @method $this withInstanceId($value)
+ * @method string getNoShardBackup()
+ * @method $this withNoShardBackup($value)
  * @method string getClusterBackupId()
  * @method $this withClusterBackupId($value)
  */
@@ -1345,6 +1527,8 @@ class DescribeGlobalSecurityIPGroupRelation extends Rpc
  * @method $this withNodeRole($value)
  * @method string getStartTime()
  * @method $this withStartTime($value)
+ * @method string getType()
+ * @method $this withType($value)
  * @method string getReplicatorJobId()
  * @method $this withReplicatorJobId($value)
  * @method string getSecurityToken()
@@ -1867,6 +2051,8 @@ class DescribeParameterTemplates extends Rpc
  * @method $this withInstances($value)
  * @method string getCouponNo()
  * @method $this withCouponNo($value)
+ * @method string getEngineVersion()
+ * @method $this withEngineVersion($value)
  * @method string getInstanceClass()
  * @method $this withInstanceClass($value)
  * @method string getCapacity()
@@ -1875,6 +2061,8 @@ class DescribeParameterTemplates extends Rpc
  * @method $this withSecurityToken($value)
  * @method string getBusinessInfo()
  * @method $this withBusinessInfo($value)
+ * @method string getShardCount()
+ * @method $this withShardCount($value)
  * @method string getPeriod()
  * @method $this withPeriod($value)
  * @method string getProduct()
@@ -2075,29 +2263,231 @@ class DescribeSlowLogRecords extends Rpc
 /**
  * @method string getResourceOwnerId()
  * @method $this withResourceOwnerId($value)
- * @method string getStartTime()
- * @method $this withStartTime($value)
- * @method string getPageNumber()
- * @method $this withPageNumber($value)
  * @method string getSecurityToken()
  * @method $this withSecurityToken($value)
- * @method string getPageSize()
- * @method $this withPageSize($value)
  * @method string getResourceOwnerAccount()
  * @method $this withResourceOwnerAccount($value)
  * @method string getOwnerAccount()
  * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class DescribeTairKVCacheCustomInstanceAttribute extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+
+    /** @var string */
+    public $method = 'GET';
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getExpress()
+ * @method $this withExpress($value)
+ * @method string getStartTime()
+ * @method $this withStartTime($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getMetricName()
+ * @method $this withMetricName($value)
+ * @method string getPeriod()
+ * @method $this withPeriod($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getLength()
+ * @method $this withLength($value)
  * @method string getEndTime()
  * @method $this withEndTime($value)
  * @method string getOwnerId()
  * @method $this withOwnerId($value)
  * @method string getInstanceId()
  * @method $this withInstanceId($value)
- * @method string getStatus()
- * @method $this withStatus($value)
+ * @method string getCategory()
+ * @method $this withCategory($value)
  */
-class DescribeTasks extends Rpc
+class DescribeTairKVCacheCustomInstanceHistoryMonitorValues extends Rpc
 {
+
+    /** @var string */
+    public $scheme = 'https';
+
+    /** @var string */
+    public $method = 'GET';
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getNetworkType()
+ * @method $this withNetworkType($value)
+ * @method string getInstanceClass()
+ * @method $this withInstanceClass($value)
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
+ * @method string getExpired()
+ * @method $this withExpired($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ * @method string getInstanceType()
+ * @method $this withInstanceType($value)
+ * @method array getTag()
+ * @method string getInstanceStatus()
+ * @method $this withInstanceStatus($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getPrivateIp()
+ * @method $this withPrivateIp($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getVSwitchId()
+ * @method $this withVSwitchId($value)
+ * @method string getInstanceIds()
+ * @method $this withInstanceIds($value)
+ * @method string getVpcId()
+ * @method $this withVpcId($value)
+ * @method string getZoneId()
+ * @method $this withZoneId($value)
+ * @method string getChargeType()
+ * @method $this withChargeType($value)
+ */
+class DescribeTairKVCacheCustomInstances extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+
+    /** @var string */
+    public $method = 'GET';
+
+    /**
+     * @param array $tag
+     *
+     * @return $this
+     */
+	public function withTag(array $tag)
+	{
+	    $this->data['Tag'] = $tag;
+		foreach ($tag as $depth1 => $depth1Value) {
+			if(isset($depth1Value['Value'])){
+				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
+			}
+			if(isset($depth1Value['Key'])){
+				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
+			}
+		}
+
+		return $this;
+    }
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class DescribeTairKVCacheInferInstanceAttribute extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+
+    /** @var string */
+    public $method = 'GET';
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSearchKey()
+ * @method $this withSearchKey($value)
+ * @method string getNetworkType()
+ * @method $this withNetworkType($value)
+ * @method string getInstanceClass()
+ * @method $this withInstanceClass($value)
+ * @method string getPageNumber()
+ * @method $this withPageNumber($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
+ * @method string getExpired()
+ * @method $this withExpired($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getPageSize()
+ * @method $this withPageSize($value)
+ * @method array getTag()
+ * @method string getInstanceStatus()
+ * @method $this withInstanceStatus($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getPrivateIp()
+ * @method $this withPrivateIp($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getVSwitchId()
+ * @method $this withVSwitchId($value)
+ * @method string getInstanceIds()
+ * @method $this withInstanceIds($value)
+ * @method string getVpcId()
+ * @method $this withVpcId($value)
+ * @method string getZoneId()
+ * @method $this withZoneId($value)
+ * @method string getChargeType()
+ * @method $this withChargeType($value)
+ */
+class DescribeTairKVCacheInferInstances extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+
+    /** @var string */
+    public $method = 'GET';
+
+    /**
+     * @param array $tag
+     *
+     * @return $this
+     */
+	public function withTag(array $tag)
+	{
+	    $this->data['Tag'] = $tag;
+		foreach ($tag as $depth1 => $depth1Value) {
+			if(isset($depth1Value['Value'])){
+				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
+			}
+			if(isset($depth1Value['Key'])){
+				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
+			}
+		}
+
+		return $this;
+    }
 }
 
 /**
@@ -2337,10 +2727,35 @@ class LockDBInstanceWrite extends Rpc
 }
 
 /**
+ * @method string getFailMode()
+ * @method $this withFailMode($value)
+ * @method string getProxyFaultMode()
+ * @method $this withProxyFaultMode($value)
+ * @method string getProxyInstanceIds()
+ * @method $this withProxyInstanceIds($value)
+ * @method string getDBNodes()
+ * @method $this withDBNodes($value)
+ * @method string getDBFaultMode()
+ * @method $this withDBFaultMode($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ * @method string getCategory()
+ * @method $this withCategory($value)
+ */
+class MasterNodeShutDownFailOver extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
  * @method string getResourceOwnerId()
  * @method $this withResourceOwnerId($value)
  * @method string getSecondaryZoneId()
  * @method $this withSecondaryZoneId($value)
+ * @method string getSlaveReadOnlyCount()
+ * @method $this withSlaveReadOnlyCount($value)
  * @method string getSecurityToken()
  * @method $this withSecurityToken($value)
  * @method string getEffectiveTime()
@@ -2357,6 +2772,12 @@ class LockDBInstanceWrite extends Rpc
  * @method $this withVSwitchId($value)
  * @method string getZoneId()
  * @method $this withZoneId($value)
+ * @method string getReadOnlyCount()
+ * @method $this withReadOnlyCount($value)
+ * @method string getSlaveReplicaCount()
+ * @method $this withSlaveReplicaCount($value)
+ * @method string getReplicaCount()
+ * @method $this withReplicaCount($value)
  */
 class MigrateToOtherZone extends Rpc
 {
@@ -2481,6 +2902,26 @@ class ModifyActiveOperationTasks extends Rpc
  * @method $this withInstanceId($value)
  */
 class ModifyAuditLogConfig extends Rpc
+{
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getExpectExpireTime()
+ * @method $this withExpectExpireTime($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getBackupId()
+ * @method $this withBackupId($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class ModifyBackupExpireTime extends Rpc
 {
 }
 
@@ -2665,6 +3106,8 @@ class ModifyInstanceAttribute extends Rpc
  * @method $this withSecurityToken($value)
  * @method string getDBInstanceId()
  * @method $this withDBInstanceId($value)
+ * @method string getProduct()
+ * @method $this withProduct($value)
  * @method string getResourceOwnerAccount()
  * @method $this withResourceOwnerAccount($value)
  * @method string getOwnerAccount()
@@ -2689,6 +3132,45 @@ class ModifyInstanceAutoRenewalAttribute extends Rpc
  * @method $this withResourceOwnerAccount($value)
  * @method string getOwnerAccount()
  * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getTargetIntranetBandwidth()
+ * @method $this withTargetIntranetBandwidth($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ * @method string getCategory()
+ * @method $this withCategory($value)
+ */
+class ModifyInstanceBandwidth extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getParamSemisyncReplTimeout()
+ * @method $this withParamSemisyncReplTimeout($value)
+ * @method string getParamNoLooseSentinelPasswordFreeCommands()
+ * @method $this withParamNoLooseSentinelPasswordFreeCommands($value)
+ * @method string getParamNoLooseSentinelPasswordFreeAccess()
+ * @method $this withParamNoLooseSentinelPasswordFreeAccess($value)
+ * @method string getParamReplMode()
+ * @method $this withParamReplMode($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getParamNoLooseSentinelEnabled()
+ * @method $this withParamNoLooseSentinelEnabled($value)
+ * @method string getProduct()
+ * @method $this withProduct($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getParamSentinelCompatEnable()
+ * @method $this withParamSentinelCompatEnable($value)
  * @method string getOwnerId()
  * @method $this withOwnerId($value)
  * @method string getInstanceId()
@@ -2827,8 +3309,12 @@ class ModifyInstanceParameter extends Rpc
  * @method $this withSlaveReadOnlyCount($value)
  * @method string getCouponNo()
  * @method $this withCouponNo($value)
+ * @method string getStorage()
+ * @method $this withStorage($value)
  * @method string getInstanceClass()
  * @method $this withInstanceClass($value)
+ * @method string getStorageType()
+ * @method $this withStorageType($value)
  * @method string getSecurityToken()
  * @method $this withSecurityToken($value)
  * @method string getEffectiveTime()
@@ -2859,8 +3345,12 @@ class ModifyInstanceParameter extends Rpc
  * @method $this withReadOnlyCount($value)
  * @method string getForceUpgrade()
  * @method $this withForceUpgrade($value)
+ * @method string getSlaveReplicaCount()
+ * @method $this withSlaveReplicaCount($value)
  * @method string getOrderType()
  * @method $this withOrderType($value)
+ * @method string getReplicaCount()
+ * @method $this withReplicaCount($value)
  */
 class ModifyInstanceSpec extends Rpc
 {
@@ -3059,6 +3549,51 @@ class ModifySecurityIps extends Rpc
  * @method $this withResourceOwnerId($value)
  * @method string getSecurityToken()
  * @method $this withSecurityToken($value)
+ * @method string getSourceBiz()
+ * @method $this withSourceBiz($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ * @method string getInstanceName()
+ * @method $this withInstanceName($value)
+ */
+class ModifyTairKVCacheCustomInstanceAttribute extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getTaskId()
+ * @method $this withTaskId($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getStepName()
+ * @method $this withStepName($value)
+ * @method string getActionParams()
+ * @method $this withActionParams($value)
+ * @method string getTaskAction()
+ * @method $this withTaskAction($value)
+ */
+class ModifyTaskInfo extends Rpc
+{
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
  * @method string getResourceOwnerAccount()
  * @method $this withResourceOwnerAccount($value)
  * @method string getOwnerAccount()
@@ -3207,6 +3742,58 @@ class ResetAccountPassword extends Rpc
 /**
  * @method string getResourceOwnerId()
  * @method $this withResourceOwnerId($value)
+ * @method string getPassword()
+ * @method $this withPassword($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getSourceBiz()
+ * @method $this withSourceBiz($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class ResetTairKVCacheCustomInstancePassword extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getDiskId()
+ * @method $this withDiskId($value)
+ * @method string getAutoPay()
+ * @method $this withAutoPay($value)
+ * @method string getDiskSize()
+ * @method $this withDiskSize($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class ResizeTairKVCacheCustomInstanceDisk extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
  * @method string getUpgradeMinorVersion()
  * @method $this withUpgradeMinorVersion($value)
  * @method string getSecurityToken()
@@ -3224,6 +3811,27 @@ class ResetAccountPassword extends Rpc
  */
 class RestartInstance extends Rpc
 {
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class RestartTairKVCacheCustomInstance extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -3252,6 +3860,48 @@ class RestartInstance extends Rpc
  */
 class RestoreInstance extends Rpc
 {
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class StartTairKVCacheCustomInstance extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
+}
+
+/**
+ * @method string getResourceOwnerId()
+ * @method $this withResourceOwnerId($value)
+ * @method string getSecurityToken()
+ * @method $this withSecurityToken($value)
+ * @method string getResourceOwnerAccount()
+ * @method $this withResourceOwnerAccount($value)
+ * @method string getOwnerAccount()
+ * @method $this withOwnerAccount($value)
+ * @method string getOwnerId()
+ * @method $this withOwnerId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class StopTairKVCacheCustomInstance extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -3304,6 +3954,21 @@ class SwitchInstanceHA extends Rpc
  */
 class SwitchInstanceProxy extends Rpc
 {
+}
+
+/**
+ * @method string getSiteFaultTime()
+ * @method $this withSiteFaultTime($value)
+ * @method string getTargetZoneId()
+ * @method $this withTargetZoneId($value)
+ * @method string getInstanceId()
+ * @method $this withInstanceId($value)
+ */
+class SwitchInstanceZoneFailOver extends Rpc
+{
+
+    /** @var string */
+    public $scheme = 'https';
 }
 
 /**
@@ -3444,6 +4109,8 @@ class TransformInstanceChargeType extends Rpc
  * @method $this withResourceOwnerId($value)
  * @method string getSecurityToken()
  * @method $this withSecurityToken($value)
+ * @method string getAutoRenewPeriod()
+ * @method $this withAutoRenewPeriod($value)
  * @method string getPeriod()
  * @method $this withPeriod($value)
  * @method string getAutoPay()
@@ -3458,6 +4125,8 @@ class TransformInstanceChargeType extends Rpc
  * @method $this withOwnerId($value)
  * @method string getInstanceId()
  * @method $this withInstanceId($value)
+ * @method string getAutoRenew()
+ * @method $this withAutoRenew($value)
  * @method string getChargeType()
  * @method $this withChargeType($value)
  */

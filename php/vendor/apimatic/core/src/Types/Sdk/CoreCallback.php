@@ -27,7 +27,7 @@ class CoreCallback
      * @param callable|null $onBeforeRequest Called before an API call
      * @param callable|null $onAfterRequest  Called after an API call
      */
-    public function __construct(callable $onBeforeRequest = null, callable $onAfterRequest = null)
+    public function __construct(?callable $onBeforeRequest = null, ?callable $onAfterRequest = null)
     {
         $this->onBeforeRequest = $onBeforeRequest;
         $this->onAfterRequest = $onAfterRequest;

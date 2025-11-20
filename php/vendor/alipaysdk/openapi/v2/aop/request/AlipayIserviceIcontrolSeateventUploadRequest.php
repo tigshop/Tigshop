@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.iservice.icontrol.seatevent.upload request
  *
  * @author auto create
- * @since 1.0, 2024-08-23 16:31:24
+ * @since 1.0, 2025-08-25 11:27:36
  */
 class AlipayIserviceIcontrolSeateventUploadRequest
 {

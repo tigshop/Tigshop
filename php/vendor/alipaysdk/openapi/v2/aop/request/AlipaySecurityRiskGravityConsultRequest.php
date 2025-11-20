@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.security.risk.gravity.consult request
  *
  * @author auto create
- * @since 1.0, 2024-07-04 19:33:20
+ * @since 1.0, 2025-07-01 15:02:29
  */
 class AlipaySecurityRiskGravityConsultRequest
 {

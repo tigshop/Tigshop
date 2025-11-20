@@ -49,6 +49,10 @@ class VodWorkflowResult extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>repeated .Volcengine.Vod.Models.Business.SnapshotResult Snapshots = 9;</code>
      */
     private $Snapshots;
+    /**
+     * Generated from protobuf field <code>string ClientToken = 10;</code>
+     */
+    protected $ClientToken = '';
 
     /**
      * Constructor.
@@ -65,6 +69,7 @@ class VodWorkflowResult extends \Google\Protobuf\Internal\Message
      *     @type string $Status
      *     @type \Volc\Service\Vod\Models\Business\VodTranscodeInfo[]|\Google\Protobuf\Internal\RepeatedField $TranscodeInfos
      *     @type \Volc\Service\Vod\Models\Business\SnapshotResult[]|\Google\Protobuf\Internal\RepeatedField $Snapshots
+     *     @type string $ClientToken
      * }
      */
     public function __construct($data = NULL) {
@@ -276,6 +281,28 @@ class VodWorkflowResult extends \Google\Protobuf\Internal\Message
     {
         $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Volc\Service\Vod\Models\Business\SnapshotResult::class);
         $this->Snapshots = $arr;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>string ClientToken = 10;</code>
+     * @return string
+     */
+    public function getClientToken()
+    {
+        return $this->ClientToken;
+    }
+
+    /**
+     * Generated from protobuf field <code>string ClientToken = 10;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setClientToken($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->ClientToken = $var;
 
         return $this;
     }

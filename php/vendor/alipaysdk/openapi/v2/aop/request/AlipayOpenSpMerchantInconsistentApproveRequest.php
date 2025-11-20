@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.sp.merchant.inconsistent.approve request
  *
  * @author auto create
- * @since 1.0, 2024-03-07 10:56:59
+ * @since 1.0, 2025-09-12 14:08:23
  */
 class AlipayOpenSpMerchantInconsistentApproveRequest
 {

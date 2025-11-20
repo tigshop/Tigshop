@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.ebpp.community.affordrentalhouse.upload request
  *
  * @author auto create
- * @since 1.0, 2024-06-20 15:32:03
+ * @since 1.0, 2024-11-04 19:57:20
  */
 class AlipayEbppCommunityAffordrentalhouseUploadRequest
 {

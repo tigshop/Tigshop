@@ -60,7 +60,7 @@ class UploadedFile extends File
      * @throws FileException         If file_uploads is disabled
      * @throws FileNotFoundException If the file does not exist
      */
-    public function __construct(string $path, string $originalName, ?string $mimeType = null, ?int $error = null, bool $test = false)
+    public function __construct(string $path, string $originalName, string $mimeType = null, int $error = null, bool $test = false)
     {
         $this->originalName = $this->getName($originalName);
         $this->mimeType = $mimeType ?: 'application/octet-stream';
@@ -74,7 +74,7 @@ class UploadedFile extends File
      * Returns the original file name.
      *
      * It is extracted from the request from which the file has been uploaded.
-     * This should not be considered as a safe value to use for a file name on your servers.
+     * Then it should not be considered as a safe value.
      */
     public function getClientOriginalName(): string
     {
@@ -85,7 +85,7 @@ class UploadedFile extends File
      * Returns the original file extension.
      *
      * It is extracted from the original file name that was uploaded.
-     * This should not be considered as a safe value to use for a file name on your servers.
+     * Then it should not be considered as a safe value.
      */
     public function getClientOriginalExtension(): string
     {
@@ -158,7 +158,7 @@ class UploadedFile extends File
      *
      * @throws FileException if, for any reason, the file could not have been moved
      */
-    public function move(string $directory, ?string $name = null): File
+    public function move(string $directory, string $name = null): File
     {
         if ($this->isValid()) {
             if ($this->test) {

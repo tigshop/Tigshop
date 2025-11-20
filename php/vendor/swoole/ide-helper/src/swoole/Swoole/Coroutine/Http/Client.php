@@ -4,19 +4,34 @@ declare(strict_types=1);
 
 namespace Swoole\Coroutine\Http;
 
+use Swoole\Coroutine\Socket;
+use Swoole\WebSocket\Frame;
+
+/**
+ * @not-serializable Objects of this class cannot be serialized.
+ * @alias This class has an alias of "\Co\Http\Client" when directive "swoole.use_shortname" is not explicitly turned off.
+ * @see \Co\Http\Client
+ */
 class Client
 {
-    public $errCode = 0;
+    /**
+     * The socket object of the client.
+     *
+     * @since 5.0.2
+     */
+    public ?Socket $socket;
 
-    public $errMsg = '';
+    public int $errCode = 0;
 
-    public $connected = false;
+    public string $errMsg = '';
 
-    public $host = '';
+    public bool $connected = false;
 
-    public $port = 0;
+    public string $host = '';
 
-    public $ssl = false;
+    public int $port = 0;
+
+    public bool $ssl = false;
 
     public $setting;
 
@@ -30,9 +45,14 @@ class Client
 
     public $downloadFile;
 
-    public $downloadOffset = 0;
+    public int $downloadOffset = 0;
 
-    public $statusCode = 0;
+    /**
+     * Status code of last operation. 0 means no error.
+     *
+     * For details, please check SWOOLE_HTTP_CLIENT_ESTATUS_* constants.
+     */
+    public int $statusCode = 0;
 
     public $headers;
 
@@ -40,222 +60,128 @@ class Client
 
     public $cookies;
 
-    public $body = '';
+    public string $body = '';
 
-    public function __construct($host, $port = null, $ssl = null)
+    public function __construct(string $host, int $port = 0, bool $ssl = false)
     {
     }
 
-    public function __destruct()
+    public function set(array $settings): bool
     {
     }
 
-    /**
-     * @return mixed
-     */
-    public function set(array $settings)
+    public function getDefer(): bool
     {
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDefer()
+    public function setDefer(bool $defer = true): bool
     {
     }
 
-    /**
-     * @param mixed|null $defer
-     * @return mixed
-     */
-    public function setDefer($defer = null)
+    public function setMethod(string $method): bool
+    {
+    }
+
+    public function setHeaders(array $headers): bool
     {
     }
 
     /**
-     * @param mixed $method
-     * @return mixed
+     * @since 4.4.0
      */
-    public function setMethod($method)
+    public function setBasicAuth(string $username, string $password): void
+    {
+    }
+
+    public function setCookies(array $cookies): bool
+    {
+    }
+
+    public function setData(string|array $data): bool
+    {
+    }
+
+    public function addFile(string $path, string $name, ?string $type = null, ?string $filename = null, int $offset = 0, int $length = 0): bool
+    {
+    }
+
+    public function addData(string $path, string $name, ?string $type = null, ?string $filename = null): bool
+    {
+    }
+
+    public function execute(string $path): bool
     {
     }
 
     /**
-     * @return mixed
+     * @since 4.5.0
      */
-    public function setHeaders(array $headers)
+    public function getpeername(): array|false
     {
     }
 
     /**
-     * @param mixed $username
-     * @param mixed $password
-     * @return mixed
+     * @since 4.5.0
      */
-    public function setBasicAuth($username, $password)
+    public function getsockname(): array|false
+    {
+    }
+
+    public function get(string $path): bool
+    {
+    }
+
+    public function post(string $path, mixed $data): bool
+    {
+    }
+
+    public function download(string $path, string $file, int $offset = 0): bool
+    {
+    }
+
+    public function getBody(): string|false
+    {
+    }
+
+    public function getHeaders(): array|false|null
+    {
+    }
+
+    public function getCookies(): array|false|null
+    {
+    }
+
+    public function getStatusCode(): int|false
+    {
+    }
+
+    public function getHeaderOut(): string|false
     {
     }
 
     /**
-     * @return mixed
+     * This method is available only when OpenSSL support is enabled (i.e., when Swoole is installed with configuration
+     * option "--enable-openssl" included).
+     *
+     * @since 4.5.0
      */
-    public function setCookies(array $cookies)
+    public function getPeerCert(): string|false
     {
     }
 
-    /**
-     * @param mixed $data
-     * @return mixed
-     */
-    public function setData($data)
+    public function upgrade(string $path): bool
     {
     }
 
-    /**
-     * @param mixed $path
-     * @param mixed $name
-     * @param mixed|null $type
-     * @param mixed|null $filename
-     * @param mixed|null $offset
-     * @param mixed|null $length
-     * @return mixed
-     */
-    public function addFile($path, $name, $type = null, $filename = null, $offset = null, $length = null)
+    public function push(mixed $data, int $opcode = SWOOLE_WEBSOCKET_OPCODE_TEXT, int $flags = SWOOLE_WEBSOCKET_FLAG_FIN): bool
     {
     }
 
-    /**
-     * @param mixed $path
-     * @param mixed $name
-     * @param mixed|null $type
-     * @param mixed|null $filename
-     * @return mixed
-     */
-    public function addData($path, $name, $type = null, $filename = null)
+    public function recv(float $timeout = 0): Frame|bool
     {
     }
 
-    /**
-     * @param mixed $path
-     * @return mixed
-     */
-    public function execute($path)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getpeername()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getsockname()
-    {
-    }
-
-    /**
-     * @param mixed $path
-     * @return mixed
-     */
-    public function get($path)
-    {
-    }
-
-    /**
-     * @param mixed $path
-     * @param mixed $data
-     * @return mixed
-     */
-    public function post($path, $data)
-    {
-    }
-
-    /**
-     * @param mixed $path
-     * @param mixed $file
-     * @param mixed|null $offset
-     * @return mixed
-     */
-    public function download($path, $file, $offset = null)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBody()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHeaders()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCookies()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStatusCode()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHeaderOut()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPeerCert()
-    {
-    }
-
-    /**
-     * @param mixed $path
-     * @return mixed
-     */
-    public function upgrade($path)
-    {
-    }
-
-    /**
-     * @param mixed $data
-     * @param mixed|null $opcode
-     * @param mixed|null $flags
-     * @return mixed
-     */
-    public function push($data, $opcode = null, $flags = null)
-    {
-    }
-
-    /**
-     * @param mixed|null $timeout
-     * @return mixed
-     */
-    public function recv($timeout = null)
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function close()
+    public function close(): bool
     {
     }
 }

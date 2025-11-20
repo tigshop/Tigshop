@@ -24,20 +24,24 @@
     "source": "https://github.com/ergebnis/classy"
   },
   "require": {
-    "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+    "php": "~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
     "ext-tokenizer": "*"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.39.0",
-    "ergebnis/license": "^2.3.0",
-    "ergebnis/php-cs-fixer-config": "~6.12.0",
-    "ergebnis/phpunit-slow-test-detector": "^2.4.0",
-    "fakerphp/faker": "^1.23.0",
-    "infection/infection": "~0.27.8",
-    "phpunit/phpunit": "^10.4.2",
-    "psalm/plugin-phpunit": "~0.18.4",
-    "rector/rector": "~0.18.11",
-    "vimeo/psalm": "^5.16.0"
+    "ergebnis/composer-normalize": "^2.48.1",
+    "ergebnis/license": "^2.7.0",
+    "ergebnis/php-cs-fixer-config": "^6.54.0",
+    "ergebnis/phpstan-rules": "^2.11.0",
+    "ergebnis/phpunit-slow-test-detector": "^2.20.0",
+    "fakerphp/faker": "^1.24.1",
+    "infection/infection": "~0.26.6",
+    "phpstan/extension-installer": "^1.4.3",
+    "phpstan/phpstan": "^2.1.22",
+    "phpstan/phpstan-deprecation-rules": "^2.0.3",
+    "phpstan/phpstan-phpunit": "^2.0.7",
+    "phpstan/phpstan-strict-rules": "^2.0.6",
+    "phpunit/phpunit": "^9.6.19",
+    "rector/rector": "^2.1.4"
   },
   "autoload": {
     "psr-4": {
@@ -56,17 +60,16 @@
     "allow-plugins": {
       "composer/package-versions-deprecated": true,
       "ergebnis/composer-normalize": true,
-      "infection/extension-installer": true
+      "infection/extension-installer": true,
+      "phpstan/extension-installer": true
     },
     "audit": {
       "abandoned": "report"
     },
+    "platform": {
+      "php": "7.4.33"
+    },
     "preferred-install": "dist",
     "sort-packages": true
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-main": "1.0-dev"
-    }
   }
 }

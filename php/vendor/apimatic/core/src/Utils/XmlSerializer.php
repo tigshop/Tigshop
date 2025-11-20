@@ -67,7 +67,7 @@ class XmlSerializer
         \DOMNode $root,
         string $itemName,
         $items,
-        string $wrappingElementName = null
+        ?string $wrappingElementName = null
     ): void {
         if ($items === null) {
             return;
@@ -102,7 +102,7 @@ class XmlSerializer
         return $element;
     }
 
-    public function createElement(string $name, string $value = null): \DOMElement
+    public function createElement(string $name, ?string $value = null): \DOMElement
     {
         return $value === null ? $this->dom->createElement($name) : $this->dom->createElement($name, $value);
     }

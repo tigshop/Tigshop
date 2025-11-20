@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.user.certify.action.apply request
  *
  * @author auto create
- * @since 1.0, 2023-05-30 20:33:22
+ * @since 1.0, 2025-08-13 14:32:43
  */
 class AlipayUserCertifyActionApplyRequest
 {

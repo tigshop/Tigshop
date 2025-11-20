@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.yuntask.agreement.sign request
  *
  * @author auto create
- * @since 1.0, 2023-09-04 00:09:34
+ * @since 1.0, 2025-08-13 15:37:40
  */
 class AlipayCommerceYuntaskAgreementSignRequest
 {

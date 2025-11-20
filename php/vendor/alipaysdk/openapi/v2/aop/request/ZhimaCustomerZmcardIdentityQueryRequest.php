@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.customer.zmcard.identity.query request
  *
  * @author auto create
- * @since 1.0, 2024-07-10 11:57:04
+ * @since 1.0, 2025-10-21 19:32:40
  */
 class ZhimaCustomerZmcardIdentityQueryRequest
 {

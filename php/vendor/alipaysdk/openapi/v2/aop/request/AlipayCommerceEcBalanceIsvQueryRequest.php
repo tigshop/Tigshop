@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.ec.balance.isv.query request
  *
  * @author auto create
- * @since 1.0, 2024-03-04 13:36:13
+ * @since 1.0, 2025-10-10 15:06:24
  */
 class AlipayCommerceEcBalanceIsvQueryRequest
 {

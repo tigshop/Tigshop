@@ -11,18 +11,13 @@ declare(strict_types=1);
 
 namespace Swoole;
 
-use TypeError;
-
 class ObjectProxy
 {
     /** @var object */
     protected $__object;
 
-    public function __construct($object)
+    public function __construct(object $object)
     {
-        if (!is_object($object)) {
-            throw new TypeError('Non-object given');
-        }
         $this->__object = $object;
     }
 

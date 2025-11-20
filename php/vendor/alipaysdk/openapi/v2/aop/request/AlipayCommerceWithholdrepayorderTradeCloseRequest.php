@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.withholdrepayorder.trade.close request
  *
  * @author auto create
- * @since 1.0, 2024-10-08 09:49:49
+ * @since 1.0, 2025-06-19 13:44:52
  */
 class AlipayCommerceWithholdrepayorderTradeCloseRequest
 {

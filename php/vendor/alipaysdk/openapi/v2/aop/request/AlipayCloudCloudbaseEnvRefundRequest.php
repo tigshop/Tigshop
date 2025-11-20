@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.env.refund request
  *
  * @author auto create
- * @since 1.0, 2024-08-20 16:54:50
+ * @since 1.0, 2025-08-07 12:42:36
  */
 class AlipayCloudCloudbaseEnvRefundRequest
 {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.data.aiservice.smartprice.merchanteffect.query request
  *
  * @author auto create
- * @since 1.0, 2023-05-31 06:14:17
+ * @since 1.0, 2025-08-14 13:42:35
  */
 class AlipayDataAiserviceSmartpriceMerchanteffectQueryRequest
 {
