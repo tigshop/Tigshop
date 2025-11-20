@@ -1,4 +1,0 @@
-composer.phar
-vendor/
-.phpunit.result.cache
-coverage/

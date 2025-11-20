@@ -1,7 +1,0 @@
-.DS_Store
-.idea
-build
-composer.phar
-coverage
-vendor*
-.phpunit.result.cache

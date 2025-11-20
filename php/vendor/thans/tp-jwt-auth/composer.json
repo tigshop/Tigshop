@@ -1,0 +1,35 @@
+{
+    "name": "thans/tp-jwt-auth",
+    "description": "thinkphp jwt auth composer",
+    "type": "library",
+    "require": {
+        "php": ">=8.0",
+        "lcobucci/jwt": "^4.3",
+        "topthink/framework": ">=6.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thans",
+            "email": "ntbperst@outlook.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "thans\\jwt\\": "src"
+        },
+        "files": [
+            "src/helper.php"
+        ]
+    },
+    "extra": {
+        "think": {
+            "services": [
+                "thans\\jwt\\Service"
+            ],
+            "config": {
+                "jwt": "config/config.php"
+            }
+        }
+    }
+}
