@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google LLC
+ * Copyright 2016, Google Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,11 +30,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Google\ApiCore\Testing;
+namespace Google\GAX\Testing;
 
-use Google\Protobuf\Internal\Message;
-use Google\Rpc\Code;
-use stdClass;
+use google\rpc\Code;
+use google\rpc\Status;
 
 /**
  * The MockUnaryCall class is used to mock out the \Grpc\UnaryCall class
@@ -43,28 +42,31 @@ use stdClass;
  * The MockUnaryCall object is constructed with a response object, an optional deserialize
  * method, and an optional status. The response object and status are returned immediately from the
  * wait() method.
- *
- * @internal
  */
-class MockUnaryCall extends \Grpc\UnaryCall
+class MockUnaryCall
 {
-    use SerializationTrait;
-
     private $response;
+    private $deserialize;
     private $status;
 
     /**
      * MockUnaryCall constructor.
-     * @param Message|string|null $response The response object.
-     * @param callable|array|null $deserialize An optional deserialize method for the response object.
-     * @param stdClass|null $status An optional status object. If set to null, a status of OK is used.
+     * @param $response The response object.
+     * @param callable|null $deserialize An optional deserialize method for the response object.
+     * @param Status|null $status An optional status object. If set to null, a status of OK is used.
      */
-    public function __construct($response = null, $deserialize = null, ?stdClass $status = null)
+    public function __construct($response, $deserialize = null, $status = null)
     {
         $this->response = $response;
+        if (is_null($deserialize)) {
+            $deserialize = function ($resp) {
+                return $resp;
+            };
+        }
         $this->deserialize = $deserialize;
         if (is_null($status)) {
-            $status = new MockStatus(Code::OK);
+            $status = new Status();
+            $status->setCode(Code::OK);
         }
         $this->status = $status;
     }
@@ -75,9 +77,6 @@ class MockUnaryCall extends \Grpc\UnaryCall
      */
     public function wait()
     {
-        return [
-            $this->deserializeMessage($this->response, $this->deserialize),
-            $this->status,
-        ];
+        return [call_user_func($this->deserialize, $this->response), $this->status];
     }
 }

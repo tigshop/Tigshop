@@ -11,9 +11,8 @@ declare(strict_types=1);
 
 namespace Swoole\Database;
 
-/**
- * @method \mysqli __getObject()
- */
+use mysqli;
+
 class MysqliProxy extends ObjectProxy
 {
     public const IO_METHOD_REGEX = '/^autocommit|begin_transaction|change_user|close|commit|kill|multi_query|ping|prepare|query|real_connect|real_query|reap_async_query|refresh|release_savepoint|rollback|savepoint|select_db|send_query|set_charset|ssl_set$/i';
@@ -24,19 +23,23 @@ class MysqliProxy extends ObjectProxy
         2013, // MYSQLND_CR_SERVER_LOST
     ];
 
-    /** @var \mysqli */
+    /** @var mysqli */
     protected $__object;
 
-    protected string $charsetContext;
+    /** @var string */
+    protected $charsetContext;
 
-    protected array $setOptContext = [];
+    /** @var null|array */
+    protected $setOptContext;
 
-    protected array $changeUserContext;
+    /** @var null|array */
+    protected $changeUserContext;
 
     /** @var callable */
     protected $constructor;
 
-    protected int $round = 0;
+    /** @var int */
+    protected $round = 0;
 
     public function __construct(callable $constructor)
     {
@@ -82,13 +85,15 @@ class MysqliProxy extends ObjectProxy
         parent::__construct($constructor());
         $this->round++;
         /* restore context */
-        if (!empty($this->charsetContext)) {
+        if ($this->charsetContext) {
             $this->__object->set_charset($this->charsetContext);
         }
-        foreach ($this->setOptContext as $opt => $val) {
-            $this->__object->set_opt($opt, $val);
+        if ($this->setOptContext) {
+            foreach ($this->setOptContext as $opt => $val) {
+                $this->__object->set_opt($opt, $val);
+            }
         }
-        if (!empty($this->changeUserContext)) {
+        if ($this->changeUserContext) {
             $this->__object->change_user(...$this->changeUserContext);
         }
     }
@@ -110,7 +115,7 @@ class MysqliProxy extends ObjectProxy
         return $this->__object->set_charset($charset);
     }
 
-    public function change_user(string $user, string $password, ?string $database): bool
+    public function change_user(string $user, string $password, string $database): bool
     {
         $this->changeUserContext = [$user, $password, $database];
         return $this->__object->change_user($user, $password, $database);

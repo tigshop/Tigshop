@@ -11,7 +11,7 @@ namespace Nette\PhpGenerator;
 
 
 /**
- * Definition of an enum case.
+ * Enum case.
  */
 final class EnumCase
 {

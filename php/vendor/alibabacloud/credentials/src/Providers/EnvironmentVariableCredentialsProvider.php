@@ -16,7 +16,9 @@ class EnvironmentVariableCredentialsProvider implements CredentialsProvider
     /**
      * EnvironmentVariableCredentialsProvider constructor.
      */
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * Get credential.
@@ -40,17 +42,11 @@ class EnvironmentVariableCredentialsProvider implements CredentialsProvider
 
         if (Helper::envNotEmpty('ALIBABA_CLOUD_SECURITY_TOKEN')) {
             $securityToken = Helper::env('ALIBABA_CLOUD_SECURITY_TOKEN');
-            return new Credentials([
-                'accessKeyId' => $accessKeyId,
-                'accessKeySecret' => $accessKeySecret,
-                'securityToken' => $securityToken,
-                'providerName' => $this->getProviderName(),
-            ]);
         }
-
         return new Credentials([
             'accessKeyId' => $accessKeyId,
             'accessKeySecret' => $accessKeySecret,
+            'securityToken' => $securityToken,
             'providerName' => $this->getProviderName(),
         ]);
     }

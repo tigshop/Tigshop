@@ -29,7 +29,7 @@ class PhpToken implements \Stringable
     public $text;
 
     /**
-     * @var -1|positive-int
+     * @var int
      */
     public $line;
 
@@ -38,9 +38,6 @@ class PhpToken implements \Stringable
      */
     public $pos;
 
-    /**
-     * @param -1|positive-int $line
-     */
     public function __construct(int $id, string $text, int $line = -1, int $position = -1)
     {
         $this->id = $id;
@@ -83,7 +80,7 @@ class PhpToken implements \Stringable
     }
 
     /**
-     * @return list<static>
+     * @return static[]
      */
     public static function tokenize(string $code, int $flags = 0): array
     {

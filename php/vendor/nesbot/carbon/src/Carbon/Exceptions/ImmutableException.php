@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -32,7 +30,7 @@ class ImmutableException extends BaseRuntimeException implements RuntimeExceptio
      * @param int            $code
      * @param Throwable|null $previous
      */
-    public function __construct($value, $code = 0, ?Throwable $previous = null)
+    public function __construct($value, $code = 0, Throwable $previous = null)
     {
         $this->value = $value;
         parent::__construct("$value is immutable.", $code, $previous);

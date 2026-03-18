@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.eco.mycar.rentcar.payafteruse.refund request
  *
  * @author auto create
- * @since 1.0, 2025-09-15 15:57:39
+ * @since 1.0, 2024-07-04 17:31:53
  */
 class AlipayEcoMycarRentcarPayafteruseRefundRequest
 {

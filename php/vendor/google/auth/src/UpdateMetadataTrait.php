@@ -26,6 +26,8 @@ namespace Google\Auth;
  */
 trait UpdateMetadataTrait
 {
+    use MetricsTrait;
+
     /**
      * export a callback function which updates runtime metadata.
      *
@@ -48,14 +50,20 @@ trait UpdateMetadataTrait
     public function updateMetadata(
         $metadata,
         $authUri = null,
-        ?callable $httpHandler = null
+        callable $httpHandler = null
     ) {
-        if (isset($metadata[self::AUTH_METADATA_KEY])) {
+        $metadata_copy = $metadata;
+
+        // We do need to set the service api usage metrics irrespective even if
+        // the auth token is set because invoking this method with auth tokens
+        // would mean the intention is to just explicitly set the metrics metadata.
+        $metadata_copy = $this->applyServiceApiUsageMetrics($metadata_copy);
+
+        if (isset($metadata_copy[self::AUTH_METADATA_KEY])) {
             // Auth metadata has already been set
-            return $metadata;
+            return $metadata_copy;
         }
         $result = $this->fetchAuthToken($httpHandler);
-        $metadata_copy = $metadata;
         if (isset($result['access_token'])) {
             $metadata_copy[self::AUTH_METADATA_KEY] = ['Bearer ' . $result['access_token']];
         } elseif (isset($result['id_token'])) {

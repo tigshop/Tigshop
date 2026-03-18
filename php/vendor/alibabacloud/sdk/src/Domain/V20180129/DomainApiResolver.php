@@ -82,7 +82,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method SaveBatchTaskForGenerateDomainCertificate saveBatchTaskForGenerateDomainCertificate(array $options = [])
  * @method SaveBatchTaskForModifyingDomainDns saveBatchTaskForModifyingDomainDns(array $options = [])
  * @method SaveBatchTaskForReserveDropListDomain saveBatchTaskForReserveDropListDomain(array $options = [])
- * @method SaveBatchTaskForTransferOutByAuthorizationCode saveBatchTaskForTransferOutByAuthorizationCode(array $options = [])
  * @method SaveBatchTaskForTransferProhibitionLock saveBatchTaskForTransferProhibitionLock(array $options = [])
  * @method SaveBatchTaskForUpdateProhibitionLock saveBatchTaskForUpdateProhibitionLock(array $options = [])
  * @method SaveBatchTaskForUpdatingContactInfoByNewContact saveBatchTaskForUpdatingContactInfoByNewContact(array $options = [])
@@ -113,7 +112,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method SaveSingleTaskForSaveArtExtension saveSingleTaskForSaveArtExtension(array $options = [])
  * @method SaveSingleTaskForSynchronizingDnsHost saveSingleTaskForSynchronizingDnsHost(array $options = [])
  * @method SaveSingleTaskForSynchronizingDSRecord saveSingleTaskForSynchronizingDSRecord(array $options = [])
- * @method SaveSingleTaskForTransferOutByAuthorizationCode saveSingleTaskForTransferOutByAuthorizationCode(array $options = [])
  * @method SaveSingleTaskForTransferProhibitionLock saveSingleTaskForTransferProhibitionLock(array $options = [])
  * @method SaveSingleTaskForUpdateProhibitionLock saveSingleTaskForUpdateProhibitionLock(array $options = [])
  * @method SaveSingleTaskForUpdatingContactInfo saveSingleTaskForUpdatingContactInfo(array $options = [])
@@ -1716,40 +1714,6 @@ class SaveBatchTaskForReserveDropListDomain extends Rpc
 }
 
 /**
- * @method string getLong()
- * @method $this withLong($value)
- * @method array getTransferOutParamList()
- * @method string getUserClientIp()
- * @method $this withUserClientIp($value)
- */
-class SaveBatchTaskForTransferOutByAuthorizationCode extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-
-    /**
-     * @param array $transferOutParamList
-     *
-     * @return $this
-     */
-	public function withTransferOutParamList(array $transferOutParamList)
-	{
-	    $this->data['TransferOutParamList'] = $transferOutParamList;
-		foreach ($transferOutParamList as $depth1 => $depth1Value) {
-			if(isset($depth1Value['AuthorizationCode'])){
-				$this->options['query']['TransferOutParamList.' . ($depth1 + 1) . '.AuthorizationCode'] = $depth1Value['AuthorizationCode'];
-			}
-			if(isset($depth1Value['DomainName'])){
-				$this->options['query']['TransferOutParamList.' . ($depth1 + 1) . '.DomainName'] = $depth1Value['DomainName'];
-			}
-		}
-
-		return $this;
-    }
-}
-
-/**
  * @method array getDomainName()
  * @method string getUserClientIp()
  * @method $this withUserClientIp($value)
@@ -2475,23 +2439,6 @@ class SaveSingleTaskForSynchronizingDnsHost extends Rpc
  */
 class SaveSingleTaskForSynchronizingDSRecord extends Rpc
 {
-}
-
-/**
- * @method string getDomainName()
- * @method $this withDomainName($value)
- * @method string getAuthorizationCode()
- * @method $this withAuthorizationCode($value)
- * @method string getUserClientIp()
- * @method $this withUserClientIp($value)
- * @method string getLang()
- * @method $this withLang($value)
- */
-class SaveSingleTaskForTransferOutByAuthorizationCode extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
 }
 
 /**

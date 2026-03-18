@@ -9,9 +9,9 @@ use Overtrue\Socialite\User;
 
 class GitHub extends Base
 {
-    public const     NAME = 'github';
+    public const NAME = 'github';
 
-    protected array  $scopes = ['read:user'];
+    protected array $scopes = ['read:user'];
 
     protected string $scopeSeparator = ' ';
 

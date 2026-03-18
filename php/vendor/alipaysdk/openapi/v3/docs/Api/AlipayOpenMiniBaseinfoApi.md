@@ -11,7 +11,7 @@ Method | HTTP request | Description
 ## `modify()`
 
 ```php
-modify($appLogo, $data): \Alipay\OpenAPISDK\Model\AlipayOpenMiniBaseinfoModifyResponseModel
+modify($appLogo, $data): object
 ```
 
 小程序修改基础信息
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**\Alipay\OpenAPISDK\Model\AlipayOpenMiniBaseinfoModifyResponseModel**
+**object**
 
 ### Authorization
 

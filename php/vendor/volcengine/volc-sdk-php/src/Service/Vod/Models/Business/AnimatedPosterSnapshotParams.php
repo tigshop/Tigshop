@@ -45,12 +45,6 @@ class AnimatedPosterSnapshotParams extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>int32 CaptureNum = 8;</code>
      */
     protected $CaptureNum = 0;
-    /**
-     * 填充类型 
-     *
-     * Generated from protobuf field <code>string FillType = 9;</code>
-     */
-    protected $FillType = '';
 
     /**
      * Constructor.
@@ -66,8 +60,6 @@ class AnimatedPosterSnapshotParams extends \Google\Protobuf\Internal\Message
      *     @type int $OffsetTime
      *     @type float $CaptureFps
      *     @type int $CaptureNum
-     *     @type string $FillType
-     *           填充类型 
      * }
      */
     public function __construct($data = NULL) {
@@ -247,32 +239,6 @@ class AnimatedPosterSnapshotParams extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->CaptureNum = $var;
-
-        return $this;
-    }
-
-    /**
-     * 填充类型 
-     *
-     * Generated from protobuf field <code>string FillType = 9;</code>
-     * @return string
-     */
-    public function getFillType()
-    {
-        return $this->FillType;
-    }
-
-    /**
-     * 填充类型 
-     *
-     * Generated from protobuf field <code>string FillType = 9;</code>
-     * @param string $var
-     * @return $this
-     */
-    public function setFillType($var)
-    {
-        GPBUtil::checkString($var, True);
-        $this->FillType = $var;
 
         return $this;
     }

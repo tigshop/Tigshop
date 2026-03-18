@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.transport.offlinepay.key.query request
  *
  * @author auto create
- * @since 1.0, 2025-08-13 15:37:43
+ * @since 1.0, 2024-08-08 21:51:46
  */
 class AlipayCommerceTransportOfflinepayKeyQueryRequest
 {

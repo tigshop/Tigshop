@@ -177,10 +177,6 @@ abstract class BaseQuery
             $query->lazyFields($this->options['lazy_fields']);
         }
 
-        if (isset($this->options['alias'])) {
-            $query->alias($this->options['alias']);
-        }
-
         return $query;
     }
 
@@ -281,21 +277,20 @@ abstract class BaseQuery
 
     /**
      * 得到当前或者指定名称的数据表.
-     * @param bool $alias 是否返回数据表别名
+     *
+     * @param string $name 不含前缀的数据表名字
      *
      * @return string|array|Raw
      */
-    public function getTable(bool $alias = false)
+    public function getTable(string $name = '')
     {
-        if (isset($this->options['table'])) {
-            $table =  $this->options['table'];
-            if ($alias && is_string($table) && !empty($this->options['alias'][$table])) {
-                return $this->options['alias'][$table];
-            }
-            return $table;
+        if (empty($name) && isset($this->options['table'])) {
+            return $this->options['table'];
         }
 
-        return $this->prefix . Str::snake($this->name) . $this->suffix;
+        $name = $name ?: $this->name;
+
+        return $this->prefix . Str::snake($name) . $this->suffix;
     }
 
     /**
@@ -380,9 +375,7 @@ abstract class BaseQuery
             return $this->model->newInstance($array)->getAttr($field);
         }
 
-        if (!empty($this->options['json'])) {
-            $this->jsonResult($array);
-        }
+        $this->result($array);
         return $array[$field];
     }
 
@@ -420,9 +413,7 @@ abstract class BaseQuery
                     }
                     return $this->model->newInstance($item)->toArray();
                 }
-                if (!empty($this->options['json'])) {
-                    $this->jsonResult($item);
-                }
+                $this->result($item);
                 return $item;
             }
 
@@ -437,9 +428,7 @@ abstract class BaseQuery
                 }
                 return $this->model->newInstance($array)->getAttr($field);
             }
-            if (!empty($this->options['json'])) {
-                $this->jsonResult($array);
-            }
+            $this->result($array);
             return $array[$field];
         }, $result);
     }
@@ -1006,7 +995,7 @@ abstract class BaseQuery
             $key    = true;
         }
 
-        $this->options['cache'] = [$key, $expire, $tag ?: var_export($this->getTable(), true)];
+        $this->options['cache'] = [$key, $expire, $tag ?: $this->getTable()];
         return $this;
     }
 
@@ -1415,7 +1404,11 @@ abstract class BaseQuery
      *
      * @param array $data 主键数据
      *
-     * @return \think\model\Collection|\think\Collection
+     * @throws Exception
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
+     *
+     * @return Collection|array|static[]
      */
     public function select(array $data = []): Collection
     {
@@ -1446,13 +1439,13 @@ abstract class BaseQuery
      * 查找单条记录.
      *
      * @param mixed   $data 主键数据
-     * @param ?Closure $closure 闭包数据
+     * @param Closure $closure 闭包数据
      *
      * @throws Exception
      * @throws ModelNotFoundException
      * @throws DataNotFoundException
      *
-     * @return static|\think\Model|array|null
+     * @return mixed
      */
     public function find($data = null, ?Closure $closure = null)
     {

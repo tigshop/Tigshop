@@ -127,4 +127,5 @@ class Params extends Model
     public $reqBodyType;
 
     public $style;
+
 }

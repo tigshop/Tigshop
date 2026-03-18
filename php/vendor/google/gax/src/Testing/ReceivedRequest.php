@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google LLC
+ * Copyright 2016, Google Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,13 +29,11 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-namespace Google\ApiCore\Testing;
+namespace Google\GAX\Testing;
 
 /**
  * Class ReceivedRequest used to hold the function name and request object of a call
  * make to a mock gRPC stub.
- *
- * @internal
  */
 class ReceivedRequest
 {

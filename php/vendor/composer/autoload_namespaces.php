@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Rs\\Json' => array($vendorDir . '/php-jsonpointer/php-jsonpointer/src'),
+    'DrSlump' => array($vendorDir . '/stanley-cheung/protobuf-php/library'),
     '' => array($baseDir . '/tool'),
 );

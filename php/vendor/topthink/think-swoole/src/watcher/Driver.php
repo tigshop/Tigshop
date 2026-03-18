@@ -2,9 +2,7 @@
 
 namespace think\swoole\watcher;
 
-abstract class Driver
+interface Driver
 {
-    abstract public function watch(callable $callback);
-
-    abstract public function stop();
+    public function watch(callable $callback);
 }

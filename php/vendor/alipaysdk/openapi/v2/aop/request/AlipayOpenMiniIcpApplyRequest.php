@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.mini.icp.apply request
  *
  * @author auto create
- * @since 1.0, 2025-04-29 16:17:32
+ * @since 1.0, 2024-05-21 14:07:01
  */
 class AlipayOpenMiniIcpApplyRequest
 {

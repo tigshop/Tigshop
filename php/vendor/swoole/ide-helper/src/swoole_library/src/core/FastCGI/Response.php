@@ -11,22 +11,20 @@ declare(strict_types=1);
 
 namespace Swoole\FastCGI;
 
+use InvalidArgumentException;
 use Swoole\FastCGI\Record\EndRequest;
 use Swoole\FastCGI\Record\Stderr;
 use Swoole\FastCGI\Record\Stdout;
 
 class Response extends Message
 {
-    /**
-     * @param array<Stdout|Stderr|EndRequest> $records
-     */
-    public function __construct(array $records)
+    public function __construct(array $records = [])
     {
         if (!static::verify($records)) {
-            throw new \InvalidArgumentException('Bad records');
+            throw new InvalidArgumentException('Bad records');
         }
-
-        $body = $error = '';
+        $body = '';
+        $error = '';
         foreach ($records as $record) {
             if ($record instanceof Stdout) {
                 if ($record->getContentLength() > 0) {
@@ -41,11 +39,8 @@ class Response extends Message
         $this->withBody($body)->withError($error);
     }
 
-    /**
-     * @param array<Stdout|Stderr|EndRequest> $records
-     */
-    protected static function verify(array $records): bool
+    public static function verify(array $records): bool
     {
-        return !empty($records) && $records[array_key_last($records)] instanceof EndRequest;
+        return !empty($records) && $records[count($records) - 1] instanceof EndRequest;
     }
 }

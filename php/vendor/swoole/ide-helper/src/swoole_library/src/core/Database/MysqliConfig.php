@@ -13,28 +13,36 @@ namespace Swoole\Database;
 
 class MysqliConfig
 {
-    protected string $host = '127.0.0.1';
+    /** @var string */
+    protected $host = '127.0.0.1';
 
-    protected int $port = 3306;
+    /** @var int */
+    protected $port = 3306;
 
-    protected ?string $unixSocket;
+    /** @var null|string */
+    protected $unixSocket = '';
 
-    protected string $dbname = 'test';
+    /** @var string */
+    protected $dbname = 'test';
 
-    protected string $charset = 'utf8mb4';
+    /** @var string */
+    protected $charset = 'utf8mb4';
 
-    protected string $username = 'root';
+    /** @var string */
+    protected $username = 'root';
 
-    protected string $password = 'root';
+    /** @var string */
+    protected $password = 'root';
 
-    protected array $options = [];
+    /** @var array */
+    protected $options = [];
 
     public function getHost(): string
     {
         return $this->host;
     }
 
-    public function withHost(string $host): self
+    public function withHost($host): self
     {
         $this->host = $host;
         return $this;
@@ -45,9 +53,9 @@ class MysqliConfig
         return $this->port;
     }
 
-    public function getUnixSocket(): ?string
+    public function getUnixSocket(): string
     {
-        return $this->unixSocket ?? null;
+        return $this->unixSocket;
     }
 
     public function withUnixSocket(?string $unixSocket): self

@@ -25,7 +25,6 @@ class Douban extends Base
     }
 
     /**
-     * @param  string  $token
      * @param  ?array  $query
      */
     protected function getUserByToken(string $token, ?array $query = []): array

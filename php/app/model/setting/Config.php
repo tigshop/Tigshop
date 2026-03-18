@@ -24,4 +24,12 @@ class Config extends Model
     //商户后台登陆后需返回默认配置项
     const SHOP_LAYOUT = 'topMenu';
     const SHOP_NAVTHEME = 'dark';
+
+    // 定义全局的查询范围
+    protected $globalScope = ['del'];
+
+    public function scopeDel($query)
+    {
+        $query->where('is_del',0);
+    }
 }

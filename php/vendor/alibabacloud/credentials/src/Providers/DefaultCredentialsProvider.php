@@ -79,10 +79,12 @@ class DefaultCredentialsProvider implements CredentialsProvider
             self::$defaultProviders,
             new ProfileCredentialsProvider()
         );
-        array_push(
-            self::$defaultProviders,
-            new EcsRamRoleCredentialsProvider()
-        );
+        if (Helper::envNotEmpty('ALIBABA_CLOUD_ECS_METADATA')) {
+            array_push(
+                self::$defaultProviders,
+                new EcsRamRoleCredentialsProvider()
+            );
+        }
         if (Helper::envNotEmpty('ALIBABA_CLOUD_CREDENTIALS_URI')) {
             array_push(
                 self::$defaultProviders,

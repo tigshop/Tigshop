@@ -35,10 +35,6 @@ $request->setPlayConfig("your PlayConfig");
 $request->setNeedOriginal("your NeedOriginal");
 $request->setForceExpire("your ForceExpire");
 $request->setGetAll(false);
-$request->setDigitalWatermarkType("your DigitalWatermarkType");
-$request->setUserToken("your UserToken");
-$request->setDrmKEK("your DrmKEK");
-$request->setJSPlayer("your JSPlayer");
 
 
 $response = new Volc\Service\Vod\Models\Response\VodGetPlayInfoResponse();

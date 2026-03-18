@@ -44,14 +44,8 @@ class AdminAccount extends AdminBaseController
         $admin_id = $this->request->get('admin_id/d', 0);
 
         $id = $this->request->get('id/d', 0);
-        if ($id <= 0) {
-            return $this->error('无效的ID');
-        }
-        $type = $this->request->get('type/s', '');
 
-        if (!in_array($type, ['vendor', 'shop'])) {
-            return $this->error('类型参数错误，只支持shop或vendor');
-        }
+        $type = $this->request->get('type/s', '');
 
         $mainAccount = $this->adminAccountService->getMainAccountByShopOrVendorId($admin_id, $id, $type);
 

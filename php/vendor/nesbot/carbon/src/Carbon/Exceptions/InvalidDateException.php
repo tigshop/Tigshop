@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -40,7 +38,7 @@ class InvalidDateException extends BaseInvalidArgumentException implements Inval
      * @param int            $code
      * @param Throwable|null $previous
      */
-    public function __construct($field, $value, $code = 0, ?Throwable $previous = null)
+    public function __construct($field, $value, $code = 0, Throwable $previous = null)
     {
         $this->field = $field;
         $this->value = $value;

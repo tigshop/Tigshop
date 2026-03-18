@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.fund.trade.pay request
  *
  * @author auto create
- * @since 1.0, 2024-12-11 16:16:23
+ * @since 1.0, 2024-07-29 15:57:04
  */
 class AlipayCloudFundTradePayRequest
 {

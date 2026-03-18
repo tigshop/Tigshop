@@ -84,7 +84,7 @@ class ErrorChunk implements ChunkInterface
         return $this->errorMessage;
     }
 
-    public function didThrow(bool $didThrow = null): bool
+    public function didThrow(?bool $didThrow = null): bool
     {
         if (null !== $didThrow && $this->didThrow !== $didThrow) {
             return !$this->didThrow = $didThrow;
@@ -98,6 +98,9 @@ class ErrorChunk implements ChunkInterface
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);

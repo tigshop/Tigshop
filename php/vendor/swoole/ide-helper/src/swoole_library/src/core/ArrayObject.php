@@ -11,9 +11,14 @@ declare(strict_types=1);
 
 namespace Swoole;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
+use RuntimeException;
+use Serializable;
 use Swoole\Exception\ArrayKeyNotExists;
 
-class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
+class ArrayObject implements ArrayAccess, Serializable, Countable, Iterator
 {
     /**
      * @var array
@@ -41,11 +46,6 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     public function __unserialize(array $data): void
     {
         $this->array = $data;
-    }
-
-    public static function from(array $array = []): static
-    {
-        return new static($array); // @phpstan-ignore new.static
     }
 
     public function toArray(): array
@@ -105,9 +105,10 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
+     * @param mixed $key
      * @return ArrayObject|StringObject
      */
-    public function get(mixed $key)
+    public function get($key)
     {
         if (!$this->exists($key)) {
             throw new ArrayKeyNotExists($key);
@@ -116,9 +117,11 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
+     * @param mixed $key
+     * @param mixed $default
      * @return ArrayObject|StringObject
      */
-    public function getOr(mixed $key, mixed $default = null)
+    public function getOr($key, $default = null)
     {
         if (!$this->exists($key)) {
             return $default;
@@ -139,7 +142,7 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
-     * @return int|string|null
+     * @return null|int|string
      */
     public function firstKey()
     {
@@ -147,7 +150,7 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
-     * @return int|string|null
+     * @return null|int|string
      */
     public function lastKey()
     {
@@ -167,27 +170,31 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
+     * @param mixed $key
+     * @param mixed $value
      * @return $this
      */
-    public function set(mixed $key, mixed $value): self
+    public function set($key, $value): self
     {
         $this->array[$key] = $value;
         return $this;
     }
 
     /**
+     * @param mixed $key
      * @return $this
      */
-    public function delete(mixed $key): self
+    public function delete($key): self
     {
         unset($this->array[$key]);
         return $this;
     }
 
     /**
+     * @param mixed $value
      * @return $this
      */
-    public function remove(mixed $value, bool $strict = true, bool $loop = false): self
+    public function remove($value, bool $strict = true, bool $loop = false): self
     {
         do {
             $key = $this->search($value, $strict);
@@ -210,10 +217,11 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
-     * @return mixed|null
+     * @param mixed $key
+     * @return null|mixed
      */
     #[\ReturnTypeWillChange]
-    public function offsetGet(mixed $key)
+    public function offsetGet($key)
     {
         if (!array_key_exists($key, $this->array)) {
             return null;
@@ -221,47 +229,63 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
         return $this->array[$key];
     }
 
-    public function offsetSet(mixed $key, mixed $value): void
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     */
+    public function offsetSet($key, $value): void
     {
         $this->array[$key] = $value;
     }
 
-    public function offsetUnset(mixed $key): void
+    /**
+     * @param mixed $key
+     */
+    public function offsetUnset($key): void
     {
         unset($this->array[$key]);
     }
 
     /**
+     * @param mixed $key
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function offsetExists(mixed $key)
+    public function offsetExists($key)
     {
         return isset($this->array[$key]);
     }
 
-    public function exists(mixed $key): bool
+    /**
+     * @param mixed $key
+     */
+    public function exists($key): bool
     {
         return array_key_exists($key, $this->array);
     }
 
-    public function contains(mixed $value, bool $strict = true): bool
+    /**
+     * @param mixed $value
+     */
+    public function contains($value, bool $strict = true): bool
     {
         return in_array($value, $this->array, $strict);
     }
 
     /**
+     * @param mixed $value
      * @return mixed
      */
-    public function indexOf(mixed $value, bool $strict = true)
+    public function indexOf($value, bool $strict = true)
     {
         return $this->search($value, $strict);
     }
 
     /**
+     * @param mixed $value
      * @return mixed
      */
-    public function lastIndexOf(mixed $value, bool $strict = true)
+    public function lastIndexOf($value, bool $strict = true)
     {
         $array = $this->array;
         for (end($array); ($currentKey = key($array)) !== null; prev($array)) {
@@ -277,24 +301,29 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
+     * @param mixed $needle
      * @return mixed
      */
-    public function search(mixed $needle, bool $strict = true)
+    public function search($needle, bool $strict = true)
     {
         return array_search($needle, $this->array, $strict);
     }
 
     public function join(string $glue = ''): StringObject
     {
-        return self::detectStringType(implode($glue, $this->array));
+        return static::detectStringType(implode($glue, $this->array));
     }
 
-    public function serialize(): string
+    public function serialize(): StringObject
     {
-        return serialize($this->array);
+        return static::detectStringType(serialize($this->array));
     }
 
-    public function unserialize(string|\Stringable|StringObject $string): self
+    /**
+     * @param string $string
+     * @return $this
+     */
+    public function unserialize($string): self
     {
         $this->array = (array) unserialize((string) $string);
         return $this;
@@ -317,17 +346,19 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
+     * @param mixed $value
      * @return int
      */
-    public function push(mixed $value)
+    public function push($value)
     {
         return $this->pushBack($value);
     }
 
     /**
+     * @param mixed $value
      * @return int
      */
-    public function pushFront(mixed $value)
+    public function pushFront($value)
     {
         return array_unshift($this->array, $value);
     }
@@ -339,17 +370,19 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     }
 
     /**
+     * @param mixed $value
      * @return int
      */
-    public function pushBack(mixed $value)
+    public function pushBack($value)
     {
         return array_push($this->array, $value);
     }
 
     /**
+     * @param mixed $value
      * @return $this
      */
-    public function insert(int $offset, mixed $value): self
+    public function insert(int $offset, $value): self
     {
         if (is_array($value) || is_object($value) || is_null($value)) {
             $value = [$value];
@@ -382,9 +415,14 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
         return array_pop($this->array);
     }
 
-    public function slice(int $offset, ?int $length = null, bool $preserve_keys = false): static
+    /**
+     * @param mixed $offset
+     * @param int $length
+     * @return static
+     */
+    public function slice($offset, int $length = null, bool $preserve_keys = false): self
     {
-        return new static(array_slice($this->array, $offset, $length, $preserve_keys)); // @phpstan-ignore new.static
+        return new static(array_slice($this->array, ...func_get_args()));
     }
 
     /**
@@ -395,19 +433,24 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
         return static::detectType($this->array[array_rand($this->array, 1)]);
     }
 
+    /**
+     * @return $this
+     */
     public function each(callable $fn): self
     {
-        array_walk($this->array, $fn);
-
+        if (array_walk($this->array, $fn) === false) {
+            throw new RuntimeException('array_walk() failed');
+        }
         return $this;
     }
 
     /**
      * @param array $args
+     * @return static
      */
-    public function map(callable $fn, ...$args): static
+    public function map(callable $fn, ...$args): self
     {
-        return new static(array_map($fn, $this->array, ...$args)); // @phpstan-ignore new.static
+        return new static(array_map($fn, $this->array, ...$args));
     }
 
     /**
@@ -421,54 +464,76 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
 
     /**
      * @param array $args
+     * @return static
      */
-    public function keys(...$args): static
+    public function keys(...$args): self
     {
-        return new static(array_keys($this->array, ...$args)); // @phpstan-ignore new.static
+        return new static(array_keys($this->array, ...$args));
     }
 
-    public function values(): static
+    /**
+     * @return static
+     */
+    public function values(): self
     {
-        return new static(array_values($this->array)); // @phpstan-ignore new.static
+        return new static(array_values($this->array));
     }
 
-    public function column(mixed $column_key, mixed $index = null): static
+    /**
+     * @param mixed $column_key
+     * @param mixed $index
+     * @return static
+     */
+    public function column($column_key, $index = null): self
     {
-        return new static(array_column($this->array, $column_key, $index)); // @phpstan-ignore new.static
+        return new static(array_column($this->array, $column_key, $index));
     }
 
-    public function unique(int $sort_flags = SORT_STRING): static
+    /**
+     * @return static
+     */
+    public function unique(int $sort_flags = SORT_STRING): self
     {
-        return new static(array_unique($this->array, $sort_flags)); // @phpstan-ignore new.static
+        return new static(array_unique($this->array, $sort_flags));
     }
 
-    public function reverse(bool $preserve_keys = false): static
+    /**
+     * @return static
+     */
+    public function reverse(bool $preserve_keys = false): self
     {
-        return new static(array_reverse($this->array, $preserve_keys)); // @phpstan-ignore new.static
+        return new static(array_reverse($this->array, $preserve_keys));
     }
 
-    public function chunk(int $size, bool $preserve_keys = false): static
+    /**
+     * @return static
+     */
+    public function chunk(int $size, bool $preserve_keys = false): self
     {
-        return new static(array_chunk($this->array, $size, $preserve_keys)); // @phpstan-ignore new.static
+        return new static(array_chunk($this->array, $size, $preserve_keys));
     }
 
     /**
      * Swap keys and values in an array.
+     * @return static
      */
-    public function flip(): static
+    public function flip(): self
     {
-        return new static(array_flip($this->array)); // @phpstan-ignore new.static
+        return new static(array_flip($this->array));
     }
 
-    public function filter(callable $fn, int $flag = 0): static
+    /**
+     * @return static
+     */
+    public function filter(callable $fn, int $flag = 0): self
     {
-        return new static(array_filter($this->array, $fn, $flag)); // @phpstan-ignore new.static
+        return new static(array_filter($this->array, $fn, $flag));
     }
 
     /**
      * | Function name     | Sorts by | Maintains key association   | Order of sort               | Related functions |
      * | :---------------- | :------- | :-------------------------- | :-------------------------- | :---------------- |
-     * | array_multisort() | value    | associative yes, numeric no | first array or sort options | array_walk()      |
+     * | array_multisort() | value    | associative yes, numeric no | first array or sort options  | array_walk()      |
      * | asort()           | value    | yes                         | low to high                 | arsort()          |
      * | arsort()          | value    | yes                         | high to low                 | asort()           |
      * | krsort()          | key      | yes                         | high to low                 | ksort()           |
@@ -476,11 +541,11 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
      * | natcasesort()     | value    | yes                         | natural, case insensitive   | natsort()         |
      * | natsort()         | value    | yes                         | natural                     | natcasesort()     |
      * | rsort()           | value    | no                          | high to low                 | sort()            |
-     * | shuffle()         | value    | no                          | random                      | array_rand()      |
+     * | shuffle()          | value    | no                          | random                      | array_rand()      |
      * | sort()            | value    | no                          | low to high                 | rsort()           |
-     * | uasort()          | value    | yes                         | user defined                | uksort()          |
-     * | uksort()          | key      | yes                         | user defined                | uasort()          |
-     * | usort()           | value    | no                          | user defined                | uasort()          |
+     * | uasort()          | value    | yes                         | user defined                 | uksort()          |
+     * | uksort()          | key      | yes                         | user defined                 | uasort()          |
+     * | usort()           | value    | no                          | user defined                 | uasort()          |
      */
 
     /**
@@ -488,29 +553,42 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
      */
     public function asort(int $sort_flags = SORT_REGULAR): self
     {
-        asort($this->array, $sort_flags);
-
+        if (asort($this->array, $sort_flags) !== true) {
+            throw new RuntimeException('asort() failed');
+        }
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function arsort(int $sort_flags = SORT_REGULAR): self
     {
-        arsort($this->array, $sort_flags);
-
+        if (arsort($this->array, $sort_flags) !== true) {
+            throw new RuntimeException('arsort() failed');
+        }
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function krsort(int $sort_flags = SORT_REGULAR): self
     {
-        krsort($this->array, $sort_flags);
-
+        if (krsort($this->array, $sort_flags) !== true) {
+            throw new RuntimeException('krsort() failed');
+        }
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function ksort(int $sort_flags = SORT_REGULAR): self
     {
-        ksort($this->array, $sort_flags);
-
+        if (ksort($this->array, $sort_flags) !== true) {
+            throw new RuntimeException('ksort() failed');
+        }
         return $this;
     }
 
@@ -520,7 +598,7 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     public function natcasesort(): self
     {
         if (natcasesort($this->array) !== true) {
-            throw new \RuntimeException('natcasesort() failed');
+            throw new RuntimeException('natcasesort() failed');
         }
         return $this;
     }
@@ -531,7 +609,7 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     public function natsort(): self
     {
         if (natsort($this->array) !== true) {
-            throw new \RuntimeException('natsort() failed');
+            throw new RuntimeException('natsort() failed');
         }
         return $this;
     }
@@ -542,50 +620,71 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
     public function rsort(int $sort_flags = SORT_REGULAR): self
     {
         if (rsort($this->array, $sort_flags) !== true) {
-            throw new \RuntimeException('rsort() failed');
+            throw new RuntimeException('rsort() failed');
         }
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function shuffle(): self
     {
-        shuffle($this->array);
-
-        return $this;
-    }
-
-    public function sort(int $sort_flags = SORT_REGULAR): self
-    {
-        sort($this->array, $sort_flags);
-
-        return $this;
-    }
-
-    public function uasort(callable $value_compare_func): self
-    {
-        uasort($this->array, $value_compare_func);
-
-        return $this;
-    }
-
-    public function uksort(callable $value_compare_func): self
-    {
-        uksort($this->array, $value_compare_func);
-
-        return $this;
-    }
-
-    public function usort(callable $value_compare_func): self
-    {
-        usort($this->array, $value_compare_func);
-
+        if (shuffle($this->array) !== true) {
+            throw new RuntimeException('shuffle() failed');
+        }
         return $this;
     }
 
     /**
+     * @return $this
+     */
+    public function sort(int $sort_flags = SORT_REGULAR): self
+    {
+        if (sort($this->array, $sort_flags) !== true) {
+            throw new RuntimeException('sort() failed');
+        }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function uasort(callable $value_compare_func): self
+    {
+        if (uasort($this->array, $value_compare_func) !== true) {
+            throw new RuntimeException('uasort() failed');
+        }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function uksort(callable $value_compare_func): self
+    {
+        if (uksort($this->array, $value_compare_func) !== true) {
+            throw new RuntimeException('uksort() failed');
+        }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function usort(callable $value_compare_func): self
+    {
+        if (usort($this->array, $value_compare_func) !== true) {
+            throw new RuntimeException('usort() failed');
+        }
+        return $this;
+    }
+
+    /**
+     * @param mixed $value
      * @return ArrayObject|mixed|StringObject
      */
-    protected static function detectType(mixed $value)
+    protected static function detectType($value)
     {
         if (is_string($value)) {
             return static::detectStringType($value);
@@ -601,8 +700,11 @@ class ArrayObject implements \ArrayAccess, \Serializable, \Countable, \Iterator
         return new StringObject($value);
     }
 
-    protected static function detectArrayType(array $value): static
+    /**
+     * @return static
+     */
+    protected static function detectArrayType(array $value): self
     {
-        return new static($value); // @phpstan-ignore new.static
+        return new static($value);
     }
 }

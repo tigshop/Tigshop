@@ -98,7 +98,7 @@ class HasOne extends OneToOne
         }
 
         return $this->query
-            ->whereExp($this->foreignKey, '=' . $this->parent->getTable(true) . '.' . $this->localKey)
+            ->whereExp($this->foreignKey, '=' . $this->parent->getTable() . '.' . $this->localKey)
             ->fetchSql()
             ->$aggregate($field);
     }

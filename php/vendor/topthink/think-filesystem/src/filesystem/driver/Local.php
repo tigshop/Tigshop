@@ -12,8 +12,13 @@ declare (strict_types = 1);
 
 namespace think\filesystem\driver;
 
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Adapter\Local as LocalAdapter;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\PathNormalizer;
+use League\Flysystem\PathPrefixer;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use League\Flysystem\Visibility;
+use League\Flysystem\WhitespacePathNormalizer;
 use think\filesystem\Driver;
 
 class Local extends Driver
@@ -26,20 +31,49 @@ class Local extends Driver
         'root' => '',
     ];
 
-    protected function createAdapter(): AdapterInterface
+    /**
+     * @var PathPrefixer
+     */
+    protected $prefixer;
+
+    /**
+     * @var PathNormalizer
+     */
+    protected $normalizer;
+
+    protected function createAdapter(): FilesystemAdapter
     {
-        $permissions = $this->config['permissions'] ?? [];
+        $visibility = PortableVisibilityConverter::fromArray(
+            $this->config['permissions'] ?? [],
+            $this->config['visibility'] ?? Visibility::PRIVATE
+        );
 
         $links = ($this->config['links'] ?? null) === 'skip'
-        ? LocalAdapter::SKIP_LINKS
-        : LocalAdapter::DISALLOW_LINKS;
+            ? LocalFilesystemAdapter::SKIP_LINKS
+            : LocalFilesystemAdapter::DISALLOW_LINKS;
 
-        return new LocalAdapter(
+        return new LocalFilesystemAdapter(
             $this->config['root'],
-            LOCK_EX,
-            $links,
-            $permissions
+            $visibility,
+            $this->config['lock'] ?? LOCK_EX,
+            $links
         );
+    }
+
+    protected function prefixer()
+    {
+        if (!$this->prefixer) {
+            $this->prefixer = new PathPrefixer($this->config['root'], DIRECTORY_SEPARATOR);
+        }
+        return $this->prefixer;
+    }
+
+    protected function normalizer()
+    {
+        if (!$this->normalizer) {
+            $this->normalizer = new WhitespacePathNormalizer();
+        }
+        return $this->normalizer;
     }
 
     /**
@@ -49,11 +83,16 @@ class Local extends Driver
      */
     public function url(string $path): string
     {
-        $path = str_replace('\\', '/', $path);
+        $path = $this->normalizer()->normalizePath($path);
 
         if (isset($this->config['url'])) {
             return $this->concatPathToUrl($this->config['url'], $path);
         }
         return parent::url($path);
+    }
+
+    public function path(string $path): string
+    {
+        return $this->prefixer()->prefixPath($path);
     }
 }

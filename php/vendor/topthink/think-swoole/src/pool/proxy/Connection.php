@@ -46,7 +46,7 @@ class Connection extends Proxy implements ConnectionInterface
      */
     public function setDb(DbManager $db)
     {
-        $this->__call(__FUNCTION__, func_get_args());
+        return $this->__call(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -57,7 +57,7 @@ class Connection extends Proxy implements ConnectionInterface
      */
     public function setCache(CacheInterface $cache)
     {
-        $this->__call(__FUNCTION__, func_get_args());
+        return $this->__call(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -118,7 +118,7 @@ class Connection extends Proxy implements ConnectionInterface
      * 批量插入记录
      * @access public
      * @param BaseQuery $query 查询对象
-     * @param array $dataSet 数据集
+     * @param mixed $dataSet 数据集
      * @return integer
      * @throws \Exception
      * @throws \Throwable
@@ -196,7 +196,7 @@ class Connection extends Proxy implements ConnectionInterface
      */
     public function startTrans()
     {
-        $this->__call(__FUNCTION__, func_get_args());
+        return $this->__call(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -206,7 +206,7 @@ class Connection extends Proxy implements ConnectionInterface
      */
     public function commit()
     {
-        $this->__call(__FUNCTION__, func_get_args());
+        return $this->__call(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -216,7 +216,7 @@ class Connection extends Proxy implements ConnectionInterface
      */
     public function rollback()
     {
-        $this->__call(__FUNCTION__, func_get_args());
+        return $this->__call(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -239,7 +239,7 @@ class Connection extends Proxy implements ConnectionInterface
         return $this->__call(__FUNCTION__, func_get_args());
     }
 
-    public function getLastInsID(BaseQuery $query, ?string $sequence = null)
+    public function getLastInsID(BaseQuery $query, string $sequence = null)
     {
         return $this->__call(__FUNCTION__, func_get_args());
     }

@@ -14,20 +14,20 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
+        uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
         with:
           egress-policy: audit
 
       - name: Checkout Code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
       - name: SetUp PHP
         id: setup-php
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 # v2
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # v2
         with:
           php-version: "8.3"
           tools: phive
       - name: Cache Tools
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+        uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4.1.1
         id: cache
         with:
           path: ~/.phive
@@ -40,7 +40,7 @@ jobs:
         run: composer run install:tools
       - name: Generate Docs
         run: composer run docs:generate
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+      - uses: actions/upload-artifact@604373da6381bf24206979c74d06a550515601b9 # v4.4.1
         with:
           name: docs
           path: docs

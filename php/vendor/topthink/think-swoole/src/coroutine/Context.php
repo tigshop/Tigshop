@@ -125,10 +125,10 @@ class Context
 
     /**
      * 获取父级协程ID
-     * @param int $id
+     * @param null $id
      * @return mixed
      */
-    public static function getPid($id = 0)
+    public static function getPid($id = null)
     {
         if (self::get($id)->offsetExists('#pid')) {
             return self::get($id)->offsetGet('#pid');

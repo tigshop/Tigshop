@@ -11,25 +11,35 @@ declare(strict_types=1);
 
 namespace Swoole;
 
+use RuntimeException;
 use Swoole\Coroutine\Channel;
+use Throwable;
 
 class ConnectionPool
 {
     public const DEFAULT_SIZE = 64;
 
-    protected ?Channel $pool;
+    /** @var Channel */
+    protected $pool;
 
     /** @var callable */
     protected $constructor;
 
-    protected int $size;
+    /** @var int */
+    protected $size;
 
-    protected int $num = 0;
+    /** @var int */
+    protected $num;
 
-    public function __construct(callable $constructor, int $size = self::DEFAULT_SIZE, protected ?string $proxy = null)
+    /** @var null|string */
+    protected $proxy;
+
+    public function __construct(callable $constructor, int $size = self::DEFAULT_SIZE, ?string $proxy = null)
     {
-        $this->pool        = new Channel($this->size = $size);
+        $this->pool = new Channel($this->size = $size);
         $this->constructor = $constructor;
+        $this->num = 0;
+        $this->proxy = $proxy;
     }
 
     public function fill(): void
@@ -39,16 +49,10 @@ class ConnectionPool
         }
     }
 
-    /**
-     * Get a connection from the pool.
-     *
-     * @param float $timeout > 0 means waiting for the specified number of seconds. other means no waiting.
-     * @return mixed|false Returns a connection object from the pool, or false if the pool is full and the timeout is reached.
-     */
     public function get(float $timeout = -1)
     {
         if ($this->pool === null) {
-            throw new \RuntimeException('Pool has been closed');
+            throw new RuntimeException('Pool has been closed');
         }
         if ($this->pool->isEmpty() && $this->num < $this->size) {
             $this->make();
@@ -74,7 +78,7 @@ class ConnectionPool
     {
         $this->pool->close();
         $this->pool = null;
-        $this->num  = 0;
+        $this->num = 0;
     }
 
     protected function make(): void
@@ -85,9 +89,9 @@ class ConnectionPool
                 $connection = new $this->proxy($this->constructor);
             } else {
                 $constructor = $this->constructor;
-                $connection  = $constructor();
+                $connection = $constructor();
             }
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->num--;
             throw $throwable;
         }

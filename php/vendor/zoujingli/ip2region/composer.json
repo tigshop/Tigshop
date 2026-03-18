@@ -2,68 +2,25 @@
   "type": "library",
   "name": "zoujingli/ip2region",
   "homepage": "https://github.com/zoujingli/Ip2Region",
-  "description": "IP2Region v2.0 for PHP - 轻量级 IP 地理位置查询库，支持 IPv4，高性能，零依赖",
+  "description": "Ip2Region for PHP",
   "license": "Apache-2.0",
   "authors": [
     {
       "name": "Anyon",
       "email": "zoujingli@qq.com",
-      "homepage": "https://thinkadmin.top",
-      "role": "Developer"
-    }
-  ],
-  "support": {
-    "issues": "https://github.com/zoujingli/Ip2Region/issues",
-    "source": "https://github.com/zoujingli/Ip2Region"
-  },
-  "funding": [
-    {
-      "type": "github",
-      "url": "https://github.com/sponsors/zoujingli"
+      "homepage": "https://thinkadmin.top"
     }
   ],
   "require": {
     "php": ">=5.4"
   },
   "keywords": [
-    "ip2region",
-    "ip",
-    "location",
-    "geolocation",
-    "ipv4",
-    "php",
-    "composer",
-    "轻量级",
-    "高性能",
-    "零依赖"
+    "Ip2Region"
   ],
   "autoload": {
     "classmap": [
       "Ip2Region.php",
       "XdbSearcher.php"
-    ],
-    "files": [
-      "function.php"
     ]
-  },
-  "scripts": {
-    "test": "php _test.php",
-    "demo": "php -r \"require 'vendor/autoload.php'; echo (new \\Ip2Region())->simple('61.142.118.231') . PHP_EOL;\"",
-    "ip2region": "php -r \"require 'vendor/autoload.php'; echo ip2region('61.142.118.231') . PHP_EOL;\"",
-    "ip2region:memory": "php -r \"require 'vendor/autoload.php'; echo json_encode(ip2region('61.142.118.231', 'memory'), JSON_UNESCAPED_UNICODE) . PHP_EOL;\"",
-    "ip2region:binary": "php -r \"require 'vendor/autoload.php'; echo json_encode(ip2region('61.142.118.231', 'binary'), JSON_UNESCAPED_UNICODE) . PHP_EOL;\"",
-    "ip2region:btree": "php -r \"require 'vendor/autoload.php'; echo json_encode(ip2region('61.142.118.231', 'btree'), JSON_UNESCAPED_UNICODE) . PHP_EOL;\"",
-    "ip2region:search": "php -r \"require 'vendor/autoload.php'; echo ip2region('61.142.118.231', 'search') . PHP_EOL;\"",
-    "ip2region:simple": "php -r \"require 'vendor/autoload.php'; echo ip2region('61.142.118.231', 'simple') . PHP_EOL;\"",
-    "post-install-cmd": [
-      "echo 'IP2Region v2.0 安装完成！'",
-      "echo '运行 composer demo 测试安装'",
-      "echo '运行 composer ip2region 测试通用函数'"
-    ]
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
   }
 }

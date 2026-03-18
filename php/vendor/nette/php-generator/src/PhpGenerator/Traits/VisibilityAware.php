@@ -9,7 +9,8 @@ declare(strict_types=1);
 
 namespace Nette\PhpGenerator\Traits;
 
-use Nette\PhpGenerator\Visibility;
+use Nette;
+use Nette\PhpGenerator\ClassLike;
 
 
 /**
@@ -21,10 +22,16 @@ trait VisibilityAware
 	private ?string $visibility = null;
 
 
-	/** @param  'public'|'protected'|'private'|null  $value */
-	public function setVisibility(?string $value): static
+	/**
+	 * @param  string|null  $val  public|protected|private
+	 */
+	public function setVisibility(?string $val): static
 	{
-		$this->visibility = $value === null ? $value : Visibility::from($value);
+		if (!in_array($val, [ClassLike::VisibilityPublic, ClassLike::VisibilityProtected, ClassLike::VisibilityPrivate, null], true)) {
+			throw new Nette\InvalidArgumentException('Argument must be public|protected|private.');
+		}
+
+		$this->visibility = $val;
 		return $this;
 	}
 
@@ -37,39 +44,39 @@ trait VisibilityAware
 
 	public function setPublic(): static
 	{
-		$this->visibility = Visibility::Public;
+		$this->visibility = ClassLike::VisibilityPublic;
 		return $this;
 	}
 
 
 	public function isPublic(): bool
 	{
-		return $this->visibility === Visibility::Public || $this->visibility === null;
+		return $this->visibility === ClassLike::VisibilityPublic || $this->visibility === null;
 	}
 
 
 	public function setProtected(): static
 	{
-		$this->visibility = Visibility::Protected;
+		$this->visibility = ClassLike::VisibilityProtected;
 		return $this;
 	}
 
 
 	public function isProtected(): bool
 	{
-		return $this->visibility === Visibility::Protected;
+		return $this->visibility === ClassLike::VisibilityProtected;
 	}
 
 
 	public function setPrivate(): static
 	{
-		$this->visibility = Visibility::Private;
+		$this->visibility = ClassLike::VisibilityPrivate;
 		return $this;
 	}
 
 
 	public function isPrivate(): bool
 	{
-		return $this->visibility === Visibility::Private;
+		return $this->visibility === ClassLike::VisibilityPrivate;
 	}
 }

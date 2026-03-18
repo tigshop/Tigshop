@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -27,16 +25,20 @@ trait Mutability
 
     /**
      * Returns true if the current class/instance is mutable.
+     *
+     * @return bool
      */
-    public static function isMutable(): bool
+    public static function isMutable()
     {
         return false;
     }
 
     /**
      * Returns true if the current class/instance is immutable.
+     *
+     * @return bool
      */
-    public static function isImmutable(): bool
+    public static function isImmutable()
     {
         return !static::isMutable();
     }

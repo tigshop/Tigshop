@@ -2,7 +2,6 @@
 
 namespace think\swoole\ipc;
 
-use Swoole\Process\Pool;
 use think\swoole\Manager;
 
 abstract class Driver
@@ -39,7 +38,7 @@ abstract class Driver
 
     abstract public function getType();
 
-    abstract public function prepare(Pool $pool);
+    abstract public function prepare($workerNum);
 
     abstract public function subscribe();
 

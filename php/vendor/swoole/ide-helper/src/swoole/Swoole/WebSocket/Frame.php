@@ -4,35 +4,37 @@ declare(strict_types=1);
 
 namespace Swoole\WebSocket;
 
-class Frame implements \Stringable
+class Frame
 {
-    public int $fd = 0;
+    public $fd = 0;
 
-    public string $data = '';
+    public $data = '';
 
-    public int $opcode = SWOOLE_WEBSOCKET_OPCODE_TEXT;
+    public $opcode = 1;
 
-    public int $flags = SWOOLE_WEBSOCKET_FLAG_FIN;
+    public $flags = 1;
 
-    public bool $finish;
+    public $finish;
 
     public function __toString(): string
     {
     }
 
     /**
-     * @alias Alias of method \Swoole\WebSocket\Server::pack().
-     * @see \Swoole\WebSocket\Server::pack()
+     * @param mixed $data
+     * @param mixed|null $opcode
+     * @param mixed|null $flags
+     * @return mixed
      */
-    public static function pack(Frame|string $data, int $opcode = SWOOLE_WEBSOCKET_OPCODE_TEXT, int $flags = SWOOLE_WEBSOCKET_FLAG_FIN): string
+    public static function pack($data, $opcode = null, $flags = null)
     {
     }
 
     /**
-     * @alias Alias of method \Swoole\WebSocket\Server::unpack().
-     * @see \Swoole\WebSocket\Server::unpack()
+     * @param mixed $data
+     * @return mixed
      */
-    public static function unpack(string $data): Frame
+    public static function unpack($data)
     {
     }
 }

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.merchantcard.settleaccount.batchquery request
  *
  * @author auto create
- * @since 1.0, 2025-01-16 10:38:49
+ * @since 1.0, 2024-10-15 13:52:14
  */
 class AlipayCommerceMerchantcardSettleaccountBatchqueryRequest
 {

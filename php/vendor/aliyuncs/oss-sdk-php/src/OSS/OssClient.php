@@ -169,11 +169,6 @@ class OssClient
             throw new OssException("endpoint is empty");
         }
         $this->hostname = $this->checkEndpoint($endpoint, $isCName);
-        if (isset($config['forcePathStyle'])) {
-            if ($config['forcePathStyle'] === true) {
-                $this->hostType = self::OSS_HOST_TYPE_PATH_STYLE;
-            }
-        }
         $this->requestProxy = $requestProxy;
         if (!$provider instanceof CredentialsProvider) {
             throw new OssException("provider must be an instance of CredentialsProvider");
@@ -2377,7 +2372,7 @@ class OssClient
         $options[self::OSS_OBJECT] = $object;
         $options[self::OSS_SUB_RESOURCE] = 'x-oss-async-process';
         $options[self::OSS_CONTENT_TYPE] = 'application/octet-stream';
-        $options[self::OSS_CONTENT] = 'x-oss-async-process=' . $asyncProcess;
+        $options[self::OSS_CONTENT] = 'x-oss-async-process='.$asyncProcess;
         $response = $this->auth($options);
         $result = new BodyResult($response);
         return $result->getData();
@@ -3004,7 +2999,7 @@ class OssClient
         return $this->getValue($options, self::OSS_CHECK_MD5, false, true, true);
     }
 
-    /**
+     /**
      * Gets value of the specified key from the options
      *
      * @param array $options
@@ -3274,7 +3269,7 @@ class OssClient
 
         try {
             $tmp_object = $options[self::OSS_OBJECT];
-            $encoding = array('UTF-8', 'GB2312', 'GBK');
+            $encoding = array('UTF-8','GB2312', 'GBK');
             $encode = mb_detect_encoding($tmp_object, $encoding);
             if ($encode === 'UTF-8' || $encode === false) {
                 return;
@@ -3338,9 +3333,6 @@ class OssClient
         if ('' !== $bucket) {
             if ($this->hostType === self::OSS_HOST_TYPE_IP || $this->hostType === self::OSS_HOST_TYPE_PATH_STYLE) {
                 $paths[] = $bucket;
-                if ('' === $object) {
-                    $paths[] = '';
-                }
             }
         }
         // + object
@@ -3362,12 +3354,6 @@ class OssClient
         $query = array();
         $queryList = array(
             self::OSS_PART_NUM,
-            'response-content-type',
-            'response-content-language',
-            'response-cache-control',
-            'response-content-encoding',
-            'response-expires',
-            'response-content-disposition',
             self::OSS_UPLOAD_ID,
             self::OSS_COMP,
             self::OSS_LIVE_CHANNEL_STATUS,
@@ -3395,7 +3381,6 @@ class OssClient
         if (isset($options[self::OSS_SUB_RESOURCE])) {
             $query[$options[self::OSS_SUB_RESOURCE]] = '';
         }
-
         return OssUtil::toQueryString($query);
     }
 
@@ -3534,7 +3519,7 @@ class OssClient
         }
 
         try {
-            $encoding = array('UTF-8', 'GB2312', 'GBK');
+            $encoding = array('UTF-8','GB2312', 'GBK');
             $encode = mb_detect_encoding($filepath, $encoding);
             if ($encode !== 'UTF-8') {
                 return $filepath;
@@ -3549,7 +3534,7 @@ class OssClient
         return $filepath;
     }
 
-    /**
+     /**
      * Decodes the file path from GBK  to UTF-8.
      *
      * @param $filepath
@@ -3565,7 +3550,7 @@ class OssClient
         }
 
         try {
-            $encoding = array('UTF-8', 'GB2312', 'GBK');
+            $encoding = array('UTF-8','GB2312', 'GBK');
             $encode = mb_detect_encoding($filepath, $encoding);
             if ($encode === 'UTF-8' || $encode === false) {
                 return $filepath;
@@ -3760,8 +3745,8 @@ class OssClient
     );
     // OssClient version information
     const OSS_NAME = "aliyun-sdk-php";
-    const OSS_VERSION = "2.7.2";
-    const OSS_BUILD = "20241028";
+    const OSS_VERSION = "2.7.1";
+    const OSS_BUILD = "20240228";
     const OSS_AUTHOR = "";
     const OSS_OPTIONS_ORIGIN = 'Origin';
     const OSS_OPTIONS_REQUEST_METHOD = 'Access-Control-Request-Method';

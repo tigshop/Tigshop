@@ -25,7 +25,6 @@ $request->setFileExtension("your FileExtension");
 $request->setClientNetWorkMode("your ClientNetWorkMode");
 $request->setClientIDCMode("your ClientIDCMode");
 $request->setNeedFallback(false);
-$request->setUploadHostPrefer("your UploadHostPrefer");
 
 
 $response = new Volc\Service\Vod\Models\Response\VodApplyUploadInfoResponse();

@@ -3,14 +3,12 @@
 namespace think\swoole\concerns;
 
 use Swoole\Constant;
-use Swoole\Coroutine;
 use Swoole\Process;
 use Swoole\Process\Pool;
 use Swoole\Runtime;
 use think\App;
 use think\swoole\coroutine\Barrier;
 use think\swoole\Ipc;
-use think\swoole\message\ReloadMessage;
 use think\swoole\Watcher;
 
 /**
@@ -56,9 +54,6 @@ trait InteractsWithServer
     {
         $this->setProcessName('manager process');
 
-        //协程配置
-        Coroutine::set($this->getConfig('coroutine', []));
-
         $this->initialize();
         $this->triggerEvent('init');
 
@@ -69,7 +64,10 @@ trait InteractsWithServer
 
         $workerNum = count($this->startFuncMap);
 
-        $pool = $this->createPool($workerNum);
+        //启动消息监听
+        $this->prepareIpc($workerNum);
+
+        $pool = new Pool($workerNum, $this->ipc->getType(), 0, true);
 
         $pool->on(Constant::EVENT_WORKER_START, function ($pool, $workerId) use ($envName) {
 
@@ -84,33 +82,21 @@ trait InteractsWithServer
                 $this->setProcessName($name);
             }
 
-            $this->ipc->listenMessage($workerId);
-
             Process::signal(SIGTERM, function () {
-                $this->stopWorker();
-            });
-
-            $this->onEvent('message', function ($message) {
-                if ($message instanceof ReloadMessage) {
-                    $this->stopWorker();
-                }
+                $this->pool->getProcess()->exit();
             });
 
             $this->clearCache();
             $this->prepareApplication($envName);
 
-            $this->triggerEvent(Constant::EVENT_WORKER_START, $name);
+            $this->ipc->listenMessage($workerId);
+
+            $this->triggerEvent(Constant::EVENT_WORKER_START);
 
             $func($pool, $workerId);
         });
 
         $pool->start();
-    }
-
-    protected function stopWorker()
-    {
-        $this->triggerEvent('beforeWorkerStop');
-        $this->pool->getProcess()->exit();
     }
 
     public function getWorkerId()
@@ -132,15 +118,10 @@ trait InteractsWithServer
         $this->ipc->sendMessage($workerId, $message);
     }
 
-    protected function createPool($workerNum)
+    protected function prepareIpc($workerNum)
     {
         $this->ipc = $this->container->make(Ipc::class);
-
-        $pool = new Pool($workerNum, $this->ipc->getType(), 0, true);
-
-        $this->ipc->prepare($pool);
-
-        return $pool;
+        $this->ipc->prepare($workerNum);
     }
 
     public function runWithBarrier(callable $func, ...$params)
@@ -153,19 +134,12 @@ trait InteractsWithServer
      */
     protected function addHotUpdateProcess()
     {
-        //热更新时关闭协程死锁检查
-        Coroutine::set([
-            'enable_deadlock_check' => false,
-        ]);
+        $this->addWorker(function (Process\Pool $pool) {
 
-        $this->addWorker(function () {
             $watcher = $this->container->make(Watcher::class);
-            $watcher->watch(function () {
-                foreach ($this->startFuncMap as $workerId => $func) {
-                    if ($workerId != $this->workerId) {
-                        $this->sendMessage($workerId, new ReloadMessage);
-                    }
-                }
+
+            $watcher->watch(function () use ($pool) {
+                Process::kill($pool->master_pid, SIGUSR1);
             });
         }, 'hot update');
     }

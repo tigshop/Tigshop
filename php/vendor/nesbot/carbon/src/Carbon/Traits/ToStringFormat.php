@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -13,7 +11,6 @@ declare(strict_types=1);
 
 namespace Carbon\Traits;
 
-use Carbon\FactoryImmutable;
 use Closure;
 
 /**
@@ -24,13 +21,20 @@ use Closure;
 trait ToStringFormat
 {
     /**
+     * Format to use for __toString method when type juggling occurs.
+     *
+     * @var string|Closure|null
+     */
+    protected static $toStringFormat;
+
+    /**
      * Reset the format used to the default when type juggling a Carbon instance to a string
      *
      * @return void
      */
-    public static function resetToStringFormat(): void
+    public static function resetToStringFormat()
     {
-        FactoryImmutable::getDefaultInstance()->resetToStringFormat();
+        static::setToStringFormat(null);
     }
 
     /**
@@ -45,8 +49,8 @@ trait ToStringFormat
      *
      * @return void
      */
-    public static function setToStringFormat(string|Closure|null $format): void
+    public static function setToStringFormat($format)
     {
-        FactoryImmutable::getDefaultInstance()->setToStringFormat($format);
+        static::$toStringFormat = $format;
     }
 }

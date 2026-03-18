@@ -25,25 +25,25 @@ final class ClassManipulator
 	 */
 	public function inheritProperty(string $name, bool $returnIfExists = false): Property
 	{
+		$extends = $this->class->getExtends();
 		if ($this->class->hasProperty($name)) {
 			return $returnIfExists
 				? $this->class->getProperty($name)
 				: throw new Nette\InvalidStateException("Cannot inherit property '$name', because it already exists.");
+
+		} elseif (!$extends) {
+			throw new Nette\InvalidStateException("Class '{$this->class->getName()}' has not setExtends() set.");
 		}
 
-		$parents = [...(array) $this->class->getExtends(), ...$this->class->getImplements()]
-			?: throw new Nette\InvalidStateException("Class '{$this->class->getName()}' has neither setExtends() nor setImplements() set.");
-
-		foreach ($parents as $parent) {
-			try {
-				$rp = new \ReflectionProperty($parent, $name);
-			} catch (\ReflectionException) {
-				continue;
-			}
-			return $this->implementProperty($rp);
+		try {
+			$rp = new \ReflectionProperty($extends, $name);
+		} catch (\ReflectionException) {
+			throw new Nette\InvalidStateException("Property '$name' has not been found in ancestor {$extends}");
 		}
 
-		throw new Nette\InvalidStateException("Property '$name' has not been found in any ancestor: " . implode(', ', $parents));
+		$property = (new Factory)->fromPropertyReflection($rp);
+		$this->class->addMember($property);
+		return $property;
 	}
 
 
@@ -52,14 +52,15 @@ final class ClassManipulator
 	 */
 	public function inheritMethod(string $name, bool $returnIfExists = false): Method
 	{
+		$parents = [...(array) $this->class->getExtends(), ...$this->class->getImplements()];
 		if ($this->class->hasMethod($name)) {
 			return $returnIfExists
 				? $this->class->getMethod($name)
 				: throw new Nette\InvalidStateException("Cannot inherit method '$name', because it already exists.");
-		}
 
-		$parents = [...(array) $this->class->getExtends(), ...$this->class->getImplements()]
-			?: throw new Nette\InvalidStateException("Class '{$this->class->getName()}' has neither setExtends() nor setImplements() set.");
+		} elseif (!$parents) {
+			throw new Nette\InvalidStateException("Class '{$this->class->getName()}' has neither setExtends() nor setImplements() set.");
+		}
 
 		foreach ($parents as $parent) {
 			try {
@@ -67,7 +68,9 @@ final class ClassManipulator
 			} catch (\ReflectionException) {
 				continue;
 			}
-			return $this->implementMethod($rm);
+			$method = (new Factory)->fromMethodReflection($rm);
+			$this->class->addMember($method);
+			return $method;
 		}
 
 		throw new Nette\InvalidStateException("Method '$name' has not been found in any ancestor: " . implode(', ', $parents));
@@ -75,57 +78,18 @@ final class ClassManipulator
 
 
 	/**
-	 * Implements all methods from the given interface or abstract class.
+	 * Implements all methods from the given interface.
 	 */
-	public function implement(string $name): void
-	{
-		$definition = new \ReflectionClass($name);
-		if ($definition->isInterface()) {
-			$this->class->addImplement($name);
-		} elseif ($definition->isAbstract()) {
-			$this->class->setExtends($name);
-		} else {
-			throw new Nette\InvalidArgumentException("'$name' is not an interface or abstract class.");
-		}
-
-		foreach ($definition->getMethods() as $method) {
-			if (!$this->class->hasMethod($method->getName()) && $method->isAbstract()) {
-				$this->implementMethod($method);
-			}
-		}
-
-		if (PHP_VERSION_ID >= 80400) {
-			foreach ($definition->getProperties() as $property) {
-				if (!$this->class->hasProperty($property->getName()) && $property->isAbstract()) {
-					$this->implementProperty($property);
-				}
-			}
-		}
-	}
-
-
-	private function implementMethod(\ReflectionMethod $rm): Method
-	{
-		$method = (new Factory)->fromMethodReflection($rm);
-		$method->setAbstract(false);
-		$this->class->addMember($method);
-		return $method;
-	}
-
-
-	private function implementProperty(\ReflectionProperty $rp): Property
-	{
-		$property = (new Factory)->fromPropertyReflection($rp);
-		$property->setHooks([])->setAbstract(false);
-		$this->class->addMember($property);
-		return $property;
-	}
-
-
-	/** @deprecated use implement() */
 	public function implementInterface(string $interfaceName): void
 	{
-		trigger_error(__METHOD__ . '() is deprecated, use implement()', E_USER_DEPRECATED);
-		$this->implement($interfaceName);
+		$interface = new \ReflectionClass($interfaceName);
+		if (!$interface->isInterface()) {
+			throw new Nette\InvalidArgumentException("Class '$interfaceName' is not an interface.");
+		}
+
+		$this->class->addImplement($interfaceName);
+		foreach ($interface->getMethods() as $method) {
+			$this->inheritMethod($method->getName(), returnIfExists: true);
+		}
 	}
 }

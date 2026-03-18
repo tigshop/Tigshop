@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -13,8 +11,6 @@ declare(strict_types=1);
 
 namespace Carbon\Traits;
 
-use Carbon\FactoryImmutable;
-
 /**
  * Trait Macros.
  *
@@ -25,9 +21,21 @@ trait Macro
     use Mixin;
 
     /**
-     * Register a custom macro.
+     * The registered macros.
      *
-     * Pass null macro to remove it.
+     * @var array
+     */
+    protected static $globalMacros = [];
+
+    /**
+     * The registered generic macros.
+     *
+     * @var array
+     */
+    protected static $globalGenericMacros = [];
+
+    /**
+     * Register a custom macro.
      *
      * @example
      * ```
@@ -41,32 +49,41 @@ trait Macro
      * echo Carbon::yesterday()->hours(11)->userFormat();
      * ```
      *
-     * @param-closure-this static $macro
+     * @param string          $name
+     * @param object|callable $macro
+     *
+     * @return void
      */
-    public static function macro(string $name, ?callable $macro): void
+    public static function macro($name, $macro)
     {
-        FactoryImmutable::getDefaultInstance()->macro($name, $macro);
+        static::$globalMacros[$name] = $macro;
     }
 
     /**
      * Remove all macros and generic macros.
      */
-    public static function resetMacros(): void
+    public static function resetMacros()
     {
-        FactoryImmutable::getDefaultInstance()->resetMacros();
+        static::$globalMacros = [];
+        static::$globalGenericMacros = [];
     }
 
     /**
      * Register a custom macro.
      *
-     * @param callable $macro
-     * @param int      $priority marco with higher priority is tried first
+     * @param object|callable $macro
+     * @param int             $priority marco with higher priority is tried first
      *
      * @return void
      */
-    public static function genericMacro(callable $macro, int $priority = 0): void
+    public static function genericMacro($macro, $priority = 0)
     {
-        FactoryImmutable::getDefaultInstance()->genericMacro($macro, $priority);
+        if (!isset(static::$globalGenericMacros[$priority])) {
+            static::$globalGenericMacros[$priority] = [];
+            krsort(static::$globalGenericMacros, SORT_NUMERIC);
+        }
+
+        static::$globalGenericMacros[$priority][] = $macro;
     }
 
     /**
@@ -76,36 +93,44 @@ trait Macro
      *
      * @return bool
      */
-    public static function hasMacro(string $name): bool
+    public static function hasMacro($name)
     {
-        return FactoryImmutable::getInstance()->hasMacro($name);
+        return isset(static::$globalMacros[$name]);
     }
 
     /**
      * Get the raw callable macro registered globally for a given name.
+     *
+     * @param string $name
+     *
+     * @return callable|null
      */
-    public static function getMacro(string $name): ?callable
+    public static function getMacro($name)
     {
-        return FactoryImmutable::getInstance()->getMacro($name);
+        return static::$globalMacros[$name] ?? null;
     }
 
     /**
      * Checks if macro is registered globally or locally.
+     *
+     * @param string $name
+     *
+     * @return bool
      */
-    public function hasLocalMacro(string $name): bool
+    public function hasLocalMacro($name)
     {
-        return ($this->localMacros && isset($this->localMacros[$name])) || $this->transmitFactory(
-            static fn () => static::hasMacro($name),
-        );
+        return ($this->localMacros && isset($this->localMacros[$name])) || static::hasMacro($name);
     }
 
     /**
      * Get the raw callable macro registered globally or locally for a given name.
+     *
+     * @param string $name
+     *
+     * @return callable|null
      */
-    public function getLocalMacro(string $name): ?callable
+    public function getLocalMacro($name)
     {
-        return ($this->localMacros ?? [])[$name] ?? $this->transmitFactory(
-            static fn () => static::getMacro($name),
-        );
+        return ($this->localMacros ?? [])[$name] ?? static::getMacro($name);
     }
 }

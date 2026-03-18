@@ -1,7 +1,0 @@
-{
-    "language": "php",
-    "distribution_name": "google/gax",
-    "release_level": "stable",
-    "client_documentation": "https://cloud.google.com/php/docs/reference/gax/latest",
-    "library_type": "CORE"
-}

@@ -13,7 +13,7 @@ namespace Co;
 
 use Swoole\Coroutine;
 
-if (SWOOLE_USE_SHORTNAME) { // @phpstan-ignore if.alwaysTrue
+if (SWOOLE_USE_SHORTNAME) {
     function run(callable $fn, ...$args)
     {
         return \Swoole\Coroutine\run($fn, ...$args);

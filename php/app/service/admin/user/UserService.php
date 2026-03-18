@@ -661,6 +661,8 @@ class UserService extends BaseService
             if (isset($data["balance"]) && !empty($data["balance"])) {
                 $user_balance_log["balance"] = $data["balance"];
                 $user_balance_log["change_type"] = $data["type_balance"];
+                $user_balance_log["after_frozen_balance"] = 0;
+                $user_balance_log["before_frozen_balance"] = 0;
                 UserBalanceLog::create($user_balance_log);
             }
 
@@ -670,10 +672,15 @@ class UserService extends BaseService
                 }
                 $user_balance_log["frozen_balance"] = $data["frozen_balance"];
                 $user_balance_log["change_type"] = $data["type_frozen_balance"];
+                $user_balance_log["after_frozen_balance"] = $data["frozen_balance"];
+                $user_balance_log["before_frozen_balance"] = 0;
                 UserBalanceLog::create($user_balance_log);
                 $user_balance_log["balance"] = $data["frozen_balance"];
                 $user_balance_log["frozen_balance"] = 0;
+                $user_balance_log["after_frozen_balance"] = 0;
+                $user_balance_log["before_frozen_balance"] = $data["frozen_balance"];
                 $user_balance_log["change_type"] = $data["type_frozen_balance"] == 1 ? 2 : 1;
+
                 UserBalanceLog::create($user_balance_log);
             }
 
@@ -893,6 +900,8 @@ class UserService extends BaseService
             "change_type" => 2,
             "new_balance" => $user_info->balance,
             "new_frozen_balance" => $user_info->frozen_balance,
+            'after_frozen_balance' => $user_info->frozen_balance,
+            'before_frozen_balance' => $user_info->frozen_balance,
         ];
         UserBalanceLog::create($user_balance_log);
         $user_info->save();
@@ -919,6 +928,8 @@ class UserService extends BaseService
             "change_type" => 1,
             "new_balance" => $user_info->balance,
             "new_frozen_balance" => $user_info->frozen_balance,
+            'after_frozen_balance' => $user_info->frozen_balance,
+            'before_frozen_balance' => $user_info->frozen_balance,
         ];
         UserBalanceLog::create($user_balance_log);
         $user_info->save();
@@ -936,6 +947,7 @@ class UserService extends BaseService
     {
       //  $result = User::where('user_id', $user_id)->dec('frozen_balance', $frozen_balance)->save();
         $user_info = User::find($user_id);
+        $old_frozen_balance = $user_info->frozen_balance;
         $user_info->frozen_balance = $user_info->frozen_balance - $frozen_balance;
         $user_balance_log = [
             "user_id" => $user_id,
@@ -944,6 +956,8 @@ class UserService extends BaseService
             "change_type" => 2,
             "new_balance" => $user_info->balance,
             "new_frozen_balance" => $user_info->frozen_balance,
+            'after_frozen_balance' => $user_info->frozen_balance,
+            'before_frozen_balance' => $old_frozen_balance,
         ];
         UserBalanceLog::create($user_balance_log);
         $user_info->save();
@@ -961,6 +975,7 @@ class UserService extends BaseService
     {
      //   $result = User::where('user_id', $user_id)->inc('frozen_balance', $frozen_balance)->save();
         $user_info = User::find($user_id);
+        $old_frozen_balance = $user_info->frozen_balance;
         $user_info->frozen_balance = $user_info->frozen_balance + $frozen_balance;
         $user_balance_log = [
             "user_id" => $user_id,
@@ -969,6 +984,8 @@ class UserService extends BaseService
             "change_type" => 1,
             "new_balance" => $user_info->balance,
             "new_frozen_balance" => $user_info->frozen_balance,
+            'after_frozen_balance' => $user_info->frozen_balance,
+            'before_frozen_balance' => $old_frozen_balance,
         ];
         UserBalanceLog::create($user_balance_log);
         $user_info->save();

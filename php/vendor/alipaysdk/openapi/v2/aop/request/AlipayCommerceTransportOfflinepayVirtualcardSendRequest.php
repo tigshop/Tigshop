@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.transport.offlinepay.virtualcard.send request
  *
  * @author auto create
- * @since 1.0, 2025-08-13 14:37:40
+ * @since 1.0, 2024-07-04 16:56:01
  */
 class AlipayCommerceTransportOfflinepayVirtualcardSendRequest
 {

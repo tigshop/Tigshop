@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.trans.invoice.syncdata.modify request
  *
  * @author auto create
- * @since 1.0, 2025-03-21 11:22:29
+ * @since 1.0, 2024-08-05 17:37:07
  */
 class AlipayFundTransInvoiceSyncdataModifyRequest
 {

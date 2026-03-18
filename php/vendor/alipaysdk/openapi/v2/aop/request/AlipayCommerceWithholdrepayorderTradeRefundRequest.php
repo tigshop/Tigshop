@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.withholdrepayorder.trade.refund request
  *
  * @author auto create
- * @since 1.0, 2025-06-25 10:33:18
+ * @since 1.0, 2024-10-15 14:22:14
  */
 class AlipayCommerceWithholdrepayorderTradeRefundRequest
 {

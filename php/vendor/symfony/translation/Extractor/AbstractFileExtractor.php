@@ -49,13 +49,19 @@ abstract class AbstractFileExtractor
     protected function isFile(string $file): bool
     {
         if (!is_file($file)) {
-            throw new InvalidArgumentException(\sprintf('The "%s" file does not exist.', $file));
+            throw new InvalidArgumentException(sprintf('The "%s" file does not exist.', $file));
         }
 
         return true;
     }
 
-    abstract protected function canBeExtracted(string $file): bool;
+    /**
+     * @return bool
+     */
+    abstract protected function canBeExtracted(string $file);
 
-    abstract protected function extractFromDirectory(string|array $resource): iterable;
+    /**
+     * @return iterable
+     */
+    abstract protected function extractFromDirectory(string|array $resource);
 }

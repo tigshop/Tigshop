@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.sp.nordermaterialsapply.materials.sendcallback request
  *
  * @author auto create
- * @since 1.0, 2025-04-18 15:31:06
+ * @since 1.0, 2024-09-18 20:47:10
  */
 class AlipayOpenSpNordermaterialsapplyMaterialsSendcallbackRequest
 {

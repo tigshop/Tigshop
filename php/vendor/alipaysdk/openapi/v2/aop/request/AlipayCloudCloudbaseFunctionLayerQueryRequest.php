@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.cloudbase.function.layer.query request
  *
  * @author auto create
- * @since 1.0, 2025-08-04 10:55:00
+ * @since 1.0, 2024-06-27 17:52:05
  */
 class AlipayCloudCloudbaseFunctionLayerQueryRequest
 {

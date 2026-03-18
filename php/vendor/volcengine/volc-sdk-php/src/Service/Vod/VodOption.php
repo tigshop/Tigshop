@@ -48,16 +48,6 @@ class VodOption
                 ],
             ]
         ],
-        'CreateHlsDecryptionKey' => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'CreateHlsDecryptionKey',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
         'GetHlsDecryptionKey' => [
             'url' => '/',
             'method' => 'get',
@@ -118,7 +108,7 @@ class VodOption
         // **********************************************************************
         'UploadMediaByUrl' => [
             'url' => '/',
-            'method' => 'post',
+            'method' => 'get',
             'config' => [
                 'query' => [
                     'Action' => 'UploadMediaByUrl',
@@ -190,26 +180,6 @@ class VodOption
                 ],
             ]
         ],
-        'GetInnerAuditURLs' => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'GetInnerAuditURLs',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
-        'GetAdAuditResultByVid' => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'GetAdAuditResultByVid',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
         'GetMediaInfos' => [
             'url' => '/',
             'method' => 'get',
@@ -277,16 +247,6 @@ class VodOption
                 'query' => [
                     'Action' => 'GetMediaList',
                     'Version' => '2020-08-01',
-                ],
-            ]
-        ],
-        'DeleteMaterial' => [
-            'url' => '/',
-            'method' => 'get',
-            'config' => [
-                'query' => [
-                    'Action' => 'DeleteMaterial',
-                    'Version' => '2023-07-01',
                 ],
             ]
         ],
@@ -779,26 +739,6 @@ class VodOption
                 ],
             ]
         ],
-        'DescribeUploadSpaceConfig' => [
-            'url' => '/',
-            'method' => 'get',
-            'config' => [
-                'query' => [
-                    'Action' => 'DescribeUploadSpaceConfig',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
-        'UpdateUploadSpaceConfig' => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'UpdateUploadSpaceConfig',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
         // **********************************************************************
         // 分发加速管理
         // **********************************************************************
@@ -1118,48 +1058,6 @@ class VodOption
                 ],
             ]
         ],
-
-        'DescribeDomainVerifyContent' => [
-            'url' => '/',
-            'method' => 'get',
-            'config' => [
-                'query' => [
-                    'Action' => 'DescribeDomainVerifyContent',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
-
-        'VerifyDomainOwner' => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'VerifyDomainOwner',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
-        'DescribeCdnEdgeIp' => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'DescribeCdnEdgeIp',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
-        'DescribeCdnRegionAndIsp' => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'DescribeCdnRegionAndIsp',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
         // **********************************************************************
         // 回调管理
         // **********************************************************************
@@ -1312,16 +1210,6 @@ class VodOption
             'config' => [
                 'query' => [
                     'Action' => 'DescribeVodRealtimeMediaDetailData',
-                    'Version' => '2023-07-01',
-                ],
-            ]
-        ],
-        'DescribeVodVidTrafficFileLog' => [
-            'url' => '/',
-            'method' => 'get',
-            'config' => [
-                'query' => [
-                    'Action' => 'DescribeVodVidTrafficFileLog',
                     'Version' => '2023-07-01',
                 ],
             ]

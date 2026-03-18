@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -47,7 +45,7 @@ class ParseErrorException extends BaseInvalidArgumentException implements Invali
      * @param int            $code
      * @param Throwable|null $previous
      */
-    public function __construct($expected, $actual, $help = '', $code = 0, ?Throwable $previous = null)
+    public function __construct($expected, $actual, $help = '', $code = 0, Throwable $previous = null)
     {
         $this->expected = $expected;
         $this->actual = $actual;

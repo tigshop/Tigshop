@@ -1,4 +1,4 @@
-[????](./README.md) | English
+[简体中文](./README.md) | English
 
 <p align="center">
 <a href=" https://www.aliyun.com"><img src="https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg"></a>

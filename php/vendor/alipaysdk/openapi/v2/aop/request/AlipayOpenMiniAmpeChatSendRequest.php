@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.open.mini.ampe.chat.send request
  *
  * @author auto create
- * @since 1.0, 2025-04-29 13:42:26
+ * @since 1.0, 2024-08-28 14:47:07
  */
 class AlipayOpenMiniAmpeChatSendRequest
 {

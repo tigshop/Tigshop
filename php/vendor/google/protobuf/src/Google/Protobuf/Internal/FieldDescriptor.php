@@ -104,11 +104,6 @@ class FieldDescriptor
         return $this->label;
     }
 
-    public function isRequired()
-    {
-        return $this->label === GPBLabel::REQUIRED;
-    }
-
     public function isRepeated()
     {
         return $this->label === GPBLabel::REPEATED;

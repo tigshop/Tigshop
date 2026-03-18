@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * Definition of a trait with properties, methods, constants and traits.
+ * Trait description.
  */
 final class TraitType extends ClassLike
 {

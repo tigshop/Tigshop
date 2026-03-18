@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.merchantcard.priceproperty.create request
  *
  * @author auto create
- * @since 1.0, 2025-06-17 16:47:28
+ * @since 1.0, 2024-10-15 17:22:15
  */
 class AlipayCommerceMerchantcardPricepropertyCreateRequest
 {

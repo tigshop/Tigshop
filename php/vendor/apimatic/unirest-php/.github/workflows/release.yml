@@ -1,11 +1,16 @@
 name: Release To Packagist
-run-name: Publishing Package Version ${{ github.event.inputs.Version }}
+run-name: ${{ github.event.inputs.Title }} (${{ github.event.inputs.Version }})
 on:
   workflow_dispatch:
     inputs:
       Version:
-        description: "This input field requires version in format: x.y.z, where x => major version, y => minor version and z => patch version"
+        description: "Version to be released in format: x.y.z, where x => major version, y => minor version and z => patch version"
         required: true
+        default: "0.1.0"
+      Title:
+        description: "Title of the release"
+        required: true
+        default: "Releasing HttpClient improvements"
 jobs:
   create-release:
     name: Creating release version ${{ github.event.inputs.Version }}
@@ -26,14 +31,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release Version ${{ github.event.inputs.Version }}
+          name: ${{ github.event.inputs.Title }}
           body: ${{ steps.tag_version.outputs.changelog }}
-
-      - name: Send slack notification
-        id: slack
-        uses: slackapi/slack-github-action@v1.25.0
-        with:
-          channel-id: 'C012YFE3D6D'
-          slack-message: "unirest-php release has been triggered!"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

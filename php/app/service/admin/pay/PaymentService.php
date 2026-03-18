@@ -95,10 +95,15 @@ class PaymentService extends BaseService
     public function paySuccess(string $pay_sn, string $transaction_id = '', string $appid = ''): void
     {
         $pay_log = app(PayLogService::class)->getPayLogByPaySn($pay_sn);
+        \think\facade\Log::info('paySuccess - pay_sn: ' . $pay_sn . ', pay_log存在: ' . (!empty($pay_log) ? 'yes' : 'no') . ', pay_log数据: ' . json_encode($pay_log));
         if (!$pay_log || $pay_log['pay_status'] == 1) {
+            \think\facade\Log::info('paySuccess - 跳过处理，原因: ' . (empty($pay_log) ? 'pay_log不存在' : '已支付(pay_status=1)'));
             return;
         }
-        if (empty($pay_log['order_id'])) return;
+        if (empty($pay_log['order_id'])) {
+            \think\facade\Log::info('paySuccess - 跳过处理，原因: order_id为空');
+            return;
+        }
         try {
             //修改支付状态
             app(PayLog::class)->where('paylog_id', $pay_log['paylog_id'])->save([
@@ -106,6 +111,7 @@ class PaymentService extends BaseService
                 'transaction_id' => $transaction_id,
                 'appid' => $appid
             ]);
+            \think\facade\Log::info('paySuccess - pay_status已更新为1, paylog_id: ' . $pay_log['paylog_id']);
             switch ($pay_log['order_type']) {
                 case 0:
                     //更新订单中的支付单号
@@ -142,6 +148,7 @@ class PaymentService extends BaseService
                     break;
             }
         } catch (\Exception $exception) {
+            \think\facade\Log::error('paySuccess - 异常: ' . $exception->getMessage() . ' trace: ' . $exception->getTraceAsString());
             throw new ApiException($exception->getMessage());
         }
     }

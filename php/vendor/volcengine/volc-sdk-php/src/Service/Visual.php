@@ -293,7 +293,7 @@ class Visual extends V4Curl
     }
     public function GoodsSegment(array $query = [])
     {
-        $response = $this->request('GoodsSegment', $query);
+        $response = $this->request('SkySegment', $query);
         return $response->getBody();
     }
     public function ImageCorrection(array $query = [])
@@ -487,11 +487,6 @@ class Visual extends V4Curl
         $response = $this->request('CVSync2AsyncGetResult', $query);
         return $response->getBody();
     }
-    public function CertLivenessVerifyQuery(array $query = [])
-    {
-        $response = $this->request('CertLivenessVerifyQuery', $query);
-        return $response->getBody();
-    }
 
     protected $apiList = [
         'CVProcess' => [
@@ -500,19 +495,6 @@ class Visual extends V4Curl
             'config' => [
                 'query' => [
                     'Action' => 'CVProcess',
-                    'Version' => '2022-08-31',
-                ],
-                'header' => [
-                    'Content-Type' => 'application/json',
-                ]
-            ],
-        ],
-        'CertLivenessVerifyQuery' => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'CertLivenessVerifyQuery',
                     'Version' => '2022-08-31',
                 ],
                 'header' => [

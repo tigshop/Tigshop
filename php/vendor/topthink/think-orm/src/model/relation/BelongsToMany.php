@@ -55,13 +55,6 @@ class BelongsToMany extends Relation
     protected $pivotDataName = 'pivot';
 
     /**
-     * 绑定的关联属性.
-     *
-     * @var array
-     */
-    protected $bindAttr = [];
-
-    /**
      * 架构函数.
      *
      * @param Model  $parent     上级模型对象
@@ -117,20 +110,6 @@ class BelongsToMany extends Relation
     }
 
     /**
-     * 绑定关联表的属性到父模型属性.
-     *
-     * @param array $attr 要绑定的属性列表
-     *
-     * @return $this
-     */
-    public function bind(array $attr)
-    {
-        $this->bindAttr = $attr;
-
-        return $this;
-    }
-
-    /**
      * 实例化中间表模型.
      *
      * @param $data
@@ -179,27 +158,13 @@ class BelongsToMany extends Relation
      */
     protected function matchPivot(Model $result): array
     {
-        $pivot    = [];
-        $bindAttr = $this->query->getOptions('bind_attr');
-        if (empty($bindAttr)) {
-            $bindAttr = $this->bindAttr;
-        }
-
+        $pivot = [];
         foreach ($result->getData() as $key => $val) {
             if (str_contains($key, '__')) {
                 [$name, $attr] = explode('__', $key, 2);
 
                 if ('pivot' == $name) {
                     $pivot[$attr] = $val;
-                    $pos          = array_search($attr, $bindAttr);
-                    if (false !== $pos) {
-                        // 中间表属性绑定
-                        $attr = !is_numeric($pos) ? $pos : $attr;
-                        if (null !== $result->getOrigin($attr)) {
-                            throw new Exception('bind attr has exists:' . $attr);
-                        }
-                        $result->setAttr($attr, $val);
-                    }
                     unset($result->$key);
                 }
             }
@@ -384,7 +349,7 @@ class BelongsToMany extends Relation
 
         return $this->belongsToManyQuery($this->foreignKey, $this->localKey, [
             [
-                'pivot.' . $this->localKey, 'exp', new Raw('=' . $this->parent->db(false)->getTable(true) . '.' . $this->parent->getPk()),
+                'pivot.' . $this->localKey, 'exp', new Raw('=' . $this->parent->db(false)->getTable() . '.' . $this->parent->getPk()),
             ],
         ])->fetchSql()->$aggregate($field);
     }
@@ -445,7 +410,7 @@ class BelongsToMany extends Relation
     {
         // 关联查询封装
         if (empty($this->baseQuery)) {
-            $tableName = $this->query->getTable(true);
+            $tableName = $this->query->getTable();
             $table = $this->pivot->db()->getTable();
             $fields = $this->getQueryFields($tableName);
 
@@ -679,7 +644,7 @@ class BelongsToMany extends Relation
 
             // 关联查询
             if (null === $this->parent->getKey()) {
-                $condition = ['pivot.' . $localKey, 'exp', new Raw('=' . $this->parent->getTable(true) . '.' . $this->parent->getPk())];
+                $condition = ['pivot.' . $localKey, 'exp', new Raw('=' . $this->parent->getTable() . '.' . $this->parent->getPk())];
             } else {
                 $condition = ['pivot.' . $localKey, '=', $this->parent->getKey()];
             }

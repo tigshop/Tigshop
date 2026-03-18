@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.wallet.payurl.apply request
  *
  * @author auto create
- * @since 1.0, 2025-07-14 13:42:33
+ * @since 1.0, 2024-07-31 10:20:59
  */
 class AlipayFundWalletPayurlApplyRequest
 {

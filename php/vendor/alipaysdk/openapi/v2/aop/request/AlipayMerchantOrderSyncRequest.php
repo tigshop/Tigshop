@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.merchant.order.sync request
  *
  * @author auto create
- * @since 1.0, 2025-05-29 10:22:12
+ * @since 1.0, 2024-06-19 20:57:03
  */
 class AlipayMerchantOrderSyncRequest
 {

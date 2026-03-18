@@ -25,12 +25,6 @@ class VodPrivateDrmPlayAuthInfo extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string PlayAuthContent = 2;</code>
      */
     protected $PlayAuthContent = '';
-    /**
-     *播放许可内容格式 有些密钥经过Rsa加密过后为不可读的字符串
-     *
-     * Generated from protobuf field <code>string PlayAuthContentFormat = 3;</code>
-     */
-    protected $PlayAuthContentFormat = '';
 
     /**
      * Constructor.
@@ -42,8 +36,6 @@ class VodPrivateDrmPlayAuthInfo extends \Google\Protobuf\Internal\Message
      *           播放许可id
      *     @type string $PlayAuthContent
      *           播放许可内容
-     *     @type string $PlayAuthContentFormat
-     *          播放许可内容格式 有些密钥经过Rsa加密过后为不可读的字符串
      * }
      */
     public function __construct($data = NULL) {
@@ -99,32 +91,6 @@ class VodPrivateDrmPlayAuthInfo extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->PlayAuthContent = $var;
-
-        return $this;
-    }
-
-    /**
-     *播放许可内容格式 有些密钥经过Rsa加密过后为不可读的字符串
-     *
-     * Generated from protobuf field <code>string PlayAuthContentFormat = 3;</code>
-     * @return string
-     */
-    public function getPlayAuthContentFormat()
-    {
-        return $this->PlayAuthContentFormat;
-    }
-
-    /**
-     *播放许可内容格式 有些密钥经过Rsa加密过后为不可读的字符串
-     *
-     * Generated from protobuf field <code>string PlayAuthContentFormat = 3;</code>
-     * @param string $var
-     * @return $this
-     */
-    public function setPlayAuthContentFormat($var)
-    {
-        GPBUtil::checkString($var, True);
-        $this->PlayAuthContentFormat = $var;
 
         return $this;
     }

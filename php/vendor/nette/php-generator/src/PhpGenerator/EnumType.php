@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * Definition of an enum with cases, methods, constants and traits.
+ * Enum description.
  */
 final class EnumType extends ClassLike
 {

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.acommunication.distribution.flowsmscode.send request
  *
  * @author auto create
- * @since 1.0, 2025-08-27 13:37:36
+ * @since 1.0, 2024-09-20 13:35:21
  */
 class AlipayCommerceAcommunicationDistributionFlowsmscodeSendRequest
 {

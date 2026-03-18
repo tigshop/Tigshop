@@ -14,7 +14,6 @@ use think\exception\Handle;
 use think\helper\Arr;
 use think\helper\Str;
 use think\Http;
-use think\response\View;
 use think\swoole\App as SwooleApp;
 use think\swoole\Http as SwooleHttp;
 use think\swoole\response\File as FileResponse;
@@ -124,17 +123,14 @@ trait InteractsWithHttp
 
                 try {
                     $response = $this->handleRequest($http, $request);
-                    $this->prepareResponse($response);
                 } catch (Throwable $e) {
-                    $handle = $app->make(Handle::class);
+                    $handle = $this->app->make(Handle::class);
                     $handle->report($e);
                     $response = $handle->render($request, $e);
                 }
 
                 $this->setCookie($res, $app->cookie);
                 $this->sendResponse($res, $request, $response);
-
-                $http->end($response);
             });
         });
     }
@@ -146,8 +142,15 @@ trait InteractsWithHttp
 
         $response = $http->run($request);
 
+        $content = $response->getContent();
+
+        if (ob_get_level() == 0) {
+            ob_start();
+        }
+
+        $http->end($response);
+
         if (ob_get_length() > 0) {
-            $content = $response->getContent();
             $response->content(ob_get_contents() . $content);
         }
 
@@ -182,15 +185,6 @@ trait InteractsWithHttp
             ->setBaseUrl($req->server['request_uri'])
             ->setUrl($req->server['request_uri'] . (!empty($req->server['query_string']) ? '?' . $req->server['query_string'] : ''))
             ->setPathinfo(ltrim($req->server['path_info'], '/'));
-    }
-
-    protected function prepareResponse(\think\Response $response)
-    {
-        switch (true) {
-            case $response instanceof View:
-                $response->getContent();
-                break;
-        }
     }
 
     protected function getFiles(Request $req)
@@ -263,13 +257,11 @@ trait InteractsWithHttp
 
     protected function sendFile(Response $res, \think\Request $request, FileResponse $response)
     {
+        $ifNoneMatch = $request->header('If-None-Match');
+        $ifRange     = $request->header('If-Range');
 
-        $header = $response->getHeader();
-        $code   = $response->getCode();
-        $file   = $response->getFile();
-
-        $ifNoneMatch            = $request->header('If-None-Match');
-        $ifRange                = $request->header('If-Range');
+        $code         = $response->getCode();
+        $file         = $response->getFile();
         $eTag         = $response->getHeader('ETag');
         $lastModified = $response->getHeader('Last-Modified');
 
@@ -279,7 +271,6 @@ trait InteractsWithHttp
 
         if ($ifNoneMatch == $eTag) {
             $code = 304;
-            unset($header['Content-Length']);
         } elseif (!$ifRange || $ifRange === $eTag || $ifRange === $lastModified) {
             $range = $request->header('Range', '');
             if (Str::startsWith($range, 'bytes=')) {
@@ -297,15 +288,15 @@ trait InteractsWithHttp
                 if ($start <= $end) {
                     $end = min($end, $fileSize - 1);
                     if ($start < 0 || $start > $end) {
-                        $code   = 416;
-                        $header = array_merge($header, [
+                        $code = 416;
+                        $response->header([
                             'Content-Range' => sprintf('bytes */%s', $fileSize),
                         ]);
                     } elseif ($end - $start < $fileSize - 1) {
                         $length = $end < $fileSize ? $end - $start + 1 : -1;
                         $offset = $start;
                         $code   = 206;
-                        $header = array_merge($header, [
+                        $response->header([
                             'Content-Range'  => sprintf('bytes %s-%s/%s', $start, $end, $fileSize),
                             'Content-Length' => $end - $start + 1,
                         ]);
@@ -315,7 +306,7 @@ trait InteractsWithHttp
         }
 
         $this->setStatus($res, $code);
-        $this->setHeader($res, $header);
+        $this->setHeader($res, $response->getHeader());
 
         if ($code >= 200 && $code < 300 && $length !== 0) {
             $res->sendfile($file->getPathname(), $offset, $length);

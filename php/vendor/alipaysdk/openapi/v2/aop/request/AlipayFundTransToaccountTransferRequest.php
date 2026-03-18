@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.fund.trans.toaccount.transfer request
  *
  * @author auto create
- * @since 1.0, 2025-10-24 14:19:52
+ * @since 1.0, 2024-07-04 17:32:00
  */
 class AlipayFundTransToaccountTransferRequest
 {

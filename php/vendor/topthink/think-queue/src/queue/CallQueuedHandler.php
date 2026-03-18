@@ -26,7 +26,7 @@ class CallQueuedHandler
     {
         $command = unserialize($data['command']);
 
-        $this->app->invoke([$command, 'handle'], [$job]);
+        $this->app->invoke([$command, 'handle']);
 
         if (!$job->isDeletedOrReleased()) {
             $job->delete();

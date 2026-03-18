@@ -30,7 +30,7 @@ final class HttplugPromise implements HttplugPromiseInterface
         $this->promise = $promise;
     }
 
-    public function then(callable $onFulfilled = null, callable $onRejected = null): self
+    public function then(?callable $onFulfilled = null, ?callable $onRejected = null): self
     {
         return new self($this->promise->then(
             $this->wrapThenCallback($onFulfilled),
@@ -68,8 +68,6 @@ final class HttplugPromise implements HttplugPromiseInterface
             return null;
         }
 
-        return static function ($value) use ($callback) {
-            return Create::promiseFor($callback($value));
-        };
+        return static fn ($value) => Create::promiseFor($callback($value));
     }
 }

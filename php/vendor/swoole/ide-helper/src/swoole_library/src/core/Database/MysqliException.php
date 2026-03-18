@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Swoole\Database;
 
-class MysqliException extends \Exception
+use Exception;
+
+class MysqliException extends Exception
 {
 }

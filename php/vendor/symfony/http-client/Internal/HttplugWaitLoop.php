@@ -46,7 +46,7 @@ final class HttplugWaitLoop
         $this->streamFactory = $streamFactory;
     }
 
-    public function wait(?ResponseInterface $pendingResponse, float $maxDuration = null, float $idleTimeout = null): int
+    public function wait(?ResponseInterface $pendingResponse, ?float $maxDuration = null, ?float $idleTimeout = null): int
     {
         if (!$this->promisePool) {
             return 0;
@@ -57,7 +57,7 @@ final class HttplugWaitLoop
         if (0.0 === $remainingDuration = $maxDuration) {
             $idleTimeout = 0.0;
         } elseif (null !== $maxDuration) {
-            $startTime = microtime(true);
+            $startTime = hrtime(true) / 1E9;
             $idleTimeout = max(0.0, min($maxDuration / 5, $idleTimeout ?? $maxDuration));
         }
 
@@ -79,7 +79,7 @@ final class HttplugWaitLoop
 
                     if ([, $promise] = $this->promisePool[$response] ?? null) {
                         unset($this->promisePool[$response]);
-                        $promise->resolve($this->createPsr7Response($response, true));
+                        $promise->resolve(self::createPsr7Response($this->responseFactory, $this->streamFactory, $this->client, $response, true));
                     }
                 } catch (\Exception $e) {
                     if ([$request, $promise] = $this->promisePool[$response] ?? null) {
@@ -100,7 +100,7 @@ final class HttplugWaitLoop
                 }
 
                 check_duration:
-                if (null !== $maxDuration && $idleTimeout && $idleTimeout > $remainingDuration = max(0.0, $maxDuration - microtime(true) + $startTime)) {
+                if (null !== $maxDuration && $idleTimeout && $idleTimeout > $remainingDuration = max(0.0, $maxDuration - hrtime(true) / 1E9 + $startTime)) {
                     $idleTimeout = $remainingDuration / 5;
                     break;
                 }
@@ -114,9 +114,17 @@ final class HttplugWaitLoop
         return $count;
     }
 
-    public function createPsr7Response(ResponseInterface $response, bool $buffer = false): Psr7ResponseInterface
+    public static function createPsr7Response(ResponseFactoryInterface $responseFactory, StreamFactoryInterface $streamFactory, HttpClientInterface $client, ResponseInterface $response, bool $buffer): Psr7ResponseInterface
     {
-        $psrResponse = $this->responseFactory->createResponse($response->getStatusCode());
+        $responseParameters = [$response->getStatusCode()];
+
+        foreach ($response->getInfo('response_headers') as $h) {
+            if (11 <= \strlen($h) && '/' === $h[4] && preg_match('#^HTTP/\d+(?:\.\d+)? (?:\d\d\d) (.+)#', $h, $m)) {
+                $responseParameters[1] = $m[1];
+            }
+        }
+
+        $psrResponse = $responseFactory->createResponse(...$responseParameters);
 
         foreach ($response->getHeaders(false) as $name => $values) {
             foreach ($values as $value) {
@@ -129,11 +137,11 @@ final class HttplugWaitLoop
         }
 
         if ($response instanceof StreamableInterface) {
-            $body = $this->streamFactory->createStreamFromResource($response->toStream(false));
+            $body = $streamFactory->createStreamFromResource($response->toStream(false));
         } elseif (!$buffer) {
-            $body = $this->streamFactory->createStreamFromResource(StreamWrapper::createResource($response, $this->client));
+            $body = $streamFactory->createStreamFromResource(StreamWrapper::createResource($response, $client));
         } else {
-            $body = $this->streamFactory->createStream($response->getContent(false));
+            $body = $streamFactory->createStream($response->getContent(false));
         }
 
         if ($body->isSeekable()) {

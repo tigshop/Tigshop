@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * Definition of a class method.
+ * Class method.
  */
 final class Method
 {
@@ -98,7 +98,7 @@ final class Method
 	/** @throws Nette\InvalidStateException */
 	public function validate(): void
 	{
-		if ($this->abstract && ($this->final || $this->visibility === Visibility::Private)) {
+		if ($this->abstract && ($this->final || $this->visibility === ClassLike::VisibilityPrivate)) {
 			throw new Nette\InvalidStateException("Method $this->name() cannot be abstract and final or private at the same time.");
 		}
 	}

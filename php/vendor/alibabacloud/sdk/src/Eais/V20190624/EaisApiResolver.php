@@ -9,6 +9,7 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method AttachEaisEi attachEaisEi(array $options = [])
  * @method ChangeResourceGroup changeResourceGroup(array $options = [])
  * @method CreateEai createEai(array $options = [])
+ * @method CreateEaiAll createEaiAll(array $options = [])
  * @method CreateEaiEci createEaiEci(array $options = [])
  * @method CreateEaiEcs createEaiEcs(array $options = [])
  * @method CreateEaiJupyter createEaiJupyter(array $options = [])
@@ -21,13 +22,8 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method DetachEai detachEai(array $options = [])
  * @method DetachEaisEi detachEaisEi(array $options = [])
  * @method GetInstanceMetrics getInstanceMetrics(array $options = [])
- * @method ListTagResources listTagResources(array $options = [])
- * @method StartEaiJupyter startEaiJupyter(array $options = [])
  * @method StartEaisEi startEaisEi(array $options = [])
- * @method StopEaiJupyter stopEaiJupyter(array $options = [])
  * @method StopEaisEi stopEaisEi(array $options = [])
- * @method TagResources tagResources(array $options = [])
- * @method UntagResources untagResources(array $options = [])
  */
 class EaisApiResolver extends ApiResolver
 {
@@ -87,44 +83,59 @@ class ChangeResourceGroup extends Rpc
 }
 
 /**
+ * @method string getImage()
+ * @method $this withImage($value)
  * @method string getClientToken()
  * @method $this withClientToken($value)
  * @method string getSecurityGroupId()
  * @method $this withSecurityGroupId($value)
- * @method string getResourceGroupId()
- * @method $this withResourceGroupId($value)
- * @method string getInstanceType()
- * @method $this withInstanceType($value)
- * @method array getTag()
- * @method string getImage()
- * @method $this withImage($value)
  * @method string getVSwitchId()
  * @method $this withVSwitchId($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
  * @method string getInstanceName()
  * @method $this withInstanceName($value)
+ * @method string getInstanceType()
+ * @method $this withInstanceType($value)
  */
 class CreateEai extends Rpc
 {
+}
 
-    /**
-     * @param array $tag
-     *
-     * @return $this
-     */
-	public function withTag(array $tag)
-	{
-	    $this->data['Tag'] = $tag;
-		foreach ($tag as $depth1 => $depth1Value) {
-			if(isset($depth1Value['Value'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
-			}
-			if(isset($depth1Value['Key'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
-			}
-		}
-
-		return $this;
-    }
+/**
+ * @method string getClientImageId()
+ * @method $this withClientImageId($value)
+ * @method string getClientSystemDiskCategory()
+ * @method $this withClientSystemDiskCategory($value)
+ * @method string getClientInternetMaxBandwidthOut()
+ * @method $this withClientInternetMaxBandwidthOut($value)
+ * @method string getClientToken()
+ * @method $this withClientToken($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
+ * @method string getClientInstanceName()
+ * @method $this withClientInstanceName($value)
+ * @method string getClientInternetMaxBandwidthIn()
+ * @method $this withClientInternetMaxBandwidthIn($value)
+ * @method string getClientSystemDiskSize()
+ * @method $this withClientSystemDiskSize($value)
+ * @method string getClientVSwitchId()
+ * @method $this withClientVSwitchId($value)
+ * @method string getClientPassword()
+ * @method $this withClientPassword($value)
+ * @method string getClientInstanceType()
+ * @method $this withClientInstanceType($value)
+ * @method string getClientSecurityGroupId()
+ * @method $this withClientSecurityGroupId($value)
+ * @method string getEaiInstanceType()
+ * @method $this withEaiInstanceType($value)
+ * @method string getClientZoneId()
+ * @method $this withClientZoneId($value)
+ * @method string getInstanceName()
+ * @method $this withInstanceName($value)
+ */
+class CreateEaiAll extends Rpc
+{
 }
 
 /**
@@ -136,36 +147,15 @@ class CreateEai extends Rpc
  * @method $this withEci($value)
  * @method string getEaisType()
  * @method $this withEaisType($value)
+ * @method string getVSwitchId()
+ * @method $this withVSwitchId($value)
  * @method string getResourceGroupId()
  * @method $this withResourceGroupId($value)
  * @method string getEaisName()
  * @method $this withEaisName($value)
- * @method array getTag()
- * @method string getVSwitchId()
- * @method $this withVSwitchId($value)
  */
 class CreateEaiEci extends Rpc
 {
-
-    /**
-     * @param array $tag
-     *
-     * @return $this
-     */
-	public function withTag(array $tag)
-	{
-	    $this->data['Tag'] = $tag;
-		foreach ($tag as $depth1 => $depth1Value) {
-			if(isset($depth1Value['Value'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
-			}
-			if(isset($depth1Value['Key'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
-			}
-		}
-
-		return $this;
-    }
 }
 
 /**
@@ -175,38 +165,17 @@ class CreateEaiEci extends Rpc
  * @method $this withSecurityGroupId($value)
  * @method string getEaisType()
  * @method $this withEaisType($value)
+ * @method string getVSwitchId()
+ * @method $this withVSwitchId($value)
  * @method string getResourceGroupId()
  * @method $this withResourceGroupId($value)
  * @method string getEcs()
  * @method $this withEcs($value)
  * @method string getEaisName()
  * @method $this withEaisName($value)
- * @method array getTag()
- * @method string getVSwitchId()
- * @method $this withVSwitchId($value)
  */
 class CreateEaiEcs extends Rpc
 {
-
-    /**
-     * @param array $tag
-     *
-     * @return $this
-     */
-	public function withTag(array $tag)
-	{
-	    $this->data['Tag'] = $tag;
-		foreach ($tag as $depth1 => $depth1Value) {
-			if(isset($depth1Value['Value'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
-			}
-			if(isset($depth1Value['Key'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
-			}
-		}
-
-		return $this;
-    }
 }
 
 /**
@@ -216,38 +185,17 @@ class CreateEaiEcs extends Rpc
  * @method $this withSecurityGroupId($value)
  * @method string getEaisType()
  * @method $this withEaisType($value)
- * @method string getResourceGroupId()
- * @method $this withResourceGroupId($value)
- * @method string getEaisName()
- * @method $this withEaisName($value)
- * @method array getTag()
  * @method string getVSwitchId()
  * @method $this withVSwitchId($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
  * @method string getEnvironmentVar()
  * @method $this withEnvironmentVar($value)
+ * @method string getEaisName()
+ * @method $this withEaisName($value)
  */
 class CreateEaiJupyter extends Rpc
 {
-
-    /**
-     * @param array $tag
-     *
-     * @return $this
-     */
-	public function withTag(array $tag)
-	{
-	    $this->data['Tag'] = $tag;
-		foreach ($tag as $depth1 => $depth1Value) {
-			if(isset($depth1Value['Value'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
-			}
-			if(isset($depth1Value['Key'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
-			}
-		}
-
-		return $this;
-    }
 }
 
 /**
@@ -255,38 +203,17 @@ class CreateEaiJupyter extends Rpc
  * @method $this withClientToken($value)
  * @method string getSecurityGroupId()
  * @method $this withSecurityGroupId($value)
- * @method string getResourceGroupId()
- * @method $this withResourceGroupId($value)
- * @method string getInstanceType()
- * @method $this withInstanceType($value)
- * @method array getTag()
  * @method string getVSwitchId()
  * @method $this withVSwitchId($value)
+ * @method string getResourceGroupId()
+ * @method $this withResourceGroupId($value)
  * @method string getInstanceName()
  * @method $this withInstanceName($value)
+ * @method string getInstanceType()
+ * @method $this withInstanceType($value)
  */
 class CreateEaisEi extends Rpc
 {
-
-    /**
-     * @param array $tag
-     *
-     * @return $this
-     */
-	public function withTag(array $tag)
-	{
-	    $this->data['Tag'] = $tag;
-		foreach ($tag as $depth1 => $depth1Value) {
-			if(isset($depth1Value['Value'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
-			}
-			if(isset($depth1Value['Key'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
-			}
-		}
-
-		return $this;
-    }
 }
 
 /**
@@ -399,67 +326,6 @@ class GetInstanceMetrics extends Rpc
 }
 
 /**
- * @method array getResourceId()
- * @method string getResourceType()
- * @method $this withResourceType($value)
- * @method string getNextToken()
- * @method $this withNextToken($value)
- * @method array getTag()
- */
-class ListTagResources extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-
-    /**
-     * @param array $resourceId
-     *
-     * @return $this
-     */
-	public function withResourceId(array $resourceId)
-	{
-	    $this->data['ResourceId'] = $resourceId;
-		foreach ($resourceId as $i => $iValue) {
-			$this->options['query']['ResourceId.' . ($i + 1)] = $iValue;
-		}
-
-		return $this;
-    }
-
-    /**
-     * @param array $tag
-     *
-     * @return $this
-     */
-	public function withTag(array $tag)
-	{
-	    $this->data['Tag'] = $tag;
-		foreach ($tag as $depth1 => $depth1Value) {
-			if(isset($depth1Value['Value'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
-			}
-			if(isset($depth1Value['Key'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
-			}
-		}
-
-		return $this;
-    }
-}
-
-/**
- * @method string getInstanceId()
- * @method $this withInstanceId($value)
- */
-class StartEaiJupyter extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-}
-
-/**
  * @method string getEiInstanceId()
  * @method $this withEiInstanceId($value)
  */
@@ -468,113 +334,9 @@ class StartEaisEi extends Rpc
 }
 
 /**
- * @method string getInstanceId()
- * @method $this withInstanceId($value)
- */
-class StopEaiJupyter extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-}
-
-/**
  * @method string getEiInstanceId()
  * @method $this withEiInstanceId($value)
  */
 class StopEaisEi extends Rpc
 {
-}
-
-/**
- * @method array getResourceId()
- * @method string getResourceType()
- * @method $this withResourceType($value)
- * @method array getTag()
- */
-class TagResources extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-
-    /**
-     * @param array $resourceId
-     *
-     * @return $this
-     */
-	public function withResourceId(array $resourceId)
-	{
-	    $this->data['ResourceId'] = $resourceId;
-		foreach ($resourceId as $i => $iValue) {
-			$this->options['query']['ResourceId.' . ($i + 1)] = $iValue;
-		}
-
-		return $this;
-    }
-
-    /**
-     * @param array $tag
-     *
-     * @return $this
-     */
-	public function withTag(array $tag)
-	{
-	    $this->data['Tag'] = $tag;
-		foreach ($tag as $depth1 => $depth1Value) {
-			if(isset($depth1Value['Value'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Value'] = $depth1Value['Value'];
-			}
-			if(isset($depth1Value['Key'])){
-				$this->options['query']['Tag.' . ($depth1 + 1) . '.Key'] = $depth1Value['Key'];
-			}
-		}
-
-		return $this;
-    }
-}
-
-/**
- * @method string getAll()
- * @method $this withAll($value)
- * @method array getResourceId()
- * @method string getResourceType()
- * @method $this withResourceType($value)
- * @method array getTagKey()
- */
-class UntagResources extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-
-    /**
-     * @param array $resourceId
-     *
-     * @return $this
-     */
-	public function withResourceId(array $resourceId)
-	{
-	    $this->data['ResourceId'] = $resourceId;
-		foreach ($resourceId as $i => $iValue) {
-			$this->options['query']['ResourceId.' . ($i + 1)] = $iValue;
-		}
-
-		return $this;
-    }
-
-    /**
-     * @param array $tagKey
-     *
-     * @return $this
-     */
-	public function withTagKey(array $tagKey)
-	{
-	    $this->data['TagKey'] = $tagKey;
-		foreach ($tagKey as $i => $iValue) {
-			$this->options['query']['TagKey.' . ($i + 1)] = $iValue;
-		}
-
-		return $this;
-    }
 }

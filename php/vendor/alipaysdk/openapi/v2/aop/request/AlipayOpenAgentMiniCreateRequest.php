@@ -3,12 +3,12 @@
  * ALIPAY API: alipay.open.agent.mini.create request
  *
  * @author auto create
- * @since 1.0, 2025-08-13 16:07:42
+ * @since 1.0, 2024-07-04 17:41:18
  */
 class AlipayOpenAgentMiniCreateRequest
 {
 	/** 
-	 * 小程序类目，选填，可以支持最多三个类目，最少一个，参数格式：一级类目1_二级类目1;一级类目2_二级类目2。
+	 * 小程序类目，必填，可以支持最多三个类目，最少一个，参数格式：一级类目1_二级类目1;一级类目2_二级类目2。
 类目可以通过以下接口查询：alipay.open.mini.category.query
 	 **/
 	private $appCategoryIds;

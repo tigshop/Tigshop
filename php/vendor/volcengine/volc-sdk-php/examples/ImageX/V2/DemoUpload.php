@@ -11,7 +11,6 @@ $client = Imagex::getInstance();
 
 $params = array();
 $params["ServiceId"] = "imagex service id";
-//$params["UploadHost"] = "upload host";
 $filePaths = array("image path 1");
 
 $response = $client->uploadImages($params, $filePaths);

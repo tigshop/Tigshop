@@ -17,7 +17,6 @@ $client = Volc\Service\Vod\Vod::getInstance();
 $request = new Volc\Service\Vod\Models\Request\VodSubmitBlockTasksRequest();
 $request->setFileUrls("your FileUrls");
 $request->setOperation("your Operation");
-$request->setSpaceName("your SpaceName");
 
 
 $response = new Volc\Service\Vod\Models\Response\VodSubmitBlockTasksResponse();

@@ -81,7 +81,7 @@ class ProductSearchService extends BaseService
         if (isset($params['shop_id'])) {
             $this->shopId = $params['shop_id'];
         }
-        if (isset($params['shop_category_id'])) {
+        if (isset($params['shop_category_id']) && $params['shop_category_id'] > 0) {
             $this->shopCategoryId = $params['shop_category_id'];
         }
         if (isset($params['product_status'])){

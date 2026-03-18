@@ -356,8 +356,10 @@ class Product extends AdminBaseController
             /* 处理商品库存 */
 
             $product_list = $this->request->all('product_list/a', []);
+            /* 处理商品库存 */
+            $sku_now_stock = 0;
             foreach ($product_list as $key => $value) {
-
+                $sku_now_stock += $value['sku_stock'];
                 $exist_sku_id = ProductSku::where('product_id', $id)->where('sku_value', $value['sku_value'])->value('sku_id') ?? 0;
                 $productInventoryLog = [
                     'product_id' => $id,
@@ -392,6 +394,10 @@ class Product extends AdminBaseController
                 if (Config::get('shopProductNeedCheck') == 1) {
                     return $this->success('商品已添加，等待管理员审核');
                 }
+            }
+            //处理商品库存
+            if($sku_now_stock > 0) {
+                \app\model\product\Product::where('product_id', $id)->update(['product_stock' => $sku_now_stock]);
             }
             return $this->success('商品已添加');
         } else {
@@ -482,6 +488,7 @@ class Product extends AdminBaseController
 
         $result = $this->productService->updateProduct($id, $data, false);
         if ($result) {
+            $sku_now_stock = 0;
             //处理图片
             app(ProductGalleryService::class)->updateProductGallery($id, $img_list);
             //处理视频
@@ -490,6 +497,7 @@ class Product extends AdminBaseController
             /* 处理商品库存 */
             $product_list = $this->request->all('product_list/a', []);
             foreach ($product_list as $key => $value) {
+                $sku_now_stock += $value['sku_stock'];
                 $sku_stock = ProductSku::where('product_id', $id)->where('sku_value', $value['sku_value'])->value('sku_stock');
                 $exist_sku_id = ProductSku::where('product_id', $id)->where('sku_value', $value['sku_value'])->value('sku_id') ?? 0;
 
@@ -528,6 +536,10 @@ class Product extends AdminBaseController
                     ];
                     app(ProductInventoryLogService::class)->updateProductInventoryLog(0, $productInventoryLog, true);
                 }
+            }
+            //处理商品库存
+            if($sku_now_stock > 0) {
+                \app\model\product\Product::where('product_id', $id)->update(['product_stock' => $sku_now_stock]);
             }
             return $this->success('商品管理更新成功');
         } else {

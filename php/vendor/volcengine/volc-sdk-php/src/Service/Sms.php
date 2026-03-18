@@ -228,26 +228,6 @@ class Sms extends V4Curl
                 ],
             ]
         ],
-        "ApplySmsSignatureV2" => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'ApplySmsSignatureV2',
-                    'Version' => ServiceVersion20210111,
-                ],
-            ]
-        ],
-        "UpdateSmsSignature" => [
-            'url' => '/',
-            'method' => 'post',
-            'config' => [
-                'query' => [
-                    'Action' => 'UpdateSmsSignature',
-                    'Version' => ServiceVersion20210111,
-                ],
-            ]
-        ],
     ];
 
     public function sendSms(array $query = [])
@@ -417,24 +397,6 @@ class Sms extends V4Curl
         $response = $this->request('BatchBindSignatureIdent', $query);
         if ($response->getStatusCode() >= 500) {
             $response = $this->request('BatchBindSignatureIdent', $query);
-        }
-        return $response->getBody();
-    }
-
-    public function applySmsSignatureV2(array $query = [])
-    {
-        $response = $this->request('ApplySmsSignatureV2', $query);
-        if ($response->getStatusCode() >= 500) {
-            $response = $this->request('ApplySmsSignatureV2', $query);
-        }
-        return $response->getBody();
-    }
-
-    public function updateSmsSignature(array $query = [])
-    {
-        $response = $this->request('UpdateSmsSignature', $query);
-        if ($response->getStatusCode() >= 500) {
-            $response = $this->request('UpdateSmsSignature', $query);
         }
         return $response->getBody();
     }

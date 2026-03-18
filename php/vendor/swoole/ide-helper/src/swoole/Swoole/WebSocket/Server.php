@@ -4,36 +4,52 @@ declare(strict_types=1);
 
 namespace Swoole\WebSocket;
 
-/**
- * @not-serializable Objects of this class cannot be serialized.
- */
 class Server extends \Swoole\Http\Server
 {
-    public function push(int $fd, Frame|string $data, int $opcode = SWOOLE_WEBSOCKET_OPCODE_TEXT, int $flags = SWOOLE_WEBSOCKET_FLAG_FIN): bool
-    {
-    }
-
-    public function disconnect(int $fd, int $code = SWOOLE_WEBSOCKET_CLOSE_NORMAL, string $reason = ''): bool
-    {
-    }
-
-    public function isEstablished(int $fd): bool
+    /**
+     * @param mixed $fd
+     * @param mixed $data
+     * @param mixed|null $opcode
+     * @param mixed|null $flags
+     * @return mixed
+     */
+    public function push($fd, $data, $opcode = null, $flags = null)
     {
     }
 
     /**
-     * @alias This method has an alias of \Swoole\WebSocket\Frame::pack().
-     * @see \Swoole\WebSocket\Frame::pack()
+     * @param mixed $fd
+     * @param mixed|null $code
+     * @param mixed|null $reason
+     * @return mixed
      */
-    public static function pack(Frame|string $data, int $opcode = SWOOLE_WEBSOCKET_OPCODE_TEXT, int $flags = SWOOLE_WEBSOCKET_FLAG_FIN): string
+    public function disconnect($fd, $code = null, $reason = null)
     {
     }
 
     /**
-     * @alias This method has an alias of \Swoole\WebSocket\Frame::unpack().
-     * @see \Swoole\WebSocket\Frame::unpack()
+     * @param mixed $fd
+     * @return mixed
      */
-    public static function unpack(string $data): Frame
+    public function isEstablished($fd)
+    {
+    }
+
+    /**
+     * @param mixed $data
+     * @param mixed|null $opcode
+     * @param mixed|null $flags
+     * @return mixed
+     */
+    public static function pack($data, $opcode = null, $flags = null)
+    {
+    }
+
+    /**
+     * @param mixed $data
+     * @return mixed
+     */
+    public static function unpack($data)
     {
     }
 }

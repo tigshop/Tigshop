@@ -385,9 +385,9 @@ class OrderDetailService extends BaseService
         //app(ShopService::class)->triggerAutoOrderSettlement(['order_id' => $this->id, 'shop_id' => $order->shop_id]);
 
         //触发供应商结算
-        if ($order->vendor_id > 0 && $order->shop_id == 0) {
-            $this->vendorSettlement($this->id, $order->vendor_id, $order->shop_id);
-        }
+//        if ($order->vendor_id > 0 && $order->shop_id == 0) {
+//            $this->vendorSettlement($this->id, $order->vendor_id, $order->shop_id);
+//        }
     }
 
     /**
@@ -551,42 +551,44 @@ class OrderDetailService extends BaseService
             $result = $this->splitOrder($split_data);
             $order_id = $result['new_order_id'];
             $this->addLog('订单商品来自不同仓库或部份发货，已拆分');
+
+            $orderDetailService = new OrderDetailService();
+            $order = $orderDetailService->setId($order_id)->getOrder();
+    //        if ($order->order_type == 6) {  //虚拟商品直接完成订单
+    //            $order->order_status = Order::ORDER_COMPLETED;
+    //        } else {
+    //            $order->order_status = Order::ORDER_PROCESSING;
+    //        }
+            $order->order_status = Order::ORDER_PROCESSING;
+            $order->shipping_status = Order::SHIPPING_SENT;
+            $order->shipping_time = Time::now();
+            $order->shipping_method = $shipping_method;
+            if ($shipping_method == 1) {
+                $order->logistics_id = $logistics_id;
+                $order->logistics_name = app(LogisticsCompanyService::class)->getName($logistics_id);
+                $order->tracking_no = $tracking_no;
+                $orderDetailService->addLog('订单已发货');
+            } elseif ($shipping_method == 2) {
+                $order->logistics_name = '商家配送';
+                $orderDetailService->addLog('订单已发货，商家配送');
+            } elseif ($shipping_method == 3) {
+                $order->logistics_name = '无需配送';
+                $orderDetailService->addLog('订单已发货，无需配送');
+            } elseif ($shipping_method == 4) {
+                $order->logistics_id = $logistics_id;
+                $order->logistics_name = app(LogisticsCompanyService::class)->getName($logistics_id);
+                $orderDetailService->addLog('订单已发货，采用电子面单');
+            }
+            $order->save();
+            Db::commit();
         } catch (\Exception $e) {
             if ($e->getCode() === 1002) {
                 $order_id = $order->order_id;
             } else {
+                Db::rollback();
                 throw new ApiException($e->getMessage());
             }
         }
-        $orderDetailService = new OrderDetailService();
-        $order = $orderDetailService->setId($order_id)->getOrder();
-//        if ($order->order_type == 6) {  //虚拟商品直接完成订单
-//            $order->order_status = Order::ORDER_COMPLETED;
-//        } else {
-//            $order->order_status = Order::ORDER_PROCESSING;
-//        }
-        $order->order_status = Order::ORDER_PROCESSING;
-        $order->shipping_status = Order::SHIPPING_SENT;
-        $order->shipping_time = Time::now();
-        $order->shipping_method = $shipping_method;
-        if ($shipping_method == 1) {
-            $order->logistics_id = $logistics_id;
-            $order->logistics_name = app(LogisticsCompanyService::class)->getName($logistics_id);
-            $order->tracking_no = $tracking_no;
-            $orderDetailService->addLog('订单已发货');
-        } elseif ($shipping_method == 2) {
-            $order->logistics_name = '商家配送';
-            $orderDetailService->addLog('订单已发货，商家配送');
-        } elseif ($shipping_method == 3) {
-            $order->logistics_name = '无需配送';
-            $orderDetailService->addLog('订单已发货，无需配送');
-        } elseif ($shipping_method == 4) {
-            $order->logistics_id = $logistics_id;
-            $order->logistics_name = app(LogisticsCompanyService::class)->getName($logistics_id);
-            $orderDetailService->addLog('订单已发货，采用电子面单');
-        }
-        $order->save();
-        Db::commit();
 
         //微信小程序订单发货提醒
         $this->wxOrderUploadShippingInfo($order);

@@ -22,7 +22,7 @@ class Redis extends Driver
         return SWOOLE_IPC_NONE;
     }
 
-    public function prepare(\Swoole\Process\Pool $pool)
+    public function prepare($workerNum)
     {
         $connector = new PhpRedisConnector();
 

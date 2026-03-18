@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.cloud.traas.cloudrisk.rentrisk.query request
  *
  * @author auto create
- * @since 1.0, 2024-12-31 11:02:27
+ * @since 1.0, 2024-08-01 16:22:06
  */
 class AlipayCloudTraasCloudriskRentriskQueryRequest
 {

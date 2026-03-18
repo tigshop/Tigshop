@@ -11,7 +11,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method GenerateUploadFilePolicyForPartner generateUploadFilePolicyForPartner(array $options = [])
  * @method GetNodeByFlowId getNodeByFlowId(array $options = [])
  * @method GetNodeByTemplateId getNodeByTemplateId(array $options = [])
- * @method GetPlatformUserInfoForPartner getPlatformUserInfoForPartner(array $options = [])
  * @method GetProxyByType getProxyByType(array $options = [])
  * @method GetRedisValue getRedisValue(array $options = [])
  * @method GetVariable getVariable(array $options = [])
@@ -20,7 +19,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method PullTask pullTask(array $options = [])
  * @method PushRpaTask pushRpaTask(array $options = [])
  * @method PushRpaTaskDetail pushRpaTaskDetail(array $options = [])
- * @method SendNotificationForPartner sendNotificationForPartner(array $options = [])
  * @method SetRedisValue setRedisValue(array $options = [])
  * @method UpdateAgreementStatus updateAgreementStatus(array $options = [])
  */
@@ -197,21 +195,6 @@ class GetNodeByFlowId extends Rpc
  */
 class GetNodeByTemplateId extends Rpc
 {
-}
-
-/**
- * @method string getUserId()
- * @method $this withUserId($value)
- * @method string getAppId()
- * @method $this withAppId($value)
- * @method string getPlatformType()
- * @method $this withPlatformType($value)
- */
-class GetPlatformUserInfoForPartner extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
 }
 
 /**
@@ -534,31 +517,6 @@ class PushRpaTask extends Rpc
  */
 class PushRpaTaskDetail extends Rpc
 {
-}
-
-/**
- * @method string getTrackId()
- * @method $this withTrackId($value)
- * @method string getSmartSubChannels()
- * @method $this withSmartSubChannels($value)
- * @method string getChannelType()
- * @method $this withChannelType($value)
- * @method string getNotifyType()
- * @method $this withNotifyType($value)
- * @method string getNotifycationEventType()
- * @method $this withNotifycationEventType($value)
- * @method string getSendTarget()
- * @method $this withSendTarget($value)
- * @method string getBizId()
- * @method $this withBizId($value)
- * @method string getParamMap()
- * @method $this withParamMap($value)
- */
-class SendNotificationForPartner extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
 }
 
 /**

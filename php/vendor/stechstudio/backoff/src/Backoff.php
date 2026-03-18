@@ -223,10 +223,8 @@ class Backoff
     }
 
     /**
-     * @template T
-     * @param callable():T $callback
+     * @param callable $callback
      *
-     * @phpstan-return (T is void ? null : T)
      * @return mixed
      * @throws Exception
      */
@@ -309,7 +307,7 @@ class Backoff
             return;
         }
 
-        usleep(intval($this->getWaitTime($attempt) * 1000));
+        usleep($this->getWaitTime($attempt) * 1000);
     }
 
     /**
@@ -331,7 +329,6 @@ class Backoff
      */
     protected function cap($waitTime)
     {
-        $waitTime = $waitTime < 0 ? PHP_INT_MAX : $waitTime;
         return is_int($this->getWaitCap())
             ? min($this->getWaitCap(), $waitTime)
             : $waitTime;

@@ -12,13 +12,12 @@
 namespace Symfony\Component\Translation;
 
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
+use Symfony\Component\Translation\Exception\InvalidArgumentException;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @author Abdellatif Ait boudad <a.aitboudad@gmail.com>
- *
- * @final since Symfony 7.1
  */
 class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInterface, LocaleAwareInterface, WarmableInterface
 {
@@ -26,11 +25,19 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
     public const MESSAGE_MISSING = 1;
     public const MESSAGE_EQUALS_FALLBACK = 2;
 
+    private TranslatorInterface $translator;
     private array $messages = [];
 
-    public function __construct(
-        private TranslatorInterface&TranslatorBagInterface&LocaleAwareInterface $translator,
-    ) {
+    /**
+     * @param TranslatorInterface&TranslatorBagInterface&LocaleAwareInterface $translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        if (!$translator instanceof TranslatorBagInterface || !$translator instanceof LocaleAwareInterface) {
+            throw new InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface, TranslatorBagInterface and LocaleAwareInterface.', get_debug_type($translator)));
+        }
+
+        $this->translator = $translator;
     }
 
     public function trans(?string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
@@ -41,7 +48,10 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
         return $trans;
     }
 
-    public function setLocale(string $locale): void
+    /**
+     * @return void
+     */
+    public function setLocale(string $locale)
     {
         $this->translator->setLocale($locale);
     }
@@ -64,7 +74,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
     public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         if ($this->translator instanceof WarmableInterface) {
-            return $this->translator->warmUp($cacheDir, $buildDir);
+            return (array) $this->translator->warmUp($cacheDir, $buildDir);
         }
 
         return [];
@@ -82,16 +92,10 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
         return [];
     }
 
-    public function getGlobalParameters(): array
-    {
-        if ($this->translator instanceof Translator || method_exists($this->translator, 'getGlobalParameters')) {
-            return $this->translator->getGlobalParameters();
-        }
-
-        return [];
-    }
-
-    public function __call(string $method, array $args): mixed
+    /**
+     * @return mixed
+     */
+    public function __call(string $method, array $args)
     {
         return $this->translator->{$method}(...$args);
     }

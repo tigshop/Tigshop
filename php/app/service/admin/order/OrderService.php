@@ -543,9 +543,6 @@ class OrderService extends BaseService
         $orderDetail = app(OrderDetailService::class)->setId($id)->setUserId($user_id);
         $orderDetail->confirmReceipt();
         $orderDetail->addLog('确认收货');
-        app(\app\service\admin\salesman\OrderService::class)->triggerAutoSettlement([
-            'order_id' => $id
-        ]);
     }
 
     /**

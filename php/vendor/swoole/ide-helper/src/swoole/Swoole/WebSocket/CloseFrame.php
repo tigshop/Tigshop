@@ -6,12 +6,9 @@ namespace Swoole\WebSocket;
 
 class CloseFrame extends Frame
 {
-    /**
-     * {@inheritdoc}
-     */
-    public int $opcode = SWOOLE_WEBSOCKET_OPCODE_CLOSE;
+    public $opcode = 8;
 
-    public int $code = WEBSOCKET_CLOSE_NORMAL;
+    public $code = 1000;
 
-    public string $reason = '';
+    public $reason = '';
 }

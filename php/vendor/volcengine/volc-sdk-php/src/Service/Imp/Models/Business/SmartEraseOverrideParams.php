@@ -66,21 +66,11 @@ class SmartEraseOverrideParams extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.Watermark Watermark = 2;</code>
-     * @return \Volc\Service\Imp\Models\Business\Watermark|null
+     * @return \Volc\Service\Imp\Models\Business\Watermark
      */
     public function getWatermark()
     {
         return $this->Watermark;
-    }
-
-    public function hasWatermark()
-    {
-        return isset($this->Watermark);
-    }
-
-    public function clearWatermark()
-    {
-        unset($this->Watermark);
     }
 
     /**
@@ -98,21 +88,11 @@ class SmartEraseOverrideParams extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.Volcengine.Imp.Models.Business.OCR OCR = 3;</code>
-     * @return \Volc\Service\Imp\Models\Business\OCR|null
+     * @return \Volc\Service\Imp\Models\Business\OCR
      */
     public function getOCR()
     {
         return $this->OCR;
-    }
-
-    public function hasOCR()
-    {
-        return isset($this->OCR);
-    }
-
-    public function clearOCR()
-    {
-        unset($this->OCR);
     }
 
     /**

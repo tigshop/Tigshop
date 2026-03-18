@@ -115,21 +115,26 @@ class AliPayService extends PayService
     {
         try {
             $parameters = request()->post();
+            \think\facade\Log::info('支付宝回调参数：' . json_encode($parameters));
             if (isset($parameters['payCode'])) unset($parameters['payCode']);
             $res = Factory::payment()->common()->verifyNotify($parameters);
+            \think\facade\Log::info('支付宝验签结果：' . ($res ? 'true' : 'false'));
             if ($res) {
                 //支付成功--设置订单未已支付
                 $pay_sn = $parameters['out_trade_no'];
                 $transaction_id = $parameters['trade_no']??'';
+                \think\facade\Log::info('支付宝交易状态：' . ($parameters['trade_status'] ?? 'unknown') . ', pay_sn: ' . $pay_sn . ', transaction_id: ' . $transaction_id);
                 //判断是交易成功才通过
-                if ($parameters['trade_status'] == 'TRADE_SUCCESS'){
+                if ($parameters['trade_status'] == 'TRADE_SUCCESS' || $parameters['trade_status'] == 'TRADE_FINISHED'){
                     app(PaymentService::class)->paySuccess($pay_sn, $transaction_id);
                 }
                 return ['code' => 'SUCCESS', 'message' => Util::lang('支付成功')];
             } else {
+                \think\facade\Log::error('支付宝验签失败，参数：' . json_encode($parameters));
                 return ['code' => 'FAIL', 'message' => Util::lang('失败')];
             }
         } catch (\Exception $exception) {
+            \think\facade\Log::error('支付宝回调异常：' . $exception->getMessage() . ' trace: ' . $exception->getTraceAsString());
             throw new ApiException(Util::lang($exception->getMessage()));
         }
     }
@@ -142,7 +147,7 @@ class AliPayService extends PayService
     {
         try {
             $parameters = request()->post();
-            if (isset($parameters['pay_code'])) unset($parameters['pay_code']);
+            if (isset($parameters['payCode'])) unset($parameters['payCode']);
             $res = Factory::payment()->common()->verifyNotify($parameters);
             if ($res) {
                 $refund_sn = $parameters['out_request_no'];

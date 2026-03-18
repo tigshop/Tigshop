@@ -290,11 +290,6 @@ class Configuration
         return $this;
     }
 
-    public function proxyConfiguration(array $proxyConfiguration): self
-    {
-        $this->proxy = array_merge($this->proxy, $proxyConfiguration);
-        return $this;
-    }
     /**
      * Set proxy authentication method to use
      *

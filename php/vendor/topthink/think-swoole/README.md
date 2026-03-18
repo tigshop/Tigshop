@@ -74,66 +74,22 @@ return [
 
 ```
 
-### websocket
+## 支持`symfony/var-dumper`
 
-> 新增路由调度的方式，方便实现多个websocket服务
-
-#### 配置
-
-```
-swoole.websocket.route = true 时开启
-```
-
-#### 路由定义
-```php
-Route::get('path1','controller/action1');
-Route::get('path2','controller/action2');
-```
-
-#### 控制器
+由于应用是通过php cli启动的，所以默认`symfony/var-dumper`会将调试信息打印在控制台, 通过配置中间件来支持将调试信息输出在网页上 如下是直接在配置在全局中间件上，也可以在路由定义的时候配置
 
 ```php
-use \think\swoole\Websocket;
-use \think\swoole\websocket\Event;
-use \Swoole\WebSocket\Frame;
+// app/middleware.php
 
-class Controller {
-
-    public function action1(){//不可以在这里注入websocket对象
-    
-        return \think\swoole\helper\websocket()
-            ->onOpen(...)
-            ->onMessage(function(Websocket $websocket, Frame $frame){ //只可在事件响应这里注入websocket对象
-                ...
-            })
-            ->onClose(...);
-    }
-    
-    public function action2(){
-    
-        return \think\swoole\helper\websocket()
-            ->onOpen(...)
-            ->onMessage(function(Websocket $websocket, Frame $frame){
-               ...
-            })
-            ->onClose(...);
-    }
-}
-```
-
-### 流式输出
-
-```php
-
-class Controller {
-
-    public function action(){
-        return \think\swoole\helper\iterator(value(function(){
-            foreach(range(1,10) as $i)
-                yield $i;
-                sleep(1);//模拟等待
-            }
-        }));
-    }
-}
+<?php
+// 全局中间件定义文件
+return [
+    // 全局请求缓存
+    // \think\middleware\CheckRequestCache::class,
+    // 多语言加载
+    // \think\middleware\LoadLangPack::class,
+    // Session初始化
+    //\think\middleware\SessionInit::class,
+    \think\swoole\middleware\InteractsWithVarDumper::class,
+];
 ```

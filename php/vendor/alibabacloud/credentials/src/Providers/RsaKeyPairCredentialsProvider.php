@@ -7,7 +7,6 @@ use AlibabaCloud\Credentials\Utils\Filter;
 use AlibabaCloud\Credentials\Request\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Exception\GuzzleException;
-use AlibabaCloud\Credentials\Credential\RefreshResult;
 
 use InvalidArgumentException;
 use RuntimeException;
@@ -117,7 +116,7 @@ class RsaKeyPairCredentialsProvider extends SessionCredentialsProvider
     /**
      * Get credentials by request.
      *
-     * @return RefreshResult
+     * @return array
      * @throws RuntimeException
      * @throws GuzzleException
      */
@@ -163,13 +162,7 @@ class RsaKeyPairCredentialsProvider extends SessionCredentialsProvider
         $credentials['SecurityToken'] = null;
 
 
-        return new RefreshResult(new Credentials([
-            'accessKeyId' => $credentials['AccessKeyId'],
-            'accessKeySecret' => $credentials['AccessKeySecret'],
-            'securityToken' => $credentials['SecurityToken'],
-            'expiration' => \strtotime($credentials['Expiration']),
-            'providerName' => $this->getProviderName(),
-        ]), $this->getStaleTime(strtotime($credentials['Expiration'])));
+        return $credentials;
     }
 
     public function key()

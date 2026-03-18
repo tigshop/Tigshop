@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Swoole\Redis;
 
-/**
- * @not-serializable Objects of this class cannot be serialized.
- */
 class Server extends \Swoole\Server
 {
     /**
@@ -78,30 +75,25 @@ class Server extends \Swoole\Server
      *
      * @return bool TRUE on success, or FALSE on failure.
      */
-    public function setHandler(string $command, callable $callback): bool
+    public function setHandler(string $command, callable $callback)
     {
     }
 
     /**
+     * @param string $command
      * @return callable|null Returns the callback function if defined, otherwise NULL.
      */
-    public function getHandler(string $command): ?callable
+    public function getHandler($command)
     {
     }
 
     /**
      * Format a reply.
      *
-     * @param int $type The type of the reply. It can be one of the following seven constants:
-     *                  - \Swoole\Redis\Server::ERROR
-     *                  - \Swoole\Redis\Server::NIL
-     *                  - \Swoole\Redis\Server::STATUS
-     *                  - \Swoole\Redis\Server::INT
-     *                  - \Swoole\Redis\Server::STRING
-     *                  - \Swoole\Redis\Server::SET
-     *                  - \Swoole\Redis\Server::MAP
+     * @param mixed|null $value
+     * @return string|false
      */
-    public static function format(int $type, mixed $value = null): string|false
+    public static function format(int $type, $value = null)
     {
     }
 }

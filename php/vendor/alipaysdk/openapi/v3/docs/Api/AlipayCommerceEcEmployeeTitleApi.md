@@ -4,18 +4,18 @@ All URIs are relative to https://openapi.alipay.com.
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create()**](AlipayCommerceEcEmployeeTitleApi.md#create) | **POST** /v3/alipay/commerce/ec/employee/title | 员工抬头：新增员工抬头关系
-[**delete()**](AlipayCommerceEcEmployeeTitleApi.md#delete) | **POST** /v3/alipay/commerce/ec/employee/title/delete | 员工抬头：失效员工抬头关系
+[**create()**](AlipayCommerceEcEmployeeTitleApi.md#create) | **POST** /v3/alipay/commerce/ec/employee/title | 新增员工抬头关系
+[**delete()**](AlipayCommerceEcEmployeeTitleApi.md#delete) | **POST** /v3/alipay/commerce/ec/employee/title/delete | 删除员工抬头信息
 [**modify()**](AlipayCommerceEcEmployeeTitleApi.md#modify) | **PUT** /v3/alipay/commerce/ec/employee/title | 修改员工抬头信息
 
 
 ## `create()`
 
 ```php
-create($alipayCommerceEcEmployeeTitleCreateModel): \Alipay\OpenAPISDK\Model\AlipayCommerceEcEmployeeTitleCreateResponseModel
+create($alipayCommerceEcEmployeeTitleCreateModel): object
 ```
 
-员工抬头：新增员工抬头关系
+新增员工抬头关系
 
 批量新增员工抬头关系，单次新增最大一千条
 
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**\Alipay\OpenAPISDK\Model\AlipayCommerceEcEmployeeTitleCreateResponseModel**
+**object**
 
 ### Authorization
 
@@ -82,12 +82,12 @@ No authorization required
 ## `delete()`
 
 ```php
-delete($alipayCommerceEcEmployeeTitleDeleteModel): \Alipay\OpenAPISDK\Model\AlipayCommerceEcEmployeeTitleDeleteResponseModel
+delete($alipayCommerceEcEmployeeTitleDeleteModel): object
 ```
 
-员工抬头：失效员工抬头关系
+删除员工抬头信息
 
-对员工抬头关系做失效处理。
+批量删除员工抬头信息，单次删除最大一百条
 
 ### Example
 
@@ -135,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**\Alipay\OpenAPISDK\Model\AlipayCommerceEcEmployeeTitleDeleteResponseModel**
+**object**
 
 ### Authorization
 

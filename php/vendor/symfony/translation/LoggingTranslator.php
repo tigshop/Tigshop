@@ -12,6 +12,7 @@
 namespace Symfony\Component\Translation;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Translation\Exception\InvalidArgumentException;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -20,10 +21,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, LocaleAwareInterface
 {
-    public function __construct(
-        private TranslatorInterface&TranslatorBagInterface&LocaleAwareInterface $translator,
-        private LoggerInterface $logger,
-    ) {
+    private TranslatorInterface $translator;
+    private LoggerInterface $logger;
+
+    /**
+     * @param TranslatorInterface&TranslatorBagInterface&LocaleAwareInterface $translator The translator must implement TranslatorBagInterface
+     */
+    public function __construct(TranslatorInterface $translator, LoggerInterface $logger)
+    {
+        if (!$translator instanceof TranslatorBagInterface || !$translator instanceof LocaleAwareInterface) {
+            throw new InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface, TranslatorBagInterface and LocaleAwareInterface.', get_debug_type($translator)));
+        }
+
+        $this->translator = $translator;
+        $this->logger = $logger;
     }
 
     public function trans(?string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
@@ -34,7 +45,10 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
         return $trans;
     }
 
-    public function setLocale(string $locale): void
+    /**
+     * @return void
+     */
+    public function setLocale(string $locale)
     {
         $prev = $this->translator->getLocale();
         $this->translator->setLocale($locale);
@@ -42,7 +56,7 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
             return;
         }
 
-        $this->logger->debug(\sprintf('The locale of the translator has changed from "%s" to "%s".', $prev, $locale));
+        $this->logger->debug(sprintf('The locale of the translator has changed from "%s" to "%s".', $prev, $locale));
     }
 
     public function getLocale(): string
@@ -72,7 +86,10 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
         return [];
     }
 
-    public function __call(string $method, array $args): mixed
+    /**
+     * @return mixed
+     */
+    public function __call(string $method, array $args)
     {
         return $this->translator->{$method}(...$args);
     }

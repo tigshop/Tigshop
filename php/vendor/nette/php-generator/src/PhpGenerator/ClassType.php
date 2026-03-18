@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * Definition of a class with properties, methods, constants, traits and PHP attributes.
+ * Class description.
  */
 final class ClassType extends ClassLike
 {

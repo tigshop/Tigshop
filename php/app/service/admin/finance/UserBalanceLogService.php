@@ -113,6 +113,7 @@ class UserBalanceLogService extends BaseService
         // 更新用户信息
         $user_info = User::find($user_id);
         $user_info->balance = $data["change_type"] == 1 ? $user_info->balance + $data["balance"] : $user_info->balance - $data["balance"];
+        $frozen_balance = $user_info->frozen_balance;
         $user_info->frozen_balance = $data["change_type"] == 1 ? $user_info->frozen_balance + $data["frozen_balance"] : $user_info->frozen_balance - $data["frozen_balance"];
 
         // 记录余额日志
@@ -123,9 +124,13 @@ class UserBalanceLogService extends BaseService
             "change_desc" => isset($data["change_desc"]) ? $data["change_desc"] : "",
             "change_type" => isset($data["change_type"]) ? $data["change_type"] : 99,
             "new_balance" => $user_info->balance,
-            "new_frozen_balance" => $user_info->frozen_balance,
+            "new_frozen_balance" => $user_info->balance,
+            'before_frozen_balance' => $frozen_balance,
+            'after_frozen_balance' => $user_info->frozen_balance,
+
         ];
         UserBalanceLog::create($user_balance_log);
         $user_info->save();
     }
+
 }

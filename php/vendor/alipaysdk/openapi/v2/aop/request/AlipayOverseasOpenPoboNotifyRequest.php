@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.overseas.open.pobo.notify request
  *
  * @author auto create
- * @since 1.0, 2024-11-04 16:12:22
+ * @since 1.0, 2024-03-01 16:25:19
  */
 class AlipayOverseasOpenPoboNotifyRequest
 {

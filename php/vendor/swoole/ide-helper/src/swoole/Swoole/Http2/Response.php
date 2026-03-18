@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace Swoole\Http2;
 
-/**
- * @not-serializable Objects of this class cannot be serialized.
- */
 class Response
 {
-    public int $streamId = 0;
+    public $streamId = 0;
 
-    public int $errCode = 0;
+    public $errCode = 0;
 
-    public int $statusCode = 0;
+    public $statusCode = 0;
 
-    public bool $pipeline = false;
+    public $pipeline = false;
 
-    public array $headers;
+    public $headers;
 
-    public array $set_cookie_headers;
+    public $set_cookie_headers;
 
-    public array $cookies;
+    public $cookies;
 
-    public string $data;
+    public $data;
 }

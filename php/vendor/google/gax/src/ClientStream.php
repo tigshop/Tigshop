@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google LLC
+ * Copyright 2016, Google Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,10 +29,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-namespace Google\ApiCore;
+namespace Google\GAX;
 
-use Google\Rpc\Code;
-use Grpc\ClientStreamingCall;
+use Grpc;
 
 /**
  * ClientStream is the response object from a gRPC client streaming API call.
@@ -44,14 +43,25 @@ class ClientStream
     /**
      * ClientStream constructor.
      *
-     * @param ClientStreamingCall $clientStreamingCall The gRPC client streaming call object
-     * @param array $streamingDescriptor
+     * @param \Grpc\ClientStreamingCall $clientStreamingCall The gRPC client streaming call object
+     * @param array $grpcStreamingDescriptor
      */
-    public function __construct(// @phpstan-ignore-line
-        ClientStreamingCall $clientStreamingCall,
-        array $streamingDescriptor = []
-    ) {
+    public function __construct($clientStreamingCall, $grpcStreamingDescriptor = [])
+    {
         $this->call = $clientStreamingCall;
+    }
+
+    /**
+     * @param callable $callable
+     * @param mixed[] $grpcStreamingDescriptor
+     * @return callable ApiCall
+     */
+    public static function createApiCall($callable, $grpcStreamingDescriptor)
+    {
+        return function () use ($callable, $grpcStreamingDescriptor) {
+            $response = ApiCallable::callWithoutRequest($callable, func_get_args());
+            return new ClientStream($response, $grpcStreamingDescriptor);
+        };
     }
 
     /**
@@ -67,13 +77,13 @@ class ClientStream
     /**
      * Read the response from the server, completing the streaming call.
      *
-     * @throws ApiException
      * @return mixed The response object from the server
+     * @throws ApiException
      */
     public function readResponse()
     {
         list($response, $status) = $this->call->wait();
-        if ($status->code == Code::OK) {
+        if ($status->code == Grpc\STATUS_OK) {
             return $response;
         } else {
             throw ApiException::createFromStdClass($status);
@@ -87,7 +97,7 @@ class ClientStream
      * @param mixed[] $requests An iterator of request objects to write to the server
      * @return mixed The response object from the server
      */
-    public function writeAllAndReadResponse(array $requests)
+    public function writeAllAndReadResponse($requests)
     {
         foreach ($requests as $request) {
             $this->write($request);
@@ -98,7 +108,7 @@ class ClientStream
     /**
      * Return the underlying gRPC call object
      *
-     * @return \Grpc\ClientStreamingCall|mixed
+     * @return \Grpc\ClientStreamingCall
      */
     public function getClientStreamingCall()
     {

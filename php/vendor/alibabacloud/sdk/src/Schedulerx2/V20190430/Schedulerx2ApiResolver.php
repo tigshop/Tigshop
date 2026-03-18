@@ -16,7 +16,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method CreateWorkflow createWorkflow(array $options = [])
  * @method DeleteAppGroup deleteAppGroup(array $options = [])
  * @method DeleteJob deleteJob(array $options = [])
- * @method DeleteNamespace deleteNamespace(array $options = [])
  * @method DeleteRouteStrategy deleteRouteStrategy(array $options = [])
  * @method DeleteWorkflow deleteWorkflow(array $options = [])
  * @method DescribeRegions describeRegions(array $options = [])
@@ -39,11 +38,8 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method GrantPermission grantPermission(array $options = [])
  * @method ListGroups listGroups(array $options = [])
  * @method ListJobs listJobs(array $options = [])
- * @method ListJobScriptHistory listJobScriptHistory(array $options = [])
  * @method ListNamespaces listNamespaces(array $options = [])
  * @method ListWorkflowInstance listWorkflowInstance(array $options = [])
- * @method ReadSchedulerxDesignateDetail readSchedulerxDesignateDetail(array $options = [])
- * @method ReadSchedulerxDesignateInfo readSchedulerxDesignateInfo(array $options = [])
  * @method RerunJob rerunJob(array $options = [])
  * @method RetryJobInstance retryJobInstance(array $options = [])
  * @method RevokePermission revokePermission(array $options = [])
@@ -52,8 +48,6 @@ use AlibabaCloud\Client\Resolver\ApiResolver;
  * @method StopInstance stopInstance(array $options = [])
  * @method UpdateAppGroup updateAppGroup(array $options = [])
  * @method UpdateJob updateJob(array $options = [])
- * @method UpdateJobScript updateJobScript(array $options = [])
- * @method UpdateNamespace updateNamespace(array $options = [])
  * @method UpdateWorkflow updateWorkflow(array $options = [])
  * @method UpdateWorkflowDag updateWorkflowDag(array $options = [])
  */
@@ -257,8 +251,6 @@ class CreateAppGroup extends Rpc
  * @method string getDataOffset()
  * @method string getTaskMaxAttempt()
  * @method string getDispatcherSize()
- * @method string getPriority()
- * @method $this withPriority($value)
  * @method string getJobType()
  * @method string getTaskAttemptInterval()
  * @method string getExecuteMode()
@@ -969,19 +961,6 @@ class DeleteJob extends Rpc
 }
 
 /**
- * @method string getNamespaceSource()
- * @method $this withNamespaceSource($value)
- * @method string getNamespace()
- * @method $this withNamespace($value)
- */
-class DeleteNamespace extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-}
-
-/**
  * @method string getGroupId()
  * @method $this withGroupId($value)
  * @method string getJobId()
@@ -1350,12 +1329,12 @@ class GetWorkflowInstance extends Rpc
 /**
  * @method string getNamespaceSource()
  * @method $this withNamespaceSource($value)
+ * @method string getGroupId()
+ * @method $this withGroupId($value)
  * @method string getUserId()
  * @method $this withUserId($value)
  * @method string getGrantOption()
  * @method $this withGrantOption($value)
- * @method string getGroupId()
- * @method $this withGroupId($value)
  * @method string getNamespace()
  * @method $this withNamespace($value)
  * @method string getUserName()
@@ -1397,23 +1376,6 @@ class ListJobs extends Rpc
 }
 
 /**
- * @method string getNamespaceSource()
- * @method $this withNamespaceSource($value)
- * @method string getGroupId()
- * @method $this withGroupId($value)
- * @method string getJobId()
- * @method $this withJobId($value)
- * @method string getNamespace()
- * @method $this withNamespace($value)
- */
-class ListJobScriptHistory extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-}
-
-/**
  * @method string getNamespaceName()
  * @method $this withNamespaceName($value)
  * @method string getNamespace()
@@ -1438,42 +1400,6 @@ class ListWorkflowInstance extends Rpc
 
     /** @var string */
     public $method = 'GET';
-}
-
-/**
- * @method string getNamespaceSource()
- * @method $this withNamespaceSource($value)
- * @method string getGroupId()
- * @method $this withGroupId($value)
- * @method string getDesignateType()
- * @method $this withDesignateType($value)
- * @method string getJobId()
- * @method $this withJobId($value)
- * @method string getNamespace()
- * @method $this withNamespace($value)
- */
-class ReadSchedulerxDesignateDetail extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-}
-
-/**
- * @method string getNamespaceSource()
- * @method $this withNamespaceSource($value)
- * @method string getGroupId()
- * @method $this withGroupId($value)
- * @method string getJobId()
- * @method $this withJobId($value)
- * @method string getNamespace()
- * @method $this withNamespace($value)
- */
-class ReadSchedulerxDesignateInfo extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
 }
 
 /**
@@ -1669,8 +1595,6 @@ class StopInstance extends Rpc
  * @method $this withDescription($value)
  * @method string getAlarmJson()
  * @method $this withAlarmJson($value)
- * @method string getMonitorContactsJson()
- * @method $this withMonitorContactsJson($value)
  * @method string getAppGroupId()
  * @method $this withAppGroupId($value)
  * @method string getMaxJobs()
@@ -1681,8 +1605,6 @@ class StopInstance extends Rpc
  * @method $this withGroupId($value)
  * @method string getAppVersion()
  * @method $this withAppVersion($value)
- * @method string getMonitorConfigJson()
- * @method $this withMonitorConfigJson($value)
  * @method string getNamespace()
  * @method $this withNamespace($value)
  * @method string getXattrs()
@@ -1704,8 +1626,6 @@ class UpdateAppGroup extends Rpc
  * @method string getTaskMaxAttempt()
  * @method string getDataOffset()
  * @method string getDispatcherSize()
- * @method string getPriority()
- * @method $this withPriority($value)
  * @method string getTaskAttemptInterval()
  * @method string getExecuteMode()
  * @method string getTimeExpression()
@@ -2231,116 +2151,6 @@ class UpdateJob extends Rpc
 
         return $this;
     }
-}
-
-/**
- * @method string getNamespaceSource()
- * @method string getJobId()
- * @method string getGroupId()
- * @method string getNamespace()
- * @method string getScriptContent()
- * @method string getVersionDescription()
- */
-class UpdateJobScript extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withNamespaceSource($value)
-    {
-        $this->data['NamespaceSource'] = $value;
-        $this->options['form_params']['NamespaceSource'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withJobId($value)
-    {
-        $this->data['JobId'] = $value;
-        $this->options['form_params']['JobId'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withGroupId($value)
-    {
-        $this->data['GroupId'] = $value;
-        $this->options['form_params']['GroupId'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withNamespace($value)
-    {
-        $this->data['Namespace'] = $value;
-        $this->options['form_params']['Namespace'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withScriptContent($value)
-    {
-        $this->data['ScriptContent'] = $value;
-        $this->options['form_params']['ScriptContent'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function withVersionDescription($value)
-    {
-        $this->data['VersionDescription'] = $value;
-        $this->options['form_params']['VersionDescription'] = $value;
-
-        return $this;
-    }
-}
-
-/**
- * @method string getNamespaceName()
- * @method $this withNamespaceName($value)
- * @method string getNamespaceSource()
- * @method $this withNamespaceSource($value)
- * @method string getDescription()
- * @method $this withDescription($value)
- * @method string getNamespace()
- * @method $this withNamespace($value)
- */
-class UpdateNamespace extends Rpc
-{
-
-    /** @var string */
-    public $scheme = 'https';
 }
 
 /**

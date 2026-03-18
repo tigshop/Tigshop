@@ -21,11 +21,15 @@ use Symfony\Component\Translation\TranslatorBagInterface;
  */
 class FilteringProvider implements ProviderInterface
 {
-    public function __construct(
-        private ProviderInterface $provider,
-        private array $locales,
-        private array $domains = [],
-    ) {
+    private ProviderInterface $provider;
+    private array $locales;
+    private array $domains;
+
+    public function __construct(ProviderInterface $provider, array $locales, array $domains = [])
+    {
+        $this->provider = $provider;
+        $this->locales = $locales;
+        $this->domains = $domains;
     }
 
     public function __toString(): string

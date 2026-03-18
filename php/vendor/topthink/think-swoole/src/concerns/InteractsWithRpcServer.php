@@ -88,7 +88,7 @@ trait InteractsWithRpcServer
     {
         if ($this->getConfig('rpc.server.enable', false)) {
 
-            $workerNum = $this->getConfig('rpc.server.worker_num', 1);
+            $workerNum = $this->getConfig('rpc.server.worker_num', swoole_cpu_num());
 
             $this->addBatchWorker($workerNum, [$this, 'createRpcServer'], 'rpc server');
         }

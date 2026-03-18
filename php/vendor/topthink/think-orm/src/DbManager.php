@@ -218,7 +218,7 @@ class DbManager
      *
      * @return ConnectionInterface
      */
-    public function connect(?string $name = null, bool $force = false)
+    public function connect(string $name = null, bool $force = false)
     {
         return $this->instance($name, $force);
     }
@@ -231,7 +231,7 @@ class DbManager
      *
      * @return ConnectionInterface
      */
-    protected function instance(?string $name = null, bool $force = false): ConnectionInterface
+    protected function instance(string $name = null, bool $force = false): ConnectionInterface
     {
         if (empty($name)) {
             $name = $this->getConfig('default', 'mysql');

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.acommunication.order.notify request
  *
  * @author auto create
- * @since 1.0, 2024-12-23 15:02:21
+ * @since 1.0, 2024-07-04 16:55:06
  */
 class AlipayCommerceAcommunicationOrderNotifyRequest
 {

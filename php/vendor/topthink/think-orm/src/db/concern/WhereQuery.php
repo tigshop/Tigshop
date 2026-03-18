@@ -38,8 +38,6 @@ trait WhereQuery
             $this->options['where']['AND'][] = true;
 
             return $this;
-        } elseif (empty($field)) {
-            return $this;
         }
 
         $pk = $this->getPk();
@@ -47,16 +45,10 @@ trait WhereQuery
             $this->options['key'] = is_null($condition) ? $op : $condition;
         }
 
-        $logic = 'AND';
         $param = func_get_args();
         array_shift($param);
 
-        if (is_array($field) && !empty($field) && array_is_list($field)) {
-            return $this->where(function ($query) use ($param, $condition, $op, $field, $logic) {
-                return $query->parseWhereExp($logic, $field, $op, $condition, $param);
-            });
-        }
-        return $this->parseWhereExp($logic, $field, $op, $condition, $param);
+        return $this->parseWhereExp('AND', $field, $op, $condition, $param);
     }
 
     /**
@@ -96,17 +88,10 @@ trait WhereQuery
      */
     public function whereOr($field, $op = null, $condition = null)
     {
-        $logic = 'OR';
         $param = func_get_args();
         array_shift($param);
 
-        if (is_array($field) && !empty($field) && array_is_list($field)) {
-            return $this->where(function ($query) use ($param, $condition, $op, $field, $logic) {
-                return $query->parseWhereExp($logic, $field, $op, $condition, $param);
-            });
-        }
-
-        return $this->parseWhereExp($logic, $field, $op, $condition, $param);
+        return $this->parseWhereExp('OR', $field, $op, $condition, $param);
     }
 
     /**
@@ -120,16 +105,10 @@ trait WhereQuery
      */
     public function whereXor($field, $op = null, $condition = null)
     {
-        $logic = 'XOR';
         $param = func_get_args();
         array_shift($param);
 
-        if (is_array($field) && !empty($field) && array_is_list($field)) {
-            return $this->where(function ($query) use ($param, $condition, $op, $field, $logic) {
-                return $query->parseWhereExp($logic, $field, $op, $condition, $param);
-            });
-        }
-        return $this->parseWhereExp($logic, $field, $op, $condition, $param);
+        return $this->parseWhereExp('XOR', $field, $op, $condition, $param);
     }
 
     /**
@@ -637,18 +616,18 @@ trait WhereQuery
 
         // 根据条件决定执行哪个查询
         if ($condition) {
-            $this->executeQuery($query, $condition);
+            $this->executeQuery($query);
         } elseif ($otherwise) {
-            $this->executeQuery($otherwise, $condition);
+            $this->executeQuery($otherwise);
         }
 
         return $this;
     }
 
-    protected function executeQuery(Closure | array $query, $condition): void
+    protected function executeQuery(Closure | array $query): void
     {
         if ($query instanceof Closure) {
-            $query($this, $condition);
+            $query($this);
         } elseif (is_array($query)) {
             $this->where($query);
         }

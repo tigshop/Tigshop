@@ -33,15 +33,15 @@ final class EventSourceHttpClient implements HttpClientInterface, ResetInterface
 
     private float $reconnectionTime;
 
-    public function __construct(HttpClientInterface $client = null, float $reconnectionTime = 10.0)
+    public function __construct(?HttpClientInterface $client = null, float $reconnectionTime = 10.0)
     {
         $this->client = $client ?? HttpClient::create();
         $this->reconnectionTime = $reconnectionTime;
     }
 
-    public function connect(string $url, array $options = []): ResponseInterface
+    public function connect(string $url, array $options = [], string $method = 'GET'): ResponseInterface
     {
-        return $this->request('GET', $url, self::mergeDefaultOptions($options, [
+        return $this->request($method, $url, self::mergeDefaultOptions($options, [
             'buffer' => false,
             'headers' => [
                 'Accept' => 'text/event-stream',
@@ -85,14 +85,14 @@ final class EventSourceHttpClient implements HttpClientInterface, ResetInterface
                     return;
                 }
             } catch (TransportExceptionInterface) {
-                $state->lastError = $lastError ?? microtime(true);
+                $state->lastError = $lastError ?? hrtime(true) / 1E9;
 
-                if (null === $state->buffer || ($isTimeout && microtime(true) - $state->lastError < $state->reconnectionTime)) {
+                if (null === $state->buffer || ($isTimeout && hrtime(true) / 1E9 - $state->lastError < $state->reconnectionTime)) {
                     yield $chunk;
                 } else {
                     $options['headers']['Last-Event-ID'] = $state->lastEventId;
                     $state->buffer = '';
-                    $state->lastError = microtime(true);
+                    $state->lastError = hrtime(true) / 1E9;
                     $context->getResponse()->cancel();
                     $context->replaceRequest($method, $url, $options);
                     if ($isTimeout) {

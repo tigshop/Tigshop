@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -32,8 +30,10 @@ trait Mixin
 {
     /**
      * Stack of macro instance contexts.
+     *
+     * @var array
      */
-    protected static array $macroContextStack = [];
+    protected static $macroContextStack = [];
 
     /**
      * Mix another object into the class.
@@ -60,9 +60,13 @@ trait Mixin
      * echo "$previousBlackMoon\n";
      * ```
      *
+     * @param object|string $mixin
+     *
      * @throws ReflectionException
+     *
+     * @return void
      */
-    public static function mixin(object|string $mixin): void
+    public static function mixin($mixin)
     {
         \is_string($mixin) && trait_exists($mixin)
             ? self::loadMixinTrait($mixin)
@@ -70,12 +74,14 @@ trait Mixin
     }
 
     /**
+     * @param object|string $mixin
+     *
      * @throws ReflectionException
      */
-    private static function loadMixinClass(object|string $mixin): void
+    private static function loadMixinClass($mixin)
     {
         $methods = (new ReflectionClass($mixin))->getMethods(
-            ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED,
+            ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
         );
 
         foreach ($methods as $method) {
@@ -83,15 +89,16 @@ trait Mixin
                 continue;
             }
 
-            $macro = $method->invoke($mixin);
+            $method->setAccessible(true);
 
-            if (\is_callable($macro)) {
-                static::macro($method->name, $macro);
-            }
+            static::macro($method->name, $method->invoke($mixin));
         }
     }
 
-    private static function loadMixinTrait(string $trait): void
+    /**
+     * @param string $trait
+     */
+    private static function loadMixinTrait($trait)
     {
         $context = eval(self::getAnonymousClassCodeForTrait($trait));
         $className = \get_class($context);
@@ -107,7 +114,7 @@ trait Mixin
                 try {
                     // @ is required to handle error if not converted into exceptions
                     $closure = @$closureBase->bindTo($context);
-                } catch (Throwable) { // @codeCoverageIgnore
+                } catch (Throwable $throwable) { // @codeCoverageIgnore
                     $closure = $closureBase; // @codeCoverageIgnore
                 }
 
@@ -160,7 +167,7 @@ trait Mixin
         }
     }
 
-    private static function getAnonymousClassCodeForTrait(string $trait): string
+    private static function getAnonymousClassCodeForTrait(string $trait)
     {
         return 'return new class() extends '.static::class.' {use '.$trait.';};';
     }
@@ -178,8 +185,15 @@ trait Mixin
 
     /**
      * Stack a Carbon context from inside calls of self::this() and execute a given action.
+     *
+     * @param static|null $context
+     * @param callable    $callable
+     *
+     * @throws Throwable
+     *
+     * @return mixed
      */
-    protected static function bindMacroContext(?self $context, callable $callable): mixed
+    protected static function bindMacroContext($context, callable $callable)
     {
         static::$macroContextStack[] = $context;
 
@@ -192,16 +206,20 @@ trait Mixin
 
     /**
      * Return the current context from inside a macro callee or a null if static.
+     *
+     * @return static|null
      */
-    protected static function context(): ?static
+    protected static function context()
     {
         return end(static::$macroContextStack) ?: null;
     }
 
     /**
      * Return the current context from inside a macro callee or a new one if static.
+     *
+     * @return static
      */
-    protected static function this(): static
+    protected static function this()
     {
         return end(static::$macroContextStack) ?: new static();
     }

@@ -13,24 +13,26 @@ use Nette;
 
 
 /**
- * Base definition of class, interface, trait or enum type.
+ * Class/Interface/Trait/Enum description.
  */
 abstract class ClassLike
 {
 	use Traits\CommentAware;
 	use Traits\AttributeAware;
 
-	/** @deprecated use Visibility::Public */
-	public const VisibilityPublic = Visibility::Public,
-		VISIBILITY_PUBLIC = Visibility::Public;
+	public const
+		VisibilityPublic = 'public',
+		VisibilityProtected = 'protected',
+		VisibilityPrivate = 'private';
 
-	/** @deprecated use Visibility::Protected */
-	public const VisibilityProtected = Visibility::Protected,
-		VISIBILITY_PROTECTED = Visibility::Protected;
+	/** @deprecated use ClassLike::VisibilityPublic */
+	public const VISIBILITY_PUBLIC = self::VisibilityPublic;
 
-	/** @deprecated use Visibility::Private */
-	public const VisibilityPrivate = Visibility::Private,
-		VISIBILITY_PRIVATE = Visibility::Private;
+	/** @deprecated use ClassLike::VisibilityProtected */
+	public const VISIBILITY_PROTECTED = self::VisibilityProtected;
+
+	/** @deprecated use ClassLike::VisibilityPrivate */
+	public const VISIBILITY_PRIVATE = self::VisibilityPrivate;
 
 	private ?PhpNamespace $namespace;
 	private ?string $name;

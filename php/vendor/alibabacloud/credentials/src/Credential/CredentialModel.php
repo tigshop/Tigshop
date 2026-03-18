@@ -28,9 +28,6 @@ class CredentialModel extends Model
         if (null !== $this->type) {
             $res['type'] = $this->type;
         }
-        if (null !== $this->providerName) {
-            $res['providerName'] = $this->providerName;
-        }
         return $res;
     }
     /**
@@ -54,9 +51,6 @@ class CredentialModel extends Model
         }
         if (isset($map['type'])) {
             $model->type = $map['type'];
-        }
-        if(isset($map['providerName'])){
-            $model->providerName = $map['providerName'];
         }
         return $model;
     }
@@ -90,13 +84,6 @@ class CredentialModel extends Model
      * @var string
      */
     public $type;
-
-    /**
-     * @description provider name
-     * @example cli_profile/static_ak
-     * @var string
-     */
-    public $providerName;
 
     /**
      * @return string
@@ -133,11 +120,6 @@ class CredentialModel extends Model
     public function getType()
     {
         return $this->type;
-    }
-
-    public function getProviderName()
-    {
-        return $this->providerName;
     }
 
 }

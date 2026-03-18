@@ -28,7 +28,7 @@ class CsvFileDumper extends FileDumper
         $handle = fopen('php://memory', 'r+');
 
         foreach ($messages->all($domain) as $source => $target) {
-            fputcsv($handle, [$source, $target], $this->delimiter, $this->enclosure, '\\');
+            fputcsv($handle, [$source, $target], $this->delimiter, $this->enclosure);
         }
 
         rewind($handle);
@@ -40,8 +40,10 @@ class CsvFileDumper extends FileDumper
 
     /**
      * Sets the delimiter and escape character for CSV.
+     *
+     * @return void
      */
-    public function setCsvControl(string $delimiter = ';', string $enclosure = '"'): void
+    public function setCsvControl(string $delimiter = ';', string $enclosure = '"')
     {
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;

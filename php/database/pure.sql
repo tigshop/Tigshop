@@ -3758,7 +3758,7 @@ CREATE TABLE `product` (
   `product_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '商品的名称 ',
   `product_sn` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '商品的唯一货号 ',
   `product_tsn` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_estonian_ci DEFAULT NULL COMMENT '条形编码',
-  `product_stock` smallint unsigned NOT NULL DEFAULT '0' COMMENT '商品库存数量 ',
+  `product_stock` int unsigned NOT NULL DEFAULT '0' COMMENT '商品库存数量 ',
   `product_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '本店售价 ',
   `market_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '市场售价 ',
   `shipping_tpl_id` mediumint unsigned NOT NULL DEFAULT '0' COMMENT '运费模板id',
@@ -9861,18 +9861,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `user_balance_log`;
 CREATE TABLE `user_balance_log` (
-  `log_id` mediumint unsigned NOT NULL AUTO_INCREMENT COMMENT '余额id',
-  `user_id` mediumint unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
-  `balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '增加或减少的余额',
-  `frozen_balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '被冻结的余额',
-  `new_balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '操作后的余额数据',
-  `new_frozen_balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '操作后的冻结的余额',
-  `change_time` int unsigned NOT NULL DEFAULT '0' COMMENT '该笔操作发生的时间',
-  `change_desc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '该笔操作的备注',
-  `change_type` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '类型，1：增加，2：减少',
-  PRIMARY KEY (`log_id`) USING BTREE,
-  KEY `user_id` (`user_id`) USING BTREE,
-  KEY `change_type` (`change_type`) USING BTREE
+ `log_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '余额id',
+ `user_id` mediumint unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+ `balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '增加或减少的余额',
+ `frozen_balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '被冻结的余额',
+ `before_frozen_balance` decimal(10,2) NOT NULL COMMENT '增加或减少之前的被冻结的余额',
+ `after_frozen_balance` decimal(10,2) NOT NULL COMMENT '增加或减少之后的被冻结的余额',
+ `new_balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '操作后的余额数据',
+ `new_frozen_balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '操作后的冻结的余额',
+ `change_time` int unsigned NOT NULL DEFAULT '0' COMMENT '该笔操作发生的时间',
+ `change_desc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '该笔操作的备注',
+ `change_type` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '类型，1：增加，2：减少',
+ `after_balance` decimal(10,2) NOT NULL DEFAULT '0.00',
+PRIMARY KEY (`log_id`) USING BTREE,
+KEY `user_id` (`user_id`) USING BTREE,
+KEY `change_type` (`change_type`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='用户资金表';
 
 -- ----------------------------

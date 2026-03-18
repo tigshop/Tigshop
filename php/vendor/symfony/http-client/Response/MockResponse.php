@@ -26,11 +26,9 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class MockResponse implements ResponseInterface, StreamableInterface
 {
     use CommonResponseTrait;
-    use TransportResponseTrait {
-        doDestruct as public __destruct;
-    }
+    use TransportResponseTrait;
 
-    private string|iterable $body;
+    private string|iterable|null $body;
     private array $requestOptions = [];
     private string $requestUrl;
     private string $requestMethod;
@@ -90,7 +88,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
         return $this->requestMethod;
     }
 
-    public function getInfo(string $type = null): mixed
+    public function getInfo(?string $type = null): mixed
     {
         return null !== $type ? $this->info[$type] ?? null : $this->info;
     }
@@ -100,7 +98,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
         $this->info['canceled'] = true;
         $this->info['error'] = 'Response has been canceled.';
         try {
-            unset($this->body);
+            $this->body = null;
         } catch (TransportException $e) {
             // ignore errors when canceling
         }
@@ -108,6 +106,11 @@ class MockResponse implements ResponseInterface, StreamableInterface
         $onProgress = $this->requestOptions['on_progress'] ?? static function () {};
         $dlSize = isset($this->headers['content-encoding']) || 'HEAD' === ($this->info['http_method'] ?? null) || \in_array($this->info['http_code'], [204, 304], true) ? 0 : (int) ($this->headers['content-length'][0] ?? 0);
         $onProgress($this->offset, $dlSize, $this->info);
+    }
+
+    public function __destruct()
+    {
+        $this->doDestruct();
     }
 
     protected function close(): void
@@ -125,9 +128,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
         $response->requestOptions = $options;
         $response->id = ++self::$idSequence;
         $response->shouldBuffer = $options['buffer'] ?? true;
-        $response->initializer = static function (self $response) {
-            return \is_array($response->body[0] ?? null);
-        };
+        $response->initializer = static fn (self $response) => \is_array($response->body[0] ?? null);
 
         $response->info['redirect_count'] = 0;
         $response->info['redirect_url'] = null;
@@ -171,7 +172,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
         foreach ($responses as $response) {
             $id = $response->id;
 
-            if (!isset($response->body)) {
+            if (null === $response->body) {
                 // Canceled response
                 $response->body = [];
             } elseif ([] === $response->body) {
@@ -190,11 +191,6 @@ class MockResponse implements ResponseInterface, StreamableInterface
                     $chunk[1]->getHeaders(false);
                     self::readResponse($response, $chunk[0], $chunk[1], $offset);
                     $multi->handlesActivity[$id][] = new FirstChunk();
-                    $buffer = $response->requestOptions['buffer'] ?? null;
-
-                    if ($buffer instanceof \Closure && $response->content = $buffer($response->headers) ?: null) {
-                        $response->content = \is_resource($response->content) ? $response->content : fopen('php://temp', 'w+');
-                    }
                 } catch (\Throwable $e) {
                     $multi->handlesActivity[$id][] = null;
                     $multi->handlesActivity[$id][] = $e;

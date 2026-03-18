@@ -51,9 +51,8 @@ class Login extends BaseController
         //校验csrf
         $csrfToken = request()->header('X-CSRF-Token');
         if ($csrfToken && !Cache::get($csrfToken)) {
-            return $this->error('登录错误！');
+            return $this->error('页面已过期，请刷新后重试！');
         }
-        Cache::delete($csrfToken);
         if ($login_type == 'password') {
             // 密码登录
             $username =$this->request->all('username', '');
@@ -82,6 +81,10 @@ class Login extends BaseController
         }
         if (!$user) {
             return $this->error('账户或密码错误！');
+        }
+        // CSRF token 仅在登录成功后消费，避免“输错一次密码后 token 被提前删除”导致后续一直提示登录错误
+        if ($csrfToken) {
+            Cache::delete($csrfToken);
         }
         $this->adminUserService->setLogin($user->admin_id);
         $token = app(AccessTokenService::class)->setApp('admin')->setId($user->admin_id)->createToken();

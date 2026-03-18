@@ -28,8 +28,7 @@
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
-        },
-        "lock": false
+        }
     },
     "require": {
         "php": ">=5.5.0",
@@ -49,15 +48,14 @@
     },
     "suggest": {
         "decomplexity/SendOauth2": "Adapter for using XOAUTH2 authentication",
-        "ext-imap": "Needed to support advanced email address parsing according to RFC822",
         "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
         "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
         "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
         "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
         "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
         "psr/log": "For optional PSR-3 debug logging",
-        "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
-        "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
+        "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication",
+        "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
     },
     "autoload": {
         "psr-4": {
@@ -72,7 +70,6 @@
     "license": "LGPL-2.1-only",
     "scripts": {
         "check": "./vendor/bin/phpcs",
-        "style": "./vendor/bin/phpcbf",
         "test": "./vendor/bin/phpunit --no-coverage",
         "coverage": "./vendor/bin/phpunit",
         "lint": [

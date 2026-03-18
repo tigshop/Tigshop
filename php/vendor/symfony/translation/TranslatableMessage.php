@@ -19,11 +19,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class TranslatableMessage implements TranslatableInterface
 {
-    public function __construct(
-        private string $message,
-        private array $parameters = [],
-        private ?string $domain = null,
-    ) {
+    private string $message;
+    private array $parameters;
+    private ?string $domain;
+
+    public function __construct(string $message, array $parameters = [], ?string $domain = null)
+    {
+        $this->message = $message;
+        $this->parameters = $parameters;
+        $this->domain = $domain;
     }
 
     public function __toString(): string

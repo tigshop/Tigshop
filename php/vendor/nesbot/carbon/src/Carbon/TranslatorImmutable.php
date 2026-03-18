@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -19,9 +17,10 @@ use Symfony\Component\Translation\Formatter\MessageFormatterInterface;
 
 class TranslatorImmutable extends Translator
 {
-    private bool $constructed = false;
+    /** @var bool */
+    private $constructed = false;
 
-    public function __construct($locale, ?MessageFormatterInterface $formatter = null, $cacheDir = null, $debug = false)
+    public function __construct($locale, MessageFormatterInterface $formatter = null, $cacheDir = null, $debug = false)
     {
         parent::__construct($locale, $formatter, $cacheDir, $debug);
         $this->constructed = true;
@@ -30,24 +29,24 @@ class TranslatorImmutable extends Translator
     /**
      * @codeCoverageIgnore
      */
-    public function setDirectories(array $directories): static
+    public function setDirectories(array $directories)
     {
         $this->disallowMutation(__METHOD__);
 
         return parent::setDirectories($directories);
     }
 
-    public function setLocale($locale): void
+    public function setLocale($locale)
     {
         $this->disallowMutation(__METHOD__);
 
-        parent::setLocale($locale);
+        return parent::setLocale($locale);
     }
 
     /**
      * @codeCoverageIgnore
      */
-    public function setMessages(string $locale, array $messages): static
+    public function setMessages($locale, $messages)
     {
         $this->disallowMutation(__METHOD__);
 
@@ -57,7 +56,7 @@ class TranslatorImmutable extends Translator
     /**
      * @codeCoverageIgnore
      */
-    public function setTranslations(array $messages): static
+    public function setTranslations($messages)
     {
         $this->disallowMutation(__METHOD__);
 
@@ -74,7 +73,7 @@ class TranslatorImmutable extends Translator
         parent::setConfigCacheFactory($configCacheFactory);
     }
 
-    public function resetMessages(?string $locale = null): bool
+    public function resetMessages($locale = null)
     {
         $this->disallowMutation(__METHOD__);
 
@@ -84,7 +83,7 @@ class TranslatorImmutable extends Translator
     /**
      * @codeCoverageIgnore
      */
-    public function setFallbackLocales(array $locales): void
+    public function setFallbackLocales(array $locales)
     {
         $this->disallowMutation(__METHOD__);
 

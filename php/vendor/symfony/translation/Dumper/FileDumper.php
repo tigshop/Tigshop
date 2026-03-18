@@ -27,18 +27,25 @@ abstract class FileDumper implements DumperInterface
 {
     /**
      * A template for the relative paths to files.
+     *
+     * @var string
      */
-    protected string $relativePathTemplate = '%domain%.%locale%.%extension%';
+    protected $relativePathTemplate = '%domain%.%locale%.%extension%';
 
     /**
      * Sets the template for the relative paths to files.
+     *
+     * @return void
      */
-    public function setRelativePathTemplate(string $relativePathTemplate): void
+    public function setRelativePathTemplate(string $relativePathTemplate)
     {
         $this->relativePathTemplate = $relativePathTemplate;
     }
 
-    public function dump(MessageCatalogue $messages, array $options = []): void
+    /**
+     * @return void
+     */
+    public function dump(MessageCatalogue $messages, array $options = [])
     {
         if (!\array_key_exists('path', $options)) {
             throw new InvalidArgumentException('The file dumper needs a path option.');
@@ -50,7 +57,7 @@ abstract class FileDumper implements DumperInterface
             if (!file_exists($fullpath)) {
                 $directory = \dirname($fullpath);
                 if (!file_exists($directory) && !@mkdir($directory, 0777, true)) {
-                    throw new RuntimeException(\sprintf('Unable to create directory "%s".', $directory));
+                    throw new RuntimeException(sprintf('Unable to create directory "%s".', $directory));
                 }
             }
 

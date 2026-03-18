@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.iot.device.upgradeapp.create request
  *
  * @author auto create
- * @since 1.0, 2025-08-13 15:47:41
+ * @since 1.0, 2023-08-23 19:49:04
  */
 class AlipayCommerceIotDeviceUpgradeappCreateRequest
 {

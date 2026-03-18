@@ -12,7 +12,6 @@
 namespace think\swoole;
 
 use think\swoole\concerns\InteractsWithHttp;
-use think\swoole\concerns\InteractsWithLock;
 use think\swoole\concerns\InteractsWithPools;
 use think\swoole\concerns\InteractsWithQueue;
 use think\swoole\concerns\InteractsWithRpcClient;
@@ -36,7 +35,6 @@ class Manager
         InteractsWithRpcServer,
         InteractsWithQueue,
         InteractsWithTracing,
-        InteractsWithLock,
         WithContainer,
         WithApplication;
 
@@ -52,7 +50,6 @@ class Manager
         $this->prepareQueue();
         $this->prepareRpcClient();
         $this->prepareTracing();
-        $this->prepareLock();
     }
 
 }

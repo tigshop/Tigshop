@@ -62,9 +62,9 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function hidden(array $hidden, bool $merge = false)
+    public function hidden(array $hidden = [], bool $merge = false)
     {
-        $this->options['hidden'] = [$hidden, $merge];
+        $this->options['hidden'] = $merge ? array_merge($this->options['hidden'], $hidden) : $hidden;
 
         return $this;
     }
@@ -77,9 +77,9 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function visible(array $visible, bool $merge = false)
+    public function visible(array $visible = [], bool $merge = false)
     {
-        $this->options['visible'] = [$visible, $merge];
+        $this->options['visible'] = $merge ? array_merge($this->options['visible'], $visible) : $visible;
 
         return $this;
     }
@@ -92,23 +92,9 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function append(array $append, bool $merge = false)
+    public function append(array $append = [], bool $merge = false)
     {
-        $this->options['append'] = [$append, $merge];
-
-        return $this;
-    }
-
-    /**
-     * 设置模型的输出映射.
-     *
-     * @param array $mapping 映射列表
-     *
-     * @return $this
-     */
-    public function mapping(array $mapping)
-    {
-        $this->options['mapping'] = $mapping;
+        $this->options['append'] = $merge ? array_merge($this->options['append'], $append) : $append;
 
         return $this;
     }
@@ -669,10 +655,6 @@ trait ModelRelationQuery
             $this->options
         );
 
-        if ($this->suffix) {
-            $result->setSuffix($this->suffix);
-        }
-            
         // 模型数据处理
         foreach ($this->options['filter'] as $filter) {
             call_user_func_array($filter, [$result, $this->options]);
@@ -709,14 +691,9 @@ trait ModelRelationQuery
             $result->withFieldAttr($this->options['with_attr']);
         }
 
-        if (!empty($this->options['mapping'])) {
-            $result->mapping($this->options['mapping']);
-        }
-
         foreach (['hidden', 'visible', 'append'] as $name) {
-            if (!empty($this->options[$name])) {
-                [$value, $merge] = $this->options[$name];
-                $result->$name($value, $merge);
+            if (isset($this->options[$name])) {
+                $result->$name($this->options[$name]);
             }
         }
 

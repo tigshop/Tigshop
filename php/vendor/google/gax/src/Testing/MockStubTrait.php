@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google LLC
+ * Copyright 2016, Google Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,11 +29,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+namespace Google\GAX\Testing;
 
-namespace Google\ApiCore\Testing;
-
-use Google\Protobuf\Internal\Message;
-use stdClass;
+use google\rpc\Status;
 use UnderflowException;
 
 /**
@@ -41,8 +39,6 @@ use UnderflowException;
  * (https://github.com/grpc/grpc/blob/master/src/php/lib/Grpc/BaseStub.php)
  * It provides functionality to add responses, get received calls, and overrides the _simpleRequest
  * method so that the elements of $responses are returned instead of making a call to the API.
- *
- * @internal
  */
 trait MockStubTrait
 {
@@ -50,19 +46,13 @@ trait MockStubTrait
     private $responses = [];
     private $serverStreamingStatus = null;
     private $callObjects = [];
-    private $deserialize;
-
-    public function __construct(?callable $deserialize = null)
-    {
-        $this->deserialize = $deserialize;
-    }
 
     /**
      * Overrides the _simpleRequest method in \Grpc\BaseStub
      * (https://github.com/grpc/grpc/blob/master/src/php/lib/Grpc/BaseStub.php)
      * Returns a MockUnaryCall object that will return the first item from $responses
      * @param string $method The API method name to be called
-     * @param \Google\Protobuf\Internal\Message $argument The request object to the API method
+     * @param mixed $argument The request object to the API method
      * @param callable $deserialize A function to deserialize the response object
      * @param array $metadata
      * @param array $options
@@ -72,12 +62,15 @@ trait MockStubTrait
         $method,
         $argument,
         $deserialize,
-        array $metadata = [],
-        array $options = []
+        $metadata = [],
+        $options = []
     ) {
+        if (is_a($argument, 'DrSlump\Protobuf\Message')) {
+            $argument = $argument::deserialize($argument->serialize());
+        }
         $this->receivedFuncCalls[] = new ReceivedRequest($method, $argument, $deserialize, $metadata, $options);
         if (count($this->responses) < 1) {
-            throw new UnderflowException('ran out of responses');
+            throw new UnderflowException("ran out of responses");
         }
         list($response, $status) = array_shift($this->responses);
         $call = new MockUnaryCall($response, $deserialize, $status);
@@ -104,9 +97,10 @@ trait MockStubTrait
         array $metadata = [],
         array $options = []
     ) {
+
         $this->receivedFuncCalls[] = new ReceivedRequest($method, null, $deserialize, $metadata, $options);
         if (count($this->responses) < 1) {
-            throw new UnderflowException('ran out of responses');
+            throw new UnderflowException("ran out of responses");
         }
         list($response, $status) = array_shift($this->responses);
         $call = new MockClientStreamingCall($response, $deserialize, $status);
@@ -121,7 +115,7 @@ trait MockStubTrait
      * a final status of $serverStreamingStatus.
      *
      * @param string   $method      The name of the method to call
-     * @param \Google\Protobuf\Internal\Message    $argument    The argument to the method
+     * @param mixed    $argument    The argument to the method
      * @param callable $deserialize A function that deserializes the responses
      * @param array    $metadata    A metadata map to send to the server
      *                              (optional)
@@ -137,14 +131,11 @@ trait MockStubTrait
         array $options = []
     ) {
 
-        if (is_a($argument, '\Google\Protobuf\Internal\Message')) {
-            /** @var Message $newArgument */
-            $newArgument = new $argument();
-            $newArgument->mergeFromString($argument->serializeToString());
-            $argument = $newArgument;
+        if (is_a($argument, 'DrSlump\Protobuf\Message')) {
+            $argument = $argument::deserialize($argument->serialize());
         }
         $this->receivedFuncCalls[] = new ReceivedRequest($method, $argument, $deserialize, $metadata, $options);
-        $responses = self::stripStatusFromResponses($this->responses);
+        $responses = MockStubTrait::stripStatusFromResponses($this->responses);
         $this->responses = [];
         $call = new MockServerStreamingCall($responses, $deserialize, $this->serverStreamingStatus);
         $this->callObjects[] = $call;
@@ -173,7 +164,7 @@ trait MockStubTrait
     ) {
 
         $this->receivedFuncCalls[] = new ReceivedRequest($method, null, $deserialize, $metadata, $options);
-        $responses = self::stripStatusFromResponses($this->responses);
+        $responses = MockStubTrait::stripStatusFromResponses($this->responses);
         $this->responses = [];
         $call = new MockBidiStreamingCall($responses, $deserialize, $this->serverStreamingStatus);
         $this->callObjects[] = $call;
@@ -184,7 +175,7 @@ trait MockStubTrait
     {
         $strippedResponses = [];
         foreach ($responses as $response) {
-            list($resp, $_) = $response;
+            list($resp, $status) = $response;
             $strippedResponses[] = $resp;
         }
         return $strippedResponses;
@@ -193,17 +184,13 @@ trait MockStubTrait
     /**
      * Add a response object, and an optional status, to the list of responses to be returned via
      * _simpleRequest.
-     * @param \Google\Protobuf\Internal\Message $response
-     * @param stdClass $status
+     * @param mixed $response
+     * @param Status $status
      */
-    public function addResponse($response, ?stdClass $status = null)
+    public function addResponse($response, $status = null)
     {
-        if (!$this->deserialize && $response) {
-            $this->deserialize = [get_class($response), 'decode'];
-        }
-
-        if (is_a($response, '\Google\Protobuf\Internal\Message')) {
-            $response = $response->serializeToString();
+        if (is_a($response, 'DrSlump\Protobuf\Message')) {
+            $response = $response->serialize();
         }
         $this->responses[] = [$response, $status];
     }
@@ -211,9 +198,9 @@ trait MockStubTrait
     /**
      * Set the status object to be used when creating streaming calls.
      *
-     * @param stdClass $status
+     * @param Status $status
      */
-    public function setStreamingStatus(stdClass $status)
+    public function setStreamingStatus($status)
     {
         $this->serverStreamingStatus = $status;
     }
@@ -255,42 +242,5 @@ trait MockStubTrait
     {
         return count($this->receivedFuncCalls) === 0
             && count($this->responses) === 0;
-    }
-
-    /**
-     * @param mixed $responseObject
-     * @param stdClass|null $status
-     * @param callable $deserialize
-     * @return static An instance of the current class type.
-     */
-    public static function create($responseObject, ?stdClass $status = null, ?callable $deserialize = null)
-    {
-        $stub = new static($deserialize); // @phpstan-ignore-line
-        $stub->addResponse($responseObject, $status);
-        return $stub;
-    }
-
-    /**
-     * Creates a sequence such that the responses are returned in order.
-     * @param mixed[] $sequence
-     * @param callable $deserialize
-     * @param stdClass $finalStatus
-     * @return static An instance of the current class type.
-     */
-    public static function createWithResponseSequence(array $sequence, ?callable $deserialize = null, ?stdClass $finalStatus = null)
-    {
-        $stub = new static($deserialize); // @phpstan-ignore-line
-        foreach ($sequence as $elem) {
-            if (count($elem) == 1) {
-                list($resp, $status) = [$elem, null];
-            } else {
-                list($resp, $status) = $elem;
-            }
-            $stub->addResponse($resp, $status);
-        }
-        if ($finalStatus) {
-            $stub->setStreamingStatus($finalStatus);
-        }
-        return $stub;
     }
 }

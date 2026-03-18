@@ -26,7 +26,7 @@ class JsonLocation extends AbstractLocation
     }
 
     /**
-     * @return ResultInterface
+     * @return \GuzzleHttp\Command\ResultInterface
      */
     public function before(
         ResultInterface $result,

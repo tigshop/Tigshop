@@ -1,0 +1,14 @@
+<phpunit backupGlobals="false"
+         bootstrap="bootstrap.php"
+         colors="true"
+         beStrictAboutChangesToGlobalState="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutCoversAnnotation="true"
+>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src/</directory>
+        </whitelist>
+    </filter>
+</phpunit>

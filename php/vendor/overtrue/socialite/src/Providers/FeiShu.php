@@ -21,7 +21,7 @@ class FeiShu extends Base
 
     protected string $expiresInKey = 'refresh_expires_in';
 
-    protected bool   $isInternalApp = false;
+    protected bool $isInternalApp = false;
 
     public function __construct(array $config)
     {

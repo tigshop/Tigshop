@@ -3,7 +3,7 @@
  * ALIPAY API: zhima.customer.auth.mutualview.apply request
  *
  * @author auto create
- * @since 1.0, 2025-08-13 15:27:41
+ * @since 1.0, 2024-07-04 15:51:36
  */
 class ZhimaCustomerAuthMutualviewApplyRequest
 {

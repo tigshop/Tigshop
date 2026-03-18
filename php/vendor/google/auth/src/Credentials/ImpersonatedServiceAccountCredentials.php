@@ -26,6 +26,8 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
 {
     use IamSignerTrait;
 
+    private const CRED_TYPE = 'imp';
+
     /**
      * @var string
      */
@@ -101,7 +103,7 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
      * @param callable|null $unusedHttpHandler not used by this credentials type.
      * @return string Token issuer email
      */
-    public function getClientName(?callable $unusedHttpHandler = null)
+    public function getClientName(callable $unusedHttpHandler = null)
     {
         return $this->impersonatedServiceAccountName;
     }
@@ -119,9 +121,13 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
      *     @type string $id_token
      * }
      */
-    public function fetchAuthToken(?callable $httpHandler = null)
+    public function fetchAuthToken(callable $httpHandler = null)
     {
-        return $this->sourceCredentials->fetchAuthToken($httpHandler);
+        // We don't support id token endpoint requests as of now for Impersonated Cred
+        return $this->sourceCredentials->fetchAuthToken(
+            $httpHandler,
+            $this->applyTokenEndpointMetrics([], 'at')
+        );
     }
 
     /**
@@ -138,5 +144,10 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
     public function getLastReceivedToken()
     {
         return $this->sourceCredentials->getLastReceivedToken();
+    }
+
+    protected function getCredType(): string
+    {
+        return self::CRED_TYPE;
     }
 }

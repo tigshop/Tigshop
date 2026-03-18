@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -26,18 +24,15 @@ trait Cast
     /**
      * Cast the current instance into the given class.
      *
-     * @template T
+     * @param string $className The $className::instance() method will be called to cast the current object.
      *
-     * @param class-string<T> $className The $className::instance() method will be called to cast the current object.
-     *
-     * @return T
+     * @return DateTimeInterface
      */
-    public function cast(string $className): mixed
+    public function cast(string $className)
     {
         if (!method_exists($className, 'instance')) {
             if (is_a($className, DateTimeInterface::class, true)) {
-                return $className::createFromFormat('U.u', $this->rawFormat('U.u'))
-                    ->setTimezone($this->getTimezone());
+                return new $className($this->rawFormat('Y-m-d H:i:s.u'), $this->getTimezone());
             }
 
             throw new InvalidCastException("$className has not the instance() method needed to cast the date.");

@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.educate.roster.identity.query request
  *
  * @author auto create
- * @since 1.0, 2025-09-04 16:07:38
+ * @since 1.0, 2024-08-02 14:12:07
  */
 class AlipayCommerceEducateRosterIdentityQueryRequest
 {

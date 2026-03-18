@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.boss.base.process.task.release request
  *
  * @author auto create
- * @since 1.0, 2025-08-13 15:17:39
+ * @since 1.0, 2024-07-30 11:37:12
  */
 class AlipayBossBaseProcessTaskReleaseRequest
 {

@@ -374,10 +374,6 @@ trait Attribute
                 return 1;
             }
 
-            if ($b instanceof Raw) {
-                return 0;
-            }
-
             return is_object($a) || $a != $b ? 1 : 0;
         });
 
@@ -433,10 +429,6 @@ trait Attribute
      */
     public function setAttr(string $name, $value, array $data = []): void
     {
-        if ($this->mapping) {
-            $name = array_search($name, $this->mapping) ?: $name;
-        }
-
         $name = $this->getRealFieldName($name);
 
         // 检测修改器
@@ -535,9 +527,6 @@ trait Attribute
     {
         try {
             $relation = false;
-            if ($this->mapping) {
-                $name = array_search($name, $this->mapping) ?: $name;
-            }
             $value    = $this->getData($name);
         } catch (InvalidArgumentException $e) {
             $relation = $this->isRelationAttr($name);

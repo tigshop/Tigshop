@@ -22,8 +22,10 @@ class EndRequest extends Record
 {
     /**
      * The appStatus component is an application-level status code. Each role documents its usage of appStatus.
+     *
+     * @var int
      */
-    protected int $appStatus = 0;
+    protected $appStatus = 0;
 
     /**
      * The protocolStatus component is a protocol-level status code.
@@ -37,20 +39,27 @@ class EndRequest extends Record
      *      This happens when the application runs out of some resource, e.g. database connections.
      *   FCGI_UNKNOWN_ROLE: rejecting a new request.
      *      This happens when the Web server has specified a role that is unknown to the application.
+     *
+     * @var int
      */
-    protected int $protocolStatus = FastCGI::REQUEST_COMPLETE;
+    protected $protocolStatus = FastCGI::REQUEST_COMPLETE;
 
     /**
      * Reserved data, 3 bytes maximum
+     *
+     * @var string
      */
-    protected string $reserved1;
+    protected $reserved1;
 
-    public function __construct(int $protocolStatus = FastCGI::REQUEST_COMPLETE, int $appStatus = 0, string $reserved = '')
-    {
-        $this->type           = FastCGI::END_REQUEST;
+    public function __construct(
+        int $protocolStatus = FastCGI::REQUEST_COMPLETE,
+        int $appStatus = 0,
+        string $reserved = ''
+    ) {
+        $this->type = FastCGI::END_REQUEST;
         $this->protocolStatus = $protocolStatus;
-        $this->appStatus      = $appStatus;
-        $this->reserved1      = $reserved;
+        $this->appStatus = $appStatus;
+        $this->reserved1 = $reserved;
         $this->setContentData($this->packPayload());
     }
 
@@ -86,20 +95,13 @@ class EndRequest extends Record
      * {@inheritdoc}
      * @param static $self
      */
-    protected static function unpackPayload($self, string $binaryData): void
+    protected static function unpackPayload($self, string $data): void
     {
-        assert($self instanceof self);
-
-        /** @phpstan-var false|array{appStatus: int, protocolStatus: int, reserved: string} */
-        $payload = unpack('NappStatus/CprotocolStatus/a3reserved', $binaryData);
-        if ($payload === false) {
-            throw new \RuntimeException('Can not unpack data from the binary buffer');
-        }
         [
             $self->appStatus,
             $self->protocolStatus,
             $self->reserved1
-        ] = array_values($payload);
+        ] = array_values(unpack('NappStatus/CprotocolStatus/a3reserved', $data));
     }
 
     /** {@inheritdoc} */

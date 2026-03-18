@@ -13,6 +13,10 @@ namespace Symfony\Component\HttpClient;
 
 use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
 use Symfony\Component\HttpClient\Exception\TransportException;
+use Symfony\Component\HttpClient\Response\StreamableInterface;
+use Symfony\Component\HttpClient\Response\StreamWrapper;
+use Symfony\Component\Mime\MimeTypes;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Provides the common logic from writing HttpClientInterface implementations.
@@ -94,11 +98,7 @@ trait HttpClientTrait
         }
 
         if (isset($options['body'])) {
-            if (\is_array($options['body']) && (!isset($options['normalized_headers']['content-type'][0]) || !str_contains($options['normalized_headers']['content-type'][0], 'application/x-www-form-urlencoded'))) {
-                $options['normalized_headers']['content-type'] = ['Content-Type: application/x-www-form-urlencoded'];
-            }
-
-            $options['body'] = self::normalizeBody($options['body']);
+            $options['body'] = self::normalizeBody($options['body'], $options['normalized_headers']);
 
             if (\is_string($options['body'])
                 && (string) \strlen($options['body']) !== substr($h = $options['normalized_headers']['content-length'][0] ?? '', 16)
@@ -115,6 +115,15 @@ trait HttpClientTrait
 
         if (isset($options['peer_fingerprint'])) {
             $options['peer_fingerprint'] = self::normalizePeerFingerprint($options['peer_fingerprint']);
+        }
+
+        if (isset($options['crypto_method']) && !\in_array($options['crypto_method'], [
+            \STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT,
+            \STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT,
+            \STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
+            \STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT,
+        ], true)) {
+            throw new InvalidArgumentException('Option "crypto_method" must be one of "STREAM_CRYPTO_METHOD_TLSv1_*_CLIENT".');
         }
 
         // Validate on_progress
@@ -245,6 +254,10 @@ trait HttpClientTrait
                 throw new InvalidArgumentException(sprintf('Option "auth_ntlm" is not supported by "%s", '.$msg, __CLASS__, CurlHttpClient::class));
             }
 
+            if ('vars' === $name) {
+                throw new InvalidArgumentException(sprintf('Option "vars" is not supported by "%s", try using "%s" instead.', __CLASS__, UriTemplateHttpClient::class));
+            }
+
             $alternatives = [];
 
             foreach ($defaultOptions as $k => $v) {
@@ -309,40 +322,146 @@ trait HttpClientTrait
      *
      * @throws InvalidArgumentException When an invalid body is passed
      */
-    private static function normalizeBody($body)
+    private static function normalizeBody($body, array &$normalizedHeaders = [])
     {
         if (\is_array($body)) {
-            array_walk_recursive($body, $caster = static function (&$v) use (&$caster) {
-                if (\is_object($v)) {
+            static $cookie;
+
+            $streams = [];
+            array_walk_recursive($body, $caster = static function (&$v) use (&$caster, &$streams, &$cookie) {
+                if (\is_resource($v) || $v instanceof StreamableInterface) {
+                    $cookie = hash('xxh128', $cookie ??= random_bytes(8), true);
+                    $k = substr(strtr(base64_encode($cookie), '+/', '-_'), 0, -2);
+                    $streams[$k] = $v instanceof StreamableInterface ? $v->toStream(false) : $v;
+                    $v = $k;
+                } elseif (\is_object($v)) {
                     if ($vars = get_object_vars($v)) {
                         array_walk_recursive($vars, $caster);
                         $v = $vars;
-                    } elseif (method_exists($v, '__toString')) {
+                    } elseif ($v instanceof \Stringable) {
                         $v = (string) $v;
                     }
                 }
             });
 
-            return http_build_query($body, '', '&');
+            $body = http_build_query($body, '', '&');
+
+            if ('' === $body || !$streams && !str_contains($normalizedHeaders['content-type'][0] ?? '', 'multipart/form-data')) {
+                if (!str_contains($normalizedHeaders['content-type'][0] ?? '', 'application/x-www-form-urlencoded')) {
+                    $normalizedHeaders['content-type'] = ['Content-Type: application/x-www-form-urlencoded'];
+                }
+
+                return $body;
+            }
+
+            if (preg_match('{multipart/form-data; boundary=(?|"([^"\r\n]++)"|([-!#$%&\'*+.^_`|~_A-Za-z0-9]++))}', $normalizedHeaders['content-type'][0] ?? '', $boundary)) {
+                $boundary = $boundary[1];
+            } else {
+                $boundary = substr(strtr(base64_encode($cookie ??= random_bytes(8)), '+/', '-_'), 0, -2);
+                $normalizedHeaders['content-type'] = ['Content-Type: multipart/form-data; boundary='.$boundary];
+            }
+
+            $body = explode('&', $body);
+            $contentLength = 0;
+
+            foreach ($body as $i => $part) {
+                [$k, $v] = explode('=', $part, 2);
+                $part = ($i ? "\r\n" : '')."--{$boundary}\r\n";
+                $k = str_replace(['"', "\r", "\n"], ['%22', '%0D', '%0A'], urldecode($k)); // see WHATWG HTML living standard
+
+                if (!isset($streams[$v])) {
+                    $part .= "Content-Disposition: form-data; name=\"{$k}\"\r\n\r\n".urldecode($v);
+                    $contentLength += 0 <= $contentLength ? \strlen($part) : 0;
+                    $body[$i] = [$k, $part, null];
+                    continue;
+                }
+                $v = $streams[$v];
+
+                if (!\is_array($m = @stream_get_meta_data($v))) {
+                    throw new TransportException(sprintf('Invalid "%s" resource found in body part "%s".', get_resource_type($v), $k));
+                }
+                if (feof($v)) {
+                    throw new TransportException(sprintf('Uploaded stream ended for body part "%s".', $k));
+                }
+
+                $m += stream_context_get_options($v)['http'] ?? [];
+                $filename = basename($m['filename'] ?? $m['uri'] ?? 'unknown');
+                $filename = str_replace(['"', "\r", "\n"], ['%22', '%0D', '%0A'], $filename);
+                $contentType = $m['content_type'] ?? null;
+
+                if (($headers = $m['wrapper_data'] ?? []) instanceof StreamWrapper) {
+                    $hasContentLength = false;
+                    $headers = $headers->getResponse()->getInfo('response_headers');
+                } elseif ($hasContentLength = 0 < $h = fstat($v)['size'] ?? 0) {
+                    $contentLength += 0 <= $contentLength ? $h : 0;
+                }
+
+                foreach (\is_array($headers) ? $headers : [] as $h) {
+                    if (\is_string($h) && 0 === stripos($h, 'Content-Type: ')) {
+                        $contentType ??= substr($h, 14);
+                    } elseif (!$hasContentLength && \is_string($h) && 0 === stripos($h, 'Content-Length: ')) {
+                        $hasContentLength = true;
+                        $contentLength += 0 <= $contentLength ? substr($h, 16) : 0;
+                    } elseif (\is_string($h) && 0 === stripos($h, 'Content-Encoding: ')) {
+                        $contentLength = -1;
+                    }
+                }
+
+                if (!$hasContentLength) {
+                    $contentLength = -1;
+                }
+                if (null === $contentType && 'plainfile' === ($m['wrapper_type'] ?? null) && isset($m['uri'])) {
+                    $mimeTypes = class_exists(MimeTypes::class) ? MimeTypes::getDefault() : false;
+                    $contentType = $mimeTypes ? $mimeTypes->guessMimeType($m['uri']) : null;
+                }
+                $contentType ??= 'application/octet-stream';
+
+                $part .= "Content-Disposition: form-data; name=\"{$k}\"; filename=\"{$filename}\"\r\n";
+                $part .= "Content-Type: {$contentType}\r\n\r\n";
+
+                $contentLength += 0 <= $contentLength ? \strlen($part) : 0;
+                $body[$i] = [$k, $part, $v];
+            }
+
+            $body[++$i] = ['', "\r\n--{$boundary}--\r\n", null];
+
+            if (0 < $contentLength) {
+                $normalizedHeaders['content-length'] = ['Content-Length: '.($contentLength += \strlen($body[$i][1]))];
+            }
+
+            $body = static function ($size) use ($body) {
+                foreach ($body as $i => [$k, $part, $h]) {
+                    unset($body[$i]);
+
+                    yield $part;
+
+                    while (null !== $h && !feof($h)) {
+                        if (false === $part = fread($h, $size)) {
+                            throw new TransportException(sprintf('Error while reading uploaded stream for body part "%s".', $k));
+                        }
+
+                        yield $part;
+                    }
+                }
+                $h = null;
+            };
         }
 
         if (\is_string($body)) {
             return $body;
         }
 
-        $generatorToCallable = static function (\Generator $body): \Closure {
-            return static function () use ($body) {
-                while ($body->valid()) {
-                    $chunk = $body->current();
-                    $body->next();
+        $generatorToCallable = static fn (\Generator $body): \Closure => static function () use ($body) {
+            while ($body->valid()) {
+                $chunk = $body->current();
+                $body->next();
 
-                    if ('' !== $chunk) {
-                        return $chunk;
-                    }
+                if ('' !== $chunk) {
+                    return $chunk;
                 }
+            }
 
-                return '';
-            };
+            return '';
         };
 
         if ($body instanceof \Generator) {
@@ -416,7 +535,7 @@ trait HttpClientTrait
     /**
      * @throws InvalidArgumentException When the value cannot be json-encoded
      */
-    private static function jsonEncode(mixed $value, int $flags = null, int $maxDepth = 512): string
+    private static function jsonEncode(mixed $value, ?int $flags = null, int $maxDepth = 512): string
     {
         $flags ??= \JSON_HEX_TAG | \JSON_HEX_APOS | \JSON_HEX_AMP | \JSON_HEX_QUOT | \JSON_PRESERVE_ZERO_FRACTION;
 
@@ -536,11 +655,11 @@ trait HttpClientTrait
 
             if (str_contains($parts[$part], '%')) {
                 // https://tools.ietf.org/html/rfc3986#section-2.3
-                $parts[$part] = preg_replace_callback('/%(?:2[DE]|3[0-9]|[46][1-9A-F]|5F|[57][0-9A]|7E)++/i', function ($m) { return rawurldecode($m[0]); }, $parts[$part]);
+                $parts[$part] = preg_replace_callback('/%(?:2[DE]|3[0-9]|[46][1-9A-F]|5F|[57][0-9A]|7E)++/i', fn ($m) => rawurldecode($m[0]), $parts[$part]);
             }
 
             // https://tools.ietf.org/html/rfc3986#section-3.3
-            $parts[$part] = preg_replace_callback("#[^-A-Za-z0-9._~!$&/'()[\]*+,;=:@{}%]++#", function ($m) { return rawurlencode($m[0]); }, $parts[$part]);
+            $parts[$part] = preg_replace_callback("#[^-A-Za-z0-9._~!$&/'()[\]*+,;=:@{}%]++#", fn ($m) => rawurlencode($m[0]), $parts[$part]);
         }
 
         return [
@@ -556,6 +675,8 @@ trait HttpClientTrait
      * Removes dot-segments from a path.
      *
      * @see https://tools.ietf.org/html/rfc3986#section-5.2.4
+     *
+     * @return string
      */
     private static function removeDotSegments(string $path)
     {

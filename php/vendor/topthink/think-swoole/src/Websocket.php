@@ -33,7 +33,7 @@ class Websocket
     /** @var Event */
     protected $event;
 
-    /** @var Response|null */
+    /** @var Response */
     protected $client;
 
     protected $connected = true;
@@ -138,7 +138,7 @@ class Websocket
     /**
      * Set sender fd.
      *
-     * @param string $fd
+     * @param string
      *
      * @return $this
      */

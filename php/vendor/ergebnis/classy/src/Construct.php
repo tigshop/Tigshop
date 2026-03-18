@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2017-2025 Andreas Möller
+ * Copyright (c) 2017-2023 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -13,18 +13,18 @@ declare(strict_types=1);
 
 namespace Ergebnis\Classy;
 
+/**
+ * @psalm-immutable
+ */
 final class Construct
 {
-    private string $name;
-
     /**
-     * @var list<string>
+     * @var array<int, string>
      */
     private array $fileNames = [];
 
-    private function __construct(string $name)
+    private function __construct(private readonly string $name)
     {
-        $this->name = $name;
     }
 
     /**
@@ -54,9 +54,9 @@ final class Construct
     }
 
     /**
-     * Returns a list of file names in which the construct is defined.
+     * Returns an array of file names in which the construct is defined.
      *
-     * @return list<string>
+     * @return array<int, string>
      */
     public function fileNames(): array
     {

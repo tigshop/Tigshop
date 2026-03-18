@@ -14,7 +14,6 @@ declare (strict_types = 1);
 namespace think\db\concern;
 
 use think\db\Raw;
-use think\helper\Str;
 
 /**
  * JOIN和VIEW查询.
@@ -104,12 +103,16 @@ trait JoinAndViewQuery
             return $table;
         }
 
-        if ($join instanceof Raw || str_contains($join, '(')) {
+        if ($join instanceof Raw) {
             return $join;
         }
 
         $join = trim($join);
 
+        if (str_contains($join, '(')) {
+            // 使用子查询
+            return $join;
+        }
         // 使用别名
         if (str_contains($join, ' ')) {
             // 使用别名
@@ -122,7 +125,7 @@ trait JoinAndViewQuery
         }
 
         if ($this->prefix && !str_contains($table, '.') && !str_starts_with($table, $this->prefix)) {
-            $table = $this->prefix . Str::snake($table) . $this->suffix;
+            $table = $this->getTable($table);
         }
 
         if (!empty($alias) && $table != $alias) {

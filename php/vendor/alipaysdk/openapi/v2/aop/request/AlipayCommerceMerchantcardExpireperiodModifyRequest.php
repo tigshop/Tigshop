@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.merchantcard.expireperiod.modify request
  *
  * @author auto create
- * @since 1.0, 2025-04-30 20:27:26
+ * @since 1.0, 2024-08-13 13:02:07
  */
 class AlipayCommerceMerchantcardExpireperiodModifyRequest
 {

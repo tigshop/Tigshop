@@ -13,7 +13,7 @@ use Nette\Utils\Type;
 
 
 /**
- * Definition of a function/method parameter.
+ * Function/Method parameter description.
  */
 class Parameter
 {

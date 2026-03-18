@@ -13,24 +13,27 @@ namespace Swoole\FastCGI;
 
 class Message
 {
-    protected array $params = [];
+    /** @var array */
+    protected $params = [];
 
-    protected string $body = '';
+    /** @var string */
+    protected $body = '';
 
-    protected string $error = '';
+    /** @var string */
+    protected $error = '';
 
     public function getParam(string $name): ?string
     {
         return $this->params[$name] ?? null;
     }
 
-    public function withParam(string $name, string $value): static
+    public function withParam(string $name, string $value): self
     {
         $this->params[$name] = $value;
         return $this;
     }
 
-    public function withoutParam(string $name): static
+    public function withoutParam(string $name): self
     {
         unset($this->params[$name]);
         return $this;
@@ -41,13 +44,13 @@ class Message
         return $this->params;
     }
 
-    public function withParams(array $params): static
+    public function withParams(array $params): self
     {
         $this->params = $params;
         return $this;
     }
 
-    public function withAddedParams(array $params): static
+    public function withAddedParams(array $params): self
     {
         $this->params = $params + $this->params;
         return $this;
@@ -58,7 +61,7 @@ class Message
         return $this->body;
     }
 
-    public function withBody(string|\Stringable $body): self
+    public function withBody($body): self
     {
         $this->body = (string) $body;
         return $this;
@@ -69,7 +72,7 @@ class Message
         return $this->error;
     }
 
-    public function withError(string $error): static
+    public function withError(string $error): self
     {
         $this->error = $error;
         return $this;

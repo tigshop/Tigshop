@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * Definition of a trait use statement.
+ * use Trait
  */
 final class TraitUse
 {

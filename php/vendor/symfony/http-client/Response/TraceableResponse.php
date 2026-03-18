@@ -36,7 +36,7 @@ class TraceableResponse implements ResponseInterface, StreamableInterface
     private mixed $content;
     private ?StopwatchEvent $event;
 
-    public function __construct(HttpClientInterface $client, ResponseInterface $response, &$content, StopwatchEvent $event = null)
+    public function __construct(HttpClientInterface $client, ResponseInterface $response, &$content, ?StopwatchEvent $event = null)
     {
         $this->client = $client;
         $this->response = $response;
@@ -49,7 +49,7 @@ class TraceableResponse implements ResponseInterface, StreamableInterface
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
-    public function __wakeup()
+    public function __wakeup(): void
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
@@ -57,7 +57,9 @@ class TraceableResponse implements ResponseInterface, StreamableInterface
     public function __destruct()
     {
         try {
-            $this->response->__destruct();
+            if (method_exists($this->response, '__destruct')) {
+                $this->response->__destruct();
+            }
         } finally {
             if ($this->event?->isStarted()) {
                 $this->event->stop();
@@ -132,7 +134,7 @@ class TraceableResponse implements ResponseInterface, StreamableInterface
         }
     }
 
-    public function getInfo(string $type = null): mixed
+    public function getInfo(?string $type = null): mixed
     {
         return $this->response->getInfo($type);
     }

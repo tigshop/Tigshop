@@ -25,7 +25,10 @@ use Symfony\Component\Translation\MessageCatalogueInterface;
  */
 class TargetOperation extends AbstractOperation
 {
-    protected function processDomain(string $domain): void
+    /**
+     * @return void
+     */
+    protected function processDomain(string $domain)
     {
         $this->messages[$domain] = [
             'all' => [],

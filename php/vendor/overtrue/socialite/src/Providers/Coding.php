@@ -11,7 +11,7 @@ use Overtrue\Socialite\User;
 
 class Coding extends Base
 {
-    public const     NAME = 'coding';
+    public const NAME = 'coding';
 
     // example: https://{your-team}.coding.net
     protected string $teamUrl;

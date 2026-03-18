@@ -7,7 +7,9 @@ use AlibabaCloud\Tea\Model;
 
 class OpenApiRequest extends Model
 {
-    public function validate() {}
+    public function validate()
+    {
+    }
     public function toMap()
     {
         $res = [];
@@ -69,4 +71,5 @@ class OpenApiRequest extends Model
     public $hostMap;
 
     public $endpointOverride;
+
 }

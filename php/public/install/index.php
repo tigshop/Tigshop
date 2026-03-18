@@ -444,9 +444,9 @@ EOF;
                     $sqlFileData = ($pureSqlFile);
                 }
                 $sql_file_data = file_get_contents($sqlFileData);
-                $insert_sql = "INSERT INTO `admin_user` VALUES (1, 'admin'";
+                $insert_sql = "INSERT INTO `admin_user` (`admin_id`, `username`, `admin_type`, `mobile`, `avatar`, `password`, `email`, `add_time`, `auth_list`, `user_id`, `suppliers_id`, `role_id`, `merchant_id`, `parent_id`, `menu_tag`, `order_export`, `extra`, `shop_id`, `is_using`, `initial_password`) VALUES (1, 'admin'";
                 //将admin 和 password 替换
-                $insert_install_sql = "INSERT INTO `admin_user` VALUES (1, '" .$admin ."'";
+                $insert_install_sql = "INSERT INTO `admin_user` (`admin_id`, `username`, `admin_type`, `mobile`, `avatar`, `password`, `email`, `add_time`, `auth_list`, `user_id`, `suppliers_id`, `role_id`, `merchant_id`, `parent_id`, `menu_tag`, `order_export`, `extra`, `shop_id`, `is_using`, `initial_password`) VALUES (1,'" .$admin ."'";
                 $sql_file_data_new = str_replace($insert_sql , $insert_install_sql, $sql_file_data);
                 $password_old = '$2y$10$KW/snmOoevmgubZFY9eOFeW3zsxQcJMnDmWEuDboVLm3.5VkG5BL6';
                 $sql_file_data_new = str_replace($password_old, $password, $sql_file_data_new);

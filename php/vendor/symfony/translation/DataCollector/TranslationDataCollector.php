@@ -25,9 +25,11 @@ use Symfony\Component\VarDumper\Cloner\Data;
  */
 class TranslationDataCollector extends DataCollector implements LateDataCollectorInterface
 {
-    public function __construct(
-        private DataCollectorTranslator $translator,
-    ) {
+    private DataCollectorTranslator $translator;
+
+    public function __construct(DataCollectorTranslator $translator)
+    {
+        $this->translator = $translator;
     }
 
     public function lateCollect(): void
@@ -44,7 +46,6 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
     {
         $this->data['locale'] = $this->translator->getLocale();
         $this->data['fallback_locales'] = $this->translator->getFallbackLocales();
-        $this->data['global_parameters'] = $this->translator->getGlobalParameters();
     }
 
     public function reset(): void
@@ -83,14 +84,6 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
     public function getFallbackLocales(): Data|array
     {
         return (isset($this->data['fallback_locales']) && \count($this->data['fallback_locales']) > 0) ? $this->data['fallback_locales'] : [];
-    }
-
-    /**
-     * @internal
-     */
-    public function getGlobalParameters(): Data|array
-    {
-        return $this->data['global_parameters'] ?? [];
     }
 
     public function getName(): string

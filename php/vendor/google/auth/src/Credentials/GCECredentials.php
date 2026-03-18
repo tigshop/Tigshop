@@ -17,6 +17,8 @@
 
 namespace Google\Auth\Credentials;
 
+use COM;
+use com_exception;
 use Google\Auth\CredentialsLoader;
 use Google\Auth\GetQuotaProjectInterface;
 use Google\Auth\HttpHandler\HttpClientCache;
@@ -111,6 +113,23 @@ class GCECredentials extends CredentialsLoader implements
     private const GKE_PRODUCT_NAME_FILE = '/sys/class/dmi/id/product_name';
 
     /**
+     * The Windows Registry key path to the product name
+     */
+    private const WINDOWS_REGISTRY_KEY_PATH = 'HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig\\Current\\';
+
+    /**
+     * The Windows registry key name for the product name
+     */
+    private const WINDOWS_REGISTRY_KEY_NAME = 'SystemProductName';
+
+    /**
+     * The Name of the product expected from the windows registry
+     */
+    private const PRODUCT_NAME = 'Google';
+
+    private const CRED_TYPE = 'mds';
+
+    /**
      * Note: the explicit `timeout` and `tries` below is a workaround. The underlying
      * issue is that resolving an unknown host on some networks will take
      * 20-30 seconds; making this timeout short fixes the issue, but
@@ -192,12 +211,12 @@ class GCECredentials extends CredentialsLoader implements
      *   instead of fetching one from the metadata server.
      */
     public function __construct(
-        ?Iam $iam = null,
+        Iam $iam = null,
         $scope = null,
         $targetAudience = null,
         $quotaProject = null,
         $serviceAccountIdentity = null,
-        ?string $universeDomain = null
+        string $universeDomain = null
     ) {
         $this->iam = $iam;
 
@@ -339,7 +358,7 @@ class GCECredentials extends CredentialsLoader implements
      * @param callable $httpHandler callback which delivers psr7 request
      * @return bool True if this a GCEInstance, false otherwise
      */
-    public static function onGce(?callable $httpHandler = null)
+    public static function onGce(callable $httpHandler = null)
     {
         $httpHandler = $httpHandler
             ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());
@@ -359,7 +378,10 @@ class GCECredentials extends CredentialsLoader implements
                     new Request(
                         'GET',
                         $checkUri,
-                        [self::FLAVOR_HEADER => 'Google']
+                        [
+                            self::FLAVOR_HEADER => 'Google',
+                            self::$metricMetadataKey => self::getMetricsHeader('', 'mds')
+                        ]
                     ),
                     ['timeout' => self::COMPUTE_PING_CONNECTION_TIMEOUT_S]
                 );
@@ -372,9 +394,10 @@ class GCECredentials extends CredentialsLoader implements
             }
         }
 
-        if (PHP_OS === 'Windows') {
-            // @TODO: implement GCE residency detection on Windows
-            return false;
+        if (PHP_OS === 'Windows' || PHP_OS === 'WINNT') {
+            return self::detectResidencyWindows(
+                self::WINDOWS_REGISTRY_KEY_PATH . self::WINDOWS_REGISTRY_KEY_NAME
+            );
         }
 
         // Detect GCE residency on Linux
@@ -385,9 +408,31 @@ class GCECredentials extends CredentialsLoader implements
     {
         if (file_exists($productNameFile)) {
             $productName = trim((string) file_get_contents($productNameFile));
-            return 0 === strpos($productName, 'Google');
+            return 0 === strpos($productName, self::PRODUCT_NAME);
         }
         return false;
+    }
+
+    private static function detectResidencyWindows(string $registryProductKey): bool
+    {
+        if (!class_exists(COM::class)) {
+            // the COM extension must be installed and enabled to detect Windows residency
+            // see https://www.php.net/manual/en/book.com.php
+            return false;
+        }
+
+        $shell = new COM('WScript.Shell');
+        $productName = null;
+
+        try {
+            $productName = $shell->regRead($registryProductKey);
+        } catch(com_exception) {
+            // This means that we tried to read a key that doesn't exist on the registry
+            // which might mean that it is a windows instance that is not on GCE
+            return false;
+        }
+        
+        return 0 === strpos($productName, self::PRODUCT_NAME);
     }
 
     /**
@@ -408,7 +453,7 @@ class GCECredentials extends CredentialsLoader implements
      * }
      * @throws \Exception
      */
-    public function fetchAuthToken(?callable $httpHandler = null)
+    public function fetchAuthToken(callable $httpHandler = null)
     {
         $httpHandler = $httpHandler
             ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());
@@ -421,7 +466,11 @@ class GCECredentials extends CredentialsLoader implements
             return [];  // return an empty array with no access token
         }
 
-        $response = $this->getFromMetadata($httpHandler, $this->tokenUri);
+        $response = $this->getFromMetadata(
+            $httpHandler,
+            $this->tokenUri,
+            $this->applyTokenEndpointMetrics([], $this->targetAudience ? 'it' : 'at')
+        );
 
         if ($this->targetAudience) {
             return $this->lastReceivedToken = ['id_token' => $response];
@@ -474,7 +523,7 @@ class GCECredentials extends CredentialsLoader implements
      * @param callable $httpHandler callback which delivers psr7 request
      * @return string
      */
-    public function getClientName(?callable $httpHandler = null)
+    public function getClientName(callable $httpHandler = null)
     {
         if ($this->clientName) {
             return $this->clientName;
@@ -508,7 +557,7 @@ class GCECredentials extends CredentialsLoader implements
      * @param callable $httpHandler Callback which delivers psr7 request
      * @return string|null
      */
-    public function getProjectId(?callable $httpHandler = null)
+    public function getProjectId(callable $httpHandler = null)
     {
         if ($this->projectId) {
             return $this->projectId;
@@ -536,7 +585,7 @@ class GCECredentials extends CredentialsLoader implements
      * @param callable $httpHandler Callback which delivers psr7 request
      * @return string
      */
-    public function getUniverseDomain(?callable $httpHandler = null): string
+    public function getUniverseDomain(callable $httpHandler = null): string
     {
         if (null !== $this->universeDomain) {
             return $this->universeDomain;
@@ -579,15 +628,18 @@ class GCECredentials extends CredentialsLoader implements
      *
      * @param callable $httpHandler An HTTP Handler to deliver PSR7 requests.
      * @param string $uri The metadata URI.
+     * @param array<mixed> $headers [optional] If present, add these headers to the token
+     *        endpoint request.
+     *
      * @return string
      */
-    private function getFromMetadata(callable $httpHandler, $uri)
+    private function getFromMetadata(callable $httpHandler, $uri, array $headers = [])
     {
         $resp = $httpHandler(
             new Request(
                 'GET',
                 $uri,
-                [self::FLAVOR_HEADER => 'Google']
+                [self::FLAVOR_HEADER => 'Google'] + $headers
             )
         );
 
@@ -618,5 +670,10 @@ class GCECredentials extends CredentialsLoader implements
 
         // Set isOnGce
         $this->isOnGce = $isOnGce;
+    }
+
+    protected function getCredType(): string
+    {
+        return self::CRED_TYPE;
     }
 }

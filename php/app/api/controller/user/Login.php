@@ -20,7 +20,6 @@ use app\service\admin\oauth\WechatOAuthService;
 use app\service\admin\user\UserRegistService;
 use app\service\admin\user\UserService;
 use exceptions\ApiException;
-use JetBrains\PhpStorm\NoReturn;
 use think\App;
 use think\facade\Cache;
 use think\Response;
@@ -78,9 +77,8 @@ class Login extends IndexBaseController
         //校验csrf
         $csrfToken = request()->header('X-CSRF-Token','');
         if ($csrfToken && !Cache::get($csrfToken)) {
-            return $this->error(Util::lang('登录错误！'));
+            return $this->error(Util::lang('页面已过期，请刷新后重试！'));
         }
-        Cache::delete($csrfToken);
         $login_type = $this->request->all('login_type', 'password');
         if ($login_type == 'password') {
             // 密码登录
@@ -110,6 +108,10 @@ class Login extends IndexBaseController
         }
         if (isset($user['status']) && $user['status'] != 1) {
             return $this->error(Util::lang('您的账号已被禁用！'));
+        }
+
+        if ($csrfToken) {
+            Cache::delete($csrfToken);
         }
         app(UserService::class)->setLogin($user['user_id']);
         $token = app(UserService::class)->getLoginToken($user['user_id']);
@@ -356,7 +358,7 @@ class Login extends IndexBaseController
      * @throws \ReflectionException
      * @throws \Throwable
      */
-    #[NoReturn] public function wechatServerVerify(): void
+    public function wechatServerVerify(): void
     {
         $body = app(WechatOAuthService::class)->setPlatformType('wechat')->getApplication()->getServer()->serve()->getBody();
         exit($body);

@@ -68,7 +68,7 @@ trait HasAttributes
     {
         $result = \json_encode($this->getAttributes(), JSON_UNESCAPED_UNICODE);
 
-        false === $result && throw new Exceptions\Exception('Cannot Processing this instance as JSON stringify.');
+        $result === false && throw new Exceptions\Exception('Cannot Processing this instance as JSON stringify.');
 
         return $result;
     }

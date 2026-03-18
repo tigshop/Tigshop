@@ -3,7 +3,7 @@
  * ALIPAY API: ant.merchant.expand.eco.bill.query request
  *
  * @author auto create
- * @since 1.0, 2025-04-30 15:42:26
+ * @since 1.0, 2024-07-01 14:12:05
  */
 class AntMerchantExpandEcoBillQueryRequest
 {

@@ -18,33 +18,18 @@ use Symfony\Component\Mime\Exception\LogicException;
  */
 class RawMessage
 {
-    /** @var iterable<string>|string|resource */
-    private $message;
+    private iterable|string $message;
     private bool $isGeneratorClosed;
 
-    /**
-     * @param iterable<string>|string|resource $message
-     */
-    public function __construct(mixed $message)
+    public function __construct(iterable|string $message)
     {
         $this->message = $message;
-    }
-
-    public function __destruct()
-    {
-        if (\is_resource($this->message)) {
-            fclose($this->message);
-        }
     }
 
     public function toString(): string
     {
         if (\is_string($this->message)) {
             return $this->message;
-        }
-
-        if (\is_resource($this->message)) {
-            return stream_get_contents($this->message, -1, 0);
         }
 
         $message = '';
@@ -68,19 +53,10 @@ class RawMessage
             return;
         }
 
-        if (\is_resource($this->message)) {
-            rewind($this->message);
-            while ($line = fgets($this->message)) {
-                yield $line;
-            }
-
-            return;
-        }
-
         if ($this->message instanceof \Generator) {
-            $message = fopen('php://temp', 'w+');
+            $message = '';
             foreach ($this->message as $chunk) {
-                fwrite($message, $chunk);
+                $message .= $chunk;
                 yield $chunk;
             }
             $this->isGeneratorClosed = !$this->message->valid();

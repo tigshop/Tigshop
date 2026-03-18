@@ -2,37 +2,28 @@
 
 namespace think\swoole;
 
+use think\swoole\watcher\Driver;
+
 /**
- * @mixin \think\swoole\watcher\Driver
+ * @mixin Driver
  */
 class Watcher extends \think\Manager
 {
-    protected $namespace = '\\think\\swoole\\watcher\\driver\\';
+    protected $namespace = '\\think\\swoole\\watcher\\';
 
     protected function getConfig(string $name, $default = null)
     {
         return $this->app->config->get('swoole.hot_update.' . $name, $default);
     }
 
-    /**
-     * @param $name
-     * @return \think\swoole\watcher\Driver
-     */
-    public function monitor($name = null)
-    {
-        return $this->driver($name);
-    }
-
     protected function resolveParams($name): array
     {
         return [
-            [
-                'directory' => array_filter($this->getConfig('include', []), function ($dir) {
-                    return is_dir($dir);
-                }),
-                'exclude'   => $this->getConfig('exclude', []),
-                'name'      => $this->getConfig('name', []),
-            ],
+            array_filter($this->getConfig('include', []), function ($dir) {
+                return is_dir($dir);
+            }),
+            $this->getConfig('exclude', []),
+            $this->getConfig('name', []),
         ];
     }
 

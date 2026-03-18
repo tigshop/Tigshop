@@ -12,7 +12,6 @@
 /*
  * Authors:
  * - Quentí
- * - Quentin PAGÈS
  */
 // @codeCoverageIgnoreStart
 use Symfony\Component\Translation\PluralizationRules;
@@ -85,11 +84,11 @@ return [
     'weekdays' => ['dimenge', 'diluns', 'dimars', 'dimècres', 'dijòus', 'divendres', 'dissabte'],
     'weekdays_short' => ['dg', 'dl', 'dm', 'dc', 'dj', 'dv', 'ds'],
     'weekdays_min' => ['dg', 'dl', 'dm', 'dc', 'dj', 'dv', 'ds'],
-    'ordinal' => static function ($number, string $period = '') {
+    'ordinal' => function ($number, string $period = '') {
         $ordinal = [1 => 'èr', 2 => 'nd'][(int) $number] ?? 'en';
 
-        // feminine for week, hour, minute, second
-        if (preg_match('/^[wWhHgGis]$/', $period)) {
+        // feminine for year, week, hour, minute, second
+        if (preg_match('/^[yYwWhHgGis]$/', $period)) {
             $ordinal .= 'a';
         }
 

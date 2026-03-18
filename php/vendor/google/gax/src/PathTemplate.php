@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google LLC
+ * Copyright 2016, Google Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,84 +30,161 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Google\ApiCore;
+namespace Google\GAX;
 
-use Google\ApiCore\ResourceTemplate\AbsoluteResourceTemplate;
-use Google\ApiCore\ResourceTemplate\RelativeResourceTemplate;
-use Google\ApiCore\ResourceTemplate\ResourceTemplateInterface;
+use Google\GAX\Jison\Segment;
+use Countable;
 
-/**
- * Represents a path template.
- *
- * Templates use the syntax of the API platform; see the protobuf of HttpRule for
- * details. A template consists of a sequence of literals, wildcards, and variable bindings,
- * where each binding can have a sub-path. A string representation can be parsed into an
- * instance of PathTemplate, which can then be used to perform matching and instantiation.
- */
-class PathTemplate implements ResourceTemplateInterface
+class PathTemplate implements Countable
 {
-    private $resourceTemplate;
+    private $segments;
+    private $segmentCount;
 
-    /**
-     * PathTemplate constructor.
-     *
-     * @param string $path A path template string
-     * @throws ValidationException When $path cannot be parsed into a valid PathTemplate
-     */
-    public function __construct(?string $path = null)
+    public function __construct($data)
     {
-        if (empty($path)) {
-            throw new ValidationException('Cannot construct PathTemplate from empty string');
-        }
-
-        if ($path[0] === '/') {
-            $this->resourceTemplate = new AbsoluteResourceTemplate($path);
-        } else {
-            $this->resourceTemplate = new RelativeResourceTemplate($path);
-        }
+        $parser = new Parser();
+        $this->segments = $parser->parse($data);
+        $this->segmentCount = $parser->getSegmentCount();
     }
 
-    /**
-     * @return string A string representation of the path template
-     */
     public function __toString()
     {
-        return $this->resourceTemplate->__toString();
+        return self::format($this->segments);
+    }
+
+    public function count()
+    {
+        return $this->segmentCount;
     }
 
     /**
      * Renders a path template using the provided bindings.
      *
      * @param array $bindings An array matching var names to binding strings.
+     *
      * @throws ValidationException if a key isn't provided or if a sub-template
      *    can't be parsed.
+     *
      * @return string A rendered representation of this path template.
      */
-    public function render(array $bindings)
+    public function render($bindings)
     {
-        return $this->resourceTemplate->render($bindings);
-    }
+        $out = [];
+        $binding = false;
+        foreach ($this->segments as $segment) {
+            if ($segment->kind == Segment::BINDING) {
+                if (!array_key_exists($segment->literal, $bindings)) {
+                    throw new ValidationException(
+                        sprintf(
+                            'render error: value for key "%s" not '.
+                            'provided',
+                            $segment->literal
+                        )
+                    );
+                }
+                $out = array_merge(
+                    $out,
+                    (new self($bindings[$segment->literal]))->segments
+                );
+                $binding = true;
+            } elseif ($segment->kind == Segment::END_BINDING) {
+                $binding = false;
+            } else {
+                if ($binding) {
+                    continue;
+                }
+                array_push($out, $segment);
+            }
+        }
+        $path = self::format($out);
+        $this->match($path);
 
-    /**
-     * Check if $path matches a resource string.
-     *
-     * @param string $path A resource string.
-     * @return bool
-     */
-    public function matches(string $path)
-    {
-        return $this->resourceTemplate->matches($path);
+        return $path;
     }
 
     /**
      * Matches a fully qualified path template string.
      *
      * @param string $path A fully qualified path template string.
+     *
      * @throws ValidationException if path can't be matched to the template.
+     *
      * @return array Array matching var names to binding values.
      */
-    public function match(string $path)
+    public function match($path)
     {
-        return $this->resourceTemplate->match($path);
+        $segments = $this->segments;
+        $pathList = explode('/', $path);
+        $currentVar = null;
+        $bindings = [];
+        $segmentCount = $this->segmentCount;
+        $pathIndex = 0;
+        foreach ($segments as $segment) {
+            if ($pathIndex >= count($pathList)) {
+                break;
+            }
+            if ($segment->kind == Segment::TERMINAL) {
+                $pathItem = $pathList[$pathIndex];
+                if ($segment->literal == '*') {
+                    $bindings[$currentVar] = $pathItem;
+                    $pathIndex += 1;
+                } elseif ($segment->literal == '**') {
+                    $length = count($pathList) - $segmentCount + 1;
+                    $segmentCount += count($pathList) - $segmentCount;
+                    $bindings[$currentVar] = implode(
+                        '/',
+                        array_slice($pathList, $pathIndex, $length)
+                    );
+                    $pathIndex += $length;
+                } elseif ($segment->literal != $pathItem) {
+                    throw new ValidationException(
+                        sprintf(
+                            'mismatched literal: "%s" != "%s"',
+                            $segment->literal,
+                            $pathItem
+                        )
+                    );
+                } else {
+                    $pathIndex += 1;
+                }
+            } elseif ($segment->kind == Segment::BINDING) {
+                $currentVar = $segment->literal;
+            }
+        }
+        if (($pathIndex != count($pathList)) || ($pathIndex != $segmentCount)) {
+            throw new ValidationException(
+                sprintf(
+                    'match error: could not render a path template '.
+                    'from %s',
+                    $path
+                )
+            );
+        }
+
+        return $bindings;
+    }
+
+    private static function format($segments)
+    {
+        $template = '';
+        $slash = true;
+        foreach ($segments as $segment) {
+            if ($segment->kind == Segment::TERMINAL) {
+                if ($slash) {
+                    $template .= '/';
+                }
+                $template .= $segment->literal;
+            }
+            $slash = true;
+            if ($segment->kind == Segment::BINDING) {
+                $template .= sprintf('/{%s=', $segment->literal);
+                $slash = false;
+            }
+            if ($segment->kind == Segment::END_BINDING) {
+                $template .= sprintf('%s}', $segment->literal);
+            }
+        }
+        // Remove leading '/'
+        return substr($template, 1);
     }
 }

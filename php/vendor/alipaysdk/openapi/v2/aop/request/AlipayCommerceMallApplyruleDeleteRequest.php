@@ -3,7 +3,7 @@
  * ALIPAY API: alipay.commerce.mall.applyrule.delete request
  *
  * @author auto create
- * @since 1.0, 2024-11-12 13:39:55
+ * @since 1.0, 2024-10-08 10:37:52
  */
 class AlipayCommerceMallApplyruleDeleteRequest
 {

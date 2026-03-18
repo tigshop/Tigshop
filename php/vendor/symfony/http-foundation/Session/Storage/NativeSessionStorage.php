@@ -89,7 +89,7 @@ class NativeSessionStorage implements SessionStorageInterface
      * trans_sid_hosts, $_SERVER['HTTP_HOST']
      * trans_sid_tags, "a=href,area=href,frame=src,form="
      */
-    public function __construct(array $options = [], AbstractProxy|\SessionHandlerInterface $handler = null, MetadataBag $metaBag = null)
+    public function __construct(array $options = [], AbstractProxy|\SessionHandlerInterface|null $handler = null, ?MetadataBag $metaBag = null)
     {
         if (!\extension_loaded('session')) {
             throw new \LogicException('PHP extension "session" is required.');
@@ -118,9 +118,6 @@ class NativeSessionStorage implements SessionStorageInterface
         return $this->saveHandler;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function start(): bool
     {
         if ($this->started) {
@@ -131,7 +128,7 @@ class NativeSessionStorage implements SessionStorageInterface
             throw new \RuntimeException('Failed to start the session: already started by PHP.');
         }
 
-        if (filter_var(\ini_get('session.use_cookies'), \FILTER_VALIDATE_BOOLEAN) && headers_sent($file, $line)) {
+        if (filter_var(\ini_get('session.use_cookies'), \FILTER_VALIDATE_BOOL) && headers_sent($file, $line)) {
             throw new \RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
         }
 
@@ -181,42 +178,33 @@ class NativeSessionStorage implements SessionStorageInterface
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId(): string
     {
         return $this->saveHandler->getId();
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function setId(string $id)
     {
         $this->saveHandler->setId($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->saveHandler->getName();
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function setName(string $name)
     {
         $this->saveHandler->setName($name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function regenerate(bool $destroy = false, int $lifetime = null): bool
+    public function regenerate(bool $destroy = false, ?int $lifetime = null): bool
     {
         // Cannot regenerate the session ID for non-active sessions.
         if (\PHP_SESSION_ACTIVE !== session_status()) {
@@ -241,7 +229,7 @@ class NativeSessionStorage implements SessionStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function save()
     {
@@ -261,7 +249,7 @@ class NativeSessionStorage implements SessionStorageInterface
         $previousHandler = set_error_handler(function ($type, $msg, $file, $line) use (&$previousHandler) {
             if (\E_WARNING === $type && str_starts_with($msg, 'session_write_close():')) {
                 $handler = $this->saveHandler instanceof SessionHandlerProxy ? $this->saveHandler->getHandler() : $this->saveHandler;
-                $msg = sprintf('session_write_close(): Failed to write session data with "%s" handler', \get_class($handler));
+                $msg = sprintf('session_write_close(): Failed to write session data with "%s" handler', $handler::class);
             }
 
             return $previousHandler ? $previousHandler($type, $msg, $file, $line) : false;
@@ -283,7 +271,7 @@ class NativeSessionStorage implements SessionStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function clear()
     {
@@ -300,7 +288,7 @@ class NativeSessionStorage implements SessionStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function registerBag(SessionBagInterface $bag)
     {
@@ -311,9 +299,6 @@ class NativeSessionStorage implements SessionStorageInterface
         $this->bags[$bag->getName()] = $bag;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBag(string $name): SessionBagInterface
     {
         if (!isset($this->bags[$name])) {
@@ -329,13 +314,15 @@ class NativeSessionStorage implements SessionStorageInterface
         return $this->bags[$name];
     }
 
-    public function setMetadataBag(MetadataBag $metaBag = null)
+    /**
+     * @return void
+     */
+    public function setMetadataBag(?MetadataBag $metaBag = null)
     {
-        if (null === $metaBag) {
-            $metaBag = new MetadataBag();
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
-
-        $this->metadataBag = $metaBag;
+        $this->metadataBag = $metaBag ?? new MetadataBag();
     }
 
     /**
@@ -346,9 +333,6 @@ class NativeSessionStorage implements SessionStorageInterface
         return $this->metadataBag;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isStarted(): bool
     {
         return $this->started;
@@ -363,6 +347,8 @@ class NativeSessionStorage implements SessionStorageInterface
      * @param array $options Session ini directives [key => value]
      *
      * @see https://php.net/session.configuration
+     *
+     * @return void
      */
     public function setOptions(array $options)
     {
@@ -406,14 +392,14 @@ class NativeSessionStorage implements SessionStorageInterface
      * @see https://php.net/sessionhandlerinterface
      * @see https://php.net/sessionhandler
      *
+     * @return void
+     *
      * @throws \InvalidArgumentException
      */
-    public function setSaveHandler(AbstractProxy|\SessionHandlerInterface $saveHandler = null)
+    public function setSaveHandler(AbstractProxy|\SessionHandlerInterface|null $saveHandler = null)
     {
-        if (!$saveHandler instanceof AbstractProxy &&
-            !$saveHandler instanceof \SessionHandlerInterface &&
-            null !== $saveHandler) {
-            throw new \InvalidArgumentException('Must be instance of AbstractProxy; implement \SessionHandlerInterface; or be null.');
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
 
         // Wrap $saveHandler in proxy and prevent double wrapping of proxy
@@ -440,8 +426,10 @@ class NativeSessionStorage implements SessionStorageInterface
      * are set to (either PHP's internal, or a custom save handler set with session_set_save_handler()).
      * PHP takes the return value from the read() handler, unserializes it
      * and populates $_SESSION with the result automatically.
+     *
+     * @return void
      */
-    protected function loadSession(array &$session = null)
+    protected function loadSession(?array &$session = null)
     {
         if (null === $session) {
             $session = &$_SESSION;

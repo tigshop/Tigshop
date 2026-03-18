@@ -212,6 +212,7 @@ class Pay extends IndexBaseController
                     $res = app(WechatPayService::class)->notify();
             }
         } catch (\Exception $exception) {
+            \think\facade\Log::error('支付回调异常 [' . $pay_type . ']：' . $exception->getMessage() . ' trace: ' . $exception->getTraceAsString());
             return json_encode(['code' => 'FAIL', 'message' => Util::lang('失败')]);
         }
 
@@ -224,7 +225,7 @@ class Pay extends IndexBaseController
      */
     public function refundNotify(): string|Response
     {
-        $pay_type = $this->request->all('pay_code', '');
+        $pay_type = $this->request->all('payCode', '');
         try {
             switch ($pay_type) {
                 case 'wechat':

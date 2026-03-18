@@ -36,6 +36,10 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
     use HttpClientTrait;
     use LoggerAwareTrait;
 
+    public const OPTIONS_DEFAULTS = HttpClientInterface::OPTIONS_DEFAULTS + [
+        'crypto_method' => \STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
+    ];
+
     private array $defaultOptions = self::OPTIONS_DEFAULTS;
     private static array $emptyDefaults = self::OPTIONS_DEFAULTS;
 
@@ -132,10 +136,8 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
         ];
 
         if ($onProgress = $options['on_progress']) {
-            // Memoize the last progress to ease calling the callback periodically when no network transfer happens
-            $lastProgress = [0, 0];
             $maxDuration = 0 < $options['max_duration'] ? $options['max_duration'] : \INF;
-            $onProgress = static function (...$progress) use ($onProgress, &$lastProgress, &$info, $maxDuration) {
+            $onProgress = static function (...$progress) use ($onProgress, &$info, $maxDuration) {
                 if ($info['total_time'] >= $maxDuration) {
                     throw new TransportException(sprintf('Max duration was reached for "%s".', implode('', $info['url'])));
                 }
@@ -143,6 +145,9 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
                 $progressInfo = $info;
                 $progressInfo['url'] = implode('', $info['url']);
                 unset($progressInfo['size_body']);
+
+                // Memoize the last progress to ease calling the callback periodically when no network transfer happens
+                static $lastProgress = [0, 0];
 
                 if ($progress && -1 === $progress[0]) {
                     // Response completed
@@ -190,11 +195,22 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
         $this->logger?->info(sprintf('Request: "%s %s"', $method, implode('', $url)));
 
         if (!isset($options['normalized_headers']['user-agent'])) {
-            $options['headers'][] = 'User-Agent: Symfony HttpClient/Native';
+            $options['headers'][] = 'User-Agent: Symfony HttpClient (Native)';
         }
 
         if (0 < $options['max_duration']) {
             $options['timeout'] = min($options['max_duration'], $options['timeout']);
+        }
+
+        switch ($cryptoMethod = $options['crypto_method']) {
+            case \STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT:
+                $cryptoMethod |= \STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
+                // no break
+            case \STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT:
+                $cryptoMethod |= \STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+                // no break
+            case \STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT:
+                $cryptoMethod |= \STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT;
         }
 
         $context = [
@@ -223,7 +239,8 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
                 'allow_self_signed' => (bool) $options['peer_fingerprint'],
                 'SNI_enabled' => true,
                 'disable_compression' => true,
-            ], static function ($v) { return null !== $v; }),
+                'crypto_method' => $cryptoMethod,
+            ], static fn ($v) => null !== $v),
             'socket' => [
                 'bindto' => $options['bindto'],
                 'tcp_nodelay' => true,
@@ -252,7 +269,7 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
         return new NativeResponse($this->multi, $context, implode('', $url), $options, $info, $resolver, $onProgress, $this->logger);
     }
 
-    public function stream(ResponseInterface|iterable $responses, float $timeout = null): ResponseStreamInterface
+    public function stream(ResponseInterface|iterable $responses, ?float $timeout = null): ResponseStreamInterface
     {
         if ($responses instanceof NativeResponse) {
             $responses = [$responses];
@@ -261,7 +278,7 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
         return new ResponseStream(NativeResponse::stream($responses, $timeout));
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->multi->reset();
     }
@@ -342,14 +359,10 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
         $redirectHeaders = [];
         if (0 < $maxRedirects = $options['max_redirects']) {
             $redirectHeaders = ['host' => $host, 'port' => $port];
-            $redirectHeaders['with_auth'] = $redirectHeaders['no_auth'] = array_filter($options['headers'], static function ($h) {
-                return 0 !== stripos($h, 'Host:');
-            });
+            $redirectHeaders['with_auth'] = $redirectHeaders['no_auth'] = array_filter($options['headers'], static fn ($h) => 0 !== stripos($h, 'Host:'));
 
             if (isset($options['normalized_headers']['authorization']) || isset($options['normalized_headers']['cookie'])) {
-                $redirectHeaders['no_auth'] = array_filter($redirectHeaders['no_auth'], static function ($h) {
-                    return 0 !== stripos($h, 'Authorization:') && 0 !== stripos($h, 'Cookie:');
-                });
+                $redirectHeaders['no_auth'] = array_filter($redirectHeaders['no_auth'], static fn ($h) => 0 !== stripos($h, 'Authorization:') && 0 !== stripos($h, 'Cookie:'));
             }
         }
 
@@ -386,14 +399,16 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
                 if ('POST' === $options['method'] || 303 === $info['http_code']) {
                     $info['http_method'] = $options['method'] = 'HEAD' === $options['method'] ? 'HEAD' : 'GET';
                     $options['content'] = '';
-                    $filterContentHeaders = static function ($h) {
-                        return 0 !== stripos($h, 'Content-Length:') && 0 !== stripos($h, 'Content-Type:') && 0 !== stripos($h, 'Transfer-Encoding:');
-                    };
+                    $filterContentHeaders = static fn ($h) => 0 !== stripos($h, 'Content-Length:') && 0 !== stripos($h, 'Content-Type:') && 0 !== stripos($h, 'Transfer-Encoding:');
                     $options['header'] = array_filter($options['header'], $filterContentHeaders);
                     $redirectHeaders['no_auth'] = array_filter($redirectHeaders['no_auth'], $filterContentHeaders);
                     $redirectHeaders['with_auth'] = array_filter($redirectHeaders['with_auth'], $filterContentHeaders);
 
-                    stream_context_set_option($context, ['http' => $options]);
+                    if (\PHP_VERSION_ID >= 80300) {
+                        stream_context_set_options($context, ['http' => $options]);
+                    } else {
+                        stream_context_set_option($context, ['http' => $options]);
+                    }
                 }
             }
 
