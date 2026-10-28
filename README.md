@@ -1,14 +1,9 @@
 
-[![O2O多门店 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/95faad26c201.png)](https://www.tigshop.com/o2o)
+[![TIGSHOP S2B2C供应商 JAVA/PHP版本v5.1.0正式发布](https://oss.tigshop.com/official/img/pc/202508/1755251186KIb5q5PtQxnPnpI6AT.png)](https://www.tigshop.com/forum/post/797552500282662555)
 
-[![跨境多语言 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/63c8f9b5cf99.png)](https://www.tigshop.com/b2b2c-overseas)
+[![Tigshop 跨境多语言多货币 JAVA / PHP 版本重磅更新v5.0.0发布](https://oss.tigshop.com/official/img/pc/202508/1754992272kSu6k2ZYqK6LDrlRti.png)](https://www.tigshop.com/forum/post/347549647167606241)
 
-[![S2B2C供应商 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/26b8124124e4.png)](https://www.tigshop.com/s2b2c)
-
-[![B2B2C多商户 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/3673d0cc8d1e.png)](https://www.tigshop.com/b2b2c)
-
-[![B2B 批发采购 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/a764ec1e7139.png)](https://www.tigshop.com/b2b2b)
-
+[![JAVA v2.3.2版本/PHP v3.1.6版本正式发布](https://oss.tigshop.com/official/img/pc/202508/17558291048MvDFh3iaMGwHhJwmc.png)](https://www.tigshop.com/forum/post/857539301812042744)
 
 <div align="center" >
     <img src="https://oss.tigshop.com/img/gallery/202405/1715408024H4wezQfZXKcZkOSMFA.png" width="30%"/>
@@ -55,20 +50,13 @@ TigShop系统拥有庞大且全面的商城功能体系，而且很多功能模�
 ### **Tigshop 开源项目是否会长期维护**
 
 <p>
-Tigshop团队有着14年商城软件研发领域的技术积累，我们会秉持初心，一如既往的维护和完善下去。
+Tigshop团队有着16年商城软件研发领域的技术积累，我们会秉持初心，一如既往的维护和完善下去。
 </p>
 
 ### **Tigshop 开源策略**
 
 1. **开源协议**：Apache-2.0。
-2. **单商户标准版免费开源**：我们承诺单商户标准版 100%永久免费开源，无任何加密，您可以直接下载使用。
-
-### **Tigshop 盈利模式**
-
-1. **授权和去版权**：前端页面上会有类似 Poweryed By Tigshop 的版权标识，原则上是不能去掉的，购买授权或去版权即可直接后台设置隐藏
-2. **Pro等版本授权**：授权后可获取源代码。
-3. **企业授权**：针对有一定规模和需求的企业用户，被授权企业可以不限授权次限制（仅限企业本身使用）。
-4. **定制业务**：目前只接比较通用的定制功能或优质项目洽谈，具体详情请关注官网动态。
+2. **单商户标准版免费开源**：我们承诺单商户标准版 100%永久完全免费开源，无任何加密，您可以直接下载使用、支持无限商用与二次开发。
 
 ---
 
