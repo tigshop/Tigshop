@@ -1,9 +1,14 @@
 
-[![TIGSHOP S2B2C供应商 JAVA/PHP版本v5.1.0正式发布](https://oss.tigshop.com/official/img/pc/202508/1755251186KIb5q5PtQxnPnpI6AT.png)](https://www.tigshop.com/forum/post/797552500282662555)
+[![O2O多门店 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/95faad26c201.png)](https://www.tigshop.com/o2o)
 
-[![Tigshop 跨境多语言多货币 JAVA / PHP 版本重磅更新v5.0.0发布](https://oss.tigshop.com/official/img/pc/202508/1754992272kSu6k2ZYqK6LDrlRti.png)](https://www.tigshop.com/forum/post/347549647167606241)
+[![跨境多语言 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/63c8f9b5cf99.png)](https://www.tigshop.com/b2b2c-overseas)
 
-[![JAVA v2.3.2版本/PHP v3.1.6版本正式发布](https://oss.tigshop.com/official/img/pc/202508/17558291048MvDFh3iaMGwHhJwmc.png)](https://www.tigshop.com/forum/post/857539301812042744)
+[![S2B2C供应商 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/26b8124124e4.png)](https://www.tigshop.com/s2b2c)
+
+[![B2B2C多商户 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/3673d0cc8d1e.png)](https://www.tigshop.com/b2b2c)
+
+[![B2B 批发采购 Pro版](https://tigshop-cdn.oss-cn-beijing.aliyuncs.com/decorate/a764ec1e7139.png)](https://www.tigshop.com/b2b2b)
+
 
 <div align="center" >
     <img src="https://oss.tigshop.com/img/gallery/202405/1715408024H4wezQfZXKcZkOSMFA.png" width="30%"/>
@@ -39,12 +44,13 @@ TigShop 开源商城系统
 
 ### **Tigshop 介绍**
 
-<p>Tigshop是江西佰商科技（集团）旗下的开源电商软件产品，目前由原LYECS创始人杨老师（老杨）带队，我们致力于打造电商领域真正的100%开源商城系统。
-目前旗下产品有：单商户标准版、多商户B2B2C商城系统(JAVA/PHP)、多门店O2O线上线下商城系统(JAVA/PHP)、供应商S2B2C商城系统(JAVA/PHP)、跨境多语言多货币商城系统(JAVA/PHP)、批发商城B2B2B系统(JAVA/PHP)、IM在线客服系统、积分商城系统、分销系统，所有产品均100%开源无任何加密
+<p>Tigshop 是江西佰商科技（集团）旗下的开源电商软件产品，由原 LYECS 创始人杨老师（老杨）带队，拥有16 年企业级电商研发经验的团队打造。<br/>
+作为 LYECS 商城系统的升级版本与延续，从早期第一个版本发布至今已经持续迭代16年，大大小小历经了600余次功能迭代与优化，不断完善商城的业务能力与技术架构，致力于打造真正 100% 开源的企业级商城系统。
+目前，Tigshop 旗下产品涵盖单商户标准版、多商户 B2B2C 商城系统、多门店 O2O 线上线下商城系统、供应商 S2B2C 商城系统、跨境多语言多货币商城系统、B2B2B 批发商城系统，以及 IM 在线客服、积分商城、礼品/福利商城、分销系统等，满足企业在不同经营场景下的建设需求。相关商城产品提供 Java 和 PHP 技术版本，所有产品均 100% 开源，无任何加密。
 </p>
 <p>
 TigShop系统拥有庞大且全面的商城功能体系，而且很多功能模块都实现了企业级的闭环，是真正的企业级商城系统。<br>技术架构采用前后端分离开发，后端JAVA版基于SpringBoot3，PHP版基于TP8，前端基于Vue3、TS、Uniapp、Vite、Nuxt3、Element Plus等最新版本的技术栈<br>
-    我们的目标：全力打造企业级电商首选框架，拒绝从零开发
+    我们的目标：全力打造AI时代的企业级开源电商底座，拒绝从零开发
 </p>
 
 ### **Tigshop 开源项目是否会长期维护**
@@ -56,15 +62,14 @@ Tigshop团队有着16年商城软件研发领域的技术积累，我们会秉�
 ### **Tigshop 开源策略**
 
 1. **开源协议**：Apache-2.0。
-2. **单商户标准版免费开源**：我们承诺单商户标准版 100%永久完全免费开源，无任何加密，您可以直接下载使用、支持无限商用与二次开发。
+2. **免费开源**：我们承诺标准版100%永久完全免费开源，无任何加密无后门，您可以直接免费下载、支持商业使用与深度二次开发。
 
 ---
-
 ### **技术社区**
 
 官方社区：https://www.tigshop.com/forum/ <br>
 使用文档：https://www.tigshop.com/course/tigshop/index <br>
-接口文档：https://www.tigshop.com/course/ <br>
+接口文档：https://www.tigshop.com/course/ <br>Ω
 开发文档：https://www.tigshop.com/course/tigshopkf/index <br>
 
 ### **安装教程**
